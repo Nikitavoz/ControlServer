@@ -36,18 +36,12 @@ public:
             resetTransactions();
         });
         if (!qsocket->bind(QHostAddress::AnyIPv4, localport)) qsocket->bind(QHostAddress::AnyIPv4);
-        connect(qsocket, &QUdpSocket::disconnected, this, [=]() {
-            //emit error("Socket disconnected", networkError);
-            log("Socket disconnected!");
-            //debugPrint();
-        });
         updateTimer->start(updatePeriod_ms);
     }
 
-    ~IPbusTarget() {
-        log("Closing application");
-        qsocket->disconnectFromHost();
-    }
+//    ~IPbusTarget() {
+//        qsocket->disconnectFromHost();
+//    }
 
     quint32 readRegister(quint32 address) {
         quint32 data = 0xFFFFFFFF;
@@ -135,7 +129,6 @@ protected:
 			return false;
         } else if (!qsocket->waitForReadyRead(100) && !qsocket->hasPendingDatagrams()) {
             isOnline = false;
-            log("target OFFline");
             emit noResponse();
 			return false;
         }
@@ -144,7 +137,6 @@ protected:
             log("unexpected status packet received");
             if (!qsocket->hasPendingDatagrams() && !qsocket->waitForReadyRead(100) && !qsocket->hasPendingDatagrams()) {
                 isOnline = false;
-                log("target OFFline");
                 emit noResponse();
                 return false;
             }
@@ -204,7 +196,8 @@ protected:
                     return false;
             }
             if (th->InfoCode != 0) {
-                emit error(th->infoCodeString(), IPbusError);
+                debugPrint();
+                emit error(th->infoCodeString() + QString::asprintf(", address: %08X", *transactionsList.at(i).address), IPbusError);
                 return false;
             }
         }
@@ -227,7 +220,6 @@ public slots:
         } else {
             qsocket->read((char *)&statusResponse, qsocket->pendingDatagramSize());
             isOnline = true;
-            log("target ONline");
             emit IPbusStatusOK();
         }
     }
@@ -242,7 +234,6 @@ public slots:
             emit noResponse();
             return;
         }
-        log("Socket connected");
         checkStatus();
         if (!updateTimer->isActive()) updateTimer->start(updatePeriod_ms);
     }

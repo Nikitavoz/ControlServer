@@ -17,8 +17,9 @@ struct TypePM {
                 quint32 OR_GATE               ; //]00
                 struct TimeAlignment {          //┐
                     qint32                      //│
-                        value              :12, //│01-0C
-                                           :20; //│
+                        value              :12, //│
+                        blockTriggers      : 1, //│01-0C
+                                           :19; //│
                 }       TIME_ALIGN  [12]      ; //┘
                 quint32 ADC_BASELINE[12][2]   , //]0D-24 //[Ch][0] for ADC0, [Ch][1] for ADC1
                         ADC_RANGE   [12][2]   , //]25-3C
@@ -32,7 +33,7 @@ struct TypePM {
                 quint32 DISPERSION  [12][2]   ; //]4C-63
                 qint16  MEANAMPL    [12][2][2]; //]64-7B //[Ch][0][0] for ADC0, [Ch][1][0] for ADC1
                 quint32 CH_MASK               , //]7C
-                        CH_DISPLACED          ; //]7D
+                        CH_BASELINES_NOK          ; //]7D
             };
         };
         union { //block1
@@ -59,16 +60,16 @@ struct TypePM {
                     quint32 CFD_THRESHOLD  :16, //│
                                            :16; //│
                     qint32  CFD_ZERO       :16, //│
-                                           :16, //│80-AF
-                            ADC_ZERO       :16, //│
+                                           :16, //│
+                            ADC_ZERO       :16, //│80-AF
                                            :16; //│
                     quint32 ADC_DELAY      :16, //│
                                            :16; //│
                 } Ch[12];                       //┘
-                qint32  THRESHOLD_CALIBR[12]  , //]B0-BB
-						TEMPERATURE		   :16, //┐
+                quint32 THRESHOLD_CALIBR[12]  , //]B0-BB
+                        boardTemperature   :16, //┐
 										   :16; //┘BC
-                quint32 BOARD_TYPE         : 2, //┐
+                quint32 boardType          : 2, //┐
                                            : 6, //│
                         SERIAL_NUM         : 8, //│BD
                                            :16, //┘
@@ -77,32 +78,37 @@ struct TypePM {
             };
         };
         GBTunit GBT;                            //]D8-EF
-		Timestamp MCODE_TIME;					//]F7
+        Timestamp FW_TIME_MCU;					//]F7
         union { //block2
             quint32 registers2[block2size] = {0};
             char pointer2[block2size * sizeof(quint32)];
             struct {
-                quint32 FPGA_TEMP,              //]FC
-                        POWER_1V,               //]FD
-                        POWER_1_8V;             //]FE
+                quint32 FPGAtemperature,        //]FC
+                        voltage1,               //]FD
+                        voltage1_8;             //]FE
             };
         };
-		Timestamp FW_TIME;						//]FF
-        double //calculable parameters
-            temp_board,
-            temp_FPGA,
-            voltage_1V,
-            voltage_1_8V,
+        Timestamp FW_TIME_FPGA;						//]FF
+//calculable parameters
+        double
+            TEMP_BOARD,
+            TEMP_FPGA,
+            VOLTAGE_1V,
+            VOLTAGE_1_8V,
             RMS_Ch[12][2]; //[Ch][0] for ADC0, [Ch][1] for ADC1
-        void calculateDoubleValues() {
-            temp_board   = TEMPERATURE / 10.;
-            temp_FPGA    = FPGA_TEMP  * 503.975 / 65536 - 273.15;
-            voltage_1V   = POWER_1V   *   3.    / 65536;
-            voltage_1_8V = POWER_1_8V *   3.    / 65536;
+        qint16 timeAlignment[12];
+        char BOARD_TYPE[4] = {0};
+        void calculateValues() {
+            TEMP_BOARD   = boardTemperature / 10.;
+            TEMP_FPGA    = FPGAtemperature  * 503.975 / 65536 - 273.15;
+            VOLTAGE_1V   = voltage1         *   3.    / 65536;
+            VOLTAGE_1_8V = voltage1_8       *   3.    / 65536;
             for (quint8 iCh=0; iCh<12; ++iCh) {
                 RMS_Ch[iCh][0] = sqrt(DISPERSION[iCh][0]);
                 RMS_Ch[iCh][1] = sqrt(DISPERSION[iCh][1]);
+                timeAlignment[iCh] = TIME_ALIGN[iCh].value;
             }
+            memcpy(BOARD_TYPE, FIT[boardType].name, 4);
         }
     } act;
 
@@ -119,8 +125,9 @@ struct TypePM {
                 quint32 OR_GATE               ; //]00
                 struct TimeAlignment {          //┐
                     qint32                      //│
-                        value              :12, //│01-0C
-                                           :20; //│
+                        value              :12, //│
+                        blockTriggers      : 1, //│01-0C
+                                           :19; //│
                 }       TIME_ALIGN  [12]      ; //┘
             };
         };
@@ -181,7 +188,7 @@ struct TypePM {
     } counters;
 
     QList<DimService *> services;
-    //quint16 &FEEid = *((quint16 *)(set.GBT.registers+9) + 1);
+    quint16 &FEEid = *((quint16 *)(set.GBT.registers+9) + 1);
 	const quint16 baseAddress;
     const char *name;
     TypePM(quint16 addr, const char *PMname) : baseAddress(addr), name(PMname) {}

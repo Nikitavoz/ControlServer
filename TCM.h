@@ -35,10 +35,10 @@ struct TypeTCM {
                                         :16, //┘
                         EXT_SW          : 4, //┐
                                         :28; //┘04
-                qint32  TEMPERATURE     :16, //┐
+                qint32  boardTemperature:16, //┐
                                         :16, //┘05
                                         :32; //]06
-                quint32 BOARD_TYPE      : 2, //┐
+                quint32 boardType       : 2, //┐
                                         : 6, //│
                         SERIAL_NUM      : 8, //│07
                                         :16; //┘
@@ -71,7 +71,7 @@ struct TypeTCM {
                         forceLocalClock : 1, //│
                         resetSystem     : 1, //│
                         PMstatusChanged :20; //┘
-                HDMIlinkStatus PM_LINK_A[10];//]10-19
+                TRGsyncStatus TRG_SYNC_A[10];//]10-19
                 quint32 CH_MASK_A       :10, //┐
                                         : 7, //│
                         syncErrorInLinkA:10, //│
@@ -87,12 +87,12 @@ struct TypeTCM {
                         LASER_PATTERN_0    ; //]1D
             };
         };
-        quint32 SPI_LINKS_MASK             ; //]1E
+        quint32 PM_MASK_SPI                ; //]1E
         union { //block1
             quint32 registers1[block1size] = {0};
             char pointer1[block1size * sizeof(quint32)];
             struct {
-                HDMIlinkStatus PM_LINK_C[10];//]30-39
+                TRGsyncStatus TRG_SYNC_C[10]; //]30-39
                 quint32 CH_MASK_C       :10, //┐
                                         : 7, //│
                         syncErrorInLinkC:10, //│
@@ -142,32 +142,36 @@ struct TypeTCM {
             };
         };
 		GBTunit GBT;						 //]D8-EF
-		Timestamp MCODE_TIME;				 //]F7
+		Timestamp FW_TIME_MCU;				 //]F7
         union { //block3
             quint32 registers3[block3size] = {0};
             char pointer3[block3size * sizeof(quint32)];
             struct {
-                quint32 FPGA_TEMP,           //]FC
-                        POWER_1V,            //]FD
-                        POWER_1_8V;          //]FE
+                quint32 FPGAtemperature,     //]FC
+                        voltage1,            //]FD
+                        voltage1_8;          //]FE
             };
         };
-		Timestamp FW_TIME;					 //]FF
-        double //calculated values
-            temp_board,
-            temp_FPGA,
-            voltage_1V,
-            voltage_1_8V,
+        Timestamp FW_TIME_FPGA;              //]FF
+//calculable parameters
+        double
+            TEMP_BOARD,
+            TEMP_FPGA,
+            VOLTAGE_1V,
+            VOLTAGE_1_8V,
             delayLaser_ns,
             delayAside_ns,
             delayCside_ns,
             laserFrequency_Hz,
             attenuation;
-        void calculateDoubleValues() {
-            temp_board   = TEMPERATURE / 10.;
-            temp_FPGA    = FPGA_TEMP  * 503.975 / 65536 - 273.15;
-            voltage_1V   = POWER_1V   * 3. / 65536;
-            voltage_1_8V = POWER_1_8V * 3. / 65536;
+        char BOARD_TYPE[4] = {0};
+        void calculateValues() {
+            TEMP_BOARD   = boardTemperature / 10.;
+            TEMP_FPGA    = FPGAtemperature  * 503.975 / 65536 - 273.15;
+            VOLTAGE_1V   = voltage1         * 3.      / 65536;
+            VOLTAGE_1_8V = voltage1_8       * 3.      / 65536;
+            memcpy(BOARD_TYPE, FIT[boardType].name, 4);
+            //on reset only
             systemClock_MHz = externalClock ? LHCclock_MHz : 40.;
             TDCunit_ps = 1e6 / 30 / 64 / systemClock_MHz;
             halfBC_ns = 500. / systemClock_MHz;
@@ -177,7 +181,12 @@ struct TypeTCM {
 			delayAside_ns = DELAY_A     * phaseStep_ns;
 			delayCside_ns = DELAY_C     * phaseStep_ns;
             laserFrequency_Hz = systemClock_MHz * 1e6 / (LASER_DIVIDER == 0 ? 1 << 24 : LASER_DIVIDER);
-			attenuation = attenSteps;
+            //
+            attenuation = attenSteps;
+            for (quint8 i=0; i<10; ++i) {
+                TRG_SYNC_A[i].syncError = syncErrorInLinkA & 1 << i;
+                TRG_SYNC_C[i].syncError = syncErrorInLinkC & 1 << i;
+            }
         }
     } act;
 
@@ -278,7 +287,7 @@ struct TypeTCM {
                                         :17; //┘
             };
         };
-        GBTunit::ControlData GBT;          //]D8-E7
+        GBTunit::ControlData GBT;            //]D8-E7
         double //calculated values
             delayLaser_ns,
             delayAside_ns,

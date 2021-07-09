@@ -14,7 +14,7 @@ static QString rateFormat(const double f) { return f < 999999.95 ? QString::aspr
 
 extern double systemClock_MHz; //40
 extern double TDCunit_ps; // 13
-extern double halfBC_ns; // 25
+extern double halfBC_ns; // 12.5
 extern double phaseStepLaser_ns, phaseStep_ns;
 
 namespace Ui {
@@ -166,42 +166,42 @@ public:
             ui->labelValueTriggersRate_7D ,
             ui->labelValueTriggersRate_7E ,
         };
-        labelsTimeAlignmentCh   = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueTimeAlignment_(0[1-9]|1[0-2])"  )).toVector();
-        labelsThresholdCalibrCh = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueThresholdCalibr_(0[1-9]|1[0-2])")).toVector();
-        labelsADCdelayCh        = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueADCdelay_(0[1-9]|1[0-2])"       )).toVector();
-        labelsCFDthresholdCh    = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueCFDthreshold_(0[1-9]|1[0-2])"   )).toVector();
-        labelsADCzeroCh         = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueADCzero_(0[1-9]|1[0-2])"        )).toVector();
-        labelsCFDzeroCh         = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueCFDzero_(0[1-9]|1[0-2])"        )).toVector();
-        labelsADC0rangeCh       = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueADC0range_(0[1-9]|1[0-2])"      )).toVector();
-        labelsADC1rangeCh       = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueADC1range_(0[1-9]|1[0-2])"      )).toVector();
-        labelsADC0baseLineCh       = ui->groupBoxChannels->findChildren<QLabel *>(QRegularExpression("labelValueADC0baseLine_(0[1-9]|1[0-2])"      )).toVector();
-        labelsADC1baseLineCh       = ui->groupBoxChannels->findChildren<QLabel *>(QRegularExpression("labelValueADC1baseLine_(0[1-9]|1[0-2])"      )).toVector();
-        labelsADC0RMSCh            = ui->groupBoxChannels->findChildren<QLabel *>(QRegularExpression("labelValueADC0RMS_(0[1-9]|1[0-2])"           )).toVector();
-        labelsADC1RMSCh            = ui->groupBoxChannels->findChildren<QLabel *>(QRegularExpression("labelValueADC1RMS_(0[1-9]|1[0-2])"           )).toVector();
-        labelsADC0meanAmplitudeCh  = ui->groupBoxChannels->findChildren<QLabel *>(QRegularExpression("labelValueADC0meanAmplitude_(0[1-9]|1[0-2])" )).toVector();
-        labelsADC1meanAmplitudeCh  = ui->groupBoxChannels->findChildren<QLabel *>(QRegularExpression("labelValueADC1meanAmplitude_(0[1-9]|1[0-2])" )).toVector();
-        labelsRawTDCdata1Ch        = ui->groupBoxChannels->findChildren<QLabel *>(QRegularExpression("labelValueRawTDCdata1_(0[1-9]|1[0-2])"       )).toVector();
-        labelsRawTDCdata2Ch        = ui->groupBoxChannels->findChildren<QLabel *>(QRegularExpression("labelValueRawTDCdata2_(0[1-9]|1[0-2])"       )).toVector();
-        labelsTRGcounterCh         = ui->groupBoxChannels->findChildren<QLabel *>(QRegularExpression("labelValueTRGcounter_(0[1-9]|1[0-2])"        )).toVector();
-        labelsCFDcounterCh         = ui->groupBoxChannels->findChildren<QLabel *>(QRegularExpression("labelValueCFDcounter_(0[1-9]|1[0-2])"        )).toVector();
-        labelsTRGcounterRateCh     = ui->groupBoxChannels->findChildren<QLabel *>(QRegularExpression("labelValueTRGcounterRate_(0[1-9]|1[0-2])"    )).toVector();
-        labelsCFDcounterRateCh     = ui->groupBoxChannels->findChildren<QLabel *>(QRegularExpression("labelValueCFDcounterRate_(0[1-9]|1[0-2])"    )).toVector();
-        editsTimeAlignmentCh   = ui->groupBoxChannels->findChildren<QLineEdit *>(QRegularExpression("lineEditTimeAlignment_(0[1-9]|1[0-2])"  )).toVector();
-        editsThresholdCalibrCh = ui->groupBoxChannels->findChildren<QLineEdit *>(QRegularExpression("lineEditThresholdCalibr_(0[1-9]|1[0-2])")).toVector();
-        editsADCdelayCh        = ui->groupBoxChannels->findChildren<QLineEdit *>(QRegularExpression("lineEditADCdelay_(0[1-9]|1[0-2])"       )).toVector();
-        editsCFDthresholdCh    = ui->groupBoxChannels->findChildren<QLineEdit *>(QRegularExpression("lineEditCFDthreshold_(0[1-9]|1[0-2])"   )).toVector();
-        editsADCzeroCh         = ui->groupBoxChannels->findChildren<QLineEdit *>(QRegularExpression("lineEditADCzero_(0[1-9]|1[0-2])"        )).toVector();
-        editsCFDzeroCh         = ui->groupBoxChannels->findChildren<QLineEdit *>(QRegularExpression("lineEditCFDzero_(0[1-9]|1[0-2])"        )).toVector();
-        editsADC0rangeCh       = ui->groupBoxChannels->findChildren<QLineEdit *>(QRegularExpression("lineEditADC0range_(0[1-9]|1[0-2])"      )).toVector();
-        editsADC1rangeCh       = ui->groupBoxChannels->findChildren<QLineEdit *>(QRegularExpression("lineEditADC1range_(0[1-9]|1[0-2])"      )).toVector();
-        buttonsTimeAlignmentCh   = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyTimeAlignment_(0[1-9]|1[0-2])"  )).toVector();
-        buttonsThresholdCalibrCh = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyThresholdCalibr_(0[1-9]|1[0-2])")).toVector();
-        buttonsADCdelayCh        = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyADCdelay_(0[1-9]|1[0-2])"       )).toVector();
-        buttonsCFDthresholdCh    = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyCFDthreshold_(0[1-9]|1[0-2])"   )).toVector();
-        buttonsADCzeroCh         = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyADCzero_(0[1-9]|1[0-2])"        )).toVector();
-        buttonsCFDzeroCh         = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyCFDzero_(0[1-9]|1[0-2])"        )).toVector();
-        buttonsADC0rangeCh       = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyADC0range_(0[1-9]|1[0-2])"      )).toVector();
-        buttonsADC1rangeCh       = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyADC1range_(0[1-9]|1[0-2])"      )).toVector();
+        labelsTimeAlignmentCh      = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueTimeAlignment"    "_(0[1-9]|1[0-2])")).toVector();
+        labelsThresholdCalibrCh    = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueThresholdCalibr"  "_(0[1-9]|1[0-2])")).toVector();
+        labelsADCdelayCh           = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueADCdelay"         "_(0[1-9]|1[0-2])")).toVector();
+        labelsCFDthresholdCh       = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueCFDthreshold"     "_(0[1-9]|1[0-2])")).toVector();
+        labelsADCzeroCh            = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueADCzero"          "_(0[1-9]|1[0-2])")).toVector();
+        labelsCFDzeroCh            = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueCFDzero"          "_(0[1-9]|1[0-2])")).toVector();
+        labelsADC0rangeCh          = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueADC0range"        "_(0[1-9]|1[0-2])")).toVector();
+        labelsADC1rangeCh          = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueADC1range"        "_(0[1-9]|1[0-2])")).toVector();
+        labelsADC0baseLineCh       = ui->groupBoxChannels->findChildren<QLabel *>     (QRegularExpression("labelValueADC0baseLine"     "_(0[1-9]|1[0-2])")).toVector();
+        labelsADC1baseLineCh       = ui->groupBoxChannels->findChildren<QLabel *>     (QRegularExpression("labelValueADC1baseLine"     "_(0[1-9]|1[0-2])")).toVector();
+        labelsADC0RMSCh            = ui->groupBoxChannels->findChildren<QLabel *>     (QRegularExpression("labelValueADC0RMS"          "_(0[1-9]|1[0-2])")).toVector();
+        labelsADC1RMSCh            = ui->groupBoxChannels->findChildren<QLabel *>     (QRegularExpression("labelValueADC1RMS"          "_(0[1-9]|1[0-2])")).toVector();
+        labelsADC0meanAmplitudeCh  = ui->groupBoxChannels->findChildren<QLabel *>     (QRegularExpression("labelValueADC0meanAmplitude""_(0[1-9]|1[0-2])")).toVector();
+        labelsADC1meanAmplitudeCh  = ui->groupBoxChannels->findChildren<QLabel *>     (QRegularExpression("labelValueADC1meanAmplitude""_(0[1-9]|1[0-2])")).toVector();
+        labelsRawTDCdata1Ch        = ui->groupBoxChannels->findChildren<QLabel *>     (QRegularExpression("labelValueRawTDCdata1"      "_(0[1-9]|1[0-2])")).toVector();
+        labelsRawTDCdata2Ch        = ui->groupBoxChannels->findChildren<QLabel *>     (QRegularExpression("labelValueRawTDCdata2"      "_(0[1-9]|1[0-2])")).toVector();
+        labelsTRGcounterCh         = ui->groupBoxChannels->findChildren<QLabel *>     (QRegularExpression("labelValueTRGcounter"       "_(0[1-9]|1[0-2])")).toVector();
+        labelsCFDcounterCh         = ui->groupBoxChannels->findChildren<QLabel *>     (QRegularExpression("labelValueCFDcounter"       "_(0[1-9]|1[0-2])")).toVector();
+        labelsTRGcounterRateCh     = ui->groupBoxChannels->findChildren<QLabel *>     (QRegularExpression("labelValueTRGcounterRate"   "_(0[1-9]|1[0-2])")).toVector();
+        labelsCFDcounterRateCh     = ui->groupBoxChannels->findChildren<QLabel *>     (QRegularExpression("labelValueCFDcounterRate"   "_(0[1-9]|1[0-2])")).toVector();
+        editsTimeAlignmentCh       = ui->groupBoxChannels->findChildren<QLineEdit *>  (QRegularExpression("lineEditTimeAlignment"      "_(0[1-9]|1[0-2])")).toVector();
+        editsThresholdCalibrCh     = ui->groupBoxChannels->findChildren<QLineEdit *>  (QRegularExpression("lineEditThresholdCalibr"    "_(0[1-9]|1[0-2])")).toVector();
+        editsADCdelayCh            = ui->groupBoxChannels->findChildren<QLineEdit *>  (QRegularExpression("lineEditADCdelay"           "_(0[1-9]|1[0-2])")).toVector();
+        editsCFDthresholdCh        = ui->groupBoxChannels->findChildren<QLineEdit *>  (QRegularExpression("lineEditCFDthreshold"       "_(0[1-9]|1[0-2])")).toVector();
+        editsADCzeroCh             = ui->groupBoxChannels->findChildren<QLineEdit *>  (QRegularExpression("lineEditADCzero"            "_(0[1-9]|1[0-2])")).toVector();
+        editsCFDzeroCh             = ui->groupBoxChannels->findChildren<QLineEdit *>  (QRegularExpression("lineEditCFDzero"            "_(0[1-9]|1[0-2])")).toVector();
+        editsADC0rangeCh           = ui->groupBoxChannels->findChildren<QLineEdit *>  (QRegularExpression("lineEditADC0range"          "_(0[1-9]|1[0-2])")).toVector();
+        editsADC1rangeCh           = ui->groupBoxChannels->findChildren<QLineEdit *>  (QRegularExpression("lineEditADC1range"          "_(0[1-9]|1[0-2])")).toVector();
+        buttonsTimeAlignmentCh     = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyTimeAlignment"   "_(0[1-9]|1[0-2])")).toVector();
+        buttonsThresholdCalibrCh   = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyThresholdCalibr" "_(0[1-9]|1[0-2])")).toVector();
+        buttonsADCdelayCh          = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyADCdelay"        "_(0[1-9]|1[0-2])")).toVector();
+        buttonsCFDthresholdCh      = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyCFDthreshold"    "_(0[1-9]|1[0-2])")).toVector();
+        buttonsADCzeroCh           = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyADCzero"         "_(0[1-9]|1[0-2])")).toVector();
+        buttonsCFDzeroCh           = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyCFDzero"         "_(0[1-9]|1[0-2])")).toVector();
+        buttonsADC0rangeCh         = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyADC0range"       "_(0[1-9]|1[0-2])")).toVector();
+        buttonsADC1rangeCh         = ui->groupBoxChannels->findChildren<QPushButton *>(QRegularExpression("buttonApplyADC1range"       "_(0[1-9]|1[0-2])")).toVector();
         allRadioButtons = {
             ui->radioButtonAandC          ,
             ui->radioButtonC              ,
@@ -211,8 +211,8 @@ public:
             ui->radioButtonForceLocal     ,
             ui->radioButtonExternalTrigger,
             ui->radioButtonGenerator      ,
-            ui->radioButtonPretriggerHits ,
-            ui->radioButtonCFDinGateHits
+            ui->radioButtonStrict         ,
+            ui->radioButtonCFDinGate
         };
         allButtons    = ui->centralWidget->findChildren<QPushButton *>(QRegularExpression("button.*")); //except PM selectors
         allSwitches   = ui->centralWidget->findChildren<Switch *>();
@@ -275,8 +275,8 @@ public:
             ui->centralWidget->setDisabled(true);
         });
         connect(&FEE, &IPbusTarget::IPbusStatusOK, this, [=]() {
-            FEE.checkPMlinks();
             ui->centralWidget->setEnabled(true);
+            FEE.checkPMlinks();
             foreach (quint16 FEEid, FEE.PM.keys()) FEE.apply_RESET_GBT_ERRORS(FEEid);
             FEE.apply_RESET_GBT_ERRORS(FEE.TCMid);
             ui->buttonDismissRestart->click();
@@ -304,7 +304,7 @@ public:
         }
 		//connect(ui->labelValueLaserFrequency, &ActualLabel::doubleclicked, ui->lineEditLaserFrequency, &QLineEdit::textEdited);
         connect(&FEE, &FITelectronics::linksStatusReady, this, [=]() { //disable PMs' selectors and link indicators if no physical link present
-			if (!FEE.isTCM && !FEE.PM.contains(FEE.curPM->set.GBT.RDH_FEE_ID)) ui->TCM_selector->toggle();
+            if (!FEE.isTCM && !FEE.PM.contains(FEE.curPM->set.GBT.RDH_FEE_ID)) ui->TCM_selector->toggle();
 			for (quint8 i=0; i<=9; ++i) {
 				selectorsPMA[i]->setEnabled(FEE.PM.contains(FEE.allPMs[i   ].set.GBT.RDH_FEE_ID));
 				selectorsPMC[i]->setEnabled(FEE.PM.contains(FEE.allPMs[i+10].set.GBT.RDH_FEE_ID));
@@ -452,10 +452,10 @@ public slots:
         ui->labelValueClockSource->setText(FEE.TCM.act.externalClock ? "external" : "local");
         ui->labelValueClockSource->setStyleSheet(FEE.TCM.act.externalClock ? OKstyle : notOKstyle);
         double
-            curTemp_board   = FEE.isTCM ? FEE.TCM.act.temp_board    : FEE.curPM->act.temp_board,
-            curTemp_FPGA    = FEE.isTCM ? FEE.TCM.act.temp_FPGA     : FEE.curPM->act.temp_FPGA ,
-            curVoltage_1V   = FEE.isTCM ? FEE.TCM.act.voltage_1V    : FEE.curPM->act.voltage_1V,
-            curVoltage_1_8V = FEE.isTCM ? FEE.TCM.act.voltage_1_8V  : FEE.curPM->act.voltage_1_8V;
+            curTemp_board   = FEE.isTCM ? FEE.TCM.act.TEMP_BOARD    : FEE.curPM->act.TEMP_BOARD,
+            curTemp_FPGA    = FEE.isTCM ? FEE.TCM.act.TEMP_FPGA     : FEE.curPM->act.TEMP_FPGA ,
+            curVoltage_1V   = FEE.isTCM ? FEE.TCM.act.VOLTAGE_1V    : FEE.curPM->act.VOLTAGE_1V,
+            curVoltage_1_8V = FEE.isTCM ? FEE.TCM.act.VOLTAGE_1_8V  : FEE.curPM->act.VOLTAGE_1_8V;
         ui->labelValueBoardTemperature->setText(QString::asprintf("%4.1f°C", curTemp_board   ));
         ui->labelValueFPGAtemperature ->setText(QString::asprintf("%5.1f°C", curTemp_FPGA    ));
         ui->labelValueVoltage1V       ->setText(QString::asprintf("%5.3f V", curVoltage_1V   ));
@@ -466,11 +466,11 @@ public slots:
         ui->labelValueVoltage1_8V     ->setStyleSheet(fabs(curVoltage_1_8V/1.8 - 1) > 0.2 ? notOKstyle : neutralStyle);
 
         ui->labelValueSerial          ->setText(QString::asprintf("%d"     , FEE.isTCM ? FEE.TCM.act.SERIAL_NUM    : FEE.curPM->act.SERIAL_NUM   ));
-        TypeFITsubdetector bt = TypeFITsubdetector(FEE.isTCM ? FEE.TCM.act.BOARD_TYPE : FEE.curPM->act.BOARD_TYPE);
+        TypeFITsubdetector bt = TypeFITsubdetector(FEE.isTCM ? FEE.TCM.act.boardType : FEE.curPM->act.boardType);
         ui->labelValueBoardType->setText(QString::asprintf("%d: %s", bt, FIT[bt].name));
         ui->labelValueBoardType->setStyleSheet(bt != FEE.subdetector ? notOKstyle : neutralStyle);
-        Timestamp tMCU  = FEE.isTCM ? FEE.TCM.act.MCODE_TIME : FEE.curPM->act.MCODE_TIME;
-        Timestamp tFPGA = FEE.isTCM ? FEE.TCM.act.   FW_TIME : FEE.curPM->act.   FW_TIME;
+        Timestamp tMCU  = FEE.isTCM ? FEE.TCM.act.FW_TIME_MCU : FEE.curPM->act.FW_TIME_MCU;
+        Timestamp tFPGA = FEE.isTCM ? FEE.TCM.act.   FW_TIME_FPGA : FEE.curPM->act.   FW_TIME_FPGA;
         ui->labelValueMCUFWversion ->setText(tMCU .printCode1());
         ui->labelValueFPGAFWversion->setText(tFPGA.printCode1());
         QString tMCUfull  = tMCU .printFull();
@@ -481,8 +481,8 @@ public slots:
         ui->labelValueFPGAFWversion->setToolTip(tFPGAfull);
 		ui->comboBoxUpdatePeriod->setCurrentIndex(FEE.TCM.act.COUNTERS_UPD_RATE);
         for (quint8 i=0; i<=9; ++i) {
-            linksPMA[i]->setPixmap(FEE.TCM.act.PM_LINK_A[i].linkOK ? Green1 : Red0); switchesPMA[i]->setChecked(FEE.TCM.act.CH_MASK_A & (1 << i));
-            linksPMC[i]->setPixmap(FEE.TCM.act.PM_LINK_C[i].linkOK ? Green1 : Red0); switchesPMC[i]->setChecked(FEE.TCM.act.CH_MASK_C & (1 << i));
+            linksPMA[i]->setPixmap(FEE.TCM.act.TRG_SYNC_A[i].linkOK ? Green1 : Red0); switchesPMA[i]->setChecked(FEE.TCM.act.CH_MASK_A & (1 << i));
+            linksPMC[i]->setPixmap(FEE.TCM.act.TRG_SYNC_C[i].linkOK ? Green1 : Red0); switchesPMC[i]->setChecked(FEE.TCM.act.CH_MASK_C & (1 << i));
         }
         switch (FEE.curGBTact->Control.DG_MODE) {
             case GBTunit::DG_noData: ui->buttonDataGeneratorOff ->setChecked(true); break;
@@ -644,7 +644,7 @@ public slots:
                 case 2 : ui->labelValueRestartCode->setText("PLL relock" ); ui->labelValueRestartCode->setStyleSheet(notOKstyle); break;
                 case 3 : ui->labelValueRestartCode->setText("SPI command"); ui->labelValueRestartCode->setStyleSheet(   OKstyle); break;
             }
-            FEE.curPM->act.TRGcountMode ? ui->radioButtonCFDinGateHits->setChecked(true) : ui->radioButtonPretriggerHits->setChecked(true);
+            FEE.curPM->act.TRGcountMode ? ui->radioButtonCFDinGate->setChecked(true) : ui->radioButtonStrict->setChecked(true);
             ui->labelValueChannelMask->setText(QString::asprintf("%03X", FEE.curPM->act.CH_MASK));
             ui->labelIconSyncErrorTDC1->setPixmap(FEE.curPM->act.TDC1syncError ? Red1 : Green0);
             ui->labelIconSyncErrorTDC2->setPixmap(FEE.curPM->act.TDC2syncError ? Red1 : Green0);
@@ -656,29 +656,24 @@ public slots:
 			ui->labelValuePhaseTuningTDC1->setText(QString::asprintf("%.0f", FEE.curPM->act.TDC1tuning * TDCunit_ps * 8/7));
 			ui->labelValuePhaseTuningTDC2->setText(QString::asprintf("%.0f", FEE.curPM->act.TDC2tuning * TDCunit_ps * 8/7));
 			ui->labelValuePhaseTuningTDC3->setText(QString::asprintf("%.0f", FEE.curPM->act.TDC3tuning * TDCunit_ps * 8/7));
-            HDMIlinkStatus s;
-			quint8 PM = FEE.selectedBoard % 0x10; // only for FT0!!!
-            if (quint8(FEE.selectedBoard) <= 0xA9) { //side A
-                s = FEE.TCM.act.PM_LINK_A[PM];
-                ui->labelIconHDMIsyncError->setPixmap(FEE.TCM.act.syncErrorInLinkA & (1 << PM) ? Red1 : Green0);
-            } else {                                //side C
-                s = FEE.TCM.act.PM_LINK_C[PM];
-                ui->labelIconHDMIsyncError->setPixmap(FEE.TCM.act.syncErrorInLinkC & (1 << PM) ? Red1 : Green0);
-            }
-            ui->labelIconHDMIlinkOK->setPixmap(s.linkOK ? Green1 : Red0);
-            ui->labelIconHDMIbitsOK->setPixmap(s.bitPositionsOK ? Green1 : Red0);
-            ui->labelIconHDMIsignalLost0->setPixmap(s.line0signalLost ? Red1 : Green0);
-            ui->labelIconHDMIsignalLost1->setPixmap(s.line1signalLost ? Red1 : Green0);
-            ui->labelIconHDMIsignalLost2->setPixmap(s.line2signalLost ? Red1 : Green0);
-            ui->labelIconHDMIsignalLost3->setPixmap(s.line3signalLost ? Red1 : Green0);
-            ui->labelIconHDMIsignalStable0->setPixmap(s.line0signalStable ? Green1 : Red0);
-            ui->labelIconHDMIsignalStable1->setPixmap(s.line1signalStable ? Green1 : Red0);
-            ui->labelIconHDMIsignalStable2->setPixmap(s.line2signalStable ? Green1 : Red0);
-            ui->labelIconHDMIsignalStable3->setPixmap(s.line3signalStable ? Green1 : Red0);
-            ui->labelValueHDMIdelay0->setText(QString::asprintf("%4.2f", s.line0delay * TDCunit_ps * 0.006));
-            ui->labelValueHDMIdelay1->setText(QString::asprintf("%4.2f", s.line1delay * TDCunit_ps * 0.006));
-            ui->labelValueHDMIdelay2->setText(QString::asprintf("%4.2f", s.line2delay * TDCunit_ps * 0.006));
-            ui->labelValueHDMIdelay3->setText(QString::asprintf("%4.2f", s.line3delay * TDCunit_ps * 0.006));
+
+            quint8 iPM = FEE.curPM->baseAddress / 0x200 - 1;
+            TRGsyncStatus *s = (iPM > 9 ? FEE.TCM.act.TRG_SYNC_C : FEE.TCM.act.TRG_SYNC_A) + iPM % 10;
+            ui->labelIconHDMIsyncError->setPixmap((iPM > 9 ? FEE.TCM.act.syncErrorInLinkC : FEE.TCM.act.syncErrorInLinkA) & (1 << iPM % 10) ?  Red1 : Green0);
+            ui->labelIconHDMIlinkOK->setPixmap(s->linkOK ? Green1 : Red0);
+            ui->labelIconHDMIbitsOK->setPixmap(s->bitPositionsOK ? Green1 : Red0);
+            ui->labelIconHDMIsignalLost0->setPixmap(s->line0signalLost ? Red1 : Green0);
+            ui->labelIconHDMIsignalLost1->setPixmap(s->line1signalLost ? Red1 : Green0);
+            ui->labelIconHDMIsignalLost2->setPixmap(s->line2signalLost ? Red1 : Green0);
+            ui->labelIconHDMIsignalLost3->setPixmap(s->line3signalLost ? Red1 : Green0);
+            ui->labelIconHDMIsignalStable0->setPixmap(s->line0signalStable ? Green1 : Red0);
+            ui->labelIconHDMIsignalStable1->setPixmap(s->line1signalStable ? Green1 : Red0);
+            ui->labelIconHDMIsignalStable2->setPixmap(s->line2signalStable ? Green1 : Red0);
+            ui->labelIconHDMIsignalStable3->setPixmap(s->line3signalStable ? Green1 : Red0);
+            ui->labelValueHDMIdelay0->setText(QString::asprintf("%4.2f", s->line0delay * TDCunit_ps * 0.006));
+            ui->labelValueHDMIdelay1->setText(QString::asprintf("%4.2f", s->line1delay * TDCunit_ps * 0.006));
+            ui->labelValueHDMIdelay2->setText(QString::asprintf("%4.2f", s->line2delay * TDCunit_ps * 0.006));
+            ui->labelValueHDMIdelay3->setText(QString::asprintf("%4.2f", s->line3delay * TDCunit_ps * 0.006));
             for (quint8 i=0; i<12; ++i) {
                 switchesCh[i]->setChecked(FEE.curPM->act.CH_MASK & (1 << i));
                 labelsTimeAlignmentCh    [i]->setText(QString::asprintf("%d", FEE.curPM->act.TIME_ALIGN[i].value));
@@ -691,8 +686,8 @@ public slots:
                 labelsADC1rangeCh        [i]->setText(QString::asprintf("%d", FEE.curPM->act.ADC_RANGE[i][1]));
                 labelsADC0baseLineCh     [i]->setText(QString::asprintf("%d", FEE.curPM->act.ADC_BASELINE[i][0]));
                 labelsADC1baseLineCh     [i]->setText(QString::asprintf("%d", FEE.curPM->act.ADC_BASELINE[i][1]));
-                labelsADC0baseLineCh     [i]->setStyleSheet(FEE.curPM->act.CH_DISPLACED & (1 << i) ? notOKstyle : neutralStyle);
-                labelsADC1baseLineCh     [i]->setStyleSheet(FEE.curPM->act.CH_DISPLACED & (1 << i) ? notOKstyle : neutralStyle);
+                labelsADC0baseLineCh     [i]->setStyleSheet(FEE.curPM->act.CH_BASELINES_NOK & (1 << i) ? notOKstyle : neutralStyle);
+                labelsADC1baseLineCh     [i]->setStyleSheet(FEE.curPM->act.CH_BASELINES_NOK & (1 << i) ? notOKstyle : neutralStyle);
 //                labelsADC0RMSCh          [i]->setText(QString::asprintf( "%5.1f", sqrt(FEE.curPM->act.DISPERSION[i][0]) ));
 //                labelsADC1RMSCh          [i]->setText(QString::asprintf( "%5.1f", sqrt(FEE.curPM->act.DISPERSION[i][1]) ));
                 labelsADC0RMSCh          [i]->setText(QString::asprintf( "%5.1f", FEE.curPM->act.RMS_Ch[i][0]));
@@ -1019,8 +1014,8 @@ public slots:
     void on_buttonApplyCFDsaturation_clicked() { FEE.apply_CFD_SATR(FEE.selectedBoard); }
     void on_buttonApplyChannelMask_clicked  () { FEE.apply_CH_MASK (FEE.selectedBoard); }
 
-    void on_radioButtonPretriggerHits_clicked() { FEE.apply_TRG_COUNT_MODE(FEE.selectedBoard, false); }
-    void on_radioButtonCFDinGateHits_clicked () { FEE.apply_TRG_COUNT_MODE(FEE.selectedBoard, true ); }
+    void on_radioButtonStrict_clicked    () { FEE.apply_TRG_COUNT_MODE(FEE.selectedBoard, false); }
+    void on_radioButtonCFDinGate_clicked () { FEE.apply_TRG_COUNT_MODE(FEE.selectedBoard, true ); }
 
 private:
     Ui::MainWindow *ui;

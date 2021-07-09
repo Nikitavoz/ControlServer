@@ -10,7 +10,7 @@
 enum TypeFITsubdetector {FT0=1, FV0=2, FDD=3};
 inline TypeFITsubdetector getSubdetectorTypeByName(QString s) {
     if (s == "FV0") return FV0;
-    if (s == "FDD") return FV0;
+    if (s == "FDD") return FDD;
     else return FT0;
 }
 const struct TypeFITconstants{
@@ -185,7 +185,7 @@ struct Timestamp {
 	}
 };
 
-struct HDMIlinkStatus {
+struct TRGsyncStatus {
     quint32
         line0delay          : 5,
         line0signalLost     : 1,
@@ -194,7 +194,7 @@ struct HDMIlinkStatus {
         line1delay          : 5,
         line1signalLost     : 1,
         line1signalStable	: 1,
-                            : 1,
+        syncError           : 1, //this bit should be read from side status register (0x1A or 0x3A)
         line2delay          : 5,
         line2signalLost     : 1,
         line2signalStable	: 1,

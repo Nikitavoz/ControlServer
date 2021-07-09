@@ -32562,7 +32562,7 @@ correction</string>
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QRadioButton" name="radioButtonCFDinGateHits">
+     <widget class="QRadioButton" name="radioButtonCFDinGate">
       <property name="geometry">
        <rect>
         <x>92</x>
@@ -32580,7 +32580,7 @@ correction</string>
        </font>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">all CFDinGate-flagged hits are counted</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -32601,7 +32601,7 @@ correction</string>
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QRadioButton" name="radioButtonPretriggerHits">
+     <widget class="QRadioButton" name="radioButtonStrict">
       <property name="geometry">
        <rect>
         <x>92</x>
@@ -32619,7 +32619,14 @@ correction</string>
        </font>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">only hits valid for OR-trigger are counted:
+– TDC value received in time and is valid (TimeInfoLost OR TimeInfoTooLate OR TimeNotValid == false) 
+                    AND
+– TDC value is within ± current OR-gate setting (abs(Time) &lt; OR_GATE)
+                    AND
+– amplitude is below CFD saturation limit setting (Charge &lt; CFD_SATR)
+                    AND
+– CFD pulse is within delayable fixed-width gate (CFDinGate == true)</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -32634,7 +32641,7 @@ correction</string>
        <string notr="true"/>
       </property>
       <property name="text">
-       <string notr="true">pretrigger</string>
+       <string notr="true">Strict</string>
       </property>
       <property name="checked">
        <bool>true</bool>
