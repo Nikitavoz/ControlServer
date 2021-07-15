@@ -4,7 +4,6 @@
 #include "FITboardsCommon.h"
 
 const double LHCclock_MHz = 40.0785; //reference value
-//const double LHCclock_MHz = 40.; //lab value
 const quint16 countersUpdatePeriod_ms[8] = {0, 100, 200, 500, 1000, 2000, 5000, 10000};
 extern double systemClock_MHz; //40
 extern double TDCunit_ps; // 13
@@ -14,7 +13,7 @@ extern double phaseStepLaser_ns, phaseStep_ns;
 struct TypeTCM {
     struct ActualValues {
         static const quint8// size = end_address + 1 - start_address
-            block0addr = 0x00, block0size = 0x1D + 1 - block0addr, //30
+            block0addr = 0x00, block0size = 0x1F + 1 - block0addr, //32
             block1addr = 0x30, block1size = 0x3A + 1 - block1addr, //11
             block2addr = 0x60, block2size = 0x6A + 1 - block2addr, //11
 			block3addr = 0xFC, block3size = 0xFE + 1 - block3addr; // 3
@@ -84,10 +83,13 @@ struct TypeTCM {
                                         : 7, //│1B
                         LASER_SOURCE    : 1, //┘
                         LASER_PATTERN_1    , //]1C
-                        LASER_PATTERN_0    ; //]1D
+                        LASER_PATTERN_0    , //]1D
+                        PM_MASK_SPI        , //]1E
+                        lsrTrgSupprDelay: 6, //┐
+                        lsrTrgSupprDur  : 2, //│1F
+                                        :24; //┘
             };
         };
-        quint32 PM_MASK_SPI                ; //]1E
         union { //block1
             quint32 registers1[block1size] = {0};
             char pointer1[block1size * sizeof(quint32)];
@@ -194,7 +196,7 @@ struct TypeTCM {
         static const quint8// size = end_address + 1 - start_address
             block0addr = 0x00, block0size = 0x04 + 1 - block0addr, // 5
             block1addr = 0x08, block1size = 0x0E + 1 - block1addr, // 7
-            block2addr = 0x1A, block2size = 0x1D + 1 - block2addr, // 4
+            block2addr = 0x1A, block2size = 0x1F + 1 - block2addr, // 6
             block3addr = 0x60, block3size = 0x6A + 1 - block3addr; //11
 
         union { //block0
@@ -244,8 +246,12 @@ struct TypeTCM {
                         LASER_DIVIDER   :24, //┐
                                         : 7, //│1B
                         LASER_SOURCE    : 1, //┘
-                        LASER_PATTERN_1,     //]1C
-                        LASER_PATTERN_0;     //]1D
+                        LASER_PATTERN_1    , //]1C
+                        LASER_PATTERN_0    , //]1D
+                        PM_MASK_SPI        , //]1E
+                        lsrTrgSupprDelay: 6, //┐
+                        lsrTrgSupprDur  : 2, //│1F
+                                        :24; //┘
             };
         };
         quint32 CH_MASK_C,                   //]3A
@@ -353,7 +359,7 @@ const QHash<QString, Parameter> TCMparameters = {
     {"LASER_SOURCE"         , {0x1B,  1, 31}},
     {"LASER_PATTERN_1"      ,  0x1C         },
     {"LASER_PATTERN_0"      ,  0x1D         },
-    {"SPI_LINKS_MASK"       ,  0x1E         },
+    {"PM_MASK_SPI"          ,  0x1E         },
     {"CH_MASK_C"            ,  0x3A         },
     {"COUNTERS_UPD_RATE"    ,  0x50         },
     {"ORA_SIGN"             ,  0x60         },

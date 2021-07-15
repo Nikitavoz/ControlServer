@@ -34926,9 +34926,9 @@ correction</string>
      <widget class="QFrame" name="frameTriggers_SC">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>1</x>
         <y>25</y>
-        <width>760</width>
+        <width>758</width>
         <height>30</height>
        </rect>
       </property>
@@ -36186,9 +36186,9 @@ Central</string>
      <widget class="QFrame" name="frameTriggers_C">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>1</x>
         <y>55</y>
-        <width>760</width>
+        <width>758</width>
         <height>30</height>
        </rect>
       </property>
@@ -37129,9 +37129,9 @@ Central</string>
      <widget class="QFrame" name="frameTriggers_V">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>1</x>
         <y>145</y>
-        <width>760</width>
+        <width>758</width>
         <height>32</height>
        </rect>
       </property>
@@ -38163,9 +38163,9 @@ Central</string>
      <widget class="QFrame" name="frameTriggers_ORC">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>1</x>
         <y>115</y>
-        <width>760</width>
+        <width>758</width>
         <height>30</height>
        </rect>
       </property>
@@ -38768,9 +38768,9 @@ Central</string>
      <widget class="QFrame" name="frameTriggers_ORA">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>1</x>
         <y>85</y>
-        <width>760</width>
+        <width>758</width>
         <height>30</height>
        </rect>
       </property>
@@ -44178,7 +44178,7 @@ border-color: black;</string>
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="labelTextBCIDsyncMode">
+     <widget class="QLabel" name="labelTextBCIDsync">
       <property name="geometry">
        <rect>
         <x>335</x>
@@ -44224,7 +44224,7 @@ border-color: black;</string>
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string>BCID sync mode:</string>
+       <string>BCID sync state:</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -44358,7 +44358,7 @@ border-color: black;</string>
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="labelValueBCIDsyncMode">
+     <widget class="QLabel" name="labelValueBCIDsync">
       <property name="geometry">
        <rect>
         <x>428</x>
@@ -57463,7 +57463,7 @@ errors</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="labelIconSystemJustRestarted">
+    <widget class="QLabel" name="labelIconSystemRestarted">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -57518,7 +57518,7 @@ errors</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="labelTextSystemJustRestarted">
+    <widget class="QLabel" name="labelTextSystemRestarted">
      <property name="geometry">
       <rect>
        <x>3</x>
@@ -57560,109 +57560,12 @@ errors</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="labelIconSystemHadRestarted">
+    <widget class="QPushButton" name="buttonDismissErrors">
      <property name="geometry">
       <rect>
-       <x>80</x>
-       <y>58</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <family>Consolas</family>
-       <pointsize>10</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-       <kerning>false</kerning>
-      </font>
-     </property>
-     <property name="toolTip">
-      <string notr="true"/>
-     </property>
-     <property name="statusTip">
-      <string notr="true"/>
-     </property>
-     <property name="whatsThis">
-      <string notr="true"/>
-     </property>
-     <property name="accessibleName">
-      <string notr="true"/>
-     </property>
-     <property name="accessibleDescription">
-      <string notr="true"/>
-     </property>
-     <property name="locale">
-      <locale language="English" country="World"/>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="../!images/img.qrc">:/0G.png</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="labelTextSystemHadRestarted">
-     <property name="geometry">
-      <rect>
-       <x>3</x>
-       <y>57</y>
-       <width>75</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Calibri</family>
-       <pointsize>10</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="toolTip">
-      <string notr="true"/>
-     </property>
-     <property name="statusTip">
-      <string notr="true"/>
-     </property>
-     <property name="whatsThis">
-      <string notr="true"/>
-     </property>
-     <property name="accessibleName">
-      <string notr="true"/>
-     </property>
-     <property name="accessibleDescription">
-      <string notr="true"/>
-     </property>
-     <property name="locale">
-      <locale language="English" country="World"/>
-     </property>
-     <property name="text">
-      <string>had restarted</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="buttonDismissRestart">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
+       <x>10</x>
        <y>56</y>
-       <width>50</width>
+       <width>91</width>
        <height>20</height>
       </rect>
      </property>
@@ -57699,7 +57602,7 @@ errors</string>
       <locale language="English" country="World"/>
      </property>
      <property name="text">
-      <string>dismiss</string>
+      <string>Dismiss errors</string>
      </property>
     </widget>
     <widget class="QPushButton" name="buttonRestart">
@@ -57964,7 +57867,7 @@ system</string>
   <tabstop>PM_selector_C8</tabstop>
   <tabstop>PM_selector_C9</tabstop>
   <tabstop>buttonRestart</tabstop>
-  <tabstop>buttonDismissRestart</tabstop>
+  <tabstop>buttonDismissErrors</tabstop>
   <tabstop>comboBoxUpdatePeriod</tabstop>
   <tabstop>Switcher_A0</tabstop>
   <tabstop>Switcher_A1</tabstop>

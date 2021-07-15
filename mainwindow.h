@@ -277,11 +277,8 @@ public:
         connect(&FEE, &IPbusTarget::IPbusStatusOK, this, [=]() {
             ui->centralWidget->setEnabled(true);
             FEE.checkPMlinks();
-            foreach (quint16 FEEid, FEE.PM.keys()) FEE.apply_RESET_GBT_ERRORS(FEEid);
-            FEE.apply_RESET_GBT_ERRORS(FEE.TCMid);
-            ui->buttonDismissRestart->click();
-            FEE.fullSyncTimer->start(10000);
-            updateEdits();
+            FEE.apply_RESET_ERRORS();
+            //FEE.fullSyncTimer->start(10000);
         });
         connect(&FEE, &IPbusTarget::noResponse, this, [=]() {
             statusBar()->showMessage(statusBar()->currentMessage() == "" ? FEE.IPaddress + ": no response" : "");
@@ -307,7 +304,7 @@ public:
             if (!FEE.isTCM && !FEE.PM.contains(FEE.curPM->set.GBT.RDH_FEE_ID)) ui->TCM_selector->toggle();
 			for (quint8 i=0; i<=9; ++i) {
 				selectorsPMA[i]->setEnabled(FEE.PM.contains(FEE.allPMs[i   ].set.GBT.RDH_FEE_ID));
-				selectorsPMC[i]->setEnabled(FEE.PM.contains(FEE.allPMs[i+10].set.GBT.RDH_FEE_ID));
+                selectorsPMC[i]->setEnabled(FEE.PM.contains(FEE.allPMs[i+10].set.GBT.RDH_FEE_ID));
             } 
         });
         for (quint8 i=0; i<=9; ++i) { //PM switchers and selectors
@@ -426,7 +423,7 @@ public slots:
 
 	void recheckTarget() {
 		statusBar()->showMessage(FEE.IPaddress + ": status requested...");
-        if (FEE.fullSyncTimer->isActive()) FEE.fullSyncTimer->stop();
+        //if (FEE.fullSyncTimer->isActive()) FEE.fullSyncTimer->stop();
         if (FEE.countersTimer->isActive()) FEE.countersTimer->stop();
 		FEE.reconnect();
 	}
@@ -442,11 +439,7 @@ public slots:
     }
 
     void updateActualValues() {
-        if (FEE.TCM.act.systemRestarted) {
-            ui->labelIconSystemJustRestarted->setPixmap(Red1);
-            ui->labelIconSystemHadRestarted->setPixmap(Red1);
-        } else
-            ui->labelIconSystemJustRestarted->setPixmap(Green0);
+        ui->labelIconSystemRestarted->setPixmap(FEE.TCM.act.systemRestarted ? Red1 : Green0);
         ui->labelIconSystemRestarting->setPixmap(FEE.TCM.act.resetSystem ? Red1 : Green0);
         if (FEE.TCM.act.forceLocalClock) ui->radioButtonForceLocal->setChecked(true); else ui->radioButtonAuto->setChecked(true);
         ui->labelValueClockSource->setText(FEE.TCM.act.externalClock ? "external" : "local");
@@ -529,10 +522,11 @@ public slots:
             case GBTunit::RO_triggered : ui->labelValueReadoutModeCRU  ->setText("Triggered" );
         }
         switch (FEE.curGBTact->Status.BCID_SYNC_MODE) {
-            case GBTunit::BS_start: ui->labelValueBCIDsyncMode->setText("Start"); break;
-            case GBTunit::BS_sync : ui->labelValueBCIDsyncMode->setText("Sync" ); break;
-            case GBTunit::BS_lost : ui->labelValueBCIDsyncMode->setText("Lost" );
+            case GBTunit::BS_start: ui->labelValueBCIDsync->setText("Start"); ui->labelValueBCIDsync->setStyleSheet(neutralStyle); break;
+            case GBTunit::BS_sync : ui->labelValueBCIDsync->setText("Sync" ); ui->labelValueBCIDsync->setStyleSheet(     OKstyle); break;
+            case GBTunit::BS_lost : ui->labelValueBCIDsync->setText("Lost" ); ui->labelValueBCIDsync->setStyleSheet(  notOKstyle);
         }
+
         ui->labelValueCRUorbit           ->setText(QString::asprintf("%08X", FEE.curGBTact->Status.CRU_ORBIT                  ));
         ui->labelValueCRUBC              ->setText(QString::asprintf("%03X", FEE.curGBTact->Status.CRU_BC                     ));
         ui->labelValueSelectorFIFOcount  ->setText(QString::asprintf("%04X", FEE.curGBTact->Status.SEL_FIFO                   ));
@@ -614,10 +608,10 @@ public slots:
             ui->labelValueTriggersLevelC_C ->setText(QString::asprintf("%d", FEE.TCM.act.C_LEVEL_C ));
             mode = FEE.TCM.act.C_SC_TRG_MODE;
             allRadioButtons[mode]->setChecked(true);
-            ui->labelValueTriggersLevelA_SC->setEnabled(mode != 2); //enabled for modes A&C, A, A+C
-            ui->labelValueTriggersLevelA_C ->setEnabled(mode != 2);
-            ui->labelValueTriggersLevelC_SC->setDisabled(mode % 2); //enabled for modes A&C, C
-            ui->labelValueTriggersLevelC_C ->setDisabled(mode % 2);
+            ui->labelValueTriggersLevelA_SC->setEnabled(mode != 1); //enabled for modes A&C, A, A+C
+            ui->labelValueTriggersLevelA_C ->setEnabled(mode != 1);
+            ui->labelValueTriggersLevelC_SC->setEnabled(mode < 2); //enabled for modes A&C, C
+            ui->labelValueTriggersLevelC_C ->setEnabled(mode < 2);
             ui->labelValueVertexTimeLow ->setText(QString::asprintf("%d", FEE.TCM.act.VTIME_LOW ));
             ui->labelValueVertexTimeHigh->setText(QString::asprintf("%d", FEE.TCM.act.VTIME_HIGH));
 			ui->labelValueAttenuation->setText(QString::asprintf("%5.0f", FEE.TCM.act.attenuation));
@@ -645,7 +639,7 @@ public slots:
                 case 3 : ui->labelValueRestartCode->setText("SPI command"); ui->labelValueRestartCode->setStyleSheet(   OKstyle); break;
             }
             FEE.curPM->act.TRGcountMode ? ui->radioButtonCFDinGate->setChecked(true) : ui->radioButtonStrict->setChecked(true);
-            ui->labelValueChannelMask->setText(QString::asprintf("%03X", FEE.curPM->act.CH_MASK));
+            ui->labelValueChannelMask->setText(QString::asprintf("%03X", FEE.curPM->act.CH_MASK_DATA));
             ui->labelIconSyncErrorTDC1->setPixmap(FEE.curPM->act.TDC1syncError ? Red1 : Green0);
             ui->labelIconSyncErrorTDC2->setPixmap(FEE.curPM->act.TDC2syncError ? Red1 : Green0);
             ui->labelIconSyncErrorTDC3->setPixmap(FEE.curPM->act.TDC3syncError ? Red1 : Green0);
@@ -675,8 +669,8 @@ public slots:
             ui->labelValueHDMIdelay2->setText(QString::asprintf("%4.2f", s->line2delay * TDCunit_ps * 0.006));
             ui->labelValueHDMIdelay3->setText(QString::asprintf("%4.2f", s->line3delay * TDCunit_ps * 0.006));
             for (quint8 i=0; i<12; ++i) {
-                switchesCh[i]->setChecked(FEE.curPM->act.CH_MASK & (1 << i));
-                labelsTimeAlignmentCh    [i]->setText(QString::asprintf("%d", FEE.curPM->act.TIME_ALIGN[i].value));
+                switchesCh[i]->setChecked(FEE.curPM->act.CH_MASK_DATA & (1 << i));
+                labelsTimeAlignmentCh    [i]->setText(QString::asprintf("%d", FEE.curPM->act.TIME_ALIGN[i]));
                 labelsThresholdCalibrCh  [i]->setText(QString::asprintf("%d", FEE.curPM->act.THRESHOLD_CALIBR[i]));
                 labelsADCdelayCh         [i]->setText(QString::asprintf("%d", FEE.curPM->act.Ch[i].ADC_DELAY));
                 labelsCFDthresholdCh     [i]->setText(QString::asprintf("%d", FEE.curPM->act.Ch[i].CFD_THRESHOLD));
@@ -688,8 +682,6 @@ public slots:
                 labelsADC1baseLineCh     [i]->setText(QString::asprintf("%d", FEE.curPM->act.ADC_BASELINE[i][1]));
                 labelsADC0baseLineCh     [i]->setStyleSheet(FEE.curPM->act.CH_BASELINES_NOK & (1 << i) ? notOKstyle : neutralStyle);
                 labelsADC1baseLineCh     [i]->setStyleSheet(FEE.curPM->act.CH_BASELINES_NOK & (1 << i) ? notOKstyle : neutralStyle);
-//                labelsADC0RMSCh          [i]->setText(QString::asprintf( "%5.1f", sqrt(FEE.curPM->act.DISPERSION[i][0]) ));
-//                labelsADC1RMSCh          [i]->setText(QString::asprintf( "%5.1f", sqrt(FEE.curPM->act.DISPERSION[i][1]) ));
                 labelsADC0RMSCh          [i]->setText(QString::asprintf( "%5.1f", FEE.curPM->act.RMS_Ch[i][0]));
                 labelsADC1RMSCh          [i]->setText(QString::asprintf( "%5.1f", FEE.curPM->act.RMS_Ch[i][0]));
                 labelsADC0meanAmplitudeCh[i]->setText(QString::asprintf("%d", FEE.curPM->act.MEANAMPL[i][0][0]));
@@ -732,7 +724,7 @@ public slots:
 		} else { //PM
 			ui->lineEditORgate->setText(QString::asprintf("%d", FEE.curPM->set.OR_GATE));
 			ui->lineEditCFDsaturation->setText(QString::asprintf("%d", FEE.curPM->set.CFD_SATR));
-			ui->lineEditChannelMask->setText(QString::asprintf("%03X", FEE.curPM->set.CH_MASK));
+            ui->lineEditChannelMask->setText(QString::asprintf("%03X", FEE.curPM->set.CH_MASK_DATA));
 			for (quint8 i=0; i<12; ++i) {
                 editsTimeAlignmentCh  [i]->setText(QString::asprintf("%d", FEE.curPM->set.TIME_ALIGN[i].value));
 				editsThresholdCalibrCh[i]->setText(QString::asprintf("%d", FEE.curPM->set.THRESHOLD_CALIBR[i]));
@@ -844,7 +836,7 @@ public slots:
         int PMy = ui->groupBoxPM->y();
         ui->groupBoxPM->move(ui->groupBoxPM->x(), ui->groupBoxTCM->y());
         ui->groupBoxTCM->move(ui->groupBoxTCM->x(), PMy);
-        ui->groupBoxReadoutControl->move(ui->groupBoxReadoutControl->x(), checked ? 6 : 120);
+        ui->groupBoxReadoutControl->move(ui->groupBoxReadoutControl->x(), (checked ? 6 : 120) * sz/13.);
         ui->groupBoxReadoutControl->setVisible(true);
         (checked ? ui->groupBoxPM : ui->groupBoxTCM)->setVisible(false);
         if (checked) {
@@ -858,7 +850,7 @@ public slots:
 	}
 
     void selectPM(quint16 FEEid) {
-        ui->groupBoxPM->setTitle("PM" + QString::asprintf( "%02X", quint8(FEEid) ));
+        ui->groupBoxPM->setTitle(QString("PM") + FEE.PM[FEEid]->name);
         FEE.selectedBoard = FEEid;
         FEE.isTCM = false;
         FEE.curPM = FEE.PM[FEEid];
@@ -870,7 +862,7 @@ public slots:
 
     void on_comboBoxUpdatePeriod_activated(int index) { if (FEE.TCM.act.COUNTERS_UPD_RATE != quint32(index)) FEE.apply_COUNTERS_UPD_RATE(index); }
     void on_buttonRestart_clicked() { FEE.apply_RESET_SYSTEM(ui->radioButtonForceLocal->isChecked()); }
-    void on_buttonDismissRestart_clicked() { ui->labelIconSystemHadRestarted->setPixmap(Green0); }
+    void on_buttonDismissErrors_clicked() { FEE.apply_RESET_ERRORS(); }
 
 	void on_spinBoxAttenuation_valueChanged(double val) { FEE.TCM.set.attenuation = val; FEE.TCM.set.attenSteps = val; }
 	void on_sliderAttenuation_valueChanged(int value) { ui->spinBoxAttenuation->setValue(value); }
@@ -955,8 +947,8 @@ public slots:
     void on_SwitcherTriggers_V_clicked     (bool checked) { FEE.apply_V_ENABLED       (!checked); }
 
     void on_radioButtonAandC_clicked(bool checked) { if (checked) FEE.apply_C_SC_TRG_MODE(0); }
-    void on_radioButtonA_clicked    (bool checked) { if (checked) FEE.apply_C_SC_TRG_MODE(1); }
-    void on_radioButtonC_clicked    (bool checked) { if (checked) FEE.apply_C_SC_TRG_MODE(2); }
+    void on_radioButtonC_clicked    (bool checked) { if (checked) FEE.apply_C_SC_TRG_MODE(1); }
+    void on_radioButtonA_clicked    (bool checked) { if (checked) FEE.apply_C_SC_TRG_MODE(2); }
     void on_radioButtonSum_clicked  (bool checked) { if (checked) FEE.apply_C_SC_TRG_MODE(3); }
 
     void on_radioButtonForceLocal_clicked(bool checked) { FEE.apply_RESET_SYSTEM( checked); }
@@ -1009,7 +1001,7 @@ public slots:
 
     void on_lineEditORgate_textEdited       (const QString text) { FEE.curPM->set.OR_GATE  = text.toUInt(); }
     void on_lineEditCFDsaturation_textEdited(const QString text) { FEE.curPM->set.CFD_SATR = text.toUInt(); }
-    void on_lineEditChannelMask_textEdited  () { FEE.curPM->set.CH_MASK = ui->lineEditChannelMask->displayText().toUInt(&ok, 16); }
+    void on_lineEditChannelMask_textEdited  () { FEE.curPM->set.CH_MASK_DATA = ui->lineEditChannelMask->displayText().toUInt(&ok, 16); }
     void on_buttonApplyORgate_clicked       () { FEE.apply_OR_GATE (FEE.selectedBoard); }
     void on_buttonApplyCFDsaturation_clicked() { FEE.apply_CFD_SATR(FEE.selectedBoard); }
     void on_buttonApplyChannelMask_clicked  () { FEE.apply_CH_MASK (FEE.selectedBoard); }

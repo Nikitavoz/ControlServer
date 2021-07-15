@@ -20,7 +20,7 @@ struct TypePM {
                         value              :12, //│
                         blockTriggers      : 1, //│01-0C
                                            :19; //│
-                }       TIME_ALIGN  [12]      ; //┘
+                }      timeAlignment[12]      ; //┘
                 quint32 ADC_BASELINE[12][2]   , //]0D-24 //[Ch][0] for ADC0, [Ch][1] for ADC1
                         ADC_RANGE   [12][2]   , //]25-3C
                         CFD_SATR              ; //]3D
@@ -32,8 +32,8 @@ struct TypePM {
                 quint8  RAW_TDC_DATA[12][4]   ; //]40-4B //[Ch][0] for val1, [Ch][1] for val2
                 quint32 DISPERSION  [12][2]   ; //]4C-63
                 qint16  MEANAMPL    [12][2][2]; //]64-7B //[Ch][0][0] for ADC0, [Ch][1][0] for ADC1
-                quint32 CH_MASK               , //]7C
-                        CH_BASELINES_NOK          ; //]7D
+                quint32 CH_MASK_DATA          , //]7C
+                        CH_BASELINES_NOK      ; //]7D
             };
         };
         union { //block1
@@ -88,7 +88,7 @@ struct TypePM {
                         voltage1_8;             //]FE
             };
         };
-        Timestamp FW_TIME_FPGA;						//]FF
+        Timestamp FW_TIME_FPGA;                 //]FF
 //calculable parameters
         double
             TEMP_BOARD,
@@ -96,17 +96,23 @@ struct TypePM {
             VOLTAGE_1V,
             VOLTAGE_1_8V,
             RMS_Ch[12][2]; //[Ch][0] for ADC0, [Ch][1] for ADC1
-        qint16 timeAlignment[12];
+        qint16
+            TIME_ALIGN[12]  ,
+            TRG_CNT_MODE    ,
+            CH_MASK_TRG     ;
         char BOARD_TYPE[4] = {0};
         void calculateValues() {
             TEMP_BOARD   = boardTemperature / 10.;
             TEMP_FPGA    = FPGAtemperature  * 503.975 / 65536 - 273.15;
             VOLTAGE_1V   = voltage1         *   3.    / 65536;
             VOLTAGE_1_8V = voltage1_8       *   3.    / 65536;
+            CH_MASK_TRG = 0;
             for (quint8 iCh=0; iCh<12; ++iCh) {
                 RMS_Ch[iCh][0] = sqrt(DISPERSION[iCh][0]);
                 RMS_Ch[iCh][1] = sqrt(DISPERSION[iCh][1]);
-                timeAlignment[iCh] = TIME_ALIGN[iCh].value;
+                TIME_ALIGN[iCh] = timeAlignment[iCh].value;
+                CH_MASK_TRG |= !timeAlignment[iCh].blockTriggers << iCh;
+                TRG_CNT_MODE = TRGcountMode;
             }
             memcpy(BOARD_TYPE, FIT[boardType].name, 4);
         }
@@ -139,7 +145,7 @@ struct TypePM {
                         CFD_SATR               ; //]3D
             };
         };
-        quint32 CH_MASK;                         //]7C
+        quint32 CH_MASK_DATA;                    //]7C
         union { //block2
             quint32 registers2[block2size] = {0};
             char pointer2[block2size * sizeof(quint32)];
@@ -188,6 +194,7 @@ struct TypePM {
     } counters;
 
     QList<DimService *> services;
+    QHash<DimCommand *, void (*)()> commands;
     quint16 &FEEid = *((quint16 *)(set.GBT.registers+9) + 1);
 	const quint16 baseAddress;
     const char *name;
@@ -206,7 +213,7 @@ const QHash<QString, Parameter> PMparameters = {
     {"ADC0_RANGE"           , {0x25, 32,  0,    2}},
     {"ADC1_RANGE"           , {0x26, 32,  0,    2}},
     {"CFD_SATR"             ,  0x3D               },
-    {"CH_MASK"              ,  0x7C               },
+    {"CH_MASK_DATA"         ,  0x7C               },
     {"TRG_COUNT_MODE"       , {0x7F,  1, 10}      },
     {"CFD_THRESHOLD"        , {0x80, 32,  0,    4}},
     {"CFD_ZERO"             , {0x81, 32,  0,    4}},
