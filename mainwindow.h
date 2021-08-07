@@ -222,6 +222,7 @@ public:
         allWidgets    = ui->centralWidget->findChildren<QWidget *>();
 
         ui->groupBoxPM->setVisible(false);
+
 //initial scaling (a label with fontsize 10 (Calibri) has pixelsize of 13 without system scaling and e.g. 20 at 150% scaling so widgets size should be recalculated)
         sz = ui->labelTextLinkOK->fontInfo().pixelSize();
         resize(lround(width()*sz/13.), lround(690*sz/13.)); //mainWindow
@@ -390,13 +391,12 @@ public:
 
 public slots:
     bool fileWrite(QString fileName) {
-        QSettings PMsettings(fileName, QSettings::IniFormat);
-        //PMsettings.setValue("CH_MASK", FEE.curPM)
+//        QSettings PMsettings(fileName, QSettings::IniFormat);
         return true;
     }
 
     bool fileRead(QString fileName) {
-        QSettings PMsettings(fileName, QSettings::IniFormat);
+//        QSettings PMsettings(fileName, QSettings::IniFormat);
 
         return true;
     }
@@ -638,7 +638,7 @@ public slots:
                 case 2 : ui->labelValueRestartCode->setText("PLL relock" ); ui->labelValueRestartCode->setStyleSheet(notOKstyle); break;
                 case 3 : ui->labelValueRestartCode->setText("SPI command"); ui->labelValueRestartCode->setStyleSheet(   OKstyle); break;
             }
-            FEE.curPM->act.TRGcountMode ? ui->radioButtonCFDinGate->setChecked(true) : ui->radioButtonStrict->setChecked(true);
+            FEE.curPM->act.TRG_CNT_MODE ? ui->radioButtonCFDinGate->setChecked(true) : ui->radioButtonStrict->setChecked(true);
             ui->labelValueChannelMask->setText(QString::asprintf("%03X", FEE.curPM->act.CH_MASK_DATA));
             ui->labelIconSyncErrorTDC1->setPixmap(FEE.curPM->act.TDC1syncError ? Red1 : Green0);
             ui->labelIconSyncErrorTDC2->setPixmap(FEE.curPM->act.TDC2syncError ? Red1 : Green0);
@@ -1004,10 +1004,10 @@ public slots:
     void on_lineEditChannelMask_textEdited  () { FEE.curPM->set.CH_MASK_DATA = ui->lineEditChannelMask->displayText().toUInt(&ok, 16); }
     void on_buttonApplyORgate_clicked       () { FEE.apply_OR_GATE (FEE.selectedBoard); }
     void on_buttonApplyCFDsaturation_clicked() { FEE.apply_CFD_SATR(FEE.selectedBoard); }
-    void on_buttonApplyChannelMask_clicked  () { FEE.apply_CH_MASK (FEE.selectedBoard); }
+    void on_buttonApplyChannelMask_clicked  () { FEE.apply_CH_MASK_DATA (FEE.selectedBoard); }
 
-    void on_radioButtonStrict_clicked    () { FEE.apply_TRG_COUNT_MODE(FEE.selectedBoard, false); }
-    void on_radioButtonCFDinGate_clicked () { FEE.apply_TRG_COUNT_MODE(FEE.selectedBoard, true ); }
+    void on_radioButtonStrict_clicked    () { FEE.apply_TRG_CNT_MODE(FEE.selectedBoard, false); }
+    void on_radioButtonCFDinGate_clicked () { FEE.apply_TRG_CNT_MODE(FEE.selectedBoard, true ); }
 
 private:
     Ui::MainWindow *ui;

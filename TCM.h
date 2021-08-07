@@ -13,7 +13,7 @@ extern double phaseStepLaser_ns, phaseStep_ns;
 struct TypeTCM {
     struct ActualValues {
         static const quint8// size = end_address + 1 - start_address
-            block0addr = 0x00, block0size = 0x1F + 1 - block0addr, //32
+            block0addr = 0x00, block0size = 0x1E + 1 - block0addr, //31
             block1addr = 0x30, block1size = 0x3A + 1 - block1addr, //11
             block2addr = 0x60, block2size = 0x6A + 1 - block2addr, //11
 			block3addr = 0xFC, block3size = 0xFE + 1 - block3addr; // 3
@@ -333,6 +333,7 @@ struct TypeTCM {
         };
         quint32 Old[number] = {0};
 		double rate[number] = {0.};
+        QList<DimService *> services;
     } counters;
 
     QList<DimService *> services;

@@ -194,27 +194,30 @@ struct TypePM {
     } counters;
 
     QList<DimService *> services;
-    QHash<DimCommand *, void (*)()> commands;
+    QList<DimCommand *> commands;
+    QHash<QString, DimService *> servicesNew;
     quint16 &FEEid = *((quint16 *)(set.GBT.registers+9) + 1);
 	const quint16 baseAddress;
     const char *name;
-    TypePM(quint16 addr, const char *PMname) : baseAddress(addr), name(PMname) {}
 
     bool clockSyncOK() { return act.mainPLLlocked && act.TDC1PLLlocked && act.TDC2PLLlocked && act.TDC3PLLlocked && !act.TDC1syncError && !act.TDC2syncError && !act.TDC3syncError; }
     //bool clockSyncOK() { return !((act.registers1[0] ^ 0xF) & 0x1CF); }
+
+    TypePM(quint16 addr, const char *PMname) : baseAddress(addr), name(PMname) {}
 };
 
 const QHash<QString, Parameter> PMparameters = {
     //name                  address width shift interval
     {"OR_GATE"              ,  0x00               },
     {"TIME_ALIGN"           , {0x01, 12,  0,    1}},
+    {"CH_TRG_BLOCK"         , {0x01,  1, 12,    1}},
     {"ADC0_OFFSET"          , {0x0D, 32,  0,    2}},
     {"ADC1_OFFSET"          , {0x0E, 32,  0,    2}},
     {"ADC0_RANGE"           , {0x25, 32,  0,    2}},
     {"ADC1_RANGE"           , {0x26, 32,  0,    2}},
     {"CFD_SATR"             ,  0x3D               },
     {"CH_MASK_DATA"         ,  0x7C               },
-    {"TRG_COUNT_MODE"       , {0x7F,  1, 10}      },
+    {"TRG_CNT_MODE"         , {0x7F,  1, 10}      },
     {"CFD_THRESHOLD"        , {0x80, 32,  0,    4}},
     {"CFD_ZERO"             , {0x81, 32,  0,    4}},
     {"ADC_ZERO"             , {0x82, 32,  0,    4}},

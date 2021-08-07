@@ -6,6 +6,7 @@
 #include <QDateTime>
 #include <QVector>
 #include "DIM/dim/dis.hxx"
+#include <functional>
 
 enum TypeFITsubdetector {FT0=1, FV0=2, FDD=3};
 inline TypeFITsubdetector getSubdetectorTypeByName(QString s) {
@@ -13,13 +14,13 @@ inline TypeFITsubdetector getSubdetectorTypeByName(QString s) {
     if (s == "FDD") return FDD;
     else return FT0;
 }
-const struct TypeFITconstants{
-    char name[4]; quint16 TCMid;
+const struct TypeFITconstants {
+    char name[4]; quint16 TCMid; quint8 systemID;
 } FIT[4] = {
-    {    "???",          0xFFFF },
-    {    "FT0",          0xF000 },
-    {    "FV0",          0xF500 },
-    {    "FDD",          0xFDD0 }
+    {    "???",          0xFFFF,         0 },
+    {    "FT0",          0xF000,        34 },
+    {    "FV0",          0xF500,        35 },
+    {    "FDD",          0xFD00,        33 }
 };
 
 struct GBTunit { // 32 registers * 4 bytes = 128 bytes
@@ -146,8 +147,7 @@ const QHash<QString, Parameter> GBTparameters = {
     {"READOUT_LOCK"         , {0xD8,  1, 22}},
     {"DG_TRG_RESPOND_MASK"  ,  0xD9         },
     {"DG_BUNCH_PATTERN"     ,  0xDA         },
-    {"TG_PATTERN_1"         ,  0xDC         },
-    {"TG_PATTERN_0"         ,  0xDD         },
+    {"TG_PATTERN"           , {0xDC, 64,  0}},
     {"TG_CONT_VALUE"        ,  0xDE         },
     {"DG_BUNCH_FREQ"        , {0xDF, 16,  0}},
     {"TG_BUNCH_FREQ"        , {0xDF, 16, 16}},

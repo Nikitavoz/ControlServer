@@ -28,6 +28,7 @@ public:
     quint16 updatePeriod_ms = 1000;
 
     IPbusTarget(quint16 lport = 0) : localport(lport) {
+        qRegisterMetaType<errorType>("errorType");
         request[0] = PacketHeader(control, 0);
         updateTimer->setTimerType(Qt::PreciseTimer);
         connect(updateTimer, &QTimer::timeout, this, [=]() { if (isOnline) sync(); else checkStatus(); });
