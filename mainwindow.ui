@@ -5583,7 +5583,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>32767</string>
+        <string>4095</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -5631,7 +5631,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>32767</string>
+        <string>4095</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -7650,7 +7650,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>-32768</string>
+        <string>-100</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -7794,7 +7794,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>-32768</string>
+        <string>-100</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -9717,7 +9717,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>32767</string>
+        <string>4095</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -9765,7 +9765,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>32767</string>
+        <string>4095</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -11781,7 +11781,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>-32768</string>
+        <string>-100</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -11925,7 +11925,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>-32768</string>
+        <string>-100</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -13848,7 +13848,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>32767</string>
+        <string>4095</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -13896,7 +13896,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>32767</string>
+        <string>4095</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -15915,7 +15915,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>-32768</string>
+        <string>-100</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -16059,7 +16059,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>-32768</string>
+        <string>-100</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -17982,7 +17982,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>32767</string>
+        <string>4095</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -18030,7 +18030,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>32767</string>
+        <string>4095</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -20046,7 +20046,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>-32768</string>
+        <string>-100</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -20190,7 +20190,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>-32768</string>
+        <string>-100</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -22113,7 +22113,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>32767</string>
+        <string>4095</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -22161,7 +22161,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>32767</string>
+        <string>4095</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -24177,7 +24177,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>-32768</string>
+        <string>-100</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -24321,7 +24321,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>-32768</string>
+        <string>-100</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -26241,7 +26241,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>32767</string>
+        <string>4095</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -26289,7 +26289,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>32767</string>
+        <string>4095</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -28308,7 +28308,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>-32768</string>
+        <string>-100</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -28452,7 +28452,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>-32768</string>
+        <string>-100</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -30654,7 +30654,7 @@ correction</string>
       <string notr="true"/>
      </property>
      <property name="title">
-      <string>Pretrigger sync</string>
+      <string>TRG sync</string>
      </property>
      <widget class="QLabel" name="labelValueHDMIdelay0">
       <property name="geometry">
@@ -42315,10 +42315,10 @@ Central</string>
         <locale language="English" country="World"/>
        </property>
        <property name="inputMask">
-        <string notr="true">&gt;HHHHHHHH HHHHHHHH;0</string>
+        <string notr="true">&gt;HHHHHHHH HHHHHHHH;0</string>
        </property>
        <property name="text">
-        <string>FFFFFFFF FFFFFFFF</string>
+        <string>FFFFFFFF FFFFFFFF</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -54271,10 +54271,10 @@ errors</string>
        <locale language="English" country="World"/>
       </property>
       <property name="inputMask">
-       <string notr="true">&gt;HHHHHHHH HHHHHHHH;0</string>
+       <string notr="true">&gt;HHHHHHHH HHHHHHHH;0</string>
       </property>
       <property name="text">
-       <string>FFFFFFFF FFFFFFFF</string>
+       <string>FFFFFFFF FFFFFFFF</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

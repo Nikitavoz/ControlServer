@@ -39,9 +39,9 @@ struct GBTunit { // 32 registers * 4 bytes = 128 bytes
                                      :  9, //┘
                 DG_TRG_RESPOND_MASK,       //]D9
                 DG_BUNCH_PATTERN,          //]DA
-                TG_SINGLE_VALUE,           //]DB
-                TG_PATTERN_1,              //]DC
-                TG_PATTERN_0,              //]DD
+				TG_SINGLE_VALUE,           //]DB
+				TGpatternMSB,			   //]DC
+				TGpatternLSB,			   //]DD
                 TG_CONT_VALUE,             //]DE
                 DG_BUNCH_FREQ        : 16, //┐
                 TG_BUNCH_FREQ        : 16, //┘DF
@@ -60,6 +60,10 @@ struct GBTunit { // 32 registers * 4 bytes = 128 bytes
                 DATA_SEL_TRG_MASK        , //]E4
                 reserved[3]              ; //]E5-E7
 		};
+		struct TypeTGpattern {
+			operator quint64() const { return quint64(((ControlData *)this)->TGpatternMSB) << 32 | ((ControlData *)this)->TGpatternLSB; }
+			TypeTGpattern &operator= (quint64 v) { ((ControlData *)this)->TGpatternLSB = v; ((ControlData *)this)->TGpatternMSB = v >> 32; return *this; }
+		} TG_PATTERN;
 	} Control;
     union StatusData {
 		quint32 registers[16] = {0};
@@ -174,8 +178,8 @@ struct Timestamp {
 	QString printFull() { return QString::asprintf("20%02d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second); }
 	QString printISO () { return QString::asprintf("20%02d-%02d-%02dT%02d:%02d:%02d", year, month, day, hour, minute, second); }
 	static constexpr char alph[65] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz|~";
-	QString printCode1() { //from "011.a0" (start of 2020) to "hCV.xx" (end of 2063), minute accuracy
-		return *(quint32 *)(this)==0 ? "000000" : QString::asprintf("%c%X%c.%c%c", alph[(year - 20)%64], month, alph[day], 'a' + hour, alph[minute]);
+	QString printCode1() { //from "011.a0" (start of 2020) to "hCV.Nx" (end of 2063), minute accuracy
+		return *(quint32 *)(this)==0 ? "000000" : QString::asprintf("%c%c%c.%c%c", alph[(year - 20) % 64], alph[month], alph[day], alph[hour], alph[minute]);
 	}
 	QString printCode2() { //from "0GW0" (start of 2020) to "~Ftx" (end of 2035), minute accuracy
 		QString res(4);

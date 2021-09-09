@@ -66,15 +66,6 @@ public:
             //if (fullSyncTimer->isActive()) fullSyncTimer->stop();
         });
         connect(this, &IPbusTarget::IPbusStatusOK, this, [=]() { if (TCM.services.isEmpty()) createTCMservices(); });
-        connect(this, &FITelectronics::linksStatusReady, this, [=]() {
-            for (quint8 i=0; i<20; ++i) {
-                if (TCM.act.PM_MASK_SPI >> i & 1) {
-                    if (allPMs[i].services.isEmpty()) createPMservices(allPMs + i);
-                } else {
-                    deletePMservices(allPMs + i);
-                }
-            }
-        });
         DIMserver.start(qPrintable(QString(FIT[sd].name) + "_DIM_SERVER"));
     }
 
@@ -110,10 +101,13 @@ public:
         pm->services.append(new DimService(qPrintable(prefix+"GBT/status/BITS"        ), "I", pm->act.GBT.Status.pointer, 4));
 
         pm->servicesNew.insert("CFD_SATR", new DimService(qPrintable(prefix+"control/CFD_SATR""/new"), "S", &pm->set.CFD_SATR    , 2));
-        pm->servicesNew.insert("OR_GATE" , new DimService(qPrintable(prefix+"control/OR_GATE ""/new"), "S", &pm->set.OR_GATE     , 2));
+		pm->servicesNew.insert("OR_GATE" , new DimService(qPrintable(prefix+"control/OR_GATE" "/new"), "S", &pm->set.OR_GATE     , 2));
 
         addCommand(pm->commands, prefix+"control/TRG_CNT_MODE""/apply", "S", [=](DimCommand *c) { apply_TRG_CNT_MODE(pm->FEEid, c->getShort()); });
         addCommand(pm->commands, prefix+"control/CFD_SATR"    "/apply", "S", [=](DimCommand * ) { apply_CFD_SATR(pm->FEEid); });
+		addCommand(pm->commands, prefix+"control/OR_GATE"     "/apply", "S", [=](DimCommand * ) { apply_OR_GATE(pm->FEEid); });
+		addCommand(pm->commands, prefix+"control/RESET_COUNTERS"	  , "S", [=](DimCommand * ) { apply_RESET_COUNTERS(pm->FEEid); });
+		addCommand(pm->commands, prefix+"control/switchTRGsync"		  , "S", [=](DimCommand *c) { apply_SwChOn(pm->FEEid, c->getShort()); });
         addCommand(pm->commands, prefix+"control/CH_MASK_DATA""/apply", "I", [=](DimCommand *c) { pm->set.CH_MASK_DATA = c->getShort(); apply_CH_MASK_DATA(pm->FEEid); });
         addCommand(pm->commands, prefix+"control/CH_MASK_TRG" "/apply", "I", [=](DimCommand *c) {
             quint16 mask = c->getShort();
@@ -121,74 +115,76 @@ public:
             apply_CH_MASK_TRG(pm->FEEid);
         });
 
-        addCommand(pm->commands, prefix+"control/CFD_SATR"    "/set", "S", [=](DimCommand *c) { pm->set.CFD_SATR = c->getShort(); pm->servicesNew["CFD_SATR"]->updateService(); });
-        addCommand(pm->commands, prefix+"control/OR_GATE"     "/set", "S", [=](DimCommand *c) { pm->set.OR_GATE  = c->getShort(); pm->servicesNew["OR_GATE" ]->updateService(); });
 
+		addCommand(pm->commands, prefix+"control/CFD_SATR""/set", "S", [=](DimCommand *c) { pm->set.CFD_SATR = c->getShort(); pm->servicesNew["CFD_SATR"]->updateService(); });
+		addCommand(pm->commands, prefix+"control/OR_GATE" "/set", "S", [=](DimCommand *c) { pm->set.OR_GATE  = c->getShort(); pm->servicesNew["OR_GATE" ]->updateService(); });
 
         for (quint8 iCh=0; iCh<12; ++iCh) {
-            QString prefix = QString::asprintf("%s/PM%s/Ch%02d/", FIT[subdetector].name, pm->name, iCh + 1);
-            char ch[6] = {0}; sprintf(ch, "Ch%02d", iCh + 1);
-            pm->services.append(new DimService(qPrintable(prefix+"status/ADC0_BASELINE"), "S", &pm->act.ADC_BASELINE[iCh][0]   , 2));
-            pm->services.append(new DimService(qPrintable(prefix+"status/ADC1_BASELINE"), "S", &pm->act.ADC_BASELINE[iCh][1]   , 2));
-            pm->services.append(new DimService(qPrintable(prefix+"status/ADC0_MEANAMPL"), "S", &pm->act.MEANAMPL    [iCh][0][0], 2));
-            pm->services.append(new DimService(qPrintable(prefix+"status/ADC1_MEANAMPL"), "S", &pm->act.MEANAMPL    [iCh][1][0], 2));
-            pm->services.append(new DimService(qPrintable(prefix+"status/ADC0_RMS"     ), "D", &pm->act.RMS_Ch      [iCh][0]   , 8));
-            pm->services.append(new DimService(qPrintable(prefix+"status/ADC1_RMS"     ), "D", &pm->act.RMS_Ch      [iCh][1]   , 8));
-            pm->counters.services.append(new DimService(qPrintable(prefix+"status/CNT_CFD"), "I", &pm->counters.Ch[iCh].CFD, 4));
-            pm->counters.services.append(new DimService(qPrintable(prefix+"status/CNT_TRG"), "I", &pm->counters.Ch[iCh].TRG, 4));
-            pm->counters.services.append(new DimService(qPrintable(prefix+"status/CNT_RATE_CFD"), "D", &pm->counters.rateCh[iCh].CFD, 8));
-            pm->counters.services.append(new DimService(qPrintable(prefix+"status/CNT_RATE_TRG"), "D", &pm->counters.rateCh[iCh].TRG, 8));
-            pm->services.append(new DimService(qPrintable(prefix+"control/TIME_ALIGN"    "/actual"), "S", pm->act.TIME_ALIGN + iCh, 2));
-            pm->services.append(new DimService(qPrintable(prefix+"status/ADC0_RANGE"     "/actual"), "S", &pm->act.ADC_RANGE   [iCh][0] , 2));
-            pm->services.append(new DimService(qPrintable(prefix+"status/ADC1_RANGE"     "/actual"), "S", &pm->act.ADC_RANGE   [iCh][1] , 2));
-            pm->services.append(new DimService(qPrintable(prefix+"control/CFD_THRESHOLD" "/actual"), "S", (qint16 *)&pm->act.Ch[iCh]    , 2));
-            pm->services.append(new DimService(qPrintable(prefix+"control/CFD_ZERO"      "/actual"), "S", (qint16 *)&pm->act.Ch[iCh] + 2, 2));
-            pm->services.append(new DimService(qPrintable(prefix+"control/ADC_ZERO"      "/actual"), "S", (qint16 *)&pm->act.Ch[iCh] + 4, 2));
-            pm->services.append(new DimService(qPrintable(prefix+"control/ADC_DELAY"     "/actual"), "S", (qint16 *)&pm->act.Ch[iCh] + 6, 2));
-            pm->services.append(new DimService(qPrintable(prefix+"control/THRESHOLD_CALIBR/actual"), "S", (qint16 *)&pm->act.THRESHOLD_CALIBR[iCh], 2));
+			QString ch = QString::asprintf("Ch%02d/", iCh + 1);
+            pm->services.append(new DimService(qPrintable(prefix+ch+"status/ADC0_BASELINE"), "S", &pm->act.ADC_BASELINE[iCh][0]   , 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"status/ADC1_BASELINE"), "S", &pm->act.ADC_BASELINE[iCh][1]   , 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"status/ADC0_MEANAMPL"), "S", &pm->act.MEANAMPL    [iCh][0][0], 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"status/ADC1_MEANAMPL"), "S", &pm->act.MEANAMPL    [iCh][1][0], 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"status/ADC0_RMS"     ), "D", &pm->act.RMS_Ch      [iCh][0]   , 8));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"status/ADC1_RMS"     ), "D", &pm->act.RMS_Ch      [iCh][1]   , 8));
+            pm->counters.services.append(new DimService(qPrintable(prefix+ch+"status/CNT_CFD"), "I", &pm->counters.Ch[iCh].CFD, 4));
+            pm->counters.services.append(new DimService(qPrintable(prefix+ch+"status/CNT_TRG"), "I", &pm->counters.Ch[iCh].TRG, 4));
+            pm->counters.services.append(new DimService(qPrintable(prefix+ch+"status/CNT_RATE_CFD"), "D", &pm->counters.rateCh[iCh].CFD, 8));
+            pm->counters.services.append(new DimService(qPrintable(prefix+ch+"status/CNT_RATE_TRG"), "D", &pm->counters.rateCh[iCh].TRG, 8));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"control/TIME_ALIGN"    "/actual"), "S", pm->act.TIME_ALIGN + iCh, 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"control/ADC0_RANGE"    "/actual"), "S", &pm->act.ADC_RANGE   [iCh][0] , 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"control/ADC1_RANGE"    "/actual"), "S", &pm->act.ADC_RANGE   [iCh][1] , 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"control/CFD_THRESHOLD" "/actual"), "S", (qint16 *)&pm->act.Ch[iCh]    , 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"control/CFD_ZERO"      "/actual"), "S", (qint16 *)&pm->act.Ch[iCh] + 2, 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"control/ADC_ZERO"      "/actual"), "S", (qint16 *)&pm->act.Ch[iCh] + 4, 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"control/ADC_DELAY"     "/actual"), "S", (qint16 *)&pm->act.Ch[iCh] + 6, 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"control/THRESHOLD_CALIBR/actual"), "S", (qint16 *)&pm->act.THRESHOLD_CALIBR[iCh], 2));
 
-            pm->servicesNew.insert(QString(ch)+"/TIME_ALIGN"      , new DimService(qPrintable(QString::asprintf("%s/PM%s/%s/control/TIME_ALIGN"    "/new", FIT[subdetector].name, pm->name, ch)), "S", pm->set.TIME_ALIGN + iCh, 2));
-            pm->servicesNew.insert(QString(ch)+"/ADC0_RANGE"      , new DimService(qPrintable(QString::asprintf("%s/PM%s/%s/control/ADC0_RANGE"    "/new", FIT[subdetector].name, pm->name, ch)), "S", &pm->set.ADC_RANGE   [iCh][0] , 2));
-            pm->servicesNew.insert(QString(ch)+"/ADC1_RANGE"      , new DimService(qPrintable(QString::asprintf("%s/PM%s/%s/control/ADC1_RANGE"    "/new", FIT[subdetector].name, pm->name, ch)), "S", &pm->set.ADC_RANGE   [iCh][1] , 2));
-            pm->servicesNew.insert(QString(ch)+"/CFD_THRESHOLD"   , new DimService(qPrintable(QString::asprintf("%s/PM%s/%s/control/CFD_THRESHOLD" "/new", FIT[subdetector].name, pm->name, ch)), "S", (qint16 *)&pm->set.Ch[iCh]    , 2));
-            pm->servicesNew.insert(QString(ch)+"/CFD_ZERO"        , new DimService(qPrintable(QString::asprintf("%s/PM%s/%s/control/CFD_ZERO"      "/new", FIT[subdetector].name, pm->name, ch)), "S", (qint16 *)&pm->set.Ch[iCh] + 2, 2));
-            pm->servicesNew.insert(QString(ch)+"/ADC_ZERO"        , new DimService(qPrintable(QString::asprintf("%s/PM%s/%s/control/ADC_ZERO"      "/new", FIT[subdetector].name, pm->name, ch)), "S", (qint16 *)&pm->set.Ch[iCh] + 4, 2));
-            pm->servicesNew.insert(QString(ch)+"/ADC_DELAY"       , new DimService(qPrintable(QString::asprintf("%s/PM%s/%s/control/ADC_DELAY"     "/new", FIT[subdetector].name, pm->name, ch)), "S", (qint16 *)&pm->set.Ch[iCh] + 6, 2));
-            pm->servicesNew.insert(QString(ch)+"/THRESHOLD_CALIBR", new DimService(qPrintable(QString::asprintf("%s/PM%s/%s/control/THRESHOLD_CALIBR/new", FIT[subdetector].name, pm->name, ch)), "S", (qint16 *)&pm->set.THRESHOLD_CALIBR[iCh], 2));
+			pm->servicesNew.insert(ch+"TIME_ALIGN"      , new DimService(qPrintable(prefix+ch+"control/TIME_ALIGN"    "/new"), "S", pm->set.TIME_ALIGN +  iCh	  , 2));
+			pm->servicesNew.insert(ch+"ADC0_RANGE"      , new DimService(qPrintable(prefix+ch+"control/ADC0_RANGE"    "/new"), "S", &pm->set.ADC_RANGE   [iCh][0] , 2));
+			pm->servicesNew.insert(ch+"ADC1_RANGE"      , new DimService(qPrintable(prefix+ch+"control/ADC1_RANGE"    "/new"), "S", &pm->set.ADC_RANGE   [iCh][1] , 2));
+			pm->servicesNew.insert(ch+"CFD_THRESHOLD"   , new DimService(qPrintable(prefix+ch+"control/CFD_THRESHOLD" "/new"), "S", (qint16 *)&pm->set.Ch[iCh]    , 2));
+			pm->servicesNew.insert(ch+"CFD_ZERO"        , new DimService(qPrintable(prefix+ch+"control/CFD_ZERO"      "/new"), "S", (qint16 *)&pm->set.Ch[iCh] + 2, 2));
+			pm->servicesNew.insert(ch+"ADC_ZERO"        , new DimService(qPrintable(prefix+ch+"control/ADC_ZERO"      "/new"), "S", (qint16 *)&pm->set.Ch[iCh] + 4, 2));
+			pm->servicesNew.insert(ch+"ADC_DELAY"       , new DimService(qPrintable(prefix+ch+"control/ADC_DELAY"     "/new"), "S", (qint16 *)&pm->set.Ch[iCh] + 6, 2));
+			pm->servicesNew.insert(ch+"THRESHOLD_CALIBR", new DimService(qPrintable(prefix+ch+"control/THRESHOLD_CALIBR/new"), "S", (qint16 *)&pm->set.THRESHOLD_CALIBR[iCh], 2));
 
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/TIME_ALIGN"    "/set", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *c) { pm->set.TIME_ALIGN[iCh].value = c->getShort(); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/ADC0_RANGE"    "/set", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *c) { pm->set.ADC_RANGE[iCh][0]     = c->getShort(); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/ADC1_RANGE"    "/set", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *c) { pm->set.ADC_RANGE[iCh][1]     = c->getShort(); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/CFD_THRESHOLD" "/set", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *c) { pm->set.Ch[iCh].CFD_THRESHOLD = c->getShort(); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/CFD_ZERO"      "/set", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *c) { pm->set.Ch[iCh].CFD_ZERO      = c->getShort(); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/ADC_ZERO"      "/set", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *c) { pm->set.Ch[iCh].ADC_ZERO      = c->getShort(); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/ADC_DELAY"     "/set", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *c) { pm->set.Ch[iCh].ADC_DELAY     = c->getShort(); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/THRESHOLD_CALIBR/set", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *c) { pm->set.THRESHOLD_CALIBR[iCh] = c->getShort(); });
+			addCommand(pm->commands, prefix+ch+"control/TIME_ALIGN"    "/set", "S", [=](DimCommand *c) { pm->set.TIME_ALIGN[iCh].value = c->getShort(); pm->servicesNew[ch+"TIME_ALIGN"      ]->updateService(); });
+			addCommand(pm->commands, prefix+ch+"control/ADC0_RANGE"    "/set", "S", [=](DimCommand *c) { pm->set.ADC_RANGE[iCh][0]     = c->getShort(); pm->servicesNew[ch+"ADC0_RANGE"      ]->updateService(); });
+			addCommand(pm->commands, prefix+ch+"control/ADC1_RANGE"    "/set", "S", [=](DimCommand *c) { pm->set.ADC_RANGE[iCh][1]     = c->getShort(); pm->servicesNew[ch+"ADC1_RANGE"      ]->updateService(); });
+			addCommand(pm->commands, prefix+ch+"control/CFD_THRESHOLD" "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].CFD_THRESHOLD = c->getShort(); pm->servicesNew[ch+"CFD_THRESHOLD"   ]->updateService(); });
+			addCommand(pm->commands, prefix+ch+"control/CFD_ZERO"      "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].CFD_ZERO      = c->getShort(); pm->servicesNew[ch+"CFD_ZERO"        ]->updateService(); });
+			addCommand(pm->commands, prefix+ch+"control/ADC_ZERO"      "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].ADC_ZERO      = c->getShort(); pm->servicesNew[ch+"ADC_ZERO"        ]->updateService(); });
+			addCommand(pm->commands, prefix+ch+"control/ADC_DELAY"     "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].ADC_DELAY     = c->getShort(); pm->servicesNew[ch+"ADC_DELAY"       ]->updateService(); });
+			addCommand(pm->commands, prefix+ch+"control/THRESHOLD_CALIBR/set", "S", [=](DimCommand *c) { pm->set.THRESHOLD_CALIBR[iCh] = c->getShort(); pm->servicesNew[ch+"THRESHOLD_CALIBR"]->updateService(); });
 
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/TIME_ALIGN"    "/apply", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *) { apply_TIME_ALIGN      (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/ADC0_RANGE"    "/apply", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *) { apply_ADC0_RANGE      (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/ADC1_RANGE"    "/apply", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *) { apply_ADC1_RANGE      (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/CFD_THRESHOLD" "/apply", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *) { apply_CFD_THRESHOLD   (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/CFD_ZERO"      "/apply", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *) { apply_CFD_ZERO        (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/ADC_ZERO"      "/apply", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *) { apply_ADC_ZERO        (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/ADC_DELAY"     "/apply", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *) { apply_ADC_DELAY       (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, QString::asprintf("%s/PM%s/%s/control/THRESHOLD_CALIBR/apply", FIT[subdetector].name, pm->name, ch), "S", [=](DimCommand *) { apply_THRESHOLD_CALIBR(pm->FEEid, iCh+1); });
+			addCommand(pm->commands, prefix+ch+"control/TIME_ALIGN"    "/apply", "S", [=](DimCommand *) { apply_TIME_ALIGN      (pm->FEEid, iCh+1); });
+			addCommand(pm->commands, prefix+ch+"control/ADC0_RANGE"    "/apply", "S", [=](DimCommand *) { apply_ADC0_RANGE      (pm->FEEid, iCh+1); });
+			addCommand(pm->commands, prefix+ch+"control/ADC1_RANGE"    "/apply", "S", [=](DimCommand *) { apply_ADC1_RANGE      (pm->FEEid, iCh+1); });
+			addCommand(pm->commands, prefix+ch+"control/CFD_THRESHOLD" "/apply", "S", [=](DimCommand *) { apply_CFD_THRESHOLD   (pm->FEEid, iCh+1); });
+			addCommand(pm->commands, prefix+ch+"control/CFD_ZERO"      "/apply", "S", [=](DimCommand *) { apply_CFD_ZERO        (pm->FEEid, iCh+1); });
+			addCommand(pm->commands, prefix+ch+"control/ADC_ZERO"      "/apply", "S", [=](DimCommand *) { apply_ADC_ZERO        (pm->FEEid, iCh+1); });
+			addCommand(pm->commands, prefix+ch+"control/ADC_DELAY"     "/apply", "S", [=](DimCommand *) { apply_ADC_DELAY       (pm->FEEid, iCh+1); });
+			addCommand(pm->commands, prefix+ch+"control/THRESHOLD_CALIBR/apply", "S", [=](DimCommand *) { apply_THRESHOLD_CALIBR(pm->FEEid, iCh+1); });
+			addCommand(pm->commands, prefix+ch+"control/switch"				   , "S", [=](DimCommand *c) { apply_switchChannel(pm->FEEid, iCh+1, c->getShort()); });
+			addCommand(pm->commands, prefix+ch+"control/noTriggerMode"		   , "S", [=](DimCommand *c) { apply_noTriggerMode(pm->FEEid, iCh+1, c->getShort()); });
         }
     }
 
     void createTCMservices() {
-        TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/TEMP_BOARD"  , FIT[subdetector].name)), "D", &TCM.act.TEMP_BOARD                   , 8));
-        TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/TEMP_FPGA"   , FIT[subdetector].name)), "D", &TCM.act.TEMP_FPGA                    , 8));
-        TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/VOLTAGE_1V"  , FIT[subdetector].name)), "D", &TCM.act.VOLTAGE_1V                   , 8));
-        TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/VOLTAGE_1_8V", FIT[subdetector].name)), "D", &TCM.act.VOLTAGE_1_8V                 , 8));
-        TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/SERIAL_NUM"  , FIT[subdetector].name)), "S",  TCM.act.pointer0 + 0x7 * wordSize + 1, 2));
-        TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/BOARD_TYPE"  , FIT[subdetector].name)), "C:4",TCM.act.BOARD_TYPE                   , 4));
-        TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/FW_TIME_MCU" , FIT[subdetector].name)), "I", &TCM.act.FW_TIME_MCU                  , 4));
-        TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/FW_TIME_FPGA", FIT[subdetector].name)), "I", &TCM.act.FW_TIME_FPGA                 , 4));
-        TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/PM_MASK_SPI" , FIT[subdetector].name)), "I", &TCM.act.PM_MASK_SPI                  , 4));
+		QString prefix = QString::asprintf("%s/TCM/", FIT[subdetector].name);
+		TCM.services.append(new DimService(qPrintable(prefix+"status/TEMP_BOARD"  ), "D", &TCM.act.TEMP_BOARD                   , 8));
+		TCM.services.append(new DimService(qPrintable(prefix+"status/TEMP_FPGA"   ), "D", &TCM.act.TEMP_FPGA                    , 8));
+		TCM.services.append(new DimService(qPrintable(prefix+"status/VOLTAGE_1V"  ), "D", &TCM.act.VOLTAGE_1V                   , 8));
+		TCM.services.append(new DimService(qPrintable(prefix+"status/VOLTAGE_1_8V"), "D", &TCM.act.VOLTAGE_1_8V                 , 8));
+		TCM.services.append(new DimService(qPrintable(prefix+"status/SERIAL_NUM"  ), "S",  TCM.act.pointer0 + 0x7 * wordSize + 1, 2));
+		TCM.services.append(new DimService(qPrintable(prefix+"status/BOARD_TYPE"  ), "C:4",TCM.act.BOARD_TYPE                   , 4));
+		TCM.services.append(new DimService(qPrintable(prefix+"status/FW_TIME_MCU" ), "I", &TCM.act.FW_TIME_MCU                  , 4));
+		TCM.services.append(new DimService(qPrintable(prefix+"status/FW_TIME_FPGA"), "I", &TCM.act.FW_TIME_FPGA                 , 4));
+		TCM.services.append(new DimService(qPrintable(prefix+"status/PM_MASK_SPI" ), "I", &TCM.act.PM_MASK_SPI                  , 4));
         for (quint8 iPM=0; iPM<10; ++iPM) {
-            TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/PM%s/status/TRG_SYNC", FIT[subdetector].name, allPMs[iPM   ].name)), "I", TCM.act.TRG_SYNC_A + iPM, 4));
-            TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/PM%s/status/TRG_SYNC", FIT[subdetector].name, allPMs[iPM+10].name)), "I", TCM.act.TRG_SYNC_C + iPM, 4));
+			TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/TRG_SYNC/%s", FIT[subdetector].name, allPMs[iPM   ].name)), "I", TCM.act.TRG_SYNC_A + iPM, 4));
+			TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/TRG_SYNC/%s", FIT[subdetector].name, allPMs[iPM+10].name)), "I", TCM.act.TRG_SYNC_C + iPM, 4));
         }
     }
 
@@ -198,7 +194,7 @@ public:
         pm->counters.services.clear();
         foreach (DimService *s, pm->servicesNew) delete s;
         pm->servicesNew.clear();
-        foreach (DimCommand *c, pm->commands) { allCommands.remove(c); delete c; }
+		foreach (DimCommand *c, pm->commands) { allCommands.remove(c); delete c; }
         pm->commands.clear();
     }
 
@@ -215,18 +211,6 @@ public:
     void commandHandler() {
         DimCommand *cmd = getCommand();
         allCommands[cmd](cmd);
-
-        //(void (*)(DimCommand *)) (allCommands[cmd]) (cmd);
-//        QStringList tab = QString(cmd->getName()).split('/');
-//        if (tab.last() == "apply") {
-//            qint64 val = 0;
-//            memcpy(&val, cmd->getData(), cmd->getSize());
-//            quint16 FEEid = TCMid;
-//            if (tab[1].startsWith("PM")) FEEid += tab[1].rightRef(2).toUShort(nullptr, 16);
-//            qDebug(qPrintable("Setting " + tab[tab.size()-2] + " = %d for %04X"), val, FEEid);
-//            //qDebug() << "Setting" << tab[tab.size()-2] << "=" << val << "for" << FEEid;
-//            writeParameter(tab[tab.size()-2], val, FEEid, tab[2].startsWith("Ch") ? tab[2].rightRef(2).toUShort() : 0);
-//        }
     }
 
 signals:
@@ -280,11 +264,13 @@ public slots:
             addTransaction(read, allPMs[i].baseAddress + 0xFD, &allPMs[i].act.voltage1);
             addTransaction(read, allPMs[i].baseAddress + 0x7F, allPMs[i].act.registers1); //board status register
             if (!transceive()) return;
-            if (allPMs[i].act.voltage1 == 0xFFFFFFFF) { //SPI error
+			if (allPMs[i].act.voltage1 == 0xFFFFFFFF || allPMs[i].act.voltage1 == 0) { //SPI error
                 clearBit(i, TCMparameters["PM_MASK_SPI"].address, false);
+				deletePMservices(allPMs + i);
             } else {
                 TCM.act.PM_MASK_SPI |= 1 << i;
-                PM.insert(allPMs[i].set.GBT.RDH_FEE_ID, allPMs + i);
+				PM.insert(allPMs[i].FEEid, allPMs + i);
+				if (allPMs[i].services.isEmpty()) createPMservices(allPMs + i);
                 if (i > 9) TCM.set.CH_MASK_C |= 1 << (i - 10);
                 else       TCM.set.CH_MASK_A |= 1 << i;
             }
@@ -308,7 +294,7 @@ public slots:
 
     }
 
-    void writeParameter(QString name, qint64 val, quint16 FEEid, quint8 Ch = 0) {
+	void writeParameter(QString name, quint64 val, quint16 FEEid, quint8 Ch = 0) {
         if ( !GBTparameters.contains(name) && (FEEid == TCMid ? !TCMparameters.contains(name) : !PMparameters.contains(name)) ) {
             emit error("'" + name + "' - no such parameter", logicError);
             return;
@@ -320,7 +306,8 @@ public slots:
         else if (p.bitwidth == 1)
             val != 0 ? setBit(p.bitshift, address) : clearBit(p.bitshift, address);
         else if (p.bitwidth == 64) {
-            addTransaction(write, address, (quint32 *)&val, 2);
+			quint32 w[2] = {quint32(val >> 32), quint32(val)};
+			addTransaction(write, address, w, 2);
             if (transceive()) sync();
         } else
             writeNbits(val, address, p.bitwidth, p.bitshift);
@@ -405,12 +392,13 @@ public slots:
         addTransaction(read, pm->baseAddress + TypePM::ActualValues::block2addr, pm->act.registers2, TypePM::ActualValues::block2size);
     }
 
-    bool read1PM(TypePM *pm) {
+	bool read1PM(TypePM *pm) {
         addPMvaluesToRead(pm);
         if (!transceive()) return false;
-        if (pm->act.voltage1 == 0xFFFFFFFF && !TCM.act.systemRestarted) {
-            clearBit(pm->baseAddress / 0x200 - 1, 0x1E, false);
-            PM.remove(pm->set.GBT.RDH_FEE_ID);
+        if ((pm->act.voltage1 == 0xFFFFFFFF || pm->act.voltage1 == 0) && !TCM.act.systemRestarted) {
+			clearBit(pm - allPMs, 0x1E, false);
+			deletePMservices(pm);
+			PM.remove(pm->FEEid);
             emit linksStatusReady();
         } else {
             pm->act.calculateValues();
@@ -474,14 +462,6 @@ public slots:
     void apply_RESET_GBT                  (quint16 FEEid, bool syncOnSuccess = true) { reset(FEEid, GBTunit::RB_GBT                  , syncOnSuccess); }
     void apply_RESET_RX_PHASE_ERROR       (quint16 FEEid, bool syncOnSuccess = true) { reset(FEEid, GBTunit::RB_RXphaseError         , syncOnSuccess); }
 
-//    void apply_SEND_READOUT_COMMAND(quint16 FEEid, quint8 RO_cmd) {
-//        quint32 address = (FEEid == TCMid ? 0 : PM[FEEid]->baseAddress) + GBTunit::controlAddress;
-//        addTransaction(RMWbits, address, masks(0xFFF0FFFF, 0x00000000)); //clear all readout command bits
-//        addTransaction(RMWbits, address, masks(0xFFFFFFFF, quint32(RO_cmd << 16))); //set specific bit, e.g. 0x00040000 for RC_EOT
-//        addTransaction(RMWbits, address, masks(0xFFF0FFFF, 0x00000000)); //clear all readout command bits
-//        if (transceive()) sync();
-//    }
-
     void apply_TG_CTP_EMUL_MODE(quint16 FEEid, quint8 RO_mode) { writeParameter("TG_CTP_EMUL_MODE", RO_mode, FEEid); }
 
     void apply_DG_MODE(quint16 FEEid, quint8 DG_mode) {
@@ -494,16 +474,7 @@ public slots:
         writeParameter("TG_MODE", TG_mode, FEEid);
     }
 
-    void apply_TG_PATTERN(quint16 FEEid) { //TG_PATTERN_0 and TG_PATTERN_1
-        if (FEEid == TCMid)
-            addTransaction(write, GBTparameters["TG_PATTERN_1"].address, &TCM.set.GBT.TG_PATTERN_1, 2);
-        else
-            addTransaction(write, PM[FEEid]->baseAddress + GBTparameters["TG_PATTERN_1"].address, &PM[FEEid]->set.GBT.TG_PATTERN_1, 2);
-        if (transceive()) sync();
-    }
-
-    void apply_TG_PATTERN_0         (quint16 FEEid) { writeParameter("TG_PATTERN_0"         , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).TG_PATTERN_0         , FEEid); }
-    void apply_TG_PATTERN_1         (quint16 FEEid) { writeParameter("TG_PATTERN_1"         , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).TG_PATTERN_1         , FEEid); }
+	void apply_TG_PATTERN           (quint16 FEEid) { writeParameter("TG_PATTERN"           , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).TG_PATTERN           , FEEid); }
     void apply_TG_CONT_VALUE        (quint16 FEEid) { writeParameter("TG_CONT_VALUE"        , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).TG_CONT_VALUE        , FEEid); }
     void apply_TG_BUNCH_FREQ        (quint16 FEEid) { writeParameter("TG_BUNCH_FREQ"        , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).TG_BUNCH_FREQ        , FEEid); }
     void apply_TG_FREQ_OFFSET       (quint16 FEEid) { writeParameter("TG_FREQ_OFFSET"       , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).TG_FREQ_OFFSET       , FEEid); }
@@ -563,6 +534,19 @@ public slots:
         }
     }
 
+	void apply_switchChannel(quint16 FEEid, quint8 Ch, bool on) {
+		--Ch;
+		if (Ch < 12) {
+			if (on) {
+				PM[FEEid]->set.CH_MASK_DATA |= 1 << Ch;
+				setBit(Ch, PM[FEEid]->baseAddress + PMparameters["CH_MASK_DATA"].address);
+			} else {
+				PM[FEEid]->set.CH_MASK_DATA &= ~(1 << Ch);
+				clearBit(Ch, PM[FEEid]->baseAddress + PMparameters["CH_MASK_DATA"].address);
+			}
+		} else emit error("invalid channel: " + QString::number(Ch + 1), logicError);
+	}
+
     void apply_RESET_COUNTERS(quint16 FEEid) {
         if (FEEid == TCMid) {
             TCM.counters.oldTime = QDateTime::currentDateTime();
@@ -597,17 +581,14 @@ public slots:
     void apply_TIME_ALIGN      (quint16 FEEid, quint8 Ch) { writeParameter("TIME_ALIGN"      , PM[FEEid]->set.TIME_ALIGN[Ch-1].value, FEEid, Ch-1); }
     void apply_THRESHOLD_CALIBR(quint16 FEEid, quint8 Ch) { writeParameter("THRESHOLD_CALIBR", PM[FEEid]->set.THRESHOLD_CALIBR[Ch-1], FEEid, Ch-1); }
 
+	void apply_noTriggerMode(quint16 FEEid, quint8 Ch, bool noTRG) { PM[FEEid]->set.TIME_ALIGN[Ch-1].blockTriggers = noTRG; writeParameter("noTriggerMode", noTRG, FEEid, Ch-1); }
+
     void apply_LASER_DIVIDER() { writeParameter("LASER_DIVIDER", TCM.set.LASER_DIVIDER, TCMid); }
     void apply_LASER_SOURCE(bool on) { TCM.set.LASER_SOURCE = on; writeParameter("LASER_SOURCE", on, TCMid); }
-    void apply_LaserPattern() {
-        addTransaction(write, TCMparameters["LASER_PATTERN_1"].address, &TCM.set.LASER_PATTERN_1, 2);
-        transceive();
-    }
-    void apply_LASER_PATTERN_0() { writeParameter("LASER_PATTERN_0", TCM.set.LASER_PATTERN_0, TCMid); }
-    void apply_LASER_PATTERN_1() { writeParameter("LASER_PATTERN_1", TCM.set.LASER_PATTERN_1, TCMid); }
-    void apply_SwLaserPatternBit(quint8 bit, bool on) {
-        if (on) setBit(bit % 32, TCMparameters[bit < 32 ? "LASER_PATTERN_0" : "LASER_PATTERN_1"].address);
-        else  clearBit(bit % 32, TCMparameters[bit < 32 ? "LASER_PATTERN_0" : "LASER_PATTERN_1"].address);
+	void apply_LASER_PATTERN() { writeParameter("LASER_PATTERN", quint64(TCM.set.laserPatternMSB) << 32 | TCM.set.laserPatternLSB, TCMid); }
+	void apply_SwLaserPatternBit(quint8 bit, bool on) {
+		quint32 address = TCMparameters["LASER_PATTERN"].address + (bit < 32 ? 1 : 0);
+		on ? setBit(bit % 32, address) : clearBit(bit % 32, address);
     }
 	void apply_attenSteps() { writeParameter("attenSteps", TCM.set.attenSteps, TCMid); }
     void apply_LASER_DELAY() { writeParameter("LASER_DELAY", TCM.set.LASER_DELAY, TCMid); }
@@ -663,12 +644,13 @@ public slots:
         for (quint8 i=0; i<12; ++i) {
             bool b = PM[FEEid]->set.TIME_ALIGN[i].blockTriggers;
             if (bool(PM[FEEid]->act.timeAlignment[i].blockTriggers) != b) {
-                if (b) addTransaction(RMWbits, PM[FEEid]->baseAddress + PMparameters["CH_TRG_BLOCK"].address + i, masks(0xFFFFFFFF, 1 << PMparameters["CH_TRG_BLOCK"].bitshift));
-                else addTransaction(RMWbits, PM[FEEid]->baseAddress + PMparameters["CH_TRG_BLOCK"].address + i, masks(~(1 << PMparameters["CH_TRG_BLOCK"].bitshift), 0));
+				if (b) addTransaction(RMWbits, PM[FEEid]->baseAddress + PMparameters["noTriggerMode"].address + i, masks(0xFFFFFFFF, 1 << PMparameters["noTriggerMode"].bitshift));
+				else   addTransaction(RMWbits, PM[FEEid]->baseAddress + PMparameters["noTriggerMode"].address + i, masks(~(1 << PMparameters["noTriggerMode"].bitshift), 0));
             }
         }
         if (transceive()) sync();
     }
+
 
 };
 

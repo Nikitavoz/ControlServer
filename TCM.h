@@ -81,10 +81,10 @@ struct TypeTCM {
                         sideAready      : 1, //┘
                         LASER_DIVIDER   :24, //┐
                                         : 7, //│1B
-                        LASER_SOURCE    : 1, //┘
-                        LASER_PATTERN_1    , //]1C
-                        LASER_PATTERN_0    , //]1D
-                        PM_MASK_SPI        , //]1E
+						LASER_SOURCE    : 1, //┘
+						laserPatternMSB	   , //]1C
+						laserPatternLSB	   , //]1D
+						PM_MASK_SPI        , //]1E
                         lsrTrgSupprDelay: 6, //┐
                         lsrTrgSupprDur  : 2, //│1F
                                         :24; //┘
@@ -167,6 +167,7 @@ struct TypeTCM {
             laserFrequency_Hz,
             attenuation;
         char BOARD_TYPE[4] = {0};
+		quint64 LASER_PATTERN;
         void calculateValues() {
             TEMP_BOARD   = boardTemperature / 10.;
             TEMP_FPGA    = FPGAtemperature  * 503.975 / 65536 - 273.15;
@@ -189,6 +190,7 @@ struct TypeTCM {
                 TRG_SYNC_A[i].syncError = syncErrorInLinkA & 1 << i;
                 TRG_SYNC_C[i].syncError = syncErrorInLinkC & 1 << i;
             }
+			LASER_PATTERN = laserPatternLSB | quint64(laserPatternMSB) << 32;
         }
     } act;
 
@@ -245,10 +247,10 @@ struct TypeTCM {
                                         :22, //┘1A
                         LASER_DIVIDER   :24, //┐
                                         : 7, //│1B
-                        LASER_SOURCE    : 1, //┘
-                        LASER_PATTERN_1    , //]1C
-                        LASER_PATTERN_0    , //]1D
-                        PM_MASK_SPI        , //]1E
+						LASER_SOURCE    : 1, //┘
+						laserPatternMSB	   , //]1C
+						laserPatternLSB	   , //]1D
+						PM_MASK_SPI        , //]1E
                         lsrTrgSupprDelay: 6, //┐
                         lsrTrgSupprDur  : 2, //│1F
                                         :24; //┘
@@ -358,8 +360,7 @@ const QHash<QString, Parameter> TCMparameters = {
     {"CH_MASK_A"            ,  0x1A         },
     {"LASER_DIVIDER"        , {0x1B, 24,  0}},
     {"LASER_SOURCE"         , {0x1B,  1, 31}},
-    {"LASER_PATTERN_1"      ,  0x1C         },
-    {"LASER_PATTERN_0"      ,  0x1D         },
+	{"LASER_PATTERN"        , {0x1C, 64,  0}},
     {"PM_MASK_SPI"          ,  0x1E         },
     {"CH_MASK_C"            ,  0x3A         },
     {"COUNTERS_UPD_RATE"    ,  0x50         },

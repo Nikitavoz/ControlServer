@@ -12,6 +12,7 @@
 static QString frequencyFormat(const double f) { return QString::asprintf("%.*f", f < 1e5 ? (f < 1e4 ? 3 : 2) : (f < 1e6 ? 1 : 0), f); } //e.g. 1.234, 12.345, 123.456, 1234.567, 12345.67, 123456.7, 1234567, 40078970
 static QString rateFormat(const double f) { return f < 999999.95 ? QString::asprintf("%.1f", f) : QString::asprintf("%.3f M", f/1e6); } //e.g. 1.0, 1000.0, 999999.9, 1.000 M, 40.079 M
 
+
 extern double systemClock_MHz; //40
 extern double TDCunit_ps; // 13
 extern double halfBC_ns; // 12.5
@@ -122,7 +123,6 @@ public:
 
 //initialization and lists creation
         setWindowTitle(QCoreApplication::applicationName() + " v" + QCoreApplication::applicationVersion() + ": " + FIT[FEE.subdetector].name + " settings");
-
         applyButtons = ui->centralWidget->findChildren<QPushButton *>(QRegularExpression("buttonApply.*"));
         switchBitButtons = ui->groupBoxLaser->findChildren<QPushButton *>(QRegularExpression("buttonSwitchBit.*")).toVector();
         selectorsPMA = ui->groupBoxBoardSelection->findChildren<QPushButton *>(QRegularExpression("PM_selector_A[0-9]")).toVector();
@@ -322,14 +322,15 @@ public:
         }
 
         for (quint8 i=0; i<12; ++i) { //channels
-            connect(editsTimeAlignmentCh  [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.TIME_ALIGN[i].value = text. toInt(); resetHighlight(); ui->labelTextTimeAlignment  ->setStyleSheet(highlightStyle); });
-            connect(editsThresholdCalibrCh[i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.THRESHOLD_CALIBR[i] = text. toInt(); resetHighlight(); ui->labelTextThresholdCalibr->setStyleSheet(highlightStyle); });
-            connect(editsADCdelayCh       [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.Ch[i].ADC_DELAY     = text.toUInt(); resetHighlight(); ui->labelTextADCdelay       ->setStyleSheet(highlightStyle); });
-            connect(editsCFDthresholdCh   [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.Ch[i].CFD_THRESHOLD = text.toUInt(); resetHighlight(); ui->labelTextCFDthreshold   ->setStyleSheet(highlightStyle); });
-            connect(editsADCzeroCh        [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.Ch[i].ADC_ZERO      = text. toInt(); resetHighlight(); ui->labelTextADCzero        ->setStyleSheet(highlightStyle); });
-            connect(editsCFDzeroCh        [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.Ch[i].CFD_ZERO      = text. toInt(); resetHighlight(); ui->labelTextCFDzero        ->setStyleSheet(highlightStyle); });
-            connect(editsADC0rangeCh      [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.ADC_RANGE    [i][0] = text.toUInt(); resetHighlight(); ui->labelTextADC0           ->setStyleSheet(highlightStyle); });
-            connect(editsADC1rangeCh      [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.ADC_RANGE    [i][1] = text.toUInt(); resetHighlight(); ui->labelTextADC1           ->setStyleSheet(highlightStyle); });
+			QString ch = QString::asprintf("Ch%02d/", i + 1);
+			connect(editsTimeAlignmentCh  [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.TIME_ALIGN[i].value = text. toInt(); resetHighlight(); ui->labelTextTimeAlignment  ->setStyleSheet(highlightStyle); FEE.curPM->servicesNew[ch+"TIME_ALIGN"		]->updateService(); });
+			connect(editsThresholdCalibrCh[i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.THRESHOLD_CALIBR[i] = text. toInt(); resetHighlight(); ui->labelTextThresholdCalibr->setStyleSheet(highlightStyle); FEE.curPM->servicesNew[ch+"THRESHOLD_CALIBR"]->updateService(); });
+			connect(editsADCdelayCh       [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.Ch[i].ADC_DELAY     = text.toUInt(); resetHighlight(); ui->labelTextADCdelay       ->setStyleSheet(highlightStyle); FEE.curPM->servicesNew[ch+"ADC_DELAY"		]->updateService(); });
+			connect(editsCFDthresholdCh   [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.Ch[i].CFD_THRESHOLD = text.toUInt(); resetHighlight(); ui->labelTextCFDthreshold   ->setStyleSheet(highlightStyle); FEE.curPM->servicesNew[ch+"CFD_THRESHOLD"	]->updateService(); });
+			connect(editsADCzeroCh        [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.Ch[i].ADC_ZERO      = text. toInt(); resetHighlight(); ui->labelTextADCzero        ->setStyleSheet(highlightStyle); FEE.curPM->servicesNew[ch+"ADC_ZERO"		]->updateService(); });
+			connect(editsCFDzeroCh        [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.Ch[i].CFD_ZERO      = text. toInt(); resetHighlight(); ui->labelTextCFDzero        ->setStyleSheet(highlightStyle); FEE.curPM->servicesNew[ch+"CFD_ZERO"		]->updateService(); });
+			connect(editsADC0rangeCh      [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.ADC_RANGE    [i][0] = text.toUInt(); resetHighlight(); ui->labelTextADC0           ->setStyleSheet(highlightStyle); FEE.curPM->servicesNew[ch+"ADC0_RANGE"		]->updateService(); });
+			connect(editsADC1rangeCh      [i], &QLineEdit::textEdited, this, [=](QString text) { FEE.curPM->set.ADC_RANGE    [i][1] = text.toUInt(); resetHighlight(); ui->labelTextADC1           ->setStyleSheet(highlightStyle); FEE.curPM->servicesNew[ch+"ADC1_RANGE"		]->updateService(); });
 
             connect(editsTimeAlignmentCh  [i], &QLineEdit::cursorPositionChanged, this, [=]() { resetHighlight(); ui->labelTextTimeAlignment  ->setStyleSheet(highlightStyle); });
             connect(editsThresholdCalibrCh[i], &QLineEdit::cursorPositionChanged, this, [=]() { resetHighlight(); ui->labelTextThresholdCalibr->setStyleSheet(highlightStyle); });
@@ -384,6 +385,7 @@ public:
     ~MainWindow() {
         settings.setValue("subdetector", FIT[FEE.subdetector].name);
         settings.setValue("IPaddress", FEE.IPaddress);
+		//settings.setValue("TCMpars", QVariant(TCMparameters.keys()));
 		settings.setValue("TCM", QByteArray( (char *)&FEE.TCM.set, sizeof(TypeTCM::Settings) ));
         foreach (TypePM *pm, FEE.PM) settings.setValue(QString("PM") + pm->name, QByteArray( (char *)&(pm->set), sizeof(TypePM::Settings) ));
         delete ui;
@@ -462,8 +464,8 @@ public slots:
         TypeFITsubdetector bt = TypeFITsubdetector(FEE.isTCM ? FEE.TCM.act.boardType : FEE.curPM->act.boardType);
         ui->labelValueBoardType->setText(QString::asprintf("%d: %s", bt, FIT[bt].name));
         ui->labelValueBoardType->setStyleSheet(bt != FEE.subdetector ? notOKstyle : neutralStyle);
-        Timestamp tMCU  = FEE.isTCM ? FEE.TCM.act.FW_TIME_MCU : FEE.curPM->act.FW_TIME_MCU;
-        Timestamp tFPGA = FEE.isTCM ? FEE.TCM.act.   FW_TIME_FPGA : FEE.curPM->act.   FW_TIME_FPGA;
+		Timestamp tMCU  = FEE.isTCM ? FEE.TCM.act.FW_TIME_MCU  : FEE.curPM->act.FW_TIME_MCU;
+		Timestamp tFPGA = FEE.isTCM ? FEE.TCM.act.FW_TIME_FPGA : FEE.curPM->act.FW_TIME_FPGA;
         ui->labelValueMCUFWversion ->setText(tMCU .printCode1());
         ui->labelValueFPGAFWversion->setText(tFPGA.printCode1());
         QString tMCUfull  = tMCU .printFull();
@@ -487,27 +489,26 @@ public slots:
             case GBTunit::TG_continuous: ui->buttonTriggerGeneratorContinuous->setChecked(true); break;
             case GBTunit::TG_Tx        : ui->buttonTriggerGeneratorTx        ->setChecked(true);
 		}
-        ui->labelValueDGtriggerRespondMask  ->setText(QString::asprintf("%08X",      FEE.curGBTact->Control.DG_TRG_RESPOND_MASK  ));
-        ui->labelValueDGbunchPattern        ->setText(QString::asprintf("%08X",      FEE.curGBTact->Control.DG_BUNCH_PATTERN     ));
-        ui->labelValueDGbunchFrequency      ->setText(QString::asprintf("%04X",      FEE.curGBTact->Control.DG_BUNCH_FREQ        ));
-        ui->labelValueDGfrequencyOffset     ->setText(QString::asprintf("%03X",      FEE.curGBTact->Control.DG_FREQ_OFFSET       ));
-        ui->labelValueTGcontinuousPattern   ->setText(QString::asprintf("%08X %08X", FEE.curGBTact->Control.TG_PATTERN_1,
-                                                                                     FEE.curGBTact->Control.TG_PATTERN_0));
-        ui->labelValueTGcontinuousValue     ->setText(QString::asprintf("%08X",      FEE.curGBTact->Control.TG_CONT_VALUE        ));
-        ui->labelValueTGbunchFrequency      ->setText(QString::asprintf("%04X",      FEE.curGBTact->Control.TG_BUNCH_FREQ        ));
-        ui->labelValueTGfrequencyOffset     ->setText(QString::asprintf("%03X",      FEE.curGBTact->Control.TG_FREQ_OFFSET       ));
+		ui->labelValueDGtriggerRespondMask  ->setText(QString::asprintf("%08X",     FEE.curGBTact->Control.DG_TRG_RESPOND_MASK));
+		ui->labelValueDGbunchPattern        ->setText(QString::asprintf("%08X",     FEE.curGBTact->Control.DG_BUNCH_PATTERN   ));
+		ui->labelValueDGbunchFrequency      ->setText(QString::asprintf("%04X",     FEE.curGBTact->Control.DG_BUNCH_FREQ	   ));
+		ui->labelValueDGfrequencyOffset     ->setText(QString::asprintf("%03X",     FEE.curGBTact->Control.DG_FREQ_OFFSET	   ));
+		ui->labelValueTGcontinuousValue     ->setText(QString::asprintf("%08X",     FEE.curGBTact->Control.TG_CONT_VALUE      ));
+		ui->labelValueTGbunchFrequency      ->setText(QString::asprintf("%04X",     FEE.curGBTact->Control.TG_BUNCH_FREQ      ));
+		ui->labelValueTGfrequencyOffset     ->setText(QString::asprintf("%03X",     FEE.curGBTact->Control.TG_FREQ_OFFSET     ));
+		ui->labelValueTGcontinuousPattern   ->setText(QString::asprintf("%08X %08X", FEE.curGBTact->Control.TGpatternMSB, FEE.curGBTact->Control.TGpatternLSB));
         switch (FEE.curGBTact->Control.TG_CTP_EMUL_MODE) {
             case GBTunit::RO_idle       : ui->buttonCTPmodeIdle      ->setChecked(true); break;
             case GBTunit::RO_continuous : ui->buttonCTPmodeContinouos->setChecked(true); break;
             case GBTunit::RO_triggered  : ui->buttonCTPmodeTriggered ->setChecked(true);
         }
-        ui->labelValueFEEID                 ->setText(QString::asprintf("%04X",      FEE.curGBTact->Control.RDH_FEE_ID           ));
-        ui->labelValueMaxPayload            ->setText(QString::asprintf("%04X",      FEE.curGBTact->Control.RDH_MAX_PAYLOAD      ));
-        ui->labelValuePAR                   ->setText(QString::asprintf("%04X",      FEE.curGBTact->Control.RDH_PAR              ));
-        ui->labelValueDETfield              ->setText(QString::asprintf("%04X",      FEE.curGBTact->Control.RDH_DET_FIELD        ));
-        ui->labelValueCRUtriggerCompareDelay->setText(QString::asprintf("%03X",      FEE.curGBTact->Control.CRU_TRG_COMPARE_DELAY));
-        ui->labelValueBCIDdelay             ->setText(QString::asprintf("%03X",      FEE.curGBTact->Control.BCID_DELAY           ));
-        ui->labelValueDataSelectTriggerMask ->setText(QString::asprintf("%08X",      FEE.curGBTact->Control.DATA_SEL_TRG_MASK    ));
+		ui->labelValueFEEID                 ->setText(QString::asprintf("%04X",     FEE.curGBTact->Control.RDH_FEE_ID           ));
+		ui->labelValueMaxPayload            ->setText(QString::asprintf("%04X",     FEE.curGBTact->Control.RDH_MAX_PAYLOAD      ));
+		ui->labelValuePAR                   ->setText(QString::asprintf("%04X",     FEE.curGBTact->Control.RDH_PAR              ));
+		ui->labelValueDETfield              ->setText(QString::asprintf("%04X",     FEE.curGBTact->Control.RDH_DET_FIELD        ));
+		ui->labelValueCRUtriggerCompareDelay->setText(QString::asprintf("%03X",     FEE.curGBTact->Control.CRU_TRG_COMPARE_DELAY));
+		ui->labelValueBCIDdelay             ->setText(QString::asprintf("%03X",     FEE.curGBTact->Control.BCID_DELAY           ));
+		ui->labelValueDataSelectTriggerMask ->setText(QString::asprintf("%08X",     FEE.curGBTact->Control.DATA_SEL_TRG_MASK    ));
         ui->SwitcherLockReadout->setChecked(!(FEE.curGBTact->Control.READOUT_LOCK));
         ui->SwitcherBypassMode ->setChecked(  FEE.curGBTact->Control.BYPASS_MODE);
         ui->SwitcherHBresponse ->setChecked(  FEE.curGBTact->Control.HB_RESPONSE);
@@ -622,13 +623,9 @@ public slots:
 			FEE.TCM.act.LASER_SOURCE ? ui->radioButtonGenerator->setChecked(true) : ui->radioButtonExternalTrigger->setChecked(true);
             ui->labelValueLaserFreqDivider->setText(QString::asprintf("%06x", FEE.TCM.act.LASER_DIVIDER));
             ui->labelValueLaserFrequency->setText(frequencyFormat(FEE.TCM.act.laserFrequency_Hz));
-            ui->labelValueLaserPattern->setText(QString::asprintf("%08X %08X", FEE.TCM.act.LASER_PATTERN_1, FEE.TCM.act.LASER_PATTERN_0));
+			ui->labelValueLaserPattern->setText(QString::asprintf("%08X %08X", FEE.TCM.act.laserPatternMSB, FEE.TCM.act.laserPatternLSB));
             ui->labelValueLaserPhase->setText(QString::asprintf("%7.3f", FEE.TCM.act.delayLaser_ns));
-
-            for (quint8 i=0; i<32; ++i) {
-                switchBitButtons.at(i     )->setChecked(FEE.TCM.act.LASER_PATTERN_0 & (1 << i));
-                switchBitButtons.at(i + 32)->setChecked(FEE.TCM.act.LASER_PATTERN_1 & (1 << i));
-            }
+			for (quint8 i=0; i<64; ++i) { switchBitButtons.at(i)->setChecked(FEE.TCM.act.LASER_PATTERN & (1ULL << i)); }
         } else { //PM
             ui->labelValueORgate->setText(QString::asprintf("%d", FEE.curPM->act.OR_GATE));
             ui->labelValueCFDsaturation->setText(QString::asprintf("%d", FEE.curPM->act.CFD_SATR));
@@ -718,7 +715,7 @@ public slots:
 			if (ui->spinBoxAttenuation->value() != FEE.TCM.set.attenuation) ui->spinBoxAttenuation->setValue(FEE.TCM.set.attenuation);
 			ui->lineEditLaserTriggerMask->setText(QString::asprintf("%08X", FEE.TCM.set.GBT.DG_TRG_RESPOND_MASK));
 			ui->spinBoxLaserFreqDivider->setValue(FEE.TCM.set.LASER_DIVIDER);
-			ui->lineEditLaserPattern->setText(QString::asprintf("%08X %08X", FEE.TCM.set.LASER_PATTERN_1, FEE.TCM.set.LASER_PATTERN_0));
+			ui->lineEditLaserPattern->setText(QString::asprintf("%08X %08X", FEE.TCM.set.laserPatternMSB, FEE.TCM.set.laserPatternLSB));
 			ui->sliderLaser->setValue(FEE.TCM.set.LASER_DELAY);
 			if (ui->spinBoxLaserPhase->value() != FEE.TCM.set.delayLaser_ns) ui->spinBoxLaserPhase->setValue(FEE.TCM.set.delayLaser_ns);
 		} else { //PM
@@ -736,22 +733,21 @@ public slots:
 				editsADC1rangeCh      [i]->setText(QString::asprintf("%d", FEE.curPM->set.ADC_RANGE[i][1]));
 			}
 		}
-		ui->lineEditDGtriggerRespondMask  ->setText(QString::asprintf("%08X",	   FEE.curGBTset->DG_TRG_RESPOND_MASK  ));
-		ui->lineEditDGbunchPattern        ->setText(QString::asprintf("%08X",      FEE.curGBTset->DG_BUNCH_PATTERN     ));
-		ui->lineEditDGbunchFrequency      ->setText(QString::asprintf("%04X",      FEE.curGBTset->DG_BUNCH_FREQ        ));
-		ui->lineEditDGfrequencyOffset     ->setText(QString::asprintf("%03X",      FEE.curGBTset->DG_FREQ_OFFSET       ));
-		ui->lineEditTGcontinuousPattern   ->setText(QString::asprintf("%08X %08X", FEE.curGBTset->TG_PATTERN_1,
-																				   FEE.curGBTset->TG_PATTERN_0		   ));
-		ui->lineEditTGcontinuousValue     ->setText(QString::asprintf("%08X",      FEE.curGBTset->TG_CONT_VALUE        ));
-		ui->lineEditTGbunchFrequency      ->setText(QString::asprintf("%04X",      FEE.curGBTset->TG_BUNCH_FREQ        ));
-		ui->lineEditTGfrequencyOffset     ->setText(QString::asprintf("%03X",      FEE.curGBTset->TG_FREQ_OFFSET       ));
-		ui->lineEditFEEID                 ->setText(QString::asprintf("%04X",      FEE.curGBTset->RDH_FEE_ID           ));
-		ui->lineEditMaxPayload            ->setText(QString::asprintf("%04X",      FEE.curGBTset->RDH_MAX_PAYLOAD      ));
-		ui->lineEditPAR                   ->setText(QString::asprintf("%04X",      FEE.curGBTset->RDH_PAR              ));
-		ui->lineEditDETfield              ->setText(QString::asprintf("%04X",      FEE.curGBTset->RDH_DET_FIELD        ));
-		ui->lineEditCRUtriggerCompareDelay->setText(QString::asprintf("%03X",      FEE.curGBTset->CRU_TRG_COMPARE_DELAY));
-		ui->lineEditBCIDdelay             ->setText(QString::asprintf("%03X",      FEE.curGBTset->BCID_DELAY           ));
-		ui->lineEditDataSelectTriggerMask ->setText(QString::asprintf("%08X",      FEE.curGBTset->DATA_SEL_TRG_MASK    ));
+		ui->lineEditDGtriggerRespondMask  ->setText(QString::asprintf("%08X", FEE.curGBTset->DG_TRG_RESPOND_MASK  ));
+		ui->lineEditDGbunchPattern        ->setText(QString::asprintf("%08X", FEE.curGBTset->DG_BUNCH_PATTERN	  ));
+		ui->lineEditDGbunchFrequency      ->setText(QString::asprintf("%04X", FEE.curGBTset->DG_BUNCH_FREQ		  ));
+		ui->lineEditDGfrequencyOffset     ->setText(QString::asprintf("%03X", FEE.curGBTset->DG_FREQ_OFFSET		  ));
+		ui->lineEditTGcontinuousValue     ->setText(QString::asprintf("%08X", FEE.curGBTset->TG_CONT_VALUE		  ));
+		ui->lineEditTGbunchFrequency      ->setText(QString::asprintf("%04X", FEE.curGBTset->TG_BUNCH_FREQ		  ));
+		ui->lineEditTGfrequencyOffset     ->setText(QString::asprintf("%03X", FEE.curGBTset->TG_FREQ_OFFSET		  ));
+		ui->lineEditFEEID                 ->setText(QString::asprintf("%04X", FEE.curGBTset->RDH_FEE_ID			  ));
+		ui->lineEditMaxPayload            ->setText(QString::asprintf("%04X", FEE.curGBTset->RDH_MAX_PAYLOAD	  ));
+		ui->lineEditPAR                   ->setText(QString::asprintf("%04X", FEE.curGBTset->RDH_PAR			  ));
+		ui->lineEditDETfield              ->setText(QString::asprintf("%04X", FEE.curGBTset->RDH_DET_FIELD		  ));
+		ui->lineEditCRUtriggerCompareDelay->setText(QString::asprintf("%03X", FEE.curGBTset->CRU_TRG_COMPARE_DELAY));
+		ui->lineEditBCIDdelay             ->setText(QString::asprintf("%03X", FEE.curGBTset->BCID_DELAY			  ));
+		ui->lineEditDataSelectTriggerMask ->setText(QString::asprintf("%08X", FEE.curGBTset->DATA_SEL_TRG_MASK	  ));
+		ui->lineEditTGcontinuousPattern   ->setText(QString::asprintf("%08X %08X", FEE.curGBTset->TGpatternMSB, FEE.curGBTset->TGpatternLSB));
         resetHighlight();
     }
 
@@ -825,10 +821,10 @@ public slots:
     void on_lineEditCRUtriggerCompareDelay_textEdited() { FEE.curGBTset->CRU_TRG_COMPARE_DELAY = ui->lineEditCRUtriggerCompareDelay->displayText().toUInt(&ok, 16); }
     void on_lineEditBCIDdelay_textEdited             () { FEE.curGBTset->BCID_DELAY            = ui->lineEditBCIDdelay             ->displayText().toUInt(&ok, 16); }
     void on_lineEditDataSelectTriggerMask_textEdited () { FEE.curGBTset->DATA_SEL_TRG_MASK     = ui->lineEditDataSelectTriggerMask ->displayText().toUInt(&ok, 16); }
-    void on_lineEditTGcontinuousPattern_textEdited   () {
-        FEE.curGBTset->TG_PATTERN_1 = ui->lineEditTGcontinuousPattern->displayText().left(8) .toUInt(&ok, 16);
-        FEE.curGBTset->TG_PATTERN_0 = ui->lineEditTGcontinuousPattern->displayText().right(8).toUInt(&ok, 16);
-    }
+	void on_lineEditTGcontinuousPattern_textEdited   () {
+		FEE.curGBTset->TGpatternMSB = ui->lineEditTGcontinuousPattern->displayText(). left(8).toUInt(&ok, 16);
+		FEE.curGBTset->TGpatternLSB = ui->lineEditTGcontinuousPattern->displayText().right(8).toUInt(&ok, 16);
+	}
 
     void on_TCM_selector_toggled(bool checked) { //select TCM
         (checked ? ui->groupBoxTCM : ui->groupBoxPM)->setVisible(true);
@@ -874,7 +870,7 @@ public slots:
 	void on_radioButtonGenerator_clicked	  () { FEE.apply_LASER_SOURCE(true ); }
 	void on_radioButtonExternalTrigger_clicked() { FEE.apply_LASER_SOURCE(false); }
     void on_buttonApplyLaserFrequency_clicked() { FEE.apply_LASER_DIVIDER(); }
-    void on_buttonApplyLaserPattern_clicked() { FEE.apply_LaserPattern(); }
+	void on_buttonApplyLaserPattern_clicked() { FEE.apply_LASER_PATTERN(); }
 
     void on_lineEditChannelMask_A_textEdited(const QString &text) { FEE.TCM.set.CH_MASK_A = text.toUShort(&ok, 16); }
     void on_lineEditChannelMask_C_textEdited(const QString &text) { FEE.TCM.set.CH_MASK_C = text.toUShort(&ok, 16); }
@@ -901,10 +897,10 @@ public slots:
         }
     }
     void on_lineEditLaserFrequency_editingFinished() { laserFreqIsEditing = false; };
-    void on_lineEditLaserPattern_textChanged() {
-        FEE.TCM.set.LASER_PATTERN_1 = ui->lineEditLaserPattern->displayText(). left(8).toUInt(&ok, 16);
-        FEE.TCM.set.LASER_PATTERN_0 = ui->lineEditLaserPattern->displayText().right(8).toUInt(&ok, 16);
-    }
+	void on_lineEditLaserPattern_textChanged() {
+		FEE.TCM.set.laserPatternMSB = ui->lineEditLaserPattern->displayText(). left(8).toUInt(&ok, 16);
+		FEE.TCM.set.laserPatternLSB = ui->lineEditLaserPattern->displayText().right(8).toUInt(&ok, 16);
+	}
 
     void on_lineEditLaserTriggerMask_textEdited() {
         FEE.TCM.set.GBT.DG_TRG_RESPOND_MASK = ui->lineEditLaserTriggerMask->displayText().toUInt(&ok, 16);
@@ -999,8 +995,8 @@ public slots:
     void on_buttonApplyVertexTimeLow_clicked() { FEE.apply_VTIME_LOW (); }
     void on_buttonApplyVertexTimeHigh_clicked () { FEE.apply_VTIME_HIGH(); }
 
-    void on_lineEditORgate_textEdited       (const QString text) { FEE.curPM->set.OR_GATE  = text.toUInt(); }
-    void on_lineEditCFDsaturation_textEdited(const QString text) { FEE.curPM->set.CFD_SATR = text.toUInt(); }
+	void on_lineEditORgate_textEdited       (const QString text) { FEE.curPM->set.OR_GATE  = text.toUInt(); FEE.curPM->servicesNew["OR_GATE" ]->updateService(); }
+	void on_lineEditCFDsaturation_textEdited(const QString text) { FEE.curPM->set.CFD_SATR = text.toUInt(); FEE.curPM->servicesNew["CFD_SATR"]->updateService(); }
     void on_lineEditChannelMask_textEdited  () { FEE.curPM->set.CH_MASK_DATA = ui->lineEditChannelMask->displayText().toUInt(&ok, 16); }
     void on_buttonApplyORgate_clicked       () { FEE.apply_OR_GATE (FEE.selectedBoard); }
     void on_buttonApplyCFDsaturation_clicked() { FEE.apply_CFD_SATR(FEE.selectedBoard); }

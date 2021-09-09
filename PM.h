@@ -98,8 +98,8 @@ struct TypePM {
             RMS_Ch[12][2]; //[Ch][0] for ADC0, [Ch][1] for ADC1
         qint16
             TIME_ALIGN[12]  ,
-            TRG_CNT_MODE    ,
-            CH_MASK_TRG     ;
+			TRG_CNT_MODE    ;
+		quint32 CH_MASK_TRG;
         char BOARD_TYPE[4] = {0};
         void calculateValues() {
             TEMP_BOARD   = boardTemperature / 10.;
@@ -134,7 +134,7 @@ struct TypePM {
                         value              :12, //│
                         blockTriggers      : 1, //│01-0C
                                            :19; //│
-                }       TIME_ALIGN  [12]      ; //┘
+				} TIME_ALIGN  [12];				//┘
             };
         };
         union { //block1
@@ -210,7 +210,7 @@ const QHash<QString, Parameter> PMparameters = {
     //name                  address width shift interval
     {"OR_GATE"              ,  0x00               },
     {"TIME_ALIGN"           , {0x01, 12,  0,    1}},
-    {"CH_TRG_BLOCK"         , {0x01,  1, 12,    1}},
+	{"noTriggerMode"        , {0x01,  1, 12,    1}},
     {"ADC0_OFFSET"          , {0x0D, 32,  0,    2}},
     {"ADC1_OFFSET"          , {0x0E, 32,  0,    2}},
     {"ADC0_RANGE"           , {0x25, 32,  0,    2}},
