@@ -42,8 +42,8 @@ HEADERS += \
 FORMS += \
         mainwindow.ui
 
-INCLUDEPATH += $$PWD/DIM/dim
-LIBS += -L"$$PWD/DIM/bin" -ldim
+INCLUDEPATH += $$PWD/DIM
+LIBS += -L"$$PWD/DIM" -ldim
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

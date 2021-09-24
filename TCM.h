@@ -110,24 +110,29 @@ struct TypeTCM {
             quint32 registers2[block2size] = {0};
             char pointer2[block2size * sizeof(quint32)];
             struct {
-                quint32 ORA_SIGN        :14, //┐
-                                        :18, //┘60
+                quint32                 : 7, //┐
+                        ORA_SIGN        : 7, //│60
+                                        :18, //┘
                         ORA_RATE        :31, //┐
                                         : 1, //┘61
-                        ORC_SIGN        :14, //┐
-                                        :18, //┘62
+                                        : 7, //┐
+                        ORC_SIGN        : 7, //│62
+                                        :18, //┘
                         ORC_RATE        :31, //┐
                                         : 1, //┘63
-                        SC_SIGN         :14, //┐
-                                        :18, //┘64
+                                        : 7, //┐
+                        SC_SIGN         : 7, //│64
+                                        :18, //┘
                         SC_RATE         :31, //┐
                                         : 1, //┘65
-                        C_SIGN          :14, //┐
-                                        :18, //┘66
+                                        : 7, //┐
+                        C_SIGN          : 7, //│66
+                                        :18, //┘
                         C_RATE          :31, //┐
                                         : 1, //┘67
-                        V_SIGN          :14, //┐
-                                        :18, //┘68
+                                        : 7, //┐
+                        V_SIGN          : 7, //│68
+                                        :18, //┘
                         V_RATE          :31, //┐
                                         : 1, //┘69
                         ORA_MODE        : 2, //┐
@@ -262,24 +267,29 @@ struct TypeTCM {
             quint32 registers3[block3size] = {0};
             char pointer3[block3size * sizeof(quint32)];
             struct {
-                quint32 ORA_SIGN        :14, //┐
-                                        :18, //┘60
+                quint32                 : 7, //┐
+                        ORA_SIGN        : 7, //│60
+                                        :18, //┘
                         ORA_RATE        :31, //┐
                                         : 1, //┘61
-                        ORC_SIGN        :14, //┐
-                                        :18, //┘62
+                                        : 7, //┐
+                        ORC_SIGN        : 7, //│62
+                                        :18, //┘
                         ORC_RATE        :31, //┐
                                         : 1, //┘63
-                        SC_SIGN         :14, //┐
-                                        :18, //┘64
+                                        : 7, //┐
+                        SC_SIGN         : 7, //│64
+                                        :18, //┘
                         SC_RATE         :31, //┐
                                         : 1, //┘65
-                        C_SIGN          :14, //┐
-                                        :18, //┘66
+                                        : 7, //┐
+                        C_SIGN          : 7, //│66
+                                        :18, //┘
                         C_RATE          :31, //┐
                                         : 1, //┘67
-                        V_SIGN          :14, //┐
-                                        :18, //┘68
+                                        : 7, //┐
+                        V_SIGN          : 7, //│68
+                                        :18, //┘
                         V_RATE          :31, //┐
                                         : 1, //┘69
                         ORA_MODE        : 2, //┐
@@ -338,7 +348,7 @@ struct TypeTCM {
         QList<DimService *> services;
     } counters;
 
-    QList<DimService *> services;
+    QList<DimService *> services, staticServices;
 };
 
 const QHash<QString, Parameter> TCMparameters = {
@@ -385,5 +395,7 @@ const QHash<QString, Parameter> TCMparameters = {
     {"V_MODE"               , {0x6A,  2, 12}},
     {"V_ENABLED"            , {0x6A,  1, 14}}
 };
+
+inline quint32 prepareSignature(quint32 sign) { return sign << 7 | (~sign & 0x7F); }
 
 #endif // TCM_H

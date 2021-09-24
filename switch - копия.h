@@ -2,6 +2,7 @@
 #define SWITCH_H
 
 #include <QtWidgets>
+const QColor OKcolor(0xb0d959), notOKcolor(0xff2c26);
 
 class Switch : public QAbstractButton {
     Q_OBJECT
@@ -15,13 +16,13 @@ class Switch : public QAbstractButton {
     QPropertyAnimation *_anim = nullptr;
 
 public:
-    Switch(QWidget* parent = nullptr, const QBrush &brush = QColor("#b0d959")):
+    Switch(QWidget* parent = nullptr, const QBrush &brush = OKcolor):
         QAbstractButton(parent),
         _switch(false),
         _orientation(false),
         _opacity(0.000),
         _margin(3),
-        _thumb("#ff2c26"),
+        _thumb(0xff2c26),
         _anim(new QPropertyAnimation(this, "offset", this))
     {
         setMinimumHeight(_orientation ? 12 : 18);
@@ -31,7 +32,7 @@ public:
 
         connect(this, &Switch::toggled, this, [=](){
             _switch = isChecked();
-            _thumb = _switch ? _brush : QBrush("#ff2c26");
+            _thumb = _switch ? _brush : notOKcolor;
             setOffset(_margin + (_switch == _orientation ? abs(width() - height()) : 0));
         });
     }
@@ -57,7 +58,7 @@ public:
 
     void swipe() {
         _switch = !_switch;
-        _thumb = _switch ? _brush : QBrush("#ff2c26");
+        _thumb = _switch ? _brush : notOKcolor;
         if (_switch) {
             _anim->setStartValue(offset());
             setOffset(_orientation ? width() - height() + _margin :  _margin);
@@ -67,7 +68,7 @@ public:
             setOffset(_orientation ? _margin : height() - width() + _margin);
             _anim->setEndValue(offset());
         }
-        _anim->setDuration(200);
+		_anim->setDuration(200);
         _anim->start();
         if(!this->getSwitchOnClick()) this->setChecked(_switch);
     }
@@ -76,7 +77,7 @@ protected:
     void paintEvent(QPaintEvent *e) override {
         QPainter p(this);
         p.setPen(Qt::NoPen);
-        p.setBrush(isEnabled() ? (_switch ? brush() : Qt::red) : Qt::gray);
+        p.setBrush(isEnabled() ? (_switch ? brush() : notOKcolor) : Qt::gray);
         p.setOpacity(isEnabled() ? (_switch ? 0.5 : 0.38) : 0.12);
         p.setRenderHint(QPainter::Antialiasing, true);
         p.drawRoundedRect(QRect(_margin, _margin,

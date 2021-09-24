@@ -5,7 +5,7 @@
 #include <QHash>
 #include <QDateTime>
 #include <QVector>
-#include "DIM/dim/dis.hxx"
+#include "DIM/dis.hxx"
 #include <functional>
 
 enum TypeFITsubdetector {FT0=1, FV0=2, FDD=3};
@@ -14,13 +14,27 @@ inline TypeFITsubdetector getSubdetectorTypeByName(QString s) {
     if (s == "FDD") return FDD;
     else return FT0;
 }
-const struct TypeFITconstants {
-    char name[4]; quint16 TCMid; quint8 systemID;
-} FIT[4] = {
-    {    "???",          0xFFFF,         0 },
-    {    "FT0",          0xF000,        34 },
-    {    "FV0",          0xF500,        35 },
-    {    "FDD",          0xFD00,        33 }
+const struct {char name[4]; quint16 TCMid; quint8 systemID; struct {const char *name; qint16 signature;} triggers[5];} FIT[4] = { //global static constants
+             {       "???",        0xFFFF,               0,        {  {   "Trigger1",              75},
+                                                                      {   "Trigger2",              76},
+                                                                      {   "Trigger3",              77},
+                                                                      {   "Trigger4",              78},
+                                                                      {   "Trigger5",              79} }             },
+             {       "FT0",        0xF000,              34,        {  {    "Central",              70},
+                                                                      {"SemiCentral",              71},
+                                                                      {     "Vertex",              72},
+                                                                      {        "OrC",              73},
+                                                                      {        "OrA",              74} }             },
+             {       "FV0",        0xF500,              35,        {  {     "Charge",              40},
+                                                                      {  "Nchannels",              41},
+                                                                      { "InnerRings",              42},
+                                                                      { "OuterRings",              43},
+                                                                      {        "OrA",              44} }             },
+             {       "FDD",        0xFD00,              33,        {  {    "Central",             110},
+                                                                      {"SemiCentral",             111},
+                                                                      {     "Vertex",             112},
+                                                                      {        "OrC",             113},
+                                                                      {        "OrA",             114} }             }
 };
 
 struct GBTunit { // 32 registers * 4 bytes = 128 bytes
@@ -208,5 +222,13 @@ struct TRGsyncStatus {
         line3signalStable	: 1,
         linkOK              : 1;
 };
+
+//class CustomDIMservice {
+//    DimService *service;
+//public:
+//    CustomDIMservice(DimService *s) {}
+//    int updateService() {}
+//    template<typename... Args> int updateService(Args... args) { return service->updateService(args...); }
+//};
 
 #endif // GBT_H

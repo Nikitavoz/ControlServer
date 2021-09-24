@@ -54,6 +54,11 @@ public:
             allPMs[i     ].FEEid = TCMid + 0xA0 + i;
             allPMs[i + 10].FEEid = TCMid + 0xC0 + i;
         }
+        TCM.set.ORA_SIGN = FIT[sd].triggers[4].signature;
+        TCM.set.ORC_SIGN = FIT[sd].triggers[3].signature;
+        TCM.set. SC_SIGN = FIT[sd].triggers[1].signature;
+        TCM.set.  C_SIGN = FIT[sd].triggers[0].signature;
+        TCM.set.  V_SIGN = FIT[sd].triggers[2].signature;
         selectedBoard = TCMid;
         connect(countersTimer, &QTimer::timeout, this, &FITelectronics::readCountersFIFO);
         //connect(fullSyncTimer, &QTimer::timeout, this, &FITelectronics::fullSync);
@@ -65,7 +70,17 @@ public:
             if (countersTimer->isActive()) countersTimer->stop();
             //if (fullSyncTimer->isActive()) fullSyncTimer->stop();
         });
-        connect(this, &IPbusTarget::IPbusStatusOK, this, [=]() { if (TCM.services.isEmpty()) createTCMservices(); });
+        connect(this, &IPbusTarget::IPbusStatusOK, this, [=]() {
+            addWordToWrite(TCMparameters["ORA_SIGN"].address, prepareSignature(TCM.set.ORA_SIGN));
+            addWordToWrite(TCMparameters["ORC_SIGN"].address, prepareSignature(TCM.set.ORC_SIGN));
+            addWordToWrite(TCMparameters[ "SC_SIGN"].address, prepareSignature(TCM.set. SC_SIGN));
+            addWordToWrite(TCMparameters[  "C_SIGN"].address, prepareSignature(TCM.set.  C_SIGN));
+            addWordToWrite(TCMparameters[  "V_SIGN"].address, prepareSignature(TCM.set.  V_SIGN));
+            transceive();
+            if (TCM.services.isEmpty()) createTCMservices();
+        });
+        //qDebug() << QHostInfo::lookupHost("%DIM_DNS_NODE%", this, [=]() {});
+        DIMserver.setDnsNode("localhost");
         DIMserver.start(qPrintable(QString(FIT[sd].name) + "_DIM_SERVER"));
     }
 
@@ -186,6 +201,24 @@ public:
 			TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/TRG_SYNC/%s", FIT[subdetector].name, allPMs[iPM   ].name)), "I", TCM.act.TRG_SYNC_A + iPM, 4));
 			TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/TRG_SYNC/%s", FIT[subdetector].name, allPMs[iPM+10].name)), "I", TCM.act.TRG_SYNC_C + iPM, 4));
         }
+
+        for (quint8 i = 0; i<5; ++i) {
+            TCM.staticServices.append(new DimService( qPrintable(prefix+"Trigger"+QString::number(i+1)+"/NAME"     ),  const_cast<char   *>( FIT[subdetector].triggers[i].name     ) ));
+            TCM.staticServices.append(new DimService( qPrintable(prefix+"Trigger"+QString::number(i+1)+"/SIGNATURE"), *const_cast<qint16 *>(&FIT[subdetector].triggers[i].signature) ));
+        }
+
+        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger1/CNT"), "I", &TCM.counters.CNT_C  , 4));
+        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger2/CNT"), "I", &TCM.counters.CNT_SC , 4));
+        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger3/CNT"), "I", &TCM.counters.CNT_V  , 4));
+        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger4/CNT"), "I", &TCM.counters.CNT_ORC, 4));
+        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger5/CNT"), "I", &TCM.counters.CNT_ORA, 4));
+        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger1/CNT_RATE"), "D", TCM.counters.rate + 3, 8));
+        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger2/CNT_RATE"), "D", TCM.counters.rate + 2, 8));
+        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger3/CNT_RATE"), "D", TCM.counters.rate + 4, 8));
+        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger4/CNT_RATE"), "D", TCM.counters.rate + 1, 8));
+        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger5/CNT_RATE"), "D", TCM.counters.rate    , 8));
+        //TCM.services.append(new DimService(qPrintable(prefix+"Trigger1/OUTPUT_ENABLED"), "S", TCM.counters.rate    , 8));
+
     }
 
     void deletePMservices(TypePM *pm) {
@@ -199,9 +232,10 @@ public:
     }
 
     void deleteTCMservices() {
-        foreach (DimService *s, TCM.services + TCM.counters.services) delete s;
+        foreach (DimService *s, TCM.services + TCM.counters.services + TCM.staticServices) delete s;
         TCM.services.clear();
         TCM.counters.services.clear();
+        TCM.staticServices.clear();
 //        foreach (DimService *s, TCM.servicesNew) delete s;
 //        TCM.servicesNew.clear();
 //        foreach (DimCommand *c, TCM.commands) { allCommands.remove(c); delete c; }
@@ -327,6 +361,7 @@ public slots:
 				TCM.counters.rate[i] = (TCM.counters.New[i] - TCM.counters.Old[i]) * 1000. / time_ms;
 				TCM.counters.Old[i] = TCM.counters.New[i];
 			}
+            foreach (DimService *s, TCM.counters.services) s->updateService();
 			foreach (TypePM *pm, PM) {
                 pm->counters.oldTime = QDateTime::currentDateTime();
 				for (quint8 i=0; i<TypePM::Counters::number; ++i) {
@@ -334,6 +369,7 @@ public slots:
 					pm->counters.Old[i] = pm->counters.New[i];
 				}
                 foreach (DimService *s, pm->counters.services) s->updateService();
+
 			}
 			emit countersReady();
 		}
@@ -349,6 +385,7 @@ public slots:
                 TCM.counters.Old[i] = TCM.counters.New[i];
             }
             TCM.counters.oldTime = TCM.counters.newTime;
+            foreach (DimService *s, TCM.counters.services) s->updateService();
         }
         foreach (TypePM *pm, PM) {
             addTransaction(read, pm->baseAddress + TypePM::Counters::addressDirect, pm->counters.New, TypePM::Counters::number);
@@ -414,19 +451,6 @@ public slots:
         }
         foreach (TypePM *pm, PM) if (isTCM || pm != curPM) if (!read1PM(pm)) break;
     }
-
-//    void sync() { //read actual values
-//        addSystemValuesToRead();
-//        if (isTCM) {
-//            addTCMvaluesToRead();
-//            if (!transceive()) return;
-//        } else if (!read1PM(curPM)) return;
-//        TCM.act.COUNTERS_UPD_RATE &= 0b111;
-//        TCM.act.calculateValues();
-//        foreach (DimService *s, TCM.services) s->updateService();
-//        emit valuesReady();
-//        if (TCM.act.COUNTERS_UPD_RATE == 0) readCountersDirectly();
-//    }
 
         void sync() { //read actual values
             addSystemValuesToRead();
@@ -624,11 +648,11 @@ public slots:
     void apply_SC_RATE () { writeParameter( "SC_RATE", TCM.set. SC_RATE, TCMid); }
     void apply_C_RATE  () { writeParameter(  "C_RATE", TCM.set.  C_RATE, TCMid); }
     void apply_V_RATE  () { writeParameter(  "V_RATE", TCM.set.  V_RATE, TCMid); }
-	void apply_ORA_SIGN() { quint16 s = TCM.set.ORA_SIGN & 0x7F; TCM.set.ORA_SIGN = s += (~s << 7); writeParameter("ORA_SIGN", s, TCMid); }
-	void apply_ORC_SIGN() { quint16 s = TCM.set.ORC_SIGN & 0x7F; TCM.set.ORC_SIGN = s += (~s << 7); writeParameter("ORC_SIGN", s, TCMid); }
-	void apply_SC_SIGN () { quint16 s = TCM.set. SC_SIGN & 0x7F; TCM.set. SC_SIGN = s += (~s << 7); writeParameter( "SC_SIGN", s, TCMid); }
-	void apply_C_SIGN  () { quint16 s = TCM.set.  C_SIGN & 0x7F; TCM.set.  C_SIGN = s += (~s << 7); writeParameter(  "C_SIGN", s, TCMid); }
-	void apply_V_SIGN  () { quint16 s = TCM.set.  V_SIGN & 0x7F; TCM.set.  V_SIGN = s += (~s << 7); writeParameter(  "V_SIGN", s, TCMid); }
+    void apply_ORA_SIGN() { writeParameter("ORA_SIGN", prepareSignature(TCM.set.ORA_SIGN), TCMid); }
+    void apply_ORC_SIGN() { writeParameter("ORC_SIGN", prepareSignature(TCM.set.ORC_SIGN), TCMid); }
+    void apply_SC_SIGN () { writeParameter( "SC_SIGN", prepareSignature(TCM.set. SC_SIGN), TCMid); }
+    void apply_C_SIGN  () { writeParameter(  "C_SIGN", prepareSignature(TCM.set.  C_SIGN), TCMid); }
+    void apply_V_SIGN  () { writeParameter(  "V_SIGN", prepareSignature(TCM.set.  V_SIGN), TCMid); }
     void apply_SC_LEVEL_A() { writeParameter("SC_LEVEL_A", TCM.set.SC_LEVEL_A, TCMid); }
     void apply_C_LEVEL_A () { writeParameter( "C_LEVEL_A", TCM.set. C_LEVEL_A, TCMid); }
     void apply_SC_LEVEL_C() { writeParameter("SC_LEVEL_C", TCM.set.SC_LEVEL_C, TCMid); }

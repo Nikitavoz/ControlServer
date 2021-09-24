@@ -1,2 +1,0 @@
-HEADERS += switch.h
-SOURCES +=

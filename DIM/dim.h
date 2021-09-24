@@ -13,7 +13,7 @@
 
 #include "dim_common.h"
 
-#define DIM_VERSION_NUMBER 2029
+#define DIM_VERSION_NUMBER 2030
 
 #ifdef LABVIEWGSI
 /*this is a hack, but we have to overcome the problem that LabVIEW uses Motorola endian on an Intel machine*/

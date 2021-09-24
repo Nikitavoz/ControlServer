@@ -385,8 +385,8 @@ public:
     ~MainWindow() {
         settings.setValue("subdetector", FIT[FEE.subdetector].name);
         settings.setValue("IPaddress", FEE.IPaddress);
-		//settings.setValue("TCMpars", QVariant(TCMparameters.keys()));
-		settings.setValue("TCM", QByteArray( (char *)&FEE.TCM.set, sizeof(TypeTCM::Settings) ));
+        settings.setValue("TCMpars", QVariant(TCMparameters.keys()));
+        settings.setValue("TCM", QByteArray( (char *)&FEE.TCM.set, sizeof(TypeTCM::Settings) ));
         foreach (TypePM *pm, FEE.PM) settings.setValue(QString("PM") + pm->name, QByteArray( (char *)&(pm->set), sizeof(TypePM::Settings) ));
         delete ui;
     }
