@@ -680,7 +680,7 @@ public slots:
                 labelsADC0baseLineCh     [i]->setStyleSheet(FEE.curPM->act.CH_BASELINES_NOK & (1 << i) ? notOKstyle : neutralStyle);
                 labelsADC1baseLineCh     [i]->setStyleSheet(FEE.curPM->act.CH_BASELINES_NOK & (1 << i) ? notOKstyle : neutralStyle);
                 labelsADC0RMSCh          [i]->setText(QString::asprintf( "%5.1f", FEE.curPM->act.RMS_Ch[i][0]));
-                labelsADC1RMSCh          [i]->setText(QString::asprintf( "%5.1f", FEE.curPM->act.RMS_Ch[i][0]));
+                labelsADC1RMSCh          [i]->setText(QString::asprintf( "%5.1f", FEE.curPM->act.RMS_Ch[i][1]));
                 labelsADC0meanAmplitudeCh[i]->setText(QString::asprintf("%d", FEE.curPM->act.MEANAMPL[i][0][0]));
                 labelsADC1meanAmplitudeCh[i]->setText(QString::asprintf("%d", FEE.curPM->act.MEANAMPL[i][1][0]));
                 labelsRawTDCdata1Ch      [i]->setText(QString::asprintf("%02X", FEE.curPM->act.RAW_TDC_DATA[i][0]));
