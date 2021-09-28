@@ -8,11 +8,12 @@
 #include "DIM/dis.hxx"
 #include <functional>
 
-enum TypeFITsubdetector {FT0=1, FV0=2, FDD=3};
+enum TypeFITsubdetector {_0_=0, FT0=1, FV0=2, FDD=3};
 inline TypeFITsubdetector getSubdetectorTypeByName(QString s) {
+    if (s == "FT0") return FT0;
     if (s == "FV0") return FV0;
     if (s == "FDD") return FDD;
-    else return FT0;
+    else return _0_;
 }
 const struct {char name[4]; quint16 TCMid; quint8 systemID; struct {const char *name; qint16 signature;} triggers[5];} FIT[4] = { //global static constants
              {       "???",        0xFFFF,               0,        {  {   "Trigger1",              75},

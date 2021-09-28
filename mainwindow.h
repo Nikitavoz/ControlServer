@@ -263,7 +263,7 @@ public:
             ui->sliderLaser->setEnabled(checked);
             ui->sliderAttenuation->setEnabled(checked);
         });
-        controlMenu->addAction("Read all &PMs", &FEE, &FITelectronics::fullSync);
+        //controlMenu->addAction("Read all &PMs", &FEE, &FITelectronics::fullSync);
         QMenu *networkMenu = menuBar()->addMenu("&Network");
 		networkMenu->addAction(QIcon(":/recheck.png"), "&Recheck and default", this, SLOT(recheckTarget()), QKeySequence::Refresh);
         networkMenu->addAction("&Change target IP address...", this, SLOT(changeIP()));
@@ -277,9 +277,6 @@ public:
         });
         connect(&FEE, &IPbusTarget::IPbusStatusOK, this, [=]() {
             ui->centralWidget->setEnabled(true);
-            FEE.checkPMlinks();
-            FEE.apply_RESET_ERRORS();
-            //FEE.fullSyncTimer->start(10000);
         });
         connect(&FEE, &IPbusTarget::noResponse, this, [=]() {
             statusBar()->showMessage(statusBar()->currentMessage() == "" ? FEE.IPaddress + ": no response" : "");
@@ -377,6 +374,7 @@ public:
         FEE.reconnect();
 //read settings
         if (settings.contains("TCM")) memcpy(&FEE.TCM.set, settings.value("TCM").toByteArray().data(), sizeof(TypeTCM::Settings));
+
         foreach (TypePM *pm, FEE.PM) if (settings.contains(QString("PM") + pm->name)) memcpy(&(pm->set), settings.value(QString("PM") + pm->name).toByteArray().data(), sizeof(TypePM::Settings));
 		updateEdits();
         resetHighlight();
@@ -385,7 +383,7 @@ public:
     ~MainWindow() {
         settings.setValue("subdetector", FIT[FEE.subdetector].name);
         settings.setValue("IPaddress", FEE.IPaddress);
-        settings.setValue("TCMpars", QVariant(TCMparameters.keys()));
+        //settings.setValue("TCMpars", QVariant(TCMparameters.keys()));
         settings.setValue("TCM", QByteArray( (char *)&FEE.TCM.set, sizeof(TypeTCM::Settings) ));
         foreach (TypePM *pm, FEE.PM) settings.setValue(QString("PM") + pm->name, QByteArray( (char *)&(pm->set), sizeof(TypePM::Settings) ));
         delete ui;
@@ -598,11 +596,11 @@ public slots:
             ui->labelValueTriggersRandomRate_ORA->setText(QString::asprintf("%08X", FEE.TCM.act.ORA_RATE));
             ui->labelValueTriggersRandomRate_ORC->setText(QString::asprintf("%08X", FEE.TCM.act.ORC_RATE));
             ui->labelValueTriggersRandomRate_V  ->setText(QString::asprintf("%08X", FEE.TCM.act.V_RATE   ));
-			ui->labelValueTriggersSignature_SC ->setText(QString::asprintf("%d", FEE.TCM.act.SC_SIGN  & 0x7F)); //7 bit of signature
-			ui->labelValueTriggersSignature_C  ->setText(QString::asprintf("%d", FEE.TCM.act.C_SIGN   & 0x7F));
-			ui->labelValueTriggersSignature_ORA->setText(QString::asprintf("%d", FEE.TCM.act.ORA_SIGN & 0x7F));
-			ui->labelValueTriggersSignature_ORC->setText(QString::asprintf("%d", FEE.TCM.act.ORC_SIGN & 0x7F));
-			ui->labelValueTriggersSignature_V  ->setText(QString::asprintf("%d", FEE.TCM.act.V_SIGN   & 0x7F));
+            ui->labelValueTriggersSignature_SC ->setText(QString::asprintf("%d", FEE.TCM.act.SC_SIGN ));
+            ui->labelValueTriggersSignature_C  ->setText(QString::asprintf("%d", FEE.TCM.act.C_SIGN  ));
+            ui->labelValueTriggersSignature_ORA->setText(QString::asprintf("%d", FEE.TCM.act.ORA_SIGN));
+            ui->labelValueTriggersSignature_ORC->setText(QString::asprintf("%d", FEE.TCM.act.ORC_SIGN));
+            ui->labelValueTriggersSignature_V  ->setText(QString::asprintf("%d", FEE.TCM.act.V_SIGN  ));
             ui->labelValueTriggersLevelA_SC->setText(QString::asprintf("%d", FEE.TCM.act.SC_LEVEL_A));
             ui->labelValueTriggersLevelC_SC->setText(QString::asprintf("%d", FEE.TCM.act.SC_LEVEL_C));
             ui->labelValueTriggersLevelA_C ->setText(QString::asprintf("%d", FEE.TCM.act.C_LEVEL_A ));

@@ -44,6 +44,7 @@ public:
     };
     GBTunit *curGBTact = &TCM.act.GBT;
     GBTunit::ControlData *curGBTset = &TCM.set.GBT;
+    GBTunit::ControlData GBTdefaults;
     QMap<quint16, TypePM *> PM;
 	QTimer *countersTimer = new QTimer();
     //QTimer *fullSyncTimer = new QTimer();
@@ -70,16 +71,25 @@ public:
             if (countersTimer->isActive()) countersTimer->stop();
             //if (fullSyncTimer->isActive()) fullSyncTimer->stop();
         });
-        connect(this, &IPbusTarget::IPbusStatusOK, this, [=]() {
-            addWordToWrite(TCMparameters["ORA_SIGN"].address, prepareSignature(TCM.set.ORA_SIGN));
-            addWordToWrite(TCMparameters["ORC_SIGN"].address, prepareSignature(TCM.set.ORC_SIGN));
-            addWordToWrite(TCMparameters[ "SC_SIGN"].address, prepareSignature(TCM.set. SC_SIGN));
-            addWordToWrite(TCMparameters[  "C_SIGN"].address, prepareSignature(TCM.set.  C_SIGN));
-            addWordToWrite(TCMparameters[  "V_SIGN"].address, prepareSignature(TCM.set.  V_SIGN));
-            transceive();
+        connect(this, &IPbusTarget::IPbusStatusOK, this, [=]() { //init some parameters
+            addWordToWrite(TCMparameters["ORA_SIGN"].address, prepareSignature(FIT[sd].triggers[4].signature));
+            addWordToWrite(TCMparameters["ORC_SIGN"].address, prepareSignature(FIT[sd].triggers[3].signature));
+            addWordToWrite(TCMparameters[ "SC_SIGN"].address, prepareSignature(FIT[sd].triggers[1].signature));
+            addWordToWrite(TCMparameters[  "C_SIGN"].address, prepareSignature(FIT[sd].triggers[0].signature));
+            addWordToWrite(TCMparameters[  "V_SIGN"].address, prepareSignature(FIT[sd].triggers[2].signature));
+            addWordToWrite(0x6A, 0x6DB6); //switch all trigger outputs to signature mode
+            addTransaction(read, TCMparameters["COUNTERS_UPD_RATE"].address, &TCM.act.COUNTERS_UPD_RATE);
+            if (!transceive()) return;
+            if (TCM.act.COUNTERS_UPD_RATE != 0) {
+                clearFIFOs();
+                countersTimer->start(countersUpdatePeriod_ms[TCM.act.COUNTERS_UPD_RATE] / 2);
+            }
             if (TCM.services.isEmpty()) createTCMservices();
+            checkPMlinks();
+            apply_RESET_ERRORS();
+            //FEE.fullSyncTimer->start(10000);
         });
-        //qDebug() << QHostInfo::lookupHost("%DIM_DNS_NODE%", this, [=]() {});
+
         DIMserver.setDnsNode("localhost");
         DIMserver.start(qPrintable(QString(FIT[sd].name) + "_DIM_SERVER"));
     }
@@ -295,10 +305,10 @@ public slots:
         PM.clear();
         for (quint8 i=0; i<20; ++i) {
             if (!(TCM.act.PM_MASK_SPI >> i & 1)) setBit(i, TCMparameters["PM_MASK_SPI"].address, false);
-            addTransaction(read, allPMs[i].baseAddress + 0xFD, &allPMs[i].act.voltage1);
+            addTransaction(read, allPMs[i].baseAddress + 0xFE, &allPMs[i].act.voltage1_8);
             addTransaction(read, allPMs[i].baseAddress + 0x7F, allPMs[i].act.registers1); //board status register
             if (!transceive()) return;
-			if (allPMs[i].act.voltage1 == 0xFFFFFFFF || allPMs[i].act.voltage1 == 0) { //SPI error
+            if (allPMs[i].act.voltage1_8 == 0xFFFFFFFF || allPMs[i].act.voltage1_8 == 0) { //SPI error
                 clearBit(i, TCMparameters["PM_MASK_SPI"].address, false);
 				deletePMservices(allPMs + i);
             } else {
@@ -426,31 +436,32 @@ public slots:
         addTransaction(read, pm->baseAddress + 0xFF, (quint32 *)&pm->act.FW_TIME_FPGA);
         addTransaction(read, pm->baseAddress + TypePM::ActualValues::block0addr, pm->act.registers0, TypePM::ActualValues::block0size);
         addTransaction(read, pm->baseAddress + TypePM::ActualValues::block1addr, pm->act.registers1, TypePM::ActualValues::block1size);
-        addTransaction(read, pm->baseAddress + TypePM::ActualValues::block2addr, pm->act.registers2, TypePM::ActualValues::block2size);
+        addTransaction(read, pm->baseAddress + TypePM::ActualValues::block2addr, pm->act.registers2, TypePM::ActualValues::block2size - 1);
     }
 
 	bool read1PM(TypePM *pm) {
-        addPMvaluesToRead(pm);
-        if (!transceive()) return false;
-        if ((pm->act.voltage1 == 0xFFFFFFFF || pm->act.voltage1 == 0) && !TCM.act.systemRestarted) {
-			clearBit(pm - allPMs, 0x1E, false);
-			deletePMservices(pm);
-			PM.remove(pm->FEEid);
+        pm->act.voltage1_8 = readRegister(pm->baseAddress + 0xFE);
+        if (pm->act.voltage1_8 == 0xFFFFFFFF || pm->act.voltage1_8 == 0) { //SPI error
+            clearBit(pm - allPMs, 0x1E, false);
+            deletePMservices(pm);
+            PM.remove(pm->FEEid);
             emit linksStatusReady();
         } else {
+            addPMvaluesToRead(pm);
+            if (!transceive()) return false;
             pm->act.calculateValues();
             foreach (DimService *s, pm->services) s->updateService();
         }
         return true;
     }
 
-    void fullSync() { //read all available values
-        if (!isTCM) {
-            addTCMvaluesToRead();
-            if (!transceive()) return;
-        }
-        foreach (TypePM *pm, PM) if (isTCM || pm != curPM) if (!read1PM(pm)) break;
-    }
+//    void fullSync() { //read all available values
+//        if (!isTCM) {
+//            addTCMvaluesToRead();
+//            if (!transceive()) return;
+//        }
+//        foreach (TypePM *pm, PM) if (isTCM || pm != curPM) if (!read1PM(pm)) break;
+//    }
 
         void sync() { //read actual values
             addSystemValuesToRead();
