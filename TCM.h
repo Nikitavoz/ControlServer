@@ -16,7 +16,7 @@ struct TypeTCM {
             block0addr = 0x00, block0size = 0x1E + 1 - block0addr, //31
             block1addr = 0x30, block1size = 0x3A + 1 - block1addr, //11
             block2addr = 0x60, block2size = 0x6A + 1 - block2addr, //11
-			block3addr = 0xFC, block3size = 0xFE + 1 - block3addr; // 3
+            block3addr = 0xFC, block3size = 0xFE + 1 - block3addr; // 3
 
         union { //block0
             quint32 registers0[block0size] = {0};
@@ -45,18 +45,21 @@ struct TypeTCM {
 										:22, //┘08
 						VTIME_HIGH      :10, //┐
 										:22; //┘09
-                quint32 SC_LEVEL_A      :16, //┐
+                quint32 T2_LEVEL_A      :16, //┐
                                         :16, //┘0A
-                        SC_LEVEL_C      :16, //┐
+                        T2_LEVEL_C      :16, //┐
                                         :16, //┘0B
-                        C_LEVEL_A       :16, //┐
+                        T1_LEVEL_A      :16, //┐
                                         :16, //┘0C
-                        C_LEVEL_C       :16, //┐
+                        T1_LEVEL_C      :16, //┐
                                         :16, //┘0D
                         ADD_C_DELAY     : 1, //┐
                         C_SC_TRG_MODE   : 2, //│
-                        EXTENDED_READOUT: 1, //│0E
-                                        :28, //┘
+                        EXTENDED_READOUT: 1, //│
+                        corrCNTselect   : 4, //│0E
+                        SC_EVAL_MODE    : 1, //│
+                        FV0_MODE        : 1, //│
+                                        :22, //┘
                         PLLlockC        : 1, //┐
                         PLLlockA        : 1, //│
                         systemRestarted : 1, //│
@@ -111,40 +114,40 @@ struct TypeTCM {
             char pointer2[block2size * sizeof(quint32)];
             struct {
                 quint32                 : 7, //┐
-                        ORA_SIGN        : 7, //│60
+                        T5_SIGN         : 7, //│60
                                         :18, //┘
-                        ORA_RATE        :31, //┐
+                        T5_RATE         :31, //┐
                                         : 1, //┘61
                                         : 7, //┐
-                        ORC_SIGN        : 7, //│62
+                        T4_SIGN         : 7, //│62
                                         :18, //┘
-                        ORC_RATE        :31, //┐
+                        T4_RATE         :31, //┐
                                         : 1, //┘63
                                         : 7, //┐
-                        SC_SIGN         : 7, //│64
+                        T2_SIGN         : 7, //│64
                                         :18, //┘
-                        SC_RATE         :31, //┐
+                        T2_RATE         :31, //┐
                                         : 1, //┘65
                                         : 7, //┐
-                        C_SIGN          : 7, //│66
+                        T1_SIGN         : 7, //│66
                                         :18, //┘
-                        C_RATE          :31, //┐
+                        T1_RATE         :31, //┐
                                         : 1, //┘67
                                         : 7, //┐
-                        V_SIGN          : 7, //│68
+                        T3_SIGN         : 7, //│68
                                         :18, //┘
-                        V_RATE          :31, //┐
+                        T3_RATE         :31, //┐
                                         : 1, //┘69
-                        ORA_MODE        : 2, //┐
-                        ORA_ENABLED     : 1, //│
-                        ORC_MODE        : 2, //│
-                        ORC_ENABLED     : 1, //│
-                        SC_MODE         : 2, //│
-                        SC_ENABLED      : 1, //│6A
-                        C_MODE          : 2, //│
-                        C_ENABLED       : 1, //│
-                        V_MODE          : 2, //│
-                        V_ENABLED       : 1, //│
+                        T5_MODE         : 2, //┐
+                        T5_ENABLED      : 1, //│
+                        T4_MODE         : 2, //│
+                        T4_ENABLED      : 1, //│
+                        T2_MODE         : 2, //│
+                        T2_ENABLED      : 1, //│6A
+                        T1_MODE         : 2, //│
+                        T1_ENABLED      : 1, //│
+                        T3_MODE         : 2, //│
+                        T3_ENABLED      : 1, //│
                                         :17; //┘
             };
         };
@@ -160,6 +163,7 @@ struct TypeTCM {
             };
         };
         Timestamp FW_TIME_FPGA;              //]FF
+
 //calculable parameters
         double
             TEMP_BOARD,
@@ -230,18 +234,21 @@ struct TypeTCM {
 										:22, //┘08
 						VTIME_HIGH      :10, //┐
 										:22; //┘09
-                quint32 SC_LEVEL_A      :16, //┐
+                quint32 T2_LEVEL_A      :16, //┐
                                         :16, //┘0A
-                        SC_LEVEL_C      :16, //┐
+                        T2_LEVEL_C      :16, //┐
                                         :16, //┘0B
-                        C_LEVEL_A       :16, //┐
+                        T1_LEVEL_A      :16, //┐
                                         :16, //┘0C
-                        C_LEVEL_C       :16, //┐
+                        T1_LEVEL_C      :16, //┐
                                         :16, //┘0D
                         ADD_C_DELAY     : 1, //┐
                         C_SC_TRG_MODE   : 2, //│
-                        EXTENDED_READOUT: 1, //│0E
-                                        :28; //┘
+                        EXTENDED_READOUT: 1, //│
+                        corrCNTselect   : 4, //│0E
+                        SC_EVAL_MODE    : 1, //│
+                        FV0_MODE        : 1, //│
+                                        :22; //┘
             };
         };
         union { //block2
@@ -268,40 +275,40 @@ struct TypeTCM {
             char pointer3[block3size * sizeof(quint32)];
             struct {
                 quint32                 : 7, //┐
-                        ORA_SIGN        : 7, //│60
+                        T5_SIGN         : 7, //│60
                                         :18, //┘
-                        ORA_RATE        :31, //┐
+                        T5_RATE         :31, //┐
                                         : 1, //┘61
                                         : 7, //┐
-                        ORC_SIGN        : 7, //│62
+                        T4_SIGN         : 7, //│62
                                         :18, //┘
-                        ORC_RATE        :31, //┐
+                        T4_RATE         :31, //┐
                                         : 1, //┘63
                                         : 7, //┐
-                        SC_SIGN         : 7, //│64
+                        T2_SIGN         : 7, //│64
                                         :18, //┘
-                        SC_RATE         :31, //┐
+                        T2_RATE         :31, //┐
                                         : 1, //┘65
                                         : 7, //┐
-                        C_SIGN          : 7, //│66
+                        T1_SIGN         : 7, //│66
                                         :18, //┘
-                        C_RATE          :31, //┐
+                        T1_RATE         :31, //┐
                                         : 1, //┘67
                                         : 7, //┐
-                        V_SIGN          : 7, //│68
+                        T3_SIGN         : 7, //│68
                                         :18, //┘
-                        V_RATE          :31, //┐
+                        T3_RATE         :31, //┐
                                         : 1, //┘69
-                        ORA_MODE        : 2, //┐
-                        ORA_ENABLED     : 1, //│
-                        ORC_MODE        : 2, //│
-                        ORC_ENABLED     : 1, //│
-                        SC_MODE         : 2, //│
-                        SC_ENABLED      : 1, //│6A
-                        C_MODE          : 2, //│
-                        C_ENABLED       : 1, //│
-                        V_MODE          : 2, //│
-                        V_ENABLED       : 1, //│
+                        T5_MODE         : 2, //┐
+                        T5_ENABLED      : 1, //│
+                        T4_MODE         : 2, //│
+                        T4_ENABLED      : 1, //│
+                        T2_MODE         : 2, //│
+                        T2_ENABLED      : 1, //│6A
+                        T1_MODE         : 2, //│
+                        T1_ENABLED      : 1, //│
+                        T3_MODE         : 2, //│
+                        T3_ENABLED      : 1, //│
                                         :17; //┘
             };
         };
@@ -326,11 +333,11 @@ struct TypeTCM {
         union {
             quint32 New[number] = {0};
             struct {
-                quint32 CNT_ORA,
-                        CNT_ORC,
-                        CNT_SC,
-                        CNT_C,
-                        CNT_V,
+                quint32 CNT_T5,
+                        CNT_T4,
+                        CNT_T2,
+                        CNT_T1,
+                        CNT_T3,
                         CNT_bgA,
                         CNT_bgC,
                         CNT_bgA_and_bgC,
@@ -360,13 +367,15 @@ const QHash<QString, Parameter> TCMparameters = {
     {"EXT_SW"               ,  0x04         },
     {"VTIME_LOW"            ,  0x08         },
     {"VTIME_HIGH"           ,  0x09         },
-    {"SC_LEVEL_A"           ,  0x0A         },
-    {"SC_LEVEL_C"           ,  0x0B         },
-    {"C_LEVEL_A"            ,  0x0C         },
-    {"C_LEVEL_C"            ,  0x0D         },
+    {"T2_LEVEL_A"           ,  0x0A         },
+    {"T2_LEVEL_C"           ,  0x0B         },
+    {"T1_LEVEL_A"           ,  0x0C         },
+    {"T1_LEVEL_C"           ,  0x0D         },
     {"ADD_C_DELAY"          , {0x0E,  1,  0}},
     {"C_SC_TRG_MODE"        , {0x0E,  2,  1}},
     {"EXTENDED_READOUT"     , {0x0E,  1,  3}},
+    {"SC_EVAL_MODE"         , {0x0E,  1,  8}},
+    {"FV0_MODE"             , {0x0E,  1,  9}},
     {"CH_MASK_A"            ,  0x1A         },
     {"LASER_DIVIDER"        , {0x1B, 24,  0}},
     {"LASER_SOURCE"         , {0x1B,  1, 31}},
@@ -374,26 +383,26 @@ const QHash<QString, Parameter> TCMparameters = {
     {"PM_MASK_SPI"          ,  0x1E         },
     {"CH_MASK_C"            ,  0x3A         },
     {"COUNTERS_UPD_RATE"    ,  0x50         },
-    {"ORA_SIGN"             ,  0x60         },
-    {"ORA_RATE"             ,  0x61         },
-    {"ORC_SIGN"             ,  0x62         },
-    {"ORC_RATE"             ,  0x63         },
-    {"SC_SIGN"              ,  0x64         },
-    {"SC_RATE"              ,  0x65         },
-    {"C_SIGN"               ,  0x66         },
-    {"C_RATE"               ,  0x67         },
-    {"V_SIGN"               ,  0x68         },
-    {"V_RATE"               ,  0x69         },
-    {"ORA_MODE"             , {0x6A,  2,  0}},
-    {"ORA_ENABLED"          , {0x6A,  1,  2}},
-    {"ORC_MODE"             , {0x6A,  2,  3}},
-    {"ORC_ENABLED"          , {0x6A,  1,  5}},
-    {"SC_MODE"              , {0x6A,  2,  6}},
-    {"SC_ENABLED"           , {0x6A,  1,  8}},
-    {"C_MODE"               , {0x6A,  2,  9}},
-    {"C_ENABLED"            , {0x6A,  1, 11}},
-    {"V_MODE"               , {0x6A,  2, 12}},
-    {"V_ENABLED"            , {0x6A,  1, 14}}
+    {"T5_SIGN"              ,  0x60         },
+    {"T5_RATE"              ,  0x61         },
+    {"T4_SIGN"              ,  0x62         },
+    {"T4_RATE"              ,  0x63         },
+    {"T2_SIGN"              ,  0x64         },
+    {"T2_RATE"              ,  0x65         },
+    {"T1_SIGN"              ,  0x66         },
+    {"T1_RATE"              ,  0x67         },
+    {"T3_SIGN"              ,  0x68         },
+    {"T3_RATE"              ,  0x69         },
+    {"T5_MODE"              , {0x6A,  2,  0}},
+    {"T5_ENABLED"           , {0x6A,  1,  2}},
+    {"T4_MODE"              , {0x6A,  2,  3}},
+    {"T4_ENABLED"           , {0x6A,  1,  5}},
+    {"T2_MODE"              , {0x6A,  2,  6}},
+    {"T2_ENABLED"           , {0x6A,  1,  8}},
+    {"T1_MODE"              , {0x6A,  2,  9}},
+    {"T1_ENABLED"           , {0x6A,  1, 11}},
+    {"T3_MODE"              , {0x6A,  2, 12}},
+    {"T3_ENABLED"           , {0x6A,  1, 14}}
 };
 
 inline quint32 prepareSignature(quint32 sign) { return sign << 7 | (~sign & 0x7F); }

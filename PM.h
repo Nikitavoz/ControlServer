@@ -8,7 +8,7 @@ struct TypePM {
         static const quint8// size = end_address + 1 - start_address
             block0addr = 0x00, block0size = 0x7D + 1 - block0addr, //126
             block1addr = 0x7F, block1size = 0xBE + 1 - block1addr, // 64
-			block2addr = 0xFC, block2size = 0xFE + 1 - block2addr; //  3
+            block2addr = 0xFC, block2size = 0xFE + 1 - block2addr; //  3
 
         union { //block0
             quint32 registers0[block0size] = {0};
@@ -36,6 +36,7 @@ struct TypePM {
                         CH_BASELINES_NOK      ; //]7D
             };
         };
+        quint32 _reservedSpace0;                //]7E
         union { //block1
             quint32 registers1[block1size] = {0};
             char pointer1[block1size * sizeof(quint32)];
@@ -77,8 +78,11 @@ struct TypePM {
                                            :30; //┘BE
             };
         };
+        quint32 _reservedSpace1[0xD8 - 0xBE - 1];
         GBTunit GBT;                            //]D8-EF
+        quint32 _reservedSpace2[0xF7 - 0xEF - 1];
         Timestamp FW_TIME_MCU;					//]F7
+        quint32 _reservedSpace3[0xFC - 0xF7 - 1];
         union { //block2
             quint32 registers2[block2size] = {0};
             char pointer2[block2size * sizeof(quint32)];
@@ -196,12 +200,24 @@ struct TypePM {
     QList<DimService *> services;
     QList<DimCommand *> commands;
     QHash<QString, DimService *> servicesNew;
-    quint16 &FEEid = *((quint16 *)(set.GBT.registers+9) + 1);
-	const quint16 baseAddress;
+    quint16 FEEid;
+    const quint16 baseAddress;
     const char *name;
 
-    bool clockSyncOK() { return act.mainPLLlocked && act.TDC1PLLlocked && act.TDC2PLLlocked && act.TDC3PLLlocked && !act.TDC1syncError && !act.TDC2syncError && !act.TDC3syncError; }
-    //bool clockSyncOK() { return !((act.registers1[0] ^ 0xF) & 0x1CF); }
+    bool isPMOK() { return
+         act.mainPLLlocked &&
+         act.TDC1PLLlocked &&
+         act.TDC2PLLlocked &&
+         act.TDC3PLLlocked &&
+        !act.TDC1syncError &&
+        !act.TDC2syncError &&
+        !act.TDC3syncError &&
+         act.restartReasonCode != 2 && //not by PLL relock
+        !(act.GBT.Status.BITS & 1 << 7) && //no GBT RX error
+        !(act.GBT.Status.BITS & 1 << 8) && //no GBT phase error
+        !act.GBT.Control.READOUT_LOCK
+        ;
+    }
 
     TypePM(quint16 addr, const char *PMname) : baseAddress(addr), name(PMname) {}
 };

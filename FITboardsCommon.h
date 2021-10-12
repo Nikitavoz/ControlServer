@@ -15,27 +15,27 @@ inline TypeFITsubdetector getSubdetectorTypeByName(QString s) {
     if (s == "FDD") return FDD;
     else return _0_;
 }
-const struct {char name[4]; quint16 TCMid; quint8 systemID; struct {const char *name; qint16 signature;} triggers[5];} FIT[4] = { //global static constants
-             {       "???",        0xFFFF,               0,        {  {   "Trigger1",              75},
-                                                                      {   "Trigger2",              76},
-                                                                      {   "Trigger3",              77},
-                                                                      {   "Trigger4",              78},
-                                                                      {   "Trigger5",              79} }             },
-             {       "FT0",        0xF000,              34,        {  {    "Central",              70},
-                                                                      {"SemiCentral",              71},
-                                                                      {     "Vertex",              72},
-                                                                      {        "OrC",              73},
-                                                                      {        "OrA",              74} }             },
-             {       "FV0",        0xF500,              35,        {  {     "Charge",              40},
-                                                                      {  "Nchannels",              41},
-                                                                      { "InnerRings",              42},
-                                                                      { "OuterRings",              43},
-                                                                      {        "OrA",              44} }             },
-             {       "FDD",        0xFD00,              33,        {  {    "Central",             110},
-                                                                      {"SemiCentral",             111},
-                                                                      {     "Vertex",             112},
-                                                                      {        "OrC",             113},
-                                                                      {        "OrA",             114} }             }
+const struct {char name[4]; quint16 TCMid, PMA0id, PMC0id; quint8 systemID; struct {const char *name; qint16 signature;} triggers[5];} FIT[4] = { //global static constants
+             {       "???",        0xFFFF, 0x0000, 0x000A,               0,        { {    "Trigger1",              75},
+                                                                                     {    "Trigger2",              76},
+                                                                                     {    "Trigger3",              77},
+                                                                                     {    "Trigger4",              78},
+                                                                                     {    "Trigger5",              79} }             },
+             {       "FT0",        0xFA00, 0xFAA0, 0xFAF0,              34,        { {     "Central",              70},
+                                                                                     {"Semi Central",              71},
+                                                                                     {      "Vertex",              72},
+                                                                                     {         "OrC",              73},
+                                                                                     {         "OrA",              74} }             },
+             {       "FV0",        0x55F0, 0x55A0, 0x55AA,              35,        { {      "Charge",              40},
+                                                                                     {   "Nchannels",              41},
+                                                                                     {  "InnerRings",              42},
+                                                                                     {  "OuterRings",              43},
+                                                                                     {         "OrA",              44} }             },
+             {       "FDD",        0x0FA0, 0x0FAA, 0x0FFF,              33,        { {     "Central",             110},
+                                                                                     {"Semi Central",             111},
+                                                                                     {      "Vertex",             112},
+                                                                                     {         "OrC",             113},
+                                                                                     {         "OrA",             114} }             }
 };
 
 struct GBTunit { // 32 registers * 4 bytes = 128 bytes
@@ -51,12 +51,13 @@ struct GBTunit { // 32 registers * 4 bytes = 128 bytes
                 HB_RESPONSE			 :  1, //│D8
                 BYPASS_MODE			 :  1, //│
                 READOUT_LOCK		 :  1, //│
-                                     :  9, //┘
+                HB_REJECT            :  1, //│
+                                     :  8, //┘
                 DG_TRG_RESPOND_MASK,       //]D9
                 DG_BUNCH_PATTERN,          //]DA
-				TG_SINGLE_VALUE,           //]DB
-				TGpatternMSB,			   //]DC
-				TGpatternLSB,			   //]DD
+                TG_SINGLE_VALUE;           //]DB
+            quint64 TG_PATTERN; 		   //]DC-DD
+            quint32
                 TG_CONT_VALUE,             //]DE
                 DG_BUNCH_FREQ        : 16, //┐
                 TG_BUNCH_FREQ        : 16, //┘DF
@@ -64,8 +65,9 @@ struct GBTunit { // 32 registers * 4 bytes = 128 bytes
                                      :  4, //│
                 TG_FREQ_OFFSET       : 12, //│E0
                                      :  4, //┘
-                RDH_PAR              : 16, //┐
-                RDH_FEE_ID           : 16, //┘E1
+                RDH_FEE_ID           : 16, //┐
+                RDH_SYS_ID           :  8, //│E1
+                PRIORITY_BIT         :  8, //┘
                 RDH_DET_FIELD        : 16, //┐
                 RDH_MAX_PAYLOAD      : 16, //┘E2
                 BCID_DELAY           : 12, //┐
@@ -75,10 +77,6 @@ struct GBTunit { // 32 registers * 4 bytes = 128 bytes
                 DATA_SEL_TRG_MASK        , //]E4
                 reserved[3]              ; //]E5-E7
 		};
-		struct TypeTGpattern {
-			operator quint64() const { return quint64(((ControlData *)this)->TGpatternMSB) << 32 | ((ControlData *)this)->TGpatternLSB; }
-			TypeTGpattern &operator= (quint64 v) { ((ControlData *)this)->TGpatternLSB = v; ((ControlData *)this)->TGpatternMSB = v >> 32; return *this; }
-		} TG_PATTERN;
 	} Control;
     union StatusData {
 		quint32 registers[16] = {0};
@@ -130,22 +128,26 @@ struct GBTunit { // 32 registers * 4 bytes = 128 bytes
         RB_generatorsBunchOffset= 10,
         RB_GBTerrors			= 11,
         RB_GBT					= 12,
-        RB_RXphaseError			= 13;
+        RB_RXphaseError			= 13,
+        RB_readoutFSM           = 14;
     static constexpr quint32 defaults[controlSize] = {
-        0x00100000, //D8, HB response is on
-              0x20, //D9, actuate laser on 'Pre Pulse' trigger
-                 1, //DA, data gen bunch pattern: 1 single event with 1 data word
+        0x00900000, //D8, HB response is on, HBr reject
+              0x40, //D9, actuate laser on 'Calibration' trigger
+                 0, //DA, data gen bunch pattern: 1 single event with 1 data word
                  0, //DB
                  0, //DC
                  0, //DD
                  0, //DE
-            0xFFFF, //DF, data gen: once per 65535 BCs
+                 0, //DF
                  0, //E0
-                 0, //E1
-        0x01F40000, //E2, corresponding to 8 kB packet
+                 0, //E1, to be filled during initialization
+                 0, //E2
         0x000F0020, //E3
               0x10  //E4, select data on 'Physics' trigger
     };
+//    inline bool isGBTOK() {return
+//        Status.BITS
+//    }
 };
 
 struct Parameter {
@@ -164,6 +166,7 @@ const QHash<QString, Parameter> GBTparameters = {
     {"HB_RESPONSE"          , {0xD8,  1, 20}},
     {"BYPASS_MODE"          , {0xD8,  1, 21}},
     {"READOUT_LOCK"         , {0xD8,  1, 22}},
+    {"HB_REJECT"            , {0xD8,  1, 23}},
     {"DG_TRG_RESPOND_MASK"  ,  0xD9         },
     {"DG_BUNCH_PATTERN"     ,  0xDA         },
     {"TG_PATTERN"           , {0xDC, 64,  0}},
@@ -172,12 +175,9 @@ const QHash<QString, Parameter> GBTparameters = {
     {"TG_BUNCH_FREQ"        , {0xDF, 16, 16}},
     {"DG_FREQ_OFFSET"       , {0xE0, 12,  0}},
     {"TG_FREQ_OFFSET"       , {0xE0, 12, 16}},
-    {"RDH_PAR"              , {0xE1, 16,  0}},
-    {"RDH_FEE_ID"           , {0xE1, 16, 16}},
-    {"RDH_DET_FIELD"        , {0xE2, 16,  0}},
-    {"RDH_MAX_PAYLOAD"      , {0xE2, 16, 16}},
+    {"RDH_FEE_ID"           , {0xE1, 16,  0}},
+    {"SYSTEM_ID"            , {0xE1,  8, 16}},
     {"BCID_DELAY"           , {0xE3, 12,  0}},
-    {"CRU_TRG_COMPARE_DELAY", {0xE3, 12, 16}},
     {"DATA_SEL_TRG_MASK"    ,  0xE4         }
 };
 

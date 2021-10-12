@@ -198,7 +198,7 @@ protected:
             }
             if (th->InfoCode != 0) {
                 debugPrint();
-                emit error(th->infoCodeString() + QString::asprintf(", address: %08X", *transactionsList.at(i).address + th->Words), IPbusError);
+                emit error(th->infoCodeString() + QString::asprintf(", address: %08X", *transactionsList.at(i).address + (th->Words ? th->Words - 1 : 0)), IPbusError);
                 return false;
             }
         }
