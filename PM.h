@@ -79,10 +79,8 @@ struct TypePM {
             };
         };
         quint32 _reservedSpace1[0xD8 - 0xBE - 1];
-        GBTunit GBT;                            //]D8-EF
-        quint32 _reservedSpace2[0xF7 - 0xEF - 1];
+        GBTunit GBT;                            //]D8-F1
         Timestamp FW_TIME_MCU;					//]F7
-        quint32 _reservedSpace3[0xFC - 0xF7 - 1];
         union { //block2
             quint32 registers2[block2size] = {0};
             char pointer2[block2size * sizeof(quint32)];
@@ -178,7 +176,7 @@ struct TypePM {
             number = 24,
             addressDirect   =  0xC0;
         quint16 FIFOload;
-        QDateTime newTime, oldTime;
+        QDateTime newTime, oldTime = QDateTime::currentDateTime();
         union {
             quint32 New[number] = {0};
             struct {
@@ -194,6 +192,7 @@ struct TypePM {
 					   TRG;
             } rateCh[12];
         };
+        GBTcounters GBT;
         QList<DimService *> services;
     } counters;
 
@@ -204,7 +203,7 @@ struct TypePM {
     const quint16 baseAddress;
     const char *name;
 
-    bool isPMOK() { return
+    bool isOK() { return
          act.mainPLLlocked &&
          act.TDC1PLLlocked &&
          act.TDC2PLLlocked &&
@@ -213,10 +212,7 @@ struct TypePM {
         !act.TDC2syncError &&
         !act.TDC3syncError &&
          act.restartReasonCode != 2 && //not by PLL relock
-        !(act.GBT.Status.BITS & 1 << 7) && //no GBT RX error
-        !(act.GBT.Status.BITS & 1 << 8) && //no GBT phase error
-        !act.GBT.Control.READOUT_LOCK
-        ;
+         act.GBT.isOK();
     }
 
     TypePM(quint16 addr, const char *PMname) : baseAddress(addr), name(PMname) {}

@@ -39,11 +39,11 @@ const struct {char name[4]; quint16 TCMid, PMA0id, PMC0id; quint8 systemID; stru
 };
 
 struct GBTunit { // 32 registers * 4 bytes = 128 bytes
-	union ControlData {
-		quint32 registers[16] = {0};
+    union ControlData {
+        quint32 registers[16] = {0};
         char pointer[16 * sizeof(quint32)]; // 64 bytes
-		struct {
-			quint32
+        struct {
+            quint32
                 DG_MODE              :  4, //┐
                 TG_MODE              :  4, //│
                 RESET				 :  8, //│
@@ -55,83 +55,111 @@ struct GBTunit { // 32 registers * 4 bytes = 128 bytes
                                      :  8, //┘
                 DG_TRG_RESPOND_MASK,       //]D9
                 DG_BUNCH_PATTERN,          //]DA
-                TG_SINGLE_VALUE;           //]DB
-            quint64 TG_PATTERN; 		   //]DC-DD
-            quint32
+                TG_SINGLE_VALUE,           //]DB
+                TG_PATTERN_LSB,            //]DC
+                TG_PATTERN_MSB,            //]DD
                 TG_CONT_VALUE,             //]DE
                 DG_BUNCH_FREQ        : 16, //┐
                 TG_BUNCH_FREQ        : 16, //┘DF
                 DG_FREQ_OFFSET       : 12, //┐
                                      :  4, //│
                 TG_FREQ_OFFSET       : 12, //│E0
-                                     :  4, //┘
+                TG_HBr_RATE          :  4, //┘
                 RDH_FEE_ID           : 16, //┐
                 RDH_SYS_ID           :  8, //│E1
                 PRIORITY_BIT         :  8, //┘
-                RDH_DET_FIELD        : 16, //┐
-                RDH_MAX_PAYLOAD      : 16, //┘E2
+                                     : 32, //]E2
                 BCID_DELAY           : 12, //┐
-                                     :  4, //│
-                CRU_TRG_COMPARE_DELAY: 12, //│E3
-                                     :  4, //┘
+                                     : 20, //┘E3
                 DATA_SEL_TRG_MASK        , //]E4
-                reserved[3]              ; //]E5-E7
-		};
-	} Control;
+                _reserved[3]             ; //]E5-E7
+        };
+    } Control;
     union StatusData {
-		quint32 registers[16] = {0};
-        char pointer[16 * sizeof(quint32)]; // 64 bytes
+        quint32 registers[10] = {0};
+        char pointer[10 * sizeof(quint32)]; // 64 bytes
         struct {
             quint32
-                BITS                        : 16, //┐
+                phaseAlignerCPLLlock        :  1, //┐
+                RxWorkClockReady            :  1, //│
+                RxFrameClockReady           :  1, //│
+                MGTlinkReady                :  1, //│
+                TxResetDone                 :  1, //│
+                TxFSMresetDone              :  1, //│
+                GBTRxReady                  :  1, //│
+                GBTRxError                  :  1, //│E8
+                RxPhaseError                :  1, //│
+                                            :  7, //│
                 READOUT_MODE                :  4, //│
-                BCID_SYNC_MODE              :  4, //│E8
+                BCID_SYNC_MODE              :  4, //│
                 RX_PHASE                    :  4, //│
                 CRU_READOUT_MODE            :  4, //┘
-                CRU_ORBIT                   : 32, //┐
-                CRU_BC                      : 12, //┘E9
-                                            : 20, //┐
-                RAW_FIFO                    : 16, //┘EA
-                SEL_FIFO                    : 16, //]EB
-                SEL_FIRST_HIT_DROPPED_ORBIT,      //]EC
-                SEL_LAST_HIT_DROPPED_ORBIT,       //]ED
-                SEL_HITS_DROPPED,                 //]EE
-                READOUT_RATE                : 16, //┐
-                                            : 16, //┘EF
-                reserved[8]                     ; //]F0-F7
+                CRU_ORBIT                       , //]E9
+                FIFOempty_header            :  1, //┐
+                FIFOempty_data              :  1, //│
+                FIFOempty_trg               :  1, //│
+                FIFOempty_slct              :  1, //│
+                FIFOempty_cntpck            :  1, //│
+                                            : 11, //│
+                slctFIFOemptyWhileRead      :  1, //│
+                FIFOnotEmptyOnRunStart_slct :  1, //│
+                FIFOnotEmptyOnRunStart_cntpck: 1, //│
+                FIFOnotEmptyOnRunStart_trg  :  1, //│EA
+                trgFIFOwasFull              :  1, //│
+                FIFOnotEmptyOnRunStart_data :  1, //│
+                FIFOnotEmptyOnRunStart_header: 1, //│
+                TCMdataFIFOfull             :  1, //│
+                PMpacketCorruptedExtraWord  :  1, //│
+                PMpacketCorruptedEarlyHeader:  1, //│
+                BCsyncLostInRun             :  1, //│
+                                            :  4, //│
+                dataFIFOnotReady            :  1, //┘
+                CNVdropCount                : 16, //┐
+                CNVFIFOmax                  : 16, //┘EB
+                SELdropCount                : 16, //┐
+                SELFIFOmax                  : 16, //┘EC
+                wordsCount                  : 32, //]ED
+                BCindicatorData             : 12, //┐
+                BCpurityData                :  4, //│
+                BCindicatorTrg              : 12, //│EE
+                BCpurityTrg                 :  4, //┘
+                                            : 16, //┐
+                FTMIPbusFIFOcount           : 16, //┘EF
+                FTMIPbusFIFOdata                , //]F0
+                eventsCount                     ; //]F1
         };
     } Status;
     static const quint8
         controlSize   =   13,
-        statusSize    =    8,
+        statusSize    =   10,
         controlAddress= 0xD8,
         statusAddress = 0xE8,
     //data generator states
         DG_noData	= 0,
         DG_main		= 1,
-        DG_Tx		= 2,
-    //trigger generator states
-        TG_noTrigger  = 0,
-        TG_continuous = 1,
-		TG_Tx		  = 2,
-    //readout modes
-        RO_idle       = 0,
-        RO_continuous = 1,
-        RO_triggered    = 2,
-    //BCID sync modes
-        BS_start = 0,
-        BS_sync  = 1,
-        BS_lost  = 2,
-    //positions of reset bits
-        RB_orbitSync			=  8,
-        RB_droppingHitCounters	=  9,
-        RB_generatorsBunchOffset= 10,
-        RB_GBTerrors			= 11,
+    DG_Tx		= 2,
+//trigger generator states
+    TG_noTrigger  = 0,
+    TG_continuous = 1,
+    TG_Tx		  = 2,
+//readout modes
+    RO_idle       = 0,
+    RO_continuous = 1,
+    RO_triggered  = 2,
+//BCID sync modes
+    BS_start = 0,
+    BS_sync  = 1,
+    BS_lost  = 2,
+//positions of reset bits
+    RB_orbitSync			=  8,
+    RB_dataCounter      	=  9,
+    RB_generatorsBunchOffset= 10,
+    RB_GBTRxError			= 11,
         RB_GBT					= 12,
         RB_RXphaseError			= 13,
         RB_readoutFSM           = 14;
     static constexpr quint32 defaults[controlSize] = {
-        0x00900000, //D8, HB response is on, HBr reject
+        0x00100000, //D8, HB response is on
               0x40, //D9, actuate laser on 'Calibration' trigger
                  0, //DA, data gen bunch pattern: 1 single event with 1 data word
                  0, //DB
@@ -145,9 +173,30 @@ struct GBTunit { // 32 registers * 4 bytes = 128 bytes
         0x000F0020, //E3
               0x10  //E4, select data on 'Physics' trigger
     };
-//    inline bool isGBTOK() {return
-//        Status.BITS
-//    }
+    inline bool isOK() {return
+        !Status.GBTRxError &&
+        !Status.RxPhaseError &&
+        Status.READOUT_MODE == Status.CRU_READOUT_MODE &&
+        (Control.registers[0] & 1 << 14) == 0 && //GBT reset not locked
+        (Status.registers[2] >> 16 & 0x7FFF) == 0 && //no FSM reset errors
+        (!Status.dataFIFOnotReady || Status.READOUT_MODE != RO_idle); //FIFOs must me ready in Idle
+    }
+};
+
+struct GBTcounters {
+    QDateTime oldTime = QDateTime::currentDateTime(), newTime;
+    quint32 wordsOld  = 0 , eventsOld  = 0;
+    double  wordsRate = 0., eventsRate = 0.;
+    void calculateRate(quint32 wordsNew, quint32 eventsNew) {
+        newTime = QDateTime::currentDateTime();
+        quint32 time_ms = oldTime.msecsTo(newTime);
+        if (time_ms < 100) return;
+         wordsRate  = wordsNew ==  wordsOld ? 0. : ( wordsNew -  wordsOld) * 1000. / time_ms;
+        eventsRate = eventsNew == eventsOld ? 0. : (eventsNew - eventsOld) * 1000. / time_ms;
+         wordsOld =  wordsNew;
+        eventsOld = eventsNew;
+        oldTime = newTime;
+    }
 };
 
 struct Parameter {
@@ -175,6 +224,7 @@ const QHash<QString, Parameter> GBTparameters = {
     {"TG_BUNCH_FREQ"        , {0xDF, 16, 16}},
     {"DG_FREQ_OFFSET"       , {0xE0, 12,  0}},
     {"TG_FREQ_OFFSET"       , {0xE0, 12, 16}},
+    {"TG_HBr_RATE"          , {0xE0,  4, 28}},
     {"RDH_FEE_ID"           , {0xE1, 16,  0}},
     {"SYSTEM_ID"            , {0xE1,  8, 16}},
     {"BCID_DELAY"           , {0xE3, 12,  0}},

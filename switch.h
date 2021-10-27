@@ -71,7 +71,8 @@ public:
         }
 		_anim->setDuration(200);
         _anim->start();
-        if(!this->getSwitchOnClick()) this->setChecked(_switch);
+        this->setChecked(_switch);
+        emit switch_changed();
     }
 
 protected:
@@ -96,15 +97,11 @@ protected:
     }
 
     void mouseReleaseEvent(QMouseEvent *e) override {
-        if (_switchOnClick) {
-            if (e->button() & Qt::LeftButton) {
-                swipe();
-            }
-            QAbstractButton::mouseReleaseEvent(e);
-            emit switch_changed();
-        } else if (e->button() & Qt::LeftButton) {
+        if (e->button() & Qt::LeftButton) {
             emit clicked(isChecked());
+            if (_switchOnClick) swipe();
         }
+        QAbstractButton::mouseReleaseEvent(e);
     }
 
     void resizeEvent(QResizeEvent* e) override {

@@ -13,7 +13,7 @@ extern double phaseStepLaser_ns, phaseStep_ns;
 struct TypeTCM {
     struct ActualValues {
         static const quint8// size = end_address + 1 - start_address
-            block0addr = 0x00, block0size = 0x1E + 1 - block0addr, //31
+            block0addr = 0x00, block0size = 0x1F + 1 - block0addr, //32
             block1addr = 0x30, block1size = 0x3A + 1 - block1addr, //11
             block2addr = 0x60, block2size = 0x6A + 1 - block2addr, //11
             block3addr = 0xFC, block3size = 0xFE + 1 - block3addr; // 3
@@ -83,8 +83,9 @@ struct TypeTCM {
                         readinessChangeA: 1, //│
                         sideAready      : 1, //┘
                         LASER_DIVIDER   :24, //┐
-                                        : 7, //│1B
-						LASER_SOURCE    : 1, //┘
+                                        : 6, //│
+                        LASER_ENABLED   : 1, //│1B
+                        LASER_SOURCE    : 1, //┘
 						laserPatternMSB	   , //]1C
 						laserPatternLSB	   , //]1D
 						PM_MASK_SPI        , //]1E
@@ -93,6 +94,7 @@ struct TypeTCM {
                                         :24; //┘
             };
         };
+        quint32 _reservedSpace0[0x30 - 0x1F - 1];
         union { //block1
             quint32 registers1[block1size] = {0};
             char pointer1[block1size * sizeof(quint32)];
@@ -108,7 +110,9 @@ struct TypeTCM {
                         sideCready      : 1; //┘
             };
         };
+        quint32 _reservedSpace1[0x50 - 0x3A - 1];
 		quint32 COUNTERS_UPD_RATE;			 //]50
+        quint32 _reservedSpace2[0x60 - 0x50 - 1];
         union { //block2
             quint32 registers2[block2size] = {0};
             char pointer2[block2size * sizeof(quint32)];
@@ -151,7 +155,8 @@ struct TypeTCM {
                                         :17; //┘
             };
         };
-		GBTunit GBT;						 //]D8-EF
+        quint32 _reservedSpace3[0xD8 - 0x6A - 1];
+        GBTunit GBT;						 //]D8-F1
 		Timestamp FW_TIME_MCU;				 //]F7
         union { //block3
             quint32 registers3[block3size] = {0};
@@ -226,6 +231,7 @@ struct TypeTCM {
                                         :28; //┘04
             };
         };
+
         union { //block1
             quint32 registers1[block1size] = {0};
             char pointer1[block1size * sizeof(quint32)];
@@ -251,6 +257,7 @@ struct TypeTCM {
                                         :22; //┘
             };
         };
+
         union { //block2
             quint32 registers2[block2size] = {0};
             char pointer2[block2size * sizeof(quint32)];
@@ -258,7 +265,8 @@ struct TypeTCM {
                 quint32 CH_MASK_A       :10, //┐
                                         :22, //┘1A
                         LASER_DIVIDER   :24, //┐
-                                        : 7, //│1B
+                                        : 6, //│
+                        LASER_ENABLED   : 1, //│1B
 						LASER_SOURCE    : 1, //┘
 						laserPatternMSB	   , //]1C
 						laserPatternLSB	   , //]1D
@@ -329,33 +337,48 @@ struct TypeTCM {
             number = 15,
             addressDirect   =  0x70;
         quint16 FIFOload;
-        QDateTime newTime, oldTime;
+        QDateTime newTime, oldTime = QDateTime::currentDateTime();
         union {
             quint32 New[number] = {0};
             struct {
-                quint32 CNT_T5,
-                        CNT_T4,
-                        CNT_T2,
-                        CNT_T1,
-                        CNT_T3,
-                        CNT_bgA,
-                        CNT_bgC,
-                        CNT_bgA_and_bgC,
-                        CNT_bgA_or_bgC,
-                        CNT_orA_or_orC,
-                        CNT_orA_and_orC,
-                        CNT_bgA_and_not_orA,
-                        CNT_bgC_and_not_orC,
-                        CNT_bgA_and_not_orA_OR_bgC_and_not_orC,
-                        CNT_bgA_and_not_orA_AND_bgC_and_not_orC;
+                quint32 CNT_T5             , //]70
+                        CNT_T4             , //]71
+                        CNT_T2             , //]72
+                        CNT_T1             , //]73
+                        CNT_T3             , //]74
+                        CNT_noiseA         , //]75
+                        CNT_noiseC         , //]76
+                        CNT_noiseAll       , //]77
+                        CNT_TrueOrA        , //]78
+                        CNT_TrueOrC        , //]79
+                        CNT_Interaction    , //]7A
+                        CNT_TrueInteraction, //]7B
+                        CNT_TrueVertex     , //]7C
+                        CNT_BeamGasA       , //]7D
+                        CNT_BeamGasC       ; //]7E
             };
         };
         quint32 Old[number] = {0};
 		double rate[number] = {0.};
+        GBTcounters GBT;
         QList<DimService *> services;
     } counters;
 
+    bool isOK() {return
+         act.PLLlockA &&
+         act.PLLlockC &&
+        !act.delayRangeErrorA &&
+        !act.delayRangeErrorC &&
+        !act.masterLinkErrorA &&
+        !act.masterLinkErrorC &&
+        !act.readinessChangeA &&
+        !act.readinessChangeC &&
+         act.GBT.isOK();
+    }
+
     QList<DimService *> services, staticServices;
+    QList<DimCommand *> commands;
+    quint32 ORBIT_FILL_MASK[223];
 };
 
 const QHash<QString, Parameter> TCMparameters = {
@@ -378,9 +401,12 @@ const QHash<QString, Parameter> TCMparameters = {
     {"FV0_MODE"             , {0x0E,  1,  9}},
     {"CH_MASK_A"            ,  0x1A         },
     {"LASER_DIVIDER"        , {0x1B, 24,  0}},
+    {"LASER_ENABLED"        , {0x1B,  1, 30}},
     {"LASER_SOURCE"         , {0x1B,  1, 31}},
 	{"LASER_PATTERN"        , {0x1C, 64,  0}},
     {"PM_MASK_SPI"          ,  0x1E         },
+    {"LASER_TRG_SUPPR_DELAY", {0x1F,  6,  0}},
+    {"LASER_TRG_SUPPR_DUR"  , {0x1F,  2,  6}},
     {"CH_MASK_C"            ,  0x3A         },
     {"COUNTERS_UPD_RATE"    ,  0x50         },
     {"T5_SIGN"              ,  0x60         },

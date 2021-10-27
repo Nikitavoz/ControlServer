@@ -16,12 +16,10 @@ class FITelectronics: public IPbusTarget, public DimCommandHandler {
 public:
     TypeFITsubdetector subdetector;
     const quint16 TCMid;
-    quint16 selectedBoard;
-    bool isTCM = true; //is TCM selected
     DimServer DIMserver;
     QHash<DimCommand *, std::function<void(DimCommand *)>> allCommands;
     TypeTCM TCM;
-    TypePM *curPM, allPMs[20] = { //PMs by link №
+    TypePM allPMs[20] = { //PMs by link №
         TypePM(0x0200, "A0"),
         TypePM(0x0400, "A1"),
         TypePM(0x0600, "A2"),
@@ -43,18 +41,19 @@ public:
         TypePM(0x2600, "C8"),
         TypePM(0x2800, "C9"),
     };
-    GBTunit *curGBTact = &TCM.act.GBT;
-    GBTunit::ControlData *curGBTset = &TCM.set.GBT;
-    GBTunit::ControlData GBTdefaults;
+
     QMap<quint16, TypePM *> PM;
 	QTimer *countersTimer = new QTimer();
     //QTimer *fullSyncTimer = new QTimer();
     QFile logFile;
     QTextStream logStream;
+//*
     QMetaObject::Connection adjustConnection;
+    bool adjEven = false;
     quint16 thHi[12], thLo[12] = {0};
     double targetRate_Hz = 15.;
-
+    TypePM *targetPM;
+//*/
     FITelectronics(TypeFITsubdetector sd): IPbusTarget(50006), subdetector(sd), TCMid(FIT[sd].TCMid) {
         logFile.setFileName(QCoreApplication::applicationName() + ".log");
         logFile.open(QFile::WriteOnly | QIODevice::Append | QFile::Text);
@@ -68,7 +67,6 @@ public:
         TCM.set.T3_SIGN = FIT[sd].triggers[2].signature;
         TCM.set.T4_SIGN = FIT[sd].triggers[3].signature;
         TCM.set.T5_SIGN = FIT[sd].triggers[4].signature;
-        selectedBoard = TCMid;
         connect(countersTimer, &QTimer::timeout, this, &FITelectronics::readCountersFIFO);
         //connect(fullSyncTimer, &QTimer::timeout, this, &FITelectronics::fullSync);
         connect(this, &IPbusTarget::error, this, [=]() {
@@ -91,10 +89,8 @@ public:
             if (!transceive()) return;
             checkPMlinks();
             defaultGBT();
-            if (TCM.act.COUNTERS_UPD_RATE != 0) {
-                clearFIFOs();
-                countersTimer->start(countersUpdatePeriod_ms[TCM.act.COUNTERS_UPD_RATE] / 2);
-            }
+            clearFIFOs();
+            if (TCM.act.COUNTERS_UPD_RATE != 0) countersTimer->start(countersUpdatePeriod_ms[TCM.act.COUNTERS_UPD_RATE] / 2);
             if (TCM.services.isEmpty()) createTCMservices();
             apply_RESET_ERRORS();
 
@@ -224,10 +220,20 @@ public:
 			TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/TRG_SYNC/%s", FIT[subdetector].name, allPMs[iPM+10].name)), "I", TCM.act.TRG_SYNC_C + iPM, 4));
         }
 
-        for (quint8 i = 0; i<5; ++i) {
+        for (quint8 i=0; i<5; ++i) {
             TCM.staticServices.append(new DimService( qPrintable(prefix+"Trigger"+QString::number(i+1)+"/NAME"     ),  const_cast<char   *>( FIT[subdetector].triggers[i].name     ) ));
             TCM.staticServices.append(new DimService( qPrintable(prefix+"Trigger"+QString::number(i+1)+"/SIGNATURE"), *const_cast<qint16 *>(&FIT[subdetector].triggers[i].signature) ));
         }
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd0/NAME"), const_cast<char *>("NoiseA          ") ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd1/NAME"), const_cast<char *>("NoiseC          ") ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd2/NAME"), const_cast<char *>("Total noise     ") ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd3/NAME"), const_cast<char *>("True OrA        ") ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd4/NAME"), const_cast<char *>("True OrC        ") ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd5/NAME"), const_cast<char *>("Interaction     ") ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd6/NAME"), const_cast<char *>("True Interaction") ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd7/NAME"), const_cast<char *>("True Vertex     ") ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd8/NAME"), const_cast<char *>("Beam-gas A      ") ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd9/NAME"), const_cast<char *>("Beam-gas C      ") ));
 
         TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger1/CNT"), "I", &TCM.counters.CNT_T1, 4));
         TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger2/CNT"), "I", &TCM.counters.CNT_T2, 4));
@@ -239,8 +245,13 @@ public:
         TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger3/CNT_RATE"), "D", TCM.counters.rate + 4, 8));
         TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger4/CNT_RATE"), "D", TCM.counters.rate + 1, 8));
         TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger5/CNT_RATE"), "D", TCM.counters.rate    , 8));
-        //TCM.services.append(new DimService(qPrintable(prefix+"Trigger1/OUTPUT_ENABLED"), "S", TCM.counters.rate    , 8));
+        for (quint8 i=5; i<15; ++i) {
+            TCM.counters.services.append(new DimService(qPrintable(prefix+"Bkgrnd"+QString::number(i-5)+"/CNT"), "I", TCM.counters.New + i, 4));
+            TCM.counters.services.append(new DimService(qPrintable(prefix+"Bkgrnd"+QString::number(i-5)+"/CNT_RATE"), "D", TCM.counters.rate + i, 8));
+        }
 
+        //TCM.services.append(new DimService(qPrintable(prefix+"Trigger1/OUTPUT_ENABLED"), "S", TCM.counters.rate    , 8));
+        addCommand(TCM.commands, prefix+"control/ORBIT_FILL_MASK/set", "I:223", [=](DimCommand *c) { int s = c->getSize(); memcpy(TCM.ORBIT_FILL_MASK, c->getData(), s); });
     }
 
     void deletePMservices(TypePM *pm) {
@@ -260,8 +271,8 @@ public:
         TCM.staticServices.clear();
 //        foreach (DimService *s, TCM.servicesNew) delete s;
 //        TCM.servicesNew.clear();
-//        foreach (DimCommand *c, TCM.commands) { allCommands.remove(c); delete c; }
-//        TCM.commands.clear();
+        foreach (DimCommand *c, TCM.commands) { allCommands.remove(c); delete c; }
+        TCM.commands.clear();
     }
 
     void commandHandler() {
@@ -321,6 +332,11 @@ public slots:
             pm->set.GBT.BCID_DELAY = BCIDdelay;
             addTransaction(write, pm->baseAddress + GBTunit::controlAddress, pm->set.GBT.registers, GBTunit::controlSize);
         }
+//        if (!transceive()) return;
+//        dt[0] = GBTunit::defaults[0] | 1 << GBTunit::RB_orbitSync;
+//        dt[1] = GBTunit::defaults[0];
+//        addTransaction(nonIncrementingWrite, GBTunit::controlAddress, dt, 2);
+//        foreach (TypePM *pm, PM) addTransaction(nonIncrementingWrite, GBTunit::controlAddress + pm->baseAddress, dt, 2);
         transceive();
     }
 
@@ -338,7 +354,7 @@ public slots:
             addTransaction(read, allPMs[i].baseAddress + 0xFE, &allPMs[i].act.voltage1_8);
             addTransaction(read, allPMs[i].baseAddress + 0x7F, allPMs[i].act.registers1); //board status register
             if (!transceive()) return;
-            if (allPMs[i].act.voltage1_8 == 0xFFFFFFFF || allPMs[i].act.voltage1_8 == 0) { //SPI error
+            if (allPMs[i].act.voltage1_8 == 0xFFFFFFFF) { //SPI error
                 clearBit(i, TCMparameters["PM_MASK_SPI"].address, false);
 				deletePMservices(allPMs + i);
             } else {
@@ -368,7 +384,7 @@ public slots:
         else if (p.bitwidth == 1)
             val != 0 ? setBit(p.bitshift, address) : clearBit(p.bitshift, address);
         else if (p.bitwidth == 64) {
-			quint32 w[2] = {quint32(val >> 32), quint32(val)};
+            quint32 w[2] = {quint32(val), quint32(val >> 32)};
 			addTransaction(write, address, w, 2);
             if (transceive()) sync();
         } else
@@ -397,7 +413,6 @@ public slots:
 					pm->counters.Old[i] = pm->counters.New[i];
 				}
                 foreach (DimService *s, pm->counters.services) s->updateService();
-
 			}
 			emit countersReady();
 		}
@@ -408,8 +423,9 @@ public slots:
         if (transceive()) {
             TCM.counters.newTime = QDateTime::currentDateTime();
             quint32 time_ms = TCM.counters.oldTime.msecsTo(TCM.counters.newTime);
+            if (time_ms < 100) return;
             for (quint8 i=0; i<TypeTCM::Counters::number; ++i) {
-				TCM.counters.rate[i] = (TCM.counters.New[i] > TCM.counters.Old[i]) ? (TCM.counters.New[i] - TCM.counters.Old[i]) * 1000. / time_ms : 0;
+                TCM.counters.rate[i] = TCM.counters.New[i] == TCM.counters.Old[i] ? 0 : (TCM.counters.New[i] - TCM.counters.Old[i]) * 1000. / time_ms;
                 TCM.counters.Old[i] = TCM.counters.New[i];
             }
             TCM.counters.oldTime = TCM.counters.newTime;
@@ -421,7 +437,7 @@ public slots:
             pm->counters.newTime = QDateTime::currentDateTime();
             quint32 time_ms = pm->counters.oldTime.msecsTo(pm->counters.newTime);
             for (quint8 i=0; i<TypePM::Counters::number; ++i) {
-				pm->counters.rate[i] = (pm->counters.New[i] > pm->counters.Old[i]) ? (pm->counters.New[i] - pm->counters.Old[i]) * 1000. / time_ms : 0;
+                pm->counters.rate[i] = pm->counters.New[i] == pm->counters.Old[i] ? 0. : (pm->counters.New[i] - pm->counters.Old[i]) * 1000. / time_ms;
                 pm->counters.Old[i] = pm->counters.New[i];
             }
 			pm->counters.oldTime = pm->counters.newTime;
@@ -429,8 +445,6 @@ public slots:
         }
         emit countersReady();
     }
-
-
 
     void addSystemValuesToRead() {
         addTransaction(read, TypeTCM::ActualValues::block0addr, TCM.act.registers0, TypeTCM::ActualValues::block0size);
@@ -469,18 +483,11 @@ public slots:
             addPMvaluesToRead(pm);
             if (!transceive()) return false;
             pm->act.calculateValues();
+            pm->counters.GBT.calculateRate(pm->act.GBT.Status.wordsCount, pm->act.GBT.Status.eventsCount);
             foreach (DimService *s, pm->services) s->updateService();
         }
         return true;
     }
-
-//    void fullSync() { //read all available values
-//        if (!isTCM) {
-//            addTCMvaluesToRead();
-//            if (!transceive()) return;
-//        }
-//        foreach (TypePM *pm, PM) if (isTCM || pm != curPM) if (!read1PM(pm)) break;
-//    }
 
         void sync() { //read actual values
             addSystemValuesToRead();
@@ -488,46 +495,35 @@ public slots:
             if (!transceive()) return;
             //TCM.act.COUNTERS_UPD_RATE &= 0b111;
             TCM.act.calculateValues();
+            TCM.counters.GBT.calculateRate(TCM.act.GBT.Status.wordsCount, TCM.act.GBT.Status.eventsCount);
             foreach (DimService *s, TCM.services) s->updateService();
             foreach (TypePM *pm, PM) if (!read1PM(pm)) return;
             emit valuesReady();
             if (TCM.act.COUNTERS_UPD_RATE == 0) readCountersDirectly();
         }
 
-        void adjustThresholds() {
-            printf("Target: %f..%f", targetRate_Hz - sqrt(targetRate_Hz), targetRate_Hz + sqrt(targetRate_Hz));
-            printf("\nChannel:");
+        void adjustThresholds(TypePM *pm, double rate_Hz) { //experimental function! lab use only!
+            if (adjustConnection) return;
+            targetPM = pm;
+            targetRate_Hz = rate_Hz;
             for (quint8 iCh = 0; iCh<12; ++iCh) {
-                printf("\t%d", iCh + 1);
-                thLo[iCh] = 0;
+                thLo[iCh] = 1500;
                 thHi[iCh] = 2500;
             }
+            adjEven = false;
             adjustConnection = connect(this, &FITelectronics::countersReady, this, [&]() {
+                adjEven = !adjEven;
+                if (adjEven) return;
                 quint8 c = 0;
-                printf("\nRate   :");
-                for (quint8 iCh = 0; iCh<12; ++iCh) printf("\t%.1f", curPM->counters.rateCh[iCh].CFD);
-                printf("\nCompare:");
                 for (quint8 iCh = 0; iCh<12; ++iCh) {
-                    printf("\t");
-                    if (curPM->counters.rateCh[iCh].CFD < targetRate_Hz + sqrt(targetRate_Hz)) { thHi[iCh] = curPM->act.THRESHOLD_CALIBR[iCh]; printf("low" ); }
-                    if (curPM->counters.rateCh[iCh].CFD > targetRate_Hz - sqrt(targetRate_Hz)) { thLo[iCh] = curPM->act.THRESHOLD_CALIBR[iCh]; printf("high"); }
+                    if (targetPM->counters.rateCh[iCh].CFD < targetRate_Hz + sqrt(targetRate_Hz)) { thHi[iCh] = targetPM->act.THRESHOLD_CALIBR[iCh]; }
+                    if (targetPM->counters.rateCh[iCh].CFD > targetRate_Hz - sqrt(targetRate_Hz)) { thLo[iCh] = targetPM->act.THRESHOLD_CALIBR[iCh]; }
                     if (thLo[iCh] != thHi[iCh]) {
-//                        curPM->set.THRESHOLD_CALIBR[iCh] = (thHi[iCh] + thLo[iCh]) / 2;
-//                        apply_THRESHOLD_CALIBR(curPM->FEEid, iCh+1);
-                        addWordToWrite(curPM->baseAddress + PMparameters["THRESHOLD_CALIBR"].address + iCh, (thHi[iCh] + thLo[iCh]) / 2);
+                        addWordToWrite(targetPM->baseAddress + PMparameters["THRESHOLD_CALIBR"].address + iCh, (thHi[iCh] + thLo[iCh]) / 2);
                         ++c;
                     }
                 }
-                printf("\nLow  th:");
-                for (quint8 iCh = 0; iCh<12; ++iCh) printf("\t%d", thLo[iCh]);
-                printf("\nHigh th:");
-                for (quint8 iCh = 0; iCh<12; ++iCh) printf("\t%d", thHi[iCh]);
-                printf("\nSet  th:");
-                for (quint8 iCh = 0; iCh<12; ++iCh) printf("\t%d", (thHi[iCh] + thLo[iCh]) / 2);
-                if (c == 0) {
-                    disconnect(adjustConnection);
-                    printf("\nFinished\n");
-                } else transceive();
+                if (c == 0) disconnect(adjustConnection); else transceive();
             });
         }
 
@@ -540,9 +536,9 @@ public slots:
     }
 
     void apply_RESET_ORBIT_SYNC           (quint16 FEEid, bool syncOnSuccess = true) { reset(FEEid, GBTunit::RB_orbitSync            , syncOnSuccess); }
-    void apply_RESET_DROPPING_HIT_COUNTERS(quint16 FEEid, bool syncOnSuccess = true) { reset(FEEid, GBTunit::RB_droppingHitCounters  , syncOnSuccess); }
+    void apply_RESET_DATA_COUNTER         (quint16 FEEid, bool syncOnSuccess = true) { reset(FEEid, GBTunit::RB_dataCounter          , syncOnSuccess); }
     void apply_RESET_GEN_BUNCH_OFFSET     (quint16 FEEid, bool syncOnSuccess = true) { reset(FEEid, GBTunit::RB_generatorsBunchOffset, syncOnSuccess); }
-    void apply_RESET_GBT_ERRORS           (quint16 FEEid, bool syncOnSuccess = true) { reset(FEEid, GBTunit::RB_GBTerrors            , syncOnSuccess); }
+    void apply_RESET_GBT_ERRORS           (quint16 FEEid, bool syncOnSuccess = true) { reset(FEEid, GBTunit::RB_GBTRxError           , syncOnSuccess); }
     void apply_RESET_GBT                  (quint16 FEEid, bool syncOnSuccess = true) { reset(FEEid, GBTunit::RB_GBT                  , syncOnSuccess); }
     void apply_RESET_RX_PHASE_ERROR       (quint16 FEEid, bool syncOnSuccess = true) { reset(FEEid, GBTunit::RB_RXphaseError         , syncOnSuccess); }
     void apply_RESET_FSM                  (quint16 FEEid, bool syncOnSuccess = true) { reset(FEEid, GBTunit::RB_readoutFSM           , syncOnSuccess); }
@@ -559,10 +555,11 @@ public slots:
         writeParameter("TG_MODE", TG_mode, FEEid);
     }
 
-	void apply_TG_PATTERN           (quint16 FEEid) { writeParameter("TG_PATTERN"           , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).TG_PATTERN           , FEEid); }
+    void apply_TG_PATTERN           (quint16 FEEid) { writeParameter("TG_PATTERN"           , *(quint64 *)&(FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).TG_PATTERN_LSB, FEEid); }
     void apply_TG_CONT_VALUE        (quint16 FEEid) { writeParameter("TG_CONT_VALUE"        , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).TG_CONT_VALUE        , FEEid); }
     void apply_TG_BUNCH_FREQ        (quint16 FEEid) { writeParameter("TG_BUNCH_FREQ"        , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).TG_BUNCH_FREQ        , FEEid); }
     void apply_TG_FREQ_OFFSET       (quint16 FEEid) { writeParameter("TG_FREQ_OFFSET"       , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).TG_FREQ_OFFSET       , FEEid); }
+    void apply_TG_HBr_RATE          (quint16 FEEid) { writeParameter("TG_HBr_RATE"          , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).TG_HBr_RATE          , FEEid); }
     void apply_DG_TRG_RESPOND_MASK  (quint16 FEEid) { writeParameter("DG_TRG_RESPOND_MASK"  , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).DG_TRG_RESPOND_MASK  , FEEid); }
     void apply_DG_BUNCH_PATTERN     (quint16 FEEid) { writeParameter("DG_BUNCH_PATTERN"     , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).DG_BUNCH_PATTERN     , FEEid); }
     void apply_DG_BUNCH_FREQ        (quint16 FEEid) { writeParameter("DG_BUNCH_FREQ"        , (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).DG_BUNCH_FREQ        , FEEid); }
@@ -641,13 +638,15 @@ public slots:
     }
     void apply_RESET_SYSTEM(bool forceLocalClock = false) { writeRegister(forceLocalClock ? 0xC00 : 0x800, 0xF); }
     void apply_RESET_ERRORS() {
-        addTransaction(RMWbits, GBTunit::controlAddress, masks(0xFFFF00FF, 0x00000000)); //clear all reset bits
-        addTransaction(RMWbits, GBTunit::controlAddress, masks(0xFFFFFFFF, 1 << GBTunit::RB_GBTerrors | 1 << GBTunit::RB_RXphaseError | 1 << GBTunit::RB_readoutFSM));
-        addTransaction(RMWbits, GBTunit::controlAddress, masks(0xFFBF00FF, 0x00000000)); //clear all reset bits and unlock
-        foreach (TypePM *pm, PM) {
+        if (!TCM.act.GBT.isOK()) {
+            addTransaction(RMWbits, GBTunit::controlAddress, masks(0xFFFF00FF, 0x00000000)); //clear all reset bits
+            addTransaction(RMWbits, GBTunit::controlAddress, masks(0xFFFFFFFF, 1 << GBTunit::RB_readoutFSM | 1 << GBTunit::RB_GBTRxError));
+            addTransaction(RMWbits, GBTunit::controlAddress, masks(0xFFBF00FF, 0x00000000)); //clear all reset bits and unlock
+        }
+        foreach (TypePM *pm, PM) if (!pm->act.GBT.isOK()) {
             quint32 address = pm->baseAddress + GBTunit::controlAddress;
             addTransaction(RMWbits, address, masks(0xFFFF00FF, 0x00000000)); //clear all reset bits
-            addTransaction(RMWbits, address, masks(0xFFFFFFFF, 1 << GBTunit::RB_GBTerrors | 1 << GBTunit::RB_RXphaseError | 1 << GBTunit::RB_readoutFSM));
+            addTransaction(RMWbits, address, masks(0xFFFFFFFF, 1 << GBTunit::RB_readoutFSM | 1 << GBTunit::RB_GBTRxError));
             addTransaction(RMWbits, address, masks(0xFFBF00FF, 0x00000000)); //clear all reset bits and unlock
         }
         writeRegister(0x4, 0xF, true);
@@ -664,13 +663,19 @@ public slots:
 
     void apply_LASER_DIVIDER() { writeParameter("LASER_DIVIDER", TCM.set.LASER_DIVIDER, TCMid); }
     void apply_LASER_SOURCE(bool on) { TCM.set.LASER_SOURCE = on; writeParameter("LASER_SOURCE", on, TCMid); }
-	void apply_LASER_PATTERN() { writeParameter("LASER_PATTERN", quint64(TCM.set.laserPatternMSB) << 32 | TCM.set.laserPatternLSB, TCMid); }
+    void apply_LASER_PATTERN() {
+        addTransaction(write, TCMparameters["LASER_PATTERN"].address, &TCM.set.laserPatternMSB, 2);
+        if (transceive()) sync();
+    }
 	void apply_SwLaserPatternBit(quint8 bit, bool on) {
 		quint32 address = TCMparameters["LASER_PATTERN"].address + (bit < 32 ? 1 : 0);
 		on ? setBit(bit % 32, address) : clearBit(bit % 32, address);
     }
 	void apply_attenSteps() { writeParameter("attenSteps", TCM.set.attenSteps, TCMid); }
+    void apply_LASER_ENABLED(bool on) { writeParameter("LASER_ENABLED", on, TCMid); }
     void apply_LASER_DELAY() { writeParameter("LASER_DELAY", TCM.set.LASER_DELAY, TCMid); }
+    void apply_LASER_TRG_SUPPR_DUR  () { writeParameter("LASER_TRG_SUPPR_DUR", TCM.set.lsrTrgSupprDur, TCMid);}
+    void apply_LASER_TRG_SUPPR_DELAY() { writeParameter("LASER_TRG_SUPPR_DELAY", TCM.set.lsrTrgSupprDelay, TCMid);}
     void apply_DELAY_A() { writeParameter("DELAY_A", TCM.set.DELAY_A, TCMid); }
     void apply_DELAY_C() { writeParameter("DELAY_C", TCM.set.DELAY_C, TCMid); }
     void apply_CH_MASK_A() { writeParameter("CH_MASK_A", TCM.set.CH_MASK_A, TCMid); }
@@ -738,7 +743,7 @@ public slots:
         Nchan ? setBit(8, 0xE) : clearBit(8, 0xE);
     }
 
-    void copyActualToSettings(TypePM *pm) {
+    void copyActualToSettingsPM(TypePM *pm) {
         memcpy(pm->set.registers0, pm->act.registers0 + TypePM::Settings::block0addr, TypePM::Settings::block0size * wordSize);
         memcpy(pm->set.registers1, pm->act.registers0 + TypePM::Settings::block1addr, TypePM::Settings::block1size * wordSize);
         pm->set.CH_MASK_DATA = pm->act.CH_MASK_DATA;
@@ -746,12 +751,50 @@ public slots:
         memcpy(pm->set.GBT.registers, pm->act.GBT.Control.registers, GBTunit::controlSize * wordSize);
     }
 
-    void apply_PM_settings(TypePM *pm) {
+    void applySettingsPM(TypePM *pm) {
         addTransaction(write, pm->baseAddress + TypePM::Settings::block0addr, pm->set.registers0, TypePM::Settings::block0size);
         addTransaction(write, pm->baseAddress + TypePM::Settings::block1addr, pm->set.registers1, TypePM::Settings::block1size);
         addWordToWrite(pm->baseAddress + PMparameters["CH_MASK_DATA"].address, pm->set.CH_MASK_DATA);
         addTransaction(write, pm->baseAddress + TypePM::Settings::block2addr, pm->set.registers2, TypePM::Settings::block2size);
-        if (transceive()) sync();
+        addTransaction(write, pm->baseAddress + GBTunit::controlAddress, pm->set.GBT.registers, GBTunit::controlSize);
+        transceive();
+    }
+
+    void copyActualToSettingsTCM() {
+        memcpy(TCM.set.registers0, TCM.act.registers0 + TypeTCM::Settings::block0addr, TypeTCM::Settings::block0size * wordSize);
+        memcpy(TCM.set.registers1, TCM.act.registers0 + TypeTCM::Settings::block1addr, TypeTCM::Settings::block1size * wordSize);
+        memcpy(TCM.set.registers2, TCM.act.registers0 + TypeTCM::Settings::block2addr, TypeTCM::Settings::block2size * wordSize);
+        TCM.set.CH_MASK_C = TCM.act.CH_MASK_C;
+        TCM.set.COUNTERS_UPD_RATE = TCM.act.COUNTERS_UPD_RATE;
+        memcpy(TCM.set.registers3, TCM.act.registers0 + TypeTCM::Settings::block3addr, TypeTCM::Settings::block3size * wordSize);
+        memcpy(TCM.set.GBT.registers, TCM.act.GBT.Control.registers, GBTunit::controlSize * wordSize);
+    }
+
+    void applySettingsTCM() {
+        addTransaction(write, TypeTCM::Settings::block0addr, TCM.set.registers0, TypeTCM::Settings::block0size);
+        addTransaction(write, TypeTCM::Settings::block1addr, TCM.set.registers1, TypeTCM::Settings::block1size);
+        addTransaction(write, TypeTCM::Settings::block2addr, TCM.set.registers2, TypeTCM::Settings::block2size - 2); //0x1E should be skipped
+        addTransaction(write, TypeTCM::Settings::block2addr + TypeTCM::Settings::block2size - 1, TCM.set.registers2 + TypeTCM::Settings::block2size - 1, 1);
+        addWordToWrite(TCMparameters["CH_MASK_C"].address, TCM.set.CH_MASK_C);
+        addTransaction(write, TypeTCM::Settings::block3addr, TCM.set.registers3, TypeTCM::Settings::block3size);
+        addTransaction(write, GBTunit::controlAddress, TCM.set.GBT.registers, GBTunit::controlSize);
+
+        apply_COUNTERS_UPD_RATE(TCM.set.COUNTERS_UPD_RATE);
+    }
+
+    void copyActualToSettingsAll() {
+        foreach(TypePM *pm, PM) copyActualToSettingsPM(pm);
+        copyActualToSettingsTCM();
+    }
+
+    void applySettingsAll() {
+        foreach(TypePM *pm, PM) applySettingsPM(pm);
+        applySettingsTCM();
+    }
+
+    void apply_ORBIT_FILL_MASK() {
+        addTransaction(write, 0x2A00, TCM.ORBIT_FILL_MASK, 223);
+        transceive();
     }
 };
 

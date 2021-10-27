@@ -56,7 +56,7 @@ public:
 
 signals:
     void error(QString, errorType);
-    void noResponse();
+    void noResponse(QString message = "no response");
     void IPbusStatusOK();
     void successfulRead(quint8 nWords);
     void successfulWrite(quint8 nWords);
@@ -167,18 +167,20 @@ protected:
             if (th->Words > 0) switch (th->TypeID) {
                 case                read:
                 case nonIncrementingRead:
-                case   configurationRead:
+                case   configurationRead: {
                     if (transactionsList.at(i).data != nullptr) {
                         quint32 *src = (quint32 *)th + 1, *dst = transactionsList.at(i).data;
                         while (src <= (quint32 *)th + th->Words && src < response + responseSize) *dst++ = *src++;
                     }
-                    if ((quint32 *)th + th->Words >= response + responseSize) { //response too short to contain nWords values
-                        emit successfulRead(response + responseSize - (quint32 *)th - 1);
-                        emit error("read transaction truncated", IPbusError);
+                    quint32 wordsAhead = response + responseSize - (quint32 *)th - 1;
+                    if (th->Words > wordsAhead) { //response too short to contain nWords values
+                        emit successfulRead(wordsAhead);
+                        emit error(QString::asprintf("read transaction from %08X truncated: %d/%d words received", *transactionsList.at(i).address, wordsAhead, th->Words), IPbusError);
                         return false;
                     } else
                         emit successfulRead(th->Words);
                     break;
+                }
                 case RMWbits:
                 case RMWsum :
                     if (th->Words != 1) {
@@ -213,18 +215,6 @@ protected slots:
     }
 
 public slots:
-    void checkStatus() {
-        qsocket->write((char *)&statusRequest, sizeof(statusRequest));
-        if (!qsocket->waitForReadyRead(100) && !qsocket->hasPendingDatagrams()) {
-            isOnline = false;
-            emit noResponse();
-        } else {
-            qsocket->read((char *)&statusResponse, qsocket->pendingDatagramSize());
-            isOnline = true;
-            emit IPbusStatusOK();
-        }
-    }
-
     void reconnect() {
         if (qsocket->state() == QAbstractSocket::ConnectedState) {
             qsocket->disconnectFromHost();
@@ -235,11 +225,26 @@ public slots:
             emit noResponse();
             return;
         }
-        checkStatus();
         if (!updateTimer->isActive()) updateTimer->start(updatePeriod_ms);
+        checkStatus();
     }
 
-
+    void checkStatus() {
+        qsocket->write((char *)&statusRequest, sizeof(statusRequest));
+        if (!qsocket->waitForReadyRead(100) && !qsocket->hasPendingDatagrams()) {
+            isOnline = false;
+            emit noResponse();
+        } else {
+            qint32 n = qsocket->read((char *)&statusResponse, qsocket->pendingDatagramSize());
+            if (n == 0 || n == -1 || statusResponse.header != statusRequest.header) {
+                isOnline = false;
+                emit noResponse(QString::asprintf("incorrect response (%d bytes). No IPbus?", n));
+            } else {
+                isOnline = true;
+                emit IPbusStatusOK();
+            }
+        }
+    }
 
     virtual void sync() =0;
 

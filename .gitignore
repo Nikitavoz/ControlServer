@@ -44,3 +44,6 @@ CMakeLists.txt.user*
 
 # Excel files
 *.xls*
+
+# debug files
+\!*
