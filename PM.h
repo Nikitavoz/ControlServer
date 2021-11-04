@@ -211,8 +211,7 @@ struct TypePM {
         !act.TDC1syncError &&
         !act.TDC2syncError &&
         !act.TDC3syncError &&
-         act.restartReasonCode != 2 && //not by PLL relock
-         act.GBT.isOK();
+         act.restartReasonCode != 2 ; //not by PLL relock
     }
 
     TypePM(quint16 addr, const char *PMname) : baseAddress(addr), name(PMname) {}

@@ -372,8 +372,7 @@ struct TypeTCM {
         !act.masterLinkErrorA &&
         !act.masterLinkErrorC &&
         !act.readinessChangeA &&
-        !act.readinessChangeC &&
-         act.GBT.isOK();
+        !act.readinessChangeC ;
     }
 
     QList<DimService *> services, staticServices;

@@ -37,6 +37,7 @@ class MainWindow : public QMainWindow
 		Green1 = QPixmap(":/1G.png"), //OK
 		Red0 = QPixmap(":/0R.png"), //not OK
         Red1 = QPixmap(":/1R.png"), //not OK
+        RedDash = QPixmap(":/dashR.png"),
         SwOff = QPixmap(":/SW0.png"), //isOff
 		SwOn  = QPixmap(":/SW1.png"); //isOn
 	QFont  regularValueFont = QFont("Consolas", 10, QFont::Normal);
@@ -308,12 +309,19 @@ public:
             ui->sliderAttenuation->setEnabled(checked);
             actionLoad->setEnabled(checked);
         });
-        controlMenu->addAction("Copy all actual values to settings", this, [=]() { FEE.copyActualToSettingsAll(); updateEdits(); });
-        controlMenu->addAction(QIcon(":/write.png"), "Apply all settings to FEE", &FEE, &FITelectronics::applySettingsAll);
-        //controlMenu->addAction("Adjust &PM treshholds", this, [=]() { FEE.adjustThresholds(curPM, 20); } ); //decrease thresholds to noise levels to see counting without signals
+        controlMenu->addAction("Copy ALL actual values to settings", this, [=]() { FEE.copyActualToSettingsAll(); updateEdits(); });
+        controlMenu->addAction(QIcon(":/write.png"), "Apply ALL settings to FEE", &FEE, &FITelectronics::applySettingsAll);
         QMenu *networkMenu = menuBar()->addMenu("&Network");
 		networkMenu->addAction(QIcon(":/recheck.png"), "&Recheck and default", this, SLOT(recheckTarget()), QKeySequence::Refresh);
         networkMenu->addAction("&Change target IP address...", this, SLOT(changeIP()));
+        QAction *enableDebugActions = new QAction("Activate debug menu", this);
+        networkMenu->addAction(enableDebugActions);
+        enableDebugActions->setShortcut(QKeySequence("Ctrl+!"));
+        connect(enableDebugActions, &QAction::triggered, this, [=]() {
+            QMenu *debugMenu = menuBar()->addMenu("&Debug");
+            debugMenu->addAction("Adjust &PM treshholds", this, [=]() { FEE.adjustThresholds(curPM, 20); } ); //decrease thresholds to noise levels to see counting without signals
+            debugMenu->addAction("Randomize OrbitFillMask", this, [=]() { for (quint8 i=0; i<213; ++i) FEE.TCM.ORBIT_FILL_MASK[i] = QRandomGenerator::global()->generate(); FEE.apply_ORBIT_FILL_MASK(); });
+        });
 
 //signal-slot conections
         connect(&FEE, &IPbusTarget::error, this, [=](QString message, errorType et) {
@@ -334,6 +342,8 @@ public:
             if (!enableControls->isChecked()) updateEdits();
         });
         connect(&FEE, &FITelectronics::countersReady, this, &MainWindow::updateCounters);
+        connect(ui->labelValueORgate_A,         &ActualLabel::doubleclicked, this, [=](QString val) { double v = val.toDouble(&ok); if (ok) ui->spinBoxORgate_A->setValue(v); });
+        connect(ui->labelValueORgate_C,         &ActualLabel::doubleclicked, this, [=](QString val) { double v = val.toDouble(&ok); if (ok) ui->spinBoxORgate_C->setValue(v); });
         connect(ui->labelValuePhase_A,          &ActualLabel::doubleclicked, this, [=](QString val) { ui->spinBoxPhase_A         ->setValue(val.toDouble(     )); });
         connect(ui->labelValuePhase_C,          &ActualLabel::doubleclicked, this, [=](QString val) { ui->spinBoxPhase_C         ->setValue(val.toDouble(     )); });
         connect(ui->labelValueLaserPhase,       &ActualLabel::doubleclicked, this, [=](QString val) { ui->spinBoxLaserPhase      ->setValue(val.toDouble(     )); });
@@ -347,10 +357,10 @@ public:
         }
 		//connect(ui->labelValueLaserFrequency, &ActualLabel::doubleclicked, ui->lineEditLaserFrequency, &QLineEdit::textEdited);
         connect(&FEE, &FITelectronics::linksStatusReady, this, [=]() { //disable PMs' selectors and link indicators if no physical link present
-            if (!isTCM() && !FEE.PM.contains(curPM->set.GBT.RDH_FEE_ID)) ui->TCM_selector->toggle();
+            //if (!isTCM() && !FEE.PM.contains(curPM->FEEid)) ui->TCM_selector->toggle();
 			for (quint8 i=0; i<=9; ++i) {
-				selectorsPMA[i]->setEnabled(FEE.PM.contains(FEE.allPMs[i   ].set.GBT.RDH_FEE_ID));
-                selectorsPMC[i]->setEnabled(FEE.PM.contains(FEE.allPMs[i+10].set.GBT.RDH_FEE_ID));
+                selectorsPMA[i]->setEnabled(FEE.PM.contains(FEE.allPMs[i   ].FEEid));
+                selectorsPMC[i]->setEnabled(FEE.PM.contains(FEE.allPMs[i+10].FEEid));
             } 
         });
         for (quint8 i=0; i<=9; ++i) { //PM switchers and selectors
@@ -413,8 +423,6 @@ public:
         ui->lineEditTriggersLevelC_1->setValidator(uint16Validator);
         ui->lineEditTriggersLevelC_2->setValidator(uint16Validator);
         ui->lineEditORgate  ->setValidator(new QIntValidator(0, 255));
-        ui->lineEditORgate_A->setValidator(new QIntValidator(0, 255));
-        ui->lineEditORgate_C->setValidator(new QIntValidator(0, 255));
         ui->lineEditVertexTimeLow->setValidator(new QIntValidator(-512, 511));
         ui->lineEditVertexTimeHigh->setValidator(new QIntValidator(-512, 511));
         ui->lineEditBCIDdelayDec->setValidator(new QIntValidator(0, 4095));
@@ -502,13 +510,12 @@ public slots:
         ok = true;
         foreach (TypePM *pm, FEE.PM) {
             quint8 iPM = pm - FEE.allPMs;
-            if (!pm->isOK() || !(iPM < 10 ? FEE.TCM.act.TRG_SYNC_A[iPM].linkOK : FEE.TCM.act.TRG_SYNC_C[iPM-10].linkOK)) { ok = false; break; }
+            if (!pm->isOK() || !(iPM < 10 ? FEE.TCM.act.TRG_SYNC_A[iPM].linkOK : FEE.TCM.act.TRG_SYNC_C[iPM-10].linkOK) || !pm->act.GBT.isOK()) { ok = false; break; }
         }
-        ui->labelIconSystemErrors->setPixmap(ok && FEE.TCM.isOK() ? Green0 : Red1);
-        ui->TCM_selector->setStyleSheet(FEE.TCM.isOK() ? "" : notOKstyle);
-        if (FEE.TCM.act.forceLocalClock) ui->radioButtonForceLocal->setChecked(true); else ui->radioButtonAuto->setChecked(true);
-        ui->labelValueClockSource->setText(FEE.TCM.act.externalClock ? "external" : "local");
-        ui->labelValueClockSource->setStyleSheet(FEE.TCM.act.externalClock ? OKstyle : notOKstyle);
+        ui->labelIconSystemErrors->setPixmap(ok && FEE.TCM.isOK() && FEE.TCM.act.GBT.isOK() ? Green0 : Red1);
+        ui->TCM_selector->setStyleSheet(FEE.TCM.isOK() && FEE.TCM.act.GBT.isOK() ? "" : notOKstyle);
+        ui->labelValueClockSource->setText(FEE.TCM.act.externalClock ? "external" : (FEE.TCM.act.forceLocalClock ? "force local" : "local"));
+        ui->labelValueClockSource->setStyleSheet(FEE.TCM.act.externalClock ? OKstyle : (FEE.TCM.act.forceLocalClock ? neutralStyle : notOKstyle));
         double
             curTemp_board   = isTCM() ? FEE.TCM.act.TEMP_BOARD    : curPM->act.TEMP_BOARD,
             curTemp_FPGA    = isTCM() ? FEE.TCM.act.TEMP_FPGA     : curPM->act.TEMP_FPGA ,
@@ -539,8 +546,8 @@ public slots:
         ui->labelValueFPGAFWversion->setToolTip(tFPGAfull);
 		ui->comboBoxUpdatePeriod->setCurrentIndex(FEE.TCM.act.COUNTERS_UPD_RATE);
         for (quint8 i=0; i<=9; ++i) {
-            linksPMA[i]->setPixmap(FEE.allPMs[i   ].isOK() ? Green1 : Red0); switchesPMA[i]->setChecked(FEE.TCM.act.CH_MASK_A & (1 << i));
-            linksPMC[i]->setPixmap(FEE.allPMs[i+10].isOK() ? Green1 : Red0); switchesPMC[i]->setChecked(FEE.TCM.act.CH_MASK_C & (1 << i));
+            linksPMA[i]->setPixmap(FEE.allPMs[i   ].isOK() && FEE.TCM.act.TRG_SYNC_A[i].linkOK ? (FEE.allPMs[i   ].act.GBT.isOK() ? Green1 : Red0) : RedDash); switchesPMA[i]->setChecked(FEE.TCM.act.CH_MASK_A & (1 << i));
+            linksPMC[i]->setPixmap(FEE.allPMs[i+10].isOK() && FEE.TCM.act.TRG_SYNC_C[i].linkOK ? (FEE.allPMs[i+10].act.GBT.isOK() ? Green1 : Red0) : RedDash); switchesPMC[i]->setChecked(FEE.TCM.act.CH_MASK_C & (1 << i));
         }
         switch (curGBTact->Control.DG_MODE) {
             case GBTunit::DG_noData: ui->buttonDataGeneratorOff ->setChecked(true); break;
@@ -657,20 +664,44 @@ public slots:
             ui->labelIconReadinessChanged_C    ->setPixmap(FEE.TCM.act.readinessChangeC ? Red1 : Green0);
             ui->labelIconDelayRangeError_A     ->setPixmap(FEE.TCM.act.delayRangeErrorA ? Red1 : Green0);
             ui->labelIconDelayRangeError_C     ->setPixmap(FEE.TCM.act.delayRangeErrorC ? Red1 : Green0);
+            if (prevPhaseStep_ns != phaseStep_ns) {
+                ui->spinBoxORgate_A->setMaximum(TDCunit_ps * 255 / 1000);
+                ui->spinBoxORgate_C->setMaximum(TDCunit_ps * 255 / 1000);
+                ui->spinBoxORgate_A->setSingleStep(TDCunit_ps / 1000);
+                ui->spinBoxORgate_C->setSingleStep(TDCunit_ps / 1000);
+                ui->spinBoxPhase_A->setMinimum(-halfBC_ns);
+                ui->spinBoxPhase_C->setMinimum(-halfBC_ns);
+                ui->spinBoxPhase_A->setMaximum( halfBC_ns);
+                ui->spinBoxPhase_C->setMaximum( halfBC_ns);
+                ui->spinBoxPhase_A->setSingleStep(phaseStep_ns);
+                ui->spinBoxPhase_C->setSingleStep(phaseStep_ns);
+                ui->spinBoxLaserPhase->setMinimum(-halfBC_ns);
+                ui->spinBoxLaserPhase->setMaximum( halfBC_ns);
+                ui->spinBoxLaserPhase->setSingleStep(phaseStepLaser_ns);
+                prevPhaseStep_ns = phaseStep_ns;
+            }
             ui->labelValuePhase_A->setText(QString::asprintf("%7.3f", FEE.TCM.act.delayAside_ns));
             ui->labelValuePhase_C->setText(QString::asprintf("%7.3f", FEE.TCM.act.delayCside_ns));
-			if (prevPhaseStep_ns != phaseStep_ns) {
-				ui->spinBoxPhase_A->setMinimum(-halfBC_ns);
-				ui->spinBoxPhase_C->setMinimum(-halfBC_ns);
-				ui->spinBoxPhase_A->setMaximum( halfBC_ns);
-				ui->spinBoxPhase_C->setMaximum( halfBC_ns);
-				ui->spinBoxPhase_A->setSingleStep(phaseStep_ns);
-				ui->spinBoxPhase_C->setSingleStep(phaseStep_ns);
-				ui->spinBoxLaserPhase->setMinimum(-halfBC_ns);
-				ui->spinBoxLaserPhase->setMaximum( halfBC_ns);
-				ui->spinBoxLaserPhase->setSingleStep(phaseStepLaser_ns);
-				prevPhaseStep_ns = phaseStep_ns;
-			}
+            if (FEE.PMsA.isEmpty()) {
+                ui->labelValueORgate_A->setText("noPM");
+                ui->labelValueORgate_A->setToolTip("no PM available");
+            } else {
+                bool equalOrGate = true;
+                quint8 orGate = FEE.PMsA.first()->act.OR_GATE;
+                foreach (TypePM *pm, FEE.PMsA) { if (orGate != pm->act.OR_GATE) equalOrGate = false; break; }
+                ui->labelValueORgate_A->setText(equalOrGate ? QString::asprintf("%5.3f", orGate * TDCunit_ps / 1000) : "diff");
+                ui->labelValueORgate_A->setToolTip(equalOrGate ? "" : "differs between PMs");
+            }
+            if (FEE.PMsC.isEmpty()) {
+                ui->labelValueORgate_C->setText("noPM");
+                ui->labelValueORgate_C->setToolTip("no PM available");
+            } else {
+                bool equalOrGate = true;
+                quint8 orGate = FEE.PMsC.first()->act.OR_GATE;
+                foreach (TypePM *pm, FEE.PMsC) { if (orGate != pm->act.OR_GATE) equalOrGate = false; break; }
+                ui->labelValueORgate_C->setText(equalOrGate ? QString::asprintf("%5.3f", orGate * TDCunit_ps / 1000) : "diff");
+                ui->labelValueORgate_C->setToolTip(equalOrGate ? "" : "differs between PMs");
+            }
             ui->SwitcherExt1->setChecked(FEE.TCM.act.EXT_SW & 1);
             ui->SwitcherExt2->setChecked(FEE.TCM.act.EXT_SW & 2);
             ui->SwitcherExt3->setChecked(FEE.TCM.act.EXT_SW & 4);
@@ -724,6 +755,26 @@ public slots:
             ui->labelValueSuppressDelayBC ->setText(QString::asprintf("%d", FEE.TCM.act.lsrTrgSupprDelay));
             ui->labelValueSuppressDelay_ns->setText(QString::asprintf("%.1f", FEE.TCM.act.lsrTrgSupprDelay * 2 * halfBC_ns));
         } else { //PM
+            quint8 iPM = curPM - FEE.allPMs;
+            TRGsyncStatus *s = (iPM > 9 ? FEE.TCM.act.TRG_SYNC_C : FEE.TCM.act.TRG_SYNC_A) + iPM % 10;
+            ui->labelIconHDMIsyncError->setPixmap((iPM > 9 ? FEE.TCM.act.syncErrorInLinkC : FEE.TCM.act.syncErrorInLinkA) & (1 << iPM % 10) ?  Red1 : Green0);
+            ui->labelIconHDMIlinkOK->setPixmap(s->linkOK ? Green1 : Red0);
+            ui->labelIconHDMIbitsOK->setPixmap(s->bitPositionsOK ? Green1 : Red0);
+            ui->labelIconHDMIsignalLost0->setPixmap(s->line0signalLost ? Red1 : Green0);
+            ui->labelIconHDMIsignalLost1->setPixmap(s->line1signalLost ? Red1 : Green0);
+            ui->labelIconHDMIsignalLost2->setPixmap(s->line2signalLost ? Red1 : Green0);
+            ui->labelIconHDMIsignalLost3->setPixmap(s->line3signalLost ? Red1 : Green0);
+            ui->labelIconHDMIsignalStable0->setPixmap(s->line0signalStable ? Green1 : Red0);
+            ui->labelIconHDMIsignalStable1->setPixmap(s->line1signalStable ? Green1 : Red0);
+            ui->labelIconHDMIsignalStable2->setPixmap(s->line2signalStable ? Green1 : Red0);
+            ui->labelIconHDMIsignalStable3->setPixmap(s->line3signalStable ? Green1 : Red0);
+            ui->labelValueHDMIdelay0->setText(QString::asprintf("%4.2f", s->line0delay * TDCunit_ps * 0.006));
+            ui->labelValueHDMIdelay1->setText(QString::asprintf("%4.2f", s->line1delay * TDCunit_ps * 0.006));
+            ui->labelValueHDMIdelay2->setText(QString::asprintf("%4.2f", s->line2delay * TDCunit_ps * 0.006));
+            ui->labelValueHDMIdelay3->setText(QString::asprintf("%4.2f", s->line3delay * TDCunit_ps * 0.006));
+            bool pmUpdated = FEE.PM.contains(curPM->FEEid);
+            foreach (QGroupBox *g, QList<QGroupBox *>({ui->groupBoxChannels, ui->groupBoxPMControl, ui->groupBoxTDCStatus, ui->groupBoxReadoutControl})) g->setEnabled(pmUpdated);
+            if (!pmUpdated) return;
             ui->labelValueORgate->setText(QString::asprintf("±%3d", curPM->act.OR_GATE));
             ui->labelValueCFDsaturation->setText(QString::asprintf("%d", curPM->act.CFD_SATR));
             switch (curPM->act.restartReasonCode) {
@@ -743,24 +794,6 @@ public slots:
             ui->labelValuePhaseTuningTDC1->setText(QString::asprintf("%.0f", curPM->act.TDC1tuning * TDCunit_ps * 8/7));
             ui->labelValuePhaseTuningTDC2->setText(QString::asprintf("%.0f", curPM->act.TDC2tuning * TDCunit_ps * 8/7));
             ui->labelValuePhaseTuningTDC3->setText(QString::asprintf("%.0f", curPM->act.TDC3tuning * TDCunit_ps * 8/7));
-
-            quint8 iPM = curPM->baseAddress / 0x200 - 1;
-            TRGsyncStatus *s = (iPM > 9 ? FEE.TCM.act.TRG_SYNC_C : FEE.TCM.act.TRG_SYNC_A) + iPM % 10;
-            ui->labelIconHDMIsyncError->setPixmap((iPM > 9 ? FEE.TCM.act.syncErrorInLinkC : FEE.TCM.act.syncErrorInLinkA) & (1 << iPM % 10) ?  Red1 : Green0);
-            ui->labelIconHDMIlinkOK->setPixmap(s->linkOK ? Green1 : Red0);
-            ui->labelIconHDMIbitsOK->setPixmap(s->bitPositionsOK ? Green1 : Red0);
-            ui->labelIconHDMIsignalLost0->setPixmap(s->line0signalLost ? Red1 : Green0);
-            ui->labelIconHDMIsignalLost1->setPixmap(s->line1signalLost ? Red1 : Green0);
-            ui->labelIconHDMIsignalLost2->setPixmap(s->line2signalLost ? Red1 : Green0);
-            ui->labelIconHDMIsignalLost3->setPixmap(s->line3signalLost ? Red1 : Green0);
-            ui->labelIconHDMIsignalStable0->setPixmap(s->line0signalStable ? Green1 : Red0);
-            ui->labelIconHDMIsignalStable1->setPixmap(s->line1signalStable ? Green1 : Red0);
-            ui->labelIconHDMIsignalStable2->setPixmap(s->line2signalStable ? Green1 : Red0);
-            ui->labelIconHDMIsignalStable3->setPixmap(s->line3signalStable ? Green1 : Red0);
-            ui->labelValueHDMIdelay0->setText(QString::asprintf("%4.2f", s->line0delay * TDCunit_ps * 0.006));
-            ui->labelValueHDMIdelay1->setText(QString::asprintf("%4.2f", s->line1delay * TDCunit_ps * 0.006));
-            ui->labelValueHDMIdelay2->setText(QString::asprintf("%4.2f", s->line2delay * TDCunit_ps * 0.006));
-            ui->labelValueHDMIdelay3->setText(QString::asprintf("%4.2f", s->line3delay * TDCunit_ps * 0.006));
             for (quint8 iCh=0; iCh<12; ++iCh) {
                 switchesCh[iCh]->setChecked(curPM->act.CH_MASK_DATA & (1 << iCh));
                 noTRGCh[iCh]->setChecked(curPM->act.timeAlignment[iCh].blockTriggers);
@@ -790,8 +823,12 @@ public slots:
         if (isTCM()) {
 			ui->spinBoxPhase_A->setValue(FEE.TCM.set.delayAside_ns);
 			ui->spinBoxPhase_C->setValue(FEE.TCM.set.delayCside_ns);
-            for (quint8 iPM =  0; iPM<10; ++iPM) if (FEE.PM.contains(FEE.allPMs[iPM].FEEid)) { ui->lineEditORgate_A->setText(QString::number(FEE.allPMs[iPM].set.OR_GATE)); break; }
-            for (quint8 iPM = 10; iPM<20; ++iPM) if (FEE.PM.contains(FEE.allPMs[iPM].FEEid)) { ui->lineEditORgate_C->setText(QString::number(FEE.allPMs[iPM].set.OR_GATE)); break; }
+            ui->spinBoxORgate_A->setValue(FEE.allPMs[ 0].set.OR_GATE * TDCunit_ps / 1000);
+            ui->spinBoxORgate_C->setValue(FEE.allPMs[10].set.OR_GATE * TDCunit_ps / 1000);
+            if (!FEE.PM.isEmpty()) {
+                quint8 iPM = FEE.PM.first() - FEE.allPMs; if (iPM <  10) ui->spinBoxORgate_A->setValue(FEE.allPMs[iPM].set.OR_GATE * TDCunit_ps / 1000);
+                       iPM = FEE.PM.last () - FEE.allPMs; if (iPM >= 10) ui->spinBoxORgate_C->setValue(FEE.allPMs[iPM].set.OR_GATE * TDCunit_ps / 1000);
+            }
             ui->lineEditTriggersRandomRate_1->setText(QString::asprintf("%08X", FEE.TCM.set.T1_RATE));
             ui->lineEditTriggersRandomRate_2->setText(QString::asprintf("%08X", FEE.TCM.set.T2_RATE));
             ui->lineEditTriggersRandomRate_3->setText(QString::asprintf("%08X", FEE.TCM.set.T3_RATE));
@@ -856,7 +893,12 @@ public slots:
         }
     }
 
-    void on_buttonResetCounters_clicked              () { FEE.reset(selectedBoard, GBTunit::RB_dataCounter          ); }
+    void on_buttonResetCounters_clicked              () {
+        curGBTact->Status.wordsCount  = FEE.readRegister((isTCM() ? 0 : curPM->baseAddress) + 0xED);
+        curGBTact->Status.eventsCount = FEE.readRegister((isTCM() ? 0 : curPM->baseAddress) + 0xF1);
+        if (isTCM()) FEE.TCM.counters.GBT.calculateRate(curGBTact->Status.wordsCount, curGBTact->Status.eventsCount); else curPM->counters.GBT.calculateRate(curGBTact->Status.wordsCount, curGBTact->Status.eventsCount);
+        FEE.reset(selectedBoard, GBTunit::RB_dataCounter);
+    }
     void on_buttonResetOffset_clicked                () { FEE.reset(selectedBoard, GBTunit::RB_generatorsBunchOffset); }
     void on_buttonResetOrbitSync_clicked             () { FEE.reset(selectedBoard, GBTunit::RB_orbitSync            ); }
     void on_buttonResetGBTerrors_clicked             () { FEE.reset(selectedBoard, GBTunit::RB_GBTRxError           ); }
@@ -927,6 +969,7 @@ public slots:
             ui->groupBoxBoardStatus->setTitle("Board status (TCM)");
             curGBTact = &FEE.TCM.act.GBT;
             curGBTset = &FEE.TCM.set.GBT;
+            ui->groupBoxReadoutControl->setEnabled(true);
             if (FEE.isOnline) FEE.sync();
 			updateEdits();
             updateCounters();
@@ -991,8 +1034,10 @@ public slots:
     void on_buttonApplySuppressDuration_clicked() { FEE.TCM.set.lsrTrgSupprDur   = ui->spinBoxSuppressDuration->value(); FEE.apply_LASER_TRG_SUPPR_DUR  (); }
     void on_buttonApplySuppressDelayBC_clicked () { FEE.TCM.set.lsrTrgSupprDelay = ui->spinBoxSuppressDelayBC ->value(); FEE.apply_LASER_TRG_SUPPR_DELAY(); }
 
-    void on_lineEditORgate_A_textEdited(QString text) { FEE.apply_OR_GATE_sideA(text.toUShort(&ok)); }
-    void on_lineEditORgate_C_textEdited(QString text) { FEE.apply_OR_GATE_sideC(text.toUShort(&ok)); }
+    void on_spinBoxORgate_A_valueChanged(double val) { for (quint8 iPM= 0; iPM<10; ++iPM) FEE.allPMs[iPM].set.OR_GATE = lround(val * 1000 / TDCunit_ps); }
+    void on_spinBoxORgate_C_valueChanged(double val) { for (quint8 iPM=10; iPM<20; ++iPM) FEE.allPMs[iPM].set.OR_GATE = lround(val * 1000 / TDCunit_ps); }
+    void on_buttonApplyORgate_A_clicked() { FEE.apply_OR_GATE_sideA(ui->spinBoxORgate_A->value() * 1000 / TDCunit_ps); }
+    void on_buttonApplyORgate_C_clicked() { FEE.apply_OR_GATE_sideC(ui->spinBoxORgate_C->value() * 1000 / TDCunit_ps); }
 
     void on_spinBoxPhase_A_valueChanged(double val) {
 		FEE.TCM.set.DELAY_A = lround(val / phaseStep_ns);
@@ -1032,9 +1077,6 @@ public slots:
     void on_radioButtonC_clicked    (bool checked) { if (checked) FEE.apply_C_SC_TRG_MODE(1); }
     void on_radioButtonA_clicked    (bool checked) { if (checked) FEE.apply_C_SC_TRG_MODE(2); }
     void on_radioButtonSum_clicked  (bool checked) { if (checked) FEE.apply_C_SC_TRG_MODE(3); }
-
-    void on_radioButtonForceLocal_clicked(bool checked) { FEE.apply_RESET_SYSTEM( checked); }
-    void on_radioButtonAuto_clicked      (bool checked) { FEE.apply_RESET_SYSTEM(!checked); }
 
     void on_buttonResetCountersTCM_clicked() { FEE.apply_RESET_COUNTERS(FEE.TCMid); }
     void on_butonResetChCounters_clicked() { FEE.apply_RESET_COUNTERS(selectedBoard); }

@@ -33171,9 +33171,9 @@ TRG</string>
      <widget class="QDoubleSpinBox" name="spinBoxPhase_A">
       <property name="geometry">
        <rect>
-        <x>268</x>
+        <x>267</x>
         <y>49</y>
-        <width>70</width>
+        <width>73</width>
         <height>22</height>
        </rect>
       </property>
@@ -33231,10 +33231,10 @@ TRG</string>
      <widget class="QLabel" name="labelTextPhase_A">
       <property name="geometry">
        <rect>
-        <x>158</x>
-        <y>50</y>
-        <width>60</width>
-        <height>20</height>
+        <x>178</x>
+        <y>49</y>
+        <width>35</width>
+        <height>13</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -33270,7 +33270,7 @@ TRG</string>
        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
       </property>
       <property name="text">
-       <string>Phase, ns:</string>
+       <string>Phase</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -33343,9 +33343,9 @@ TRG</string>
      <widget class="ActualLabel" name="labelValuePhase_A">
       <property name="geometry">
        <rect>
-        <x>217</x>
+        <x>214</x>
         <y>50</y>
-        <width>50</width>
+        <width>51</width>
         <height>20</height>
        </rect>
       </property>
@@ -33964,7 +33964,7 @@ TRG</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>95</x>
+        <x>143</x>
         <y>50</y>
         <width>20</width>
         <height>20</height>
@@ -34013,73 +34013,13 @@ TRG</string>
        </size>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEditORgate_A">
-      <property name="geometry">
-       <rect>
-        <x>65</x>
-        <y>51</y>
-        <width>31</width>
-        <height>18</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string>255</string>
-      </property>
-      <property name="maxLength">
-       <number>3</number>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-      <property name="placeholderText">
-       <string notr="true"/>
-      </property>
-      <property name="clearButtonEnabled">
-       <bool>false</bool>
-      </property>
-     </widget>
      <widget class="QLabel" name="labelTextORgate_A">
       <property name="geometry">
        <rect>
-        <x>4</x>
-        <y>50</y>
-        <width>60</width>
-        <height>20</height>
+        <x>2</x>
+        <y>49</y>
+        <width>42</width>
+        <height>13</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -34112,7 +34052,205 @@ TRG</string>
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>OR gate: ±</string>
+       <string>OR gate</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="spinBoxORgate_A">
+      <property name="geometry">
+       <rect>
+        <x>86</x>
+        <y>49</y>
+        <width>59</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::PlusMinus</enum>
+      </property>
+      <property name="accelerated">
+       <bool>true</bool>
+      </property>
+      <property name="decimals">
+       <number>3</number>
+      </property>
+      <property name="minimum">
+       <double>0.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>3.310000000000000</double>
+      </property>
+      <property name="singleStep">
+       <double>0.013000000000000</double>
+      </property>
+      <property name="value">
+       <double>3.310000000000000</double>
+      </property>
+     </widget>
+     <widget class="ActualLabel" name="labelValueORgate_A">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>50</y>
+        <width>35</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>diff</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextPhase_ns_A">
+      <property name="geometry">
+       <rect>
+        <x>181</x>
+        <y>58</y>
+        <width>35</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+      </property>
+      <property name="text">
+       <string>ns:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextORgate_ns_A">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>58</y>
+        <width>42</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>±ns:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -34157,226 +34295,6 @@ TRG</string>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
-     <widget class="QDoubleSpinBox" name="spinBoxPhase_C">
-      <property name="geometry">
-       <rect>
-        <x>268</x>
-        <y>49</y>
-        <width>70</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::PlusMinus</enum>
-      </property>
-      <property name="accelerated">
-       <bool>true</bool>
-      </property>
-      <property name="decimals">
-       <number>3</number>
-      </property>
-      <property name="minimum">
-       <double>-12.500000000000000</double>
-      </property>
-      <property name="maximum">
-       <double>12.500000000000000</double>
-      </property>
-      <property name="singleStep">
-       <double>0.009766000000000</double>
-      </property>
-      <property name="value">
-       <double>-12.500000000000000</double>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelTextPhase_C">
-      <property name="geometry">
-       <rect>
-        <x>158</x>
-        <y>50</y>
-        <width>60</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
-      </property>
-      <property name="text">
-       <string>Phase, ns:</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="buttonApplyPhase_C">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>338</x>
-        <y>50</y>
-        <width>20</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="../!images/img.qrc">
-        <normaloff>:/write.png</normaloff>:/write.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>16</width>
-        <height>16</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="ActualLabel" name="labelValuePhase_C">
-      <property name="geometry">
-       <rect>
-        <x>217</x>
-        <y>50</y>
-        <width>50</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
-      </property>
-      <property name="text">
-       <string>-12.500</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
      <widget class="QLabel" name="labelTextPLLlock_C">
       <property name="geometry">
        <rect>
@@ -34947,13 +34865,58 @@ TRG</string>
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
+     <widget class="ActualLabel" name="labelValueORgate_C">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>50</y>
+        <width>35</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>3.315</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
      <widget class="QPushButton" name="buttonApplyORgate_C">
       <property name="enabled">
        <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
-        <x>95</x>
+        <x>143</x>
         <y>50</y>
         <width>20</width>
         <height>20</height>
@@ -35002,24 +34965,24 @@ TRG</string>
        </size>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEditORgate_C">
+     <widget class="QLabel" name="labelTextPhase_C">
       <property name="geometry">
        <rect>
-        <x>65</x>
-        <y>51</y>
-        <width>31</width>
-        <height>18</height>
+        <x>178</x>
+        <y>49</y>
+        <width>35</width>
+        <height>13</height>
        </rect>
       </property>
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
       <property name="font">
        <font>
-        <family>Consolas</family>
+        <family>Calibri</family>
         <pointsize>10</pointsize>
         <weight>50</weight>
         <bold>false</bold>
@@ -35041,34 +35004,22 @@ TRG</string>
        <string notr="true"/>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
+       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
       </property>
       <property name="text">
-       <string>255</string>
-      </property>
-      <property name="maxLength">
-       <number>3</number>
+       <string>Phase</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
-      <property name="placeholderText">
-       <string notr="true"/>
-      </property>
-      <property name="clearButtonEnabled">
-       <bool>false</bool>
-      </property>
      </widget>
-     <widget class="QLabel" name="labelTextORgate_C">
+     <widget class="QLabel" name="labelTextORgate_ns_C">
       <property name="geometry">
        <rect>
-        <x>4</x>
-        <y>50</y>
-        <width>60</width>
-        <height>20</height>
+        <x>5</x>
+        <y>58</y>
+        <width>42</width>
+        <height>12</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -35101,10 +35052,335 @@ TRG</string>
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>OR gate: ±</string>
+       <string>±ns:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextPhase_ns_C">
+      <property name="geometry">
+       <rect>
+        <x>181</x>
+        <y>58</y>
+        <width>35</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+      </property>
+      <property name="text">
+       <string>ns:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="spinBoxORgate_C">
+      <property name="geometry">
+       <rect>
+        <x>86</x>
+        <y>49</y>
+        <width>59</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::PlusMinus</enum>
+      </property>
+      <property name="accelerated">
+       <bool>true</bool>
+      </property>
+      <property name="decimals">
+       <number>3</number>
+      </property>
+      <property name="minimum">
+       <double>0.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>3.310000000000000</double>
+      </property>
+      <property name="singleStep">
+       <double>0.013000000000000</double>
+      </property>
+      <property name="value">
+       <double>3.310000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextORgate_C">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>49</y>
+        <width>42</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>OR gate</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="buttonApplyPhase_C">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>338</x>
+        <y>50</y>
+        <width>20</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-style: solid;</string>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="../!images/img.qrc">
+        <normaloff>:/write.png</normaloff>:/write.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>16</width>
+        <height>16</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="ActualLabel" name="labelValuePhase_C">
+      <property name="geometry">
+       <rect>
+        <x>214</x>
+        <y>50</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+      </property>
+      <property name="text">
+       <string>-12.500</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="spinBoxPhase_C">
+      <property name="geometry">
+       <rect>
+        <x>267</x>
+        <y>49</y>
+        <width>73</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::PlusMinus</enum>
+      </property>
+      <property name="accelerated">
+       <bool>true</bool>
+      </property>
+      <property name="decimals">
+       <number>3</number>
+      </property>
+      <property name="minimum">
+       <double>-12.500000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>12.500000000000000</double>
+      </property>
+      <property name="singleStep">
+       <double>0.009766000000000</double>
+      </property>
+      <property name="value">
+       <double>-12.500000000000000</double>
       </property>
      </widget>
     </widget>
@@ -37682,7 +37958,7 @@ TRG</string>
        <rect>
         <x>114</x>
         <y>30</y>
-        <width>76</width>
+        <width>78</width>
         <height>21</height>
        </rect>
       </property>
@@ -37729,7 +38005,7 @@ TRG</string>
        <rect>
         <x>114</x>
         <y>91</y>
-        <width>76</width>
+        <width>78</width>
         <height>21</height>
        </rect>
       </property>
@@ -37776,7 +38052,7 @@ TRG</string>
        <rect>
         <x>114</x>
         <y>151</y>
-        <width>76</width>
+        <width>78</width>
         <height>21</height>
        </rect>
       </property>
@@ -38533,7 +38809,7 @@ TRG</string>
        <rect>
         <x>114</x>
         <y>61</y>
-        <width>76</width>
+        <width>78</width>
         <height>21</height>
        </rect>
       </property>
@@ -38580,7 +38856,7 @@ TRG</string>
        <rect>
         <x>114</x>
         <y>121</y>
-        <width>76</width>
+        <width>78</width>
         <height>21</height>
        </rect>
       </property>
@@ -39301,7 +39577,7 @@ TRG</string>
      <widget class="QPushButton" name="buttonSCNchan">
       <property name="geometry">
        <rect>
-        <x>48</x>
+        <x>47</x>
         <y>71</y>
         <width>32</width>
         <height>17</height>
@@ -39352,7 +39628,7 @@ TRG</string>
      <widget class="QPushButton" name="buttonSCcharge">
       <property name="geometry">
        <rect>
-        <x>48</x>
+        <x>47</x>
         <y>53</y>
         <width>32</width>
         <height>21</height>
@@ -41255,9 +41531,9 @@ GBT</string>
       <property name="brush">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>0</red>
-         <green>0</green>
-         <blue>0</blue>
+         <red>176</red>
+         <green>217</green>
+         <blue>89</blue>
         </color>
        </brush>
       </property>
@@ -45304,7 +45580,7 @@ GBT</string>
       <widget class="QLabel" name="labelTextTGcontinuousValue">
        <property name="geometry">
         <rect>
-         <x>79</x>
+         <x>77</x>
          <y>43</y>
          <width>40</width>
          <height>20</height>
@@ -45518,7 +45794,7 @@ GBT</string>
       <widget class="QLabel" name="labelTextTGbunchFrequency">
        <property name="geometry">
         <rect>
-         <x>148</x>
+         <x>147</x>
          <y>63</y>
          <width>30</width>
          <height>20</height>
@@ -47157,7 +47433,7 @@ GBT</string>
       <widget class="QLabel" name="labelTextDGbunchPattern">
        <property name="geometry">
         <rect>
-         <x>69</x>
+         <x>67</x>
          <y>38</y>
          <width>50</width>
          <height>20</height>
@@ -47202,7 +47478,7 @@ GBT</string>
       <widget class="QLabel" name="labelTextDGtriggerRespondMask">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>7</x>
          <y>18</y>
          <width>110</width>
          <height>20</height>
@@ -53276,7 +53552,7 @@ GBT</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>194</x>
+        <x>183</x>
         <y>62</y>
         <width>20</width>
         <height>20</height>
@@ -53337,7 +53613,7 @@ GBT</string>
      <widget class="QLabel" name="labelTextLaserPhase">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>1</x>
         <y>62</y>
         <width>61</width>
         <height>20</height>
@@ -53382,7 +53658,7 @@ GBT</string>
      <widget class="ActualLabel" name="labelValueLaserPhase">
       <property name="geometry">
        <rect>
-        <x>72</x>
+        <x>63</x>
         <y>62</y>
         <width>50</width>
         <height>20</height>
@@ -53491,7 +53767,7 @@ GBT</string>
      <widget class="QDoubleSpinBox" name="spinBoxLaserPhase">
       <property name="geometry">
        <rect>
-        <x>123</x>
+        <x>114</x>
         <y>61</y>
         <width>70</width>
         <height>22</height>
@@ -55488,7 +55764,7 @@ GBT</string>
       <property name="geometry">
        <rect>
         <x>361</x>
-        <y>74</y>
+        <y>73</y>
         <width>15</width>
         <height>20</height>
        </rect>
@@ -59391,8 +59667,6 @@ system</string>
   <tabstop>Switcher_C9</tabstop>
   <tabstop>spinBoxPhase_A</tabstop>
   <tabstop>buttonApplyPhase_A</tabstop>
-  <tabstop>spinBoxPhase_C</tabstop>
-  <tabstop>buttonApplyPhase_C</tabstop>
   <tabstop>SwitcherExt1</tabstop>
   <tabstop>SwitcherExt2</tabstop>
   <tabstop>SwitcherExt3</tabstop>

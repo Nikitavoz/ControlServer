@@ -40,18 +40,11 @@ public:
         updateTimer->start(updatePeriod_ms);
     }
 
-//    ~IPbusTarget() {
-//        qsocket->disconnectFromHost();
-//    }
-
     quint32 readRegister(quint32 address) {
-        quint32 data = 0xFFFFFFFF;
-        addTransaction(read, address, &data, 1);
-        return transceive(true) ? data : 0xFFFFFFFF;
-    }
-
-    void log(QString st) {
-        qDebug() << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz ") + st;
+        if (!transactionsList.isEmpty()) transceive();
+        addTransaction(read, address, nullptr, 1);
+        TransactionHeader *th = transactionsList.last().responseHeader;
+        return transceive(false) && th->InfoCode == 0 ? quint32(*++th) : 0xFFFFFFFF;
     }
 
 signals:
@@ -69,11 +62,10 @@ protected:
     }
 
     void debugPrint() {
-        printf("request:\n");
-        for (quint16 i=0; i<requestSize; ++i)  printf("%08X\n", request[i]);
-        printf("        response:\n");
-        for (quint16 i=0; i<responseSize; ++i) printf("        %08X\n", response[i]);
-        printf("\n");
+        qDebug("request:");
+        for (quint16 i=0; i<requestSize; ++i)  qDebug("%08X", request[i]);
+        qDebug("        response:\n");
+        for (quint16 i=0; i<responseSize; ++i) qDebug("        %08X", response[i]);
     }
 
     void addTransaction(TransactionType type, quint32 address, quint32 *data, quint8 nWords = 1) {
@@ -135,7 +127,6 @@ protected:
         }
         n = qsocket->readDatagram((char *)response, qsocket->pendingDatagramSize());
         if (n == 64 && response[0] == statusRequest.header) {
-            log("unexpected status packet received");
             if (!qsocket->hasPendingDatagrams() && !qsocket->waitForReadyRead(100) && !qsocket->hasPendingDatagrams()) {
                 isOnline = false;
                 emit noResponse();
@@ -168,17 +159,16 @@ protected:
                 case                read:
                 case nonIncrementingRead:
                 case   configurationRead: {
-                    if (transactionsList.at(i).data != nullptr) {
-                        quint32 *src = (quint32 *)th + 1, *dst = transactionsList.at(i).data;
-                        while (src <= (quint32 *)th + th->Words && src < response + responseSize) *dst++ = *src++;
-                    }
                     quint32 wordsAhead = response + responseSize - (quint32 *)th - 1;
                     if (th->Words > wordsAhead) { //response too short to contain nWords values
+                        if (transactionsList.at(i).data != nullptr) memcpy(transactionsList.at(i).data, (quint32 *)th + 1, wordsAhead * wordSize);
                         emit successfulRead(wordsAhead);
                         emit error(QString::asprintf("read transaction from %08X truncated: %d/%d words received", *transactionsList.at(i).address, wordsAhead, th->Words), IPbusError);
                         return false;
-                    } else
+                    } else {
+                        if (transactionsList.at(i).data != nullptr) memcpy(transactionsList.at(i).data, (quint32 *)th + 1, th->Words * wordSize);
                         emit successfulRead(th->Words);
+                    }
                     break;
                 }
                 case RMWbits:
@@ -200,7 +190,7 @@ protected:
             }
             if (th->InfoCode != 0) {
                 debugPrint();
-                emit error(th->infoCodeString() + QString::asprintf(", address: %08X", *transactionsList.at(i).address + (th->Words ? th->Words - 1 : 0)), IPbusError);
+                emit error(th->infoCodeString() + QString::asprintf(", address: %08X", *transactionsList.at(i).address + (th->InfoCode == 4 ? th->Words : 0)), IPbusError);
                 return false;
             }
         }
@@ -236,7 +226,7 @@ public slots:
             emit noResponse();
         } else {
             qint32 n = qsocket->read((char *)&statusResponse, qsocket->pendingDatagramSize());
-            if (n == 0 || n == -1 || statusResponse.header != statusRequest.header) {
+            if (n != sizeof (statusResponse) || statusResponse.header != statusRequest.header) {
                 isOnline = false;
                 emit noResponse(QString::asprintf("incorrect response (%d bytes). No IPbus?", n));
             } else {
