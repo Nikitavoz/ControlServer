@@ -299,7 +299,7 @@ public slots:
 		}
 		foreach (TypePM *pm, PM) {
 			load = readRegister(pm->baseAddress + TypePM::Counters::addressFIFOload);
-            if (load == 0xFFFFFFFF) return;
+            if (load == 0xFFFFFFFF) continue;
 			while (load) {
 				addTransaction(nonIncrementingRead, pm->baseAddress + TypePM::Counters::addressFIFO, nullptr, load > 255 ? 255 : load);
 				addTransaction(read, pm->baseAddress + TypePM::Counters::addressFIFOload, &load);
@@ -310,7 +310,7 @@ public slots:
 
     void apply_COUNTERS_UPD_RATE(quint8 val) {
         countersTimer->stop();
-        writeRegister(TCMparameters["COUNTERS_UPD_RATE"].address, 0, false);
+        writeRegister(0, TCMparameters["COUNTERS_UPD_RATE"].address, false);
         clearFIFOs();
         if (val <= 7) {
             TCM.set.COUNTERS_UPD_RATE = val;
@@ -433,11 +433,11 @@ public slots:
         }
         if (PMsReady) foreach (TypePM *pm, PM) {
             addTransaction(read, pm->baseAddress + TypePM::Counters::addressDirect, pm->counters.New, TypePM::Counters::number);
-            if (!transceive() || !PM.contains(pm->FEEid)) return;
+            if (!transceive() || !PM.contains(pm->FEEid)) continue;
             pm->counters.newTime = QDateTime::currentDateTime();
             quint32 time_ms = pm->counters.oldTime.msecsTo(pm->counters.newTime);
             for (quint8 i=0; i<TypePM::Counters::number; ++i) {
-                pm->counters.rate[i] = pm->counters.New[i] == pm->counters.Old[i] ? 0. : (pm->counters.New[i] - pm->counters.Old[i]) * 1000. / time_ms;
+                pm->counters.rate[i] = (pm->counters.New[i] - pm->counters.Old[i]) * 1000. / time_ms;
                 pm->counters.Old[i] = pm->counters.New[i];
             }
 			pm->counters.oldTime = pm->counters.newTime;
@@ -504,7 +504,6 @@ public slots:
             } else if (PMsReady == false) { // reset completed
                 checkPMlinks();
                 defaultGBT();
-                //apply_RESET_ERRORS(false);
                 PMsReady = true;
             }
             if (TCM.act.PM_MASK_SPI != TCM.set.PM_MASK_SPI) checkPMlinks();

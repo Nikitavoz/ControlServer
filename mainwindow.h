@@ -37,7 +37,7 @@ class MainWindow : public QMainWindow
 		Green1 = QPixmap(":/1G.png"), //OK
 		Red0 = QPixmap(":/0R.png"), //not OK
         Red1 = QPixmap(":/1R.png"), //not OK
-        RedDash = QPixmap(":/dashR.png"),
+        RedDash = Red1.transformed(QTransform().rotate(90)),
         SwOff = QPixmap(":/SW0.png"), //isOff
 		SwOn  = QPixmap(":/SW1.png"); //isOn
 	QFont  regularValueFont = QFont("Consolas", 10, QFont::Normal);
@@ -109,6 +109,7 @@ class MainWindow : public QMainWindow
     double prevPhaseStep_ns = 25. / 2048; //value for 40. Mhz clock and production TCM; var is used to detect values change in case of clock source and/or TCM change
     GBTunit *curGBTact = &FEE.TCM.act.GBT;
     GBTunit::ControlData *curGBTset = &FEE.TCM.set.GBT;
+    GBTcounters *curGBTcnt = &FEE.TCM.counters.GBT;
     TypePM *curPM = FEE.allPMs;
     quint16 selectedBoard;
     inline bool isTCM() { return selectedBoard == FEE.TCMid; } //is TCM selected
@@ -894,9 +895,11 @@ public slots:
     }
 
     void on_buttonResetCounters_clicked              () {
-        curGBTact->Status.wordsCount  = FEE.readRegister((isTCM() ? 0 : curPM->baseAddress) + 0xED);
+        curGBTact->Status. wordsCount = FEE.readRegister((isTCM() ? 0 : curPM->baseAddress) + 0xED);
         curGBTact->Status.eventsCount = FEE.readRegister((isTCM() ? 0 : curPM->baseAddress) + 0xF1);
-        if (isTCM()) FEE.TCM.counters.GBT.calculateRate(curGBTact->Status.wordsCount, curGBTact->Status.eventsCount); else curPM->counters.GBT.calculateRate(curGBTact->Status.wordsCount, curGBTact->Status.eventsCount);
+        curGBTcnt->calculateRate(curGBTact->Status.wordsCount, curGBTact->Status.eventsCount);
+        curGBTcnt-> wordsOld = 0;
+        curGBTcnt->eventsOld = 0;
         FEE.reset(selectedBoard, GBTunit::RB_dataCounter);
     }
     void on_buttonResetOffset_clicked                () { FEE.reset(selectedBoard, GBTunit::RB_generatorsBunchOffset); }
@@ -969,6 +972,7 @@ public slots:
             ui->groupBoxBoardStatus->setTitle("Board status (TCM)");
             curGBTact = &FEE.TCM.act.GBT;
             curGBTset = &FEE.TCM.set.GBT;
+            curGBTcnt = &FEE.TCM.counters.GBT;
             ui->groupBoxReadoutControl->setEnabled(true);
             if (FEE.isOnline) FEE.sync();
 			updateEdits();
@@ -983,12 +987,13 @@ public slots:
         curPM = FEE.PM[FEEid];
         curGBTact = &curPM->act.GBT;
         curGBTset = &curPM->set.GBT;
+        curGBTcnt = &curPM->counters.GBT;
         if (FEE.isOnline) FEE.sync();
 		updateEdits();
         updateCounters();
     }
 
-    void on_comboBoxUpdatePeriod_activated(int index) { if (FEE.TCM.act.COUNTERS_UPD_RATE != quint32(index)) FEE.apply_COUNTERS_UPD_RATE(index); }
+    void on_comboBoxUpdatePeriod_activated(int index) { /*if (FEE.TCM.act.COUNTERS_UPD_RATE != quint32(index))*/ FEE.apply_COUNTERS_UPD_RATE(index); }
     void on_buttonRestart_clicked() { FEE.apply_RESET_SYSTEM(ui->radioButtonForceLocal->isChecked()); }
     void on_buttonDismissErrors_clicked() { FEE.apply_RESET_ERRORS(); }
 

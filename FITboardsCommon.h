@@ -191,8 +191,8 @@ struct GBTcounters {
         newTime = QDateTime::currentDateTime();
         quint32 time_ms = oldTime.msecsTo(newTime);
         if (time_ms < 100) return;
-         wordsRate  = wordsNew ==  wordsOld ? 0. : ( wordsNew -  wordsOld) * 1000. / time_ms;
-        eventsRate = eventsNew == eventsOld ? 0. : (eventsNew - eventsOld) * 1000. / time_ms;
+         wordsRate = ( wordsNew -  wordsOld) * 1000. / time_ms;
+        eventsRate = (eventsNew - eventsOld) * 1000. / time_ms;
          wordsOld =  wordsNew;
         eventsOld = eventsNew;
         oldTime = newTime;
