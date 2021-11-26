@@ -13,7 +13,7 @@ extern double phaseStepLaser_ns, phaseStep_ns;
 struct TypeTCM {
     struct ActualValues {
         static const quint8// size = end_address + 1 - start_address
-            block0addr = 0x00, block0size = 0x1F + 1 - block0addr, //32
+            block0addr = 0x00, block0size = 0x20 + 1 - block0addr, //33
             block1addr = 0x30, block1size = 0x3A + 1 - block1addr, //11
             block2addr = 0x60, block2size = 0x6A + 1 - block2addr, //11
             block3addr = 0xFC, block3size = 0xFE + 1 - block3addr; // 3
@@ -92,9 +92,11 @@ struct TypeTCM {
                         lsrTrgSupprDelay: 6, //┐
                         lsrTrgSupprDur  : 2, //│1F
                                         :24; //┘
+                qint16  averageTimeA       , //┐
+                        averageTimeC       ; //┘20
             };
         };
-        quint32 _reservedSpace0[0x30 - 0x1F - 1];
+        quint32 _reservedSpace0[0x30 - 0x20 - 1];
         union { //block1
             quint32 registers1[block1size] = {0};
             char pointer1[block1size * sizeof(quint32)];
@@ -178,6 +180,8 @@ struct TypeTCM {
             delayLaser_ns,
             delayAside_ns,
             delayCside_ns,
+            averageTimeA_ns,
+            averageTimeC_ns,
             laserFrequency_Hz,
             attenuation;
         char BOARD_TYPE[4] = {0};
@@ -197,6 +201,8 @@ struct TypeTCM {
 			delayLaser_ns = LASER_DELAY * phaseStepLaser_ns;
 			delayAside_ns = DELAY_A     * phaseStep_ns;
 			delayCside_ns = DELAY_C     * phaseStep_ns;
+            averageTimeA_ns = averageTimeA * TDCunit_ps / 1000;
+            averageTimeC_ns = averageTimeA * TDCunit_ps / 1000;
             laserFrequency_Hz = systemClock_MHz * 1e6 / (LASER_DIVIDER == 0 ? 1 << 24 : LASER_DIVIDER);
             //
             attenuation = attenSteps;
@@ -336,7 +342,7 @@ struct TypeTCM {
         static const quint8
             number = 15,
             addressDirect   =  0x70;
-        quint16 FIFOload;
+        quint32 FIFOload;
         QDateTime newTime, oldTime = QDateTime::currentDateTime();
         union {
             quint32 New[number] = {0};

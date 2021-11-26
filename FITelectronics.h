@@ -69,7 +69,18 @@ public:
         TCM.set.T3_SIGN = FIT[sd].triggers[2].signature;
         TCM.set.T4_SIGN = FIT[sd].triggers[3].signature;
         TCM.set.T5_SIGN = FIT[sd].triggers[4].signature;
-        connect(countersTimer, &QTimer::timeout, this, &FITelectronics::readCountersFIFO);
+        countersTimer->setTimerType(Qt::PreciseTimer);
+        connect(countersTimer, &QTimer::timeout, this, [=](){
+            addTransaction(read, 0x0F, &TCM.act.registers0[0x0F]); //status register
+            if (!transceive()) return;
+            if (TCM.act.resetSystem) {
+                PMsReady = false;
+                PM.clear();
+                PMsA.clear();
+                PMsC.clear();
+            }
+            readCountersFIFO();
+        });
         //connect(fullSyncTimer, &QTimer::timeout, this, &FITelectronics::fullSync);
         connect(this, &IPbusTarget::error, this, [=]() {
             if (countersTimer->isActive()) countersTimer->stop();
@@ -79,22 +90,23 @@ public:
             if (countersTimer->isActive()) countersTimer->stop();
             //if (fullSyncTimer->isActive()) fullSyncTimer->stop();
         });
-        connect(this, &IPbusTarget::IPbusStatusOK, this, [=]() { //init some parameters
-            if (subdetector == FV0) writeNbits(0x3, 0xE, 2, 8); //apply FV0 trigger mode
+        connect(this, &IPbusTarget::IPbusStatusOK, this, [=]() {
+            if (subdetector == FV0) writeNbits(0xE, 0x3, 2, 8); //apply FV0 trigger mode
             addWordToWrite(TCMparameters["T1_SIGN"].address, prepareSignature(FIT[sd].triggers[0].signature));
             addWordToWrite(TCMparameters["T2_SIGN"].address, prepareSignature(FIT[sd].triggers[1].signature));
             addWordToWrite(TCMparameters["T3_SIGN"].address, prepareSignature(FIT[sd].triggers[2].signature));
             addWordToWrite(TCMparameters["T4_SIGN"].address, prepareSignature(FIT[sd].triggers[3].signature));
             addWordToWrite(TCMparameters["T5_SIGN"].address, prepareSignature(FIT[sd].triggers[4].signature));
             //addWordToWrite(0x6A, 0x6DB6); //switch all trigger outputs to signature mode
-            addTransaction(read, TCMparameters["COUNTERS_UPD_RATE"].address, &TCM.act.COUNTERS_UPD_RATE);
             if (!transceive()) return;
-            defaultGBT(true);
-            clearFIFOs();
-            if (TCM.act.COUNTERS_UPD_RATE != 0) countersTimer->start(countersUpdatePeriod_ms[TCM.act.COUNTERS_UPD_RATE] / 2);
+            if (TCM.services.isEmpty()) createTCMservices();
             PMsReady = false;
             sync();
-            if (TCM.services.isEmpty()) createTCMservices();
+        });
+        connect(this, &FITelectronics::resetFinished, this, [=]() {
+            checkPMlinks();
+            defaultGBT();
+            apply_COUNTERS_UPD_RATE(TCM.set.COUNTERS_UPD_RATE);
         });
 
         DIMserver.setDnsNode("localhost");
@@ -141,7 +153,7 @@ public:
         addCommand(pm->commands, prefix+"control/TRG_CNT_MODE""/apply", "S", [=](DimCommand *c) { apply_TRG_CNT_MODE(pm->FEEid, c->getShort()); });
         addCommand(pm->commands, prefix+"control/CFD_SATR"    "/apply", "S", [=](DimCommand * ) { apply_CFD_SATR(pm->FEEid); });
         addCommand(pm->commands, prefix+"control/OR_GATE"     "/apply", "S", [=](DimCommand * ) { apply_OR_GATE_PM(pm->FEEid); });
-		addCommand(pm->commands, prefix+"control/RESET_COUNTERS"	  , "S", [=](DimCommand * ) { apply_RESET_COUNTERS(pm->FEEid); });
+        addCommand(pm->commands, prefix+"control/RESET_COUNTERS"	  , "S", [=](DimCommand * ) { apply_RESET_COUNTERS(pm->FEEid); });
         addCommand(pm->commands, prefix+"control/switchTRGsync"		  , "S", [=](DimCommand *c) { switchTRGsyncPM(pm-allPMs, c->getShort()); });
         addCommand(pm->commands, prefix+"control/CH_MASK_DATA""/apply", "I", [=](DimCommand *c) { pm->set.CH_MASK_DATA = c->getShort(); apply_CH_MASK_DATA(pm->FEEid); });
         addCommand(pm->commands, prefix+"control/CH_MASK_TRG" "/apply", "I", [=](DimCommand *c) {
@@ -151,8 +163,8 @@ public:
         });
 
 
-		addCommand(pm->commands, prefix+"control/CFD_SATR""/set", "S", [=](DimCommand *c) { pm->set.CFD_SATR = c->getShort(); pm->servicesNew["CFD_SATR"]->updateService(); });
-		addCommand(pm->commands, prefix+"control/OR_GATE" "/set", "S", [=](DimCommand *c) { pm->set.OR_GATE  = c->getShort(); pm->servicesNew["OR_GATE" ]->updateService(); });
+        addCommand(pm->commands, prefix+"control/CFD_SATR""/set", "S", [=](DimCommand *c) { pm->set.CFD_SATR = c->getShort(); pm->servicesNew["CFD_SATR"]->updateService(); });
+        addCommand(pm->commands, prefix+"control/OR_GATE" "/set", "S", [=](DimCommand *c) { pm->set.OR_GATE  = c->getShort(); pm->servicesNew["OR_GATE" ]->updateService(); });
 
         for (quint8 iCh=0; iCh<12; ++iCh) {
 			QString ch = QString::asprintf("Ch%02d/", iCh + 1);
@@ -184,23 +196,23 @@ public:
 			pm->servicesNew.insert(ch+"ADC_DELAY"       , new DimService(qPrintable(prefix+ch+"control/ADC_DELAY"     "/new"), "S", (qint16 *)&pm->set.Ch[iCh] + 6, 2));
 			pm->servicesNew.insert(ch+"THRESHOLD_CALIBR", new DimService(qPrintable(prefix+ch+"control/THRESHOLD_CALIBR/new"), "S", (qint16 *)&pm->set.THRESHOLD_CALIBR[iCh], 2));
 
-			addCommand(pm->commands, prefix+ch+"control/TIME_ALIGN"    "/set", "S", [=](DimCommand *c) { pm->set.TIME_ALIGN[iCh].value = c->getShort(); pm->servicesNew[ch+"TIME_ALIGN"      ]->updateService(); });
-			addCommand(pm->commands, prefix+ch+"control/ADC0_RANGE"    "/set", "S", [=](DimCommand *c) { pm->set.ADC_RANGE[iCh][0]     = c->getShort(); pm->servicesNew[ch+"ADC0_RANGE"      ]->updateService(); });
-			addCommand(pm->commands, prefix+ch+"control/ADC1_RANGE"    "/set", "S", [=](DimCommand *c) { pm->set.ADC_RANGE[iCh][1]     = c->getShort(); pm->servicesNew[ch+"ADC1_RANGE"      ]->updateService(); });
-			addCommand(pm->commands, prefix+ch+"control/CFD_THRESHOLD" "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].CFD_THRESHOLD = c->getShort(); pm->servicesNew[ch+"CFD_THRESHOLD"   ]->updateService(); });
-			addCommand(pm->commands, prefix+ch+"control/CFD_ZERO"      "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].CFD_ZERO      = c->getShort(); pm->servicesNew[ch+"CFD_ZERO"        ]->updateService(); });
-			addCommand(pm->commands, prefix+ch+"control/ADC_ZERO"      "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].ADC_ZERO      = c->getShort(); pm->servicesNew[ch+"ADC_ZERO"        ]->updateService(); });
-			addCommand(pm->commands, prefix+ch+"control/ADC_DELAY"     "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].ADC_DELAY     = c->getShort(); pm->servicesNew[ch+"ADC_DELAY"       ]->updateService(); });
-			addCommand(pm->commands, prefix+ch+"control/THRESHOLD_CALIBR/set", "S", [=](DimCommand *c) { pm->set.THRESHOLD_CALIBR[iCh] = c->getShort(); pm->servicesNew[ch+"THRESHOLD_CALIBR"]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/TIME_ALIGN"    "/set", "S", [=](DimCommand *c) { pm->set.TIME_ALIGN[iCh].value = c->getShort(); pm->servicesNew[ch+"TIME_ALIGN"      ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/ADC0_RANGE"    "/set", "S", [=](DimCommand *c) { pm->set.ADC_RANGE[iCh][0]     = c->getShort(); pm->servicesNew[ch+"ADC0_RANGE"      ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/ADC1_RANGE"    "/set", "S", [=](DimCommand *c) { pm->set.ADC_RANGE[iCh][1]     = c->getShort(); pm->servicesNew[ch+"ADC1_RANGE"      ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/CFD_THRESHOLD" "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].CFD_THRESHOLD = c->getShort(); pm->servicesNew[ch+"CFD_THRESHOLD"   ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/CFD_ZERO"      "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].CFD_ZERO      = c->getShort(); pm->servicesNew[ch+"CFD_ZERO"        ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/ADC_ZERO"      "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].ADC_ZERO      = c->getShort(); pm->servicesNew[ch+"ADC_ZERO"        ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/ADC_DELAY"     "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].ADC_DELAY     = c->getShort(); pm->servicesNew[ch+"ADC_DELAY"       ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/THRESHOLD_CALIBR/set", "S", [=](DimCommand *c) { pm->set.THRESHOLD_CALIBR[iCh] = c->getShort(); pm->servicesNew[ch+"THRESHOLD_CALIBR"]->updateService(); });
 
-			addCommand(pm->commands, prefix+ch+"control/TIME_ALIGN"    "/apply", "S", [=](DimCommand *) { apply_TIME_ALIGN      (pm->FEEid, iCh+1); });
-			addCommand(pm->commands, prefix+ch+"control/ADC0_RANGE"    "/apply", "S", [=](DimCommand *) { apply_ADC0_RANGE      (pm->FEEid, iCh+1); });
-			addCommand(pm->commands, prefix+ch+"control/ADC1_RANGE"    "/apply", "S", [=](DimCommand *) { apply_ADC1_RANGE      (pm->FEEid, iCh+1); });
-			addCommand(pm->commands, prefix+ch+"control/CFD_THRESHOLD" "/apply", "S", [=](DimCommand *) { apply_CFD_THRESHOLD   (pm->FEEid, iCh+1); });
-			addCommand(pm->commands, prefix+ch+"control/CFD_ZERO"      "/apply", "S", [=](DimCommand *) { apply_CFD_ZERO        (pm->FEEid, iCh+1); });
-			addCommand(pm->commands, prefix+ch+"control/ADC_ZERO"      "/apply", "S", [=](DimCommand *) { apply_ADC_ZERO        (pm->FEEid, iCh+1); });
-			addCommand(pm->commands, prefix+ch+"control/ADC_DELAY"     "/apply", "S", [=](DimCommand *) { apply_ADC_DELAY       (pm->FEEid, iCh+1); });
-			addCommand(pm->commands, prefix+ch+"control/THRESHOLD_CALIBR/apply", "S", [=](DimCommand *) { apply_THRESHOLD_CALIBR(pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/TIME_ALIGN"    "/apply", "S", [=](DimCommand *) { apply_TIME_ALIGN      (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/ADC0_RANGE"    "/apply", "S", [=](DimCommand *) { apply_ADC0_RANGE      (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/ADC1_RANGE"    "/apply", "S", [=](DimCommand *) { apply_ADC1_RANGE      (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/CFD_THRESHOLD" "/apply", "S", [=](DimCommand *) { apply_CFD_THRESHOLD   (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/CFD_ZERO"      "/apply", "S", [=](DimCommand *) { apply_CFD_ZERO        (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/ADC_ZERO"      "/apply", "S", [=](DimCommand *) { apply_ADC_ZERO        (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/ADC_DELAY"     "/apply", "S", [=](DimCommand *) { apply_ADC_DELAY       (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/THRESHOLD_CALIBR/apply", "S", [=](DimCommand *) { apply_THRESHOLD_CALIBR(pm->FEEid, iCh+1); });
             addCommand(pm->commands, prefix+ch+"control/switch"				   , "S", [=](DimCommand *c) { switchPMchannel(pm-allPMs, iCh+1, c->getShort()); });
             addCommand(pm->commands, prefix+ch+"control/noTriggerMode"		   , "S", [=](DimCommand *c) { apply_PMchannelNoTRG(pm-allPMs, iCh+1, c->getShort()); });
         }
@@ -285,7 +297,8 @@ public:
 signals:
     void linksStatusReady();
     void valuesReady();
-    void countersReady();
+    void countersReady(quint16 FEEid);
+    void resetFinished();
 
 public slots:
 
@@ -297,7 +310,7 @@ public slots:
 			addTransaction(read, TypeTCM::Counters::addressFIFOload, &load);
 			transceive();
 		}
-		foreach (TypePM *pm, PM) {
+        foreach (TypePM *pm, PM) {
 			load = readRegister(pm->baseAddress + TypePM::Counters::addressFIFOload);
             if (load == 0xFFFFFFFF) continue;
 			while (load) {
@@ -310,7 +323,7 @@ public slots:
 
     void apply_COUNTERS_UPD_RATE(quint8 val) {
         countersTimer->stop();
-        writeRegister(0, TCMparameters["COUNTERS_UPD_RATE"].address, false);
+        writeRegister(TCMparameters["COUNTERS_UPD_RATE"].address, 0, false);
         clearFIFOs();
         if (val <= 7) {
             TCM.set.COUNTERS_UPD_RATE = val;
@@ -321,14 +334,14 @@ public slots:
         } else emit error("Wrong COUNTERS_UPD_RATE value: " + QString::number(val), logicError);
     }
 
-    void defaultGBT(bool TCMonly = false) {
+    void defaultGBT() {
         quint16 BCIDdelay = TCM.set.GBT.BCID_DELAY;
         for (quint8 j=0; j<GBTunit::controlSize; ++j) TCM.set.GBT.registers[j] = GBTunit::defaults[j];
         TCM.set.GBT.RDH_FEE_ID = TCMid;
         TCM.set.GBT.RDH_SYS_ID = FIT[subdetector].systemID;
         TCM.set.GBT.BCID_DELAY = BCIDdelay;
         addTransaction(write, GBTunit::controlAddress, TCM.set.GBT.registers, GBTunit::controlSize);
-        if (!TCMonly) foreach (TypePM *pm, PM) {
+        foreach (TypePM *pm, PM) {
             BCIDdelay = pm->set.GBT.BCID_DELAY;
             for (quint8 j=0; j<GBTunit::controlSize; ++j) pm->set.GBT.registers[j] = GBTunit::defaults[j];
             pm->set.GBT.RDH_FEE_ID = pm->FEEid;
@@ -370,8 +383,6 @@ public slots:
         if (transceive()) emit linksStatusReady();
     }
 
-
-
     void writeParameter(QString name, quint64 val, quint16 FEEid, quint8 iCh = 0) {
         if ( !GBTparameters.contains(name) && (FEEid == TCMid ? !TCMparameters.contains(name) : !PMparameters.contains(name)) ) {
             emit error("'" + name + "' - no such parameter", logicError);
@@ -380,7 +391,7 @@ public slots:
         Parameter p(GBTparameters.contains(name) ? GBTparameters[name] : (FEEid == TCMid ? TCMparameters[name] : PMparameters[name]));
         quint16 address = p.address + (FEEid == TCMid ? 0 : PM[FEEid]->baseAddress + iCh * p.interval);
         if (p.bitwidth == 32)
-            writeRegister(val, address);
+            writeRegister(address, val);
         else if (p.bitwidth == 1)
             val != 0 ? setBit(p.bitshift, address) : clearBit(p.bitshift, address);
         else if (p.bitwidth == 64) {
@@ -388,34 +399,38 @@ public slots:
 			addTransaction(write, address, w, 2);
             if (transceive()) sync();
         } else
-            writeNbits(val, address, p.bitwidth, p.bitshift);
+            writeNbits(address, val, p.bitwidth, p.bitshift);
     }
 
     void readCountersFIFO() {
-		if (readRegister(TypeTCM::Counters::addressFIFOload) >= TypeTCM::Counters::number) {
-			addTransaction(nonIncrementingRead, TypeTCM::Counters::addressFIFO, TCM.counters.New, TypeTCM::Counters::number);
-			foreach (TypePM *pm, PM) {
-				if (maxPacket - responseSize <= TypePM::Counters::number) transceive();
-				addTransaction(nonIncrementingRead, pm->baseAddress + TypePM::Counters::addressFIFO, pm->counters.New, TypePM::Counters::number);
-			}
-			transceive();
-			quint16 time_ms = countersUpdatePeriod_ms[TCM.act.COUNTERS_UPD_RATE];
+        quint16 time_ms = countersUpdatePeriod_ms[TCM.act.COUNTERS_UPD_RATE];
+        addTransaction(read, TypeTCM::Counters::addressFIFOload, &TCM.counters.FIFOload);
+        foreach (TypePM *pm, PM) addTransaction(read, pm->baseAddress + TypePM::Counters::addressFIFOload, &pm->counters.FIFOload);
+        if (!transceive()) return;
+        if (TCM.counters.FIFOload) addTransaction(nonIncrementingRead, TypeTCM::Counters::addressFIFO, TCM.counters.New, TypeTCM::Counters::number);
+        foreach (TypePM *pm, PM) if (pm->counters.FIFOload) {
+            if (maxPacket - responseSize <= TypePM::Counters::number) transceive();
+            addTransaction(nonIncrementingRead, pm->baseAddress + TypePM::Counters::addressFIFO, pm->counters.New, TypePM::Counters::number);
+        }
+        if (requestSize > 1 && !transceive()) return;
+        if (TCM.counters.FIFOload) {
             TCM.counters.oldTime = QDateTime::currentDateTime();
-			for (quint8 i=0; i<TypeTCM::Counters::number; ++i) {
-				TCM.counters.rate[i] = (TCM.counters.New[i] - TCM.counters.Old[i]) * 1000. / time_ms;
-				TCM.counters.Old[i] = TCM.counters.New[i];
-			}
+            for (quint8 i=0; i<TypeTCM::Counters::number; ++i) {
+                TCM.counters.rate[i] = (TCM.counters.New[i] - TCM.counters.Old[i]) * 1000. / time_ms;
+                TCM.counters.Old[i] = TCM.counters.New[i];
+            }
             foreach (DimService *s, TCM.counters.services) s->updateService();
-			foreach (TypePM *pm, PM) {
-                pm->counters.oldTime = QDateTime::currentDateTime();
-				for (quint8 i=0; i<TypePM::Counters::number; ++i) {
-					pm->counters.rate[i] = (pm->counters.New[i] - pm->counters.Old[i]) * 1000. / time_ms;
-					pm->counters.Old[i] = pm->counters.New[i];
-				}
-                foreach (DimService *s, pm->counters.services) s->updateService();
-			}
-			emit countersReady();
-		}
+            emit countersReady(TCMid);
+        }
+        foreach (TypePM *pm, PM) if (pm->counters.FIFOload) {
+            pm->counters.oldTime = TCM.counters.oldTime;
+            for (quint8 i=0; i<TypePM::Counters::number; ++i) {
+                pm->counters.rate[i] = (pm->counters.New[i] - pm->counters.Old[i]) * 1000. / time_ms;
+                pm->counters.Old[i] = pm->counters.New[i];
+            }
+            foreach (DimService *s, pm->counters.services) s->updateService();
+            emit countersReady(pm->FEEid);
+        }
     }
 
     void readCountersDirectly() {
@@ -430,8 +445,9 @@ public slots:
             }
             TCM.counters.oldTime = TCM.counters.newTime;
             foreach (DimService *s, TCM.counters.services) s->updateService();
+            emit countersReady(TCMid);
         }
-        if (PMsReady) foreach (TypePM *pm, PM) {
+        foreach (TypePM *pm, PM) {
             addTransaction(read, pm->baseAddress + TypePM::Counters::addressDirect, pm->counters.New, TypePM::Counters::number);
             if (!transceive() || !PM.contains(pm->FEEid)) continue;
             pm->counters.newTime = QDateTime::currentDateTime();
@@ -442,12 +458,12 @@ public slots:
             }
 			pm->counters.oldTime = pm->counters.newTime;
             foreach (DimService *s, pm->counters.services) s->updateService();
+            emit countersReady(pm->FEEid);
         }
-        emit countersReady();
     }
 
     void addSystemValuesToRead() {
-        addTransaction(read, TypeTCM::ActualValues::block0addr, TCM.act.registers0, TypeTCM::ActualValues::block0size);
+        addTransaction(read, TypeTCM::ActualValues::block0addr, TCM.act.registers0, TypeTCM::ActualValues::block0size-1); //register 0x20 exist in TCM FW starting from late November 2021
         addTransaction(read, TypeTCM::ActualValues::block1addr, TCM.act.registers1, TypeTCM::ActualValues::block1size);
         addTransaction(read, TCMparameters["COUNTERS_UPD_RATE"].address, &TCM.act.COUNTERS_UPD_RATE);
     }
@@ -489,53 +505,57 @@ public slots:
             foreach (DimService *s, pm->services) s->updateService();
         }
         return true;
+    }     
+
+    void sync() { //read actual values
+        if (!isOnline) return;
+        addSystemValuesToRead();
+        addTCMvaluesToRead();
+        if (!transceive()) return;
+        TCM.act.registers0[0x20] = readRegister(0x20);//register 0x20 exist in TCM FW starting from late November 2021, 0xFFFFFFFF will be written with earlier FWs
+        TCM.act.calculateValues();
+        TCM.counters.GBT.calculateRate(TCM.act.GBT.Status.wordsCount, TCM.act.GBT.Status.eventsCount);
+        foreach (DimService *s, TCM.services) s->updateService();
+        if (TCM.act.resetSystem) {
+            PMsReady = false;
+            PM.clear();
+            PMsA.clear();
+            PMsC.clear();
+        } else if (PMsReady == false) {
+            PMsReady = true;
+            emit resetFinished();
+            return;
+        }
+        if (PMsReady) { foreach (TypePM *pm, PM) if (!read1PM(pm)) return; }
+        emit valuesReady();
+        if (TCM.act.COUNTERS_UPD_RATE == 0) readCountersDirectly();
     }
 
-        void sync() { //read actual values
-            addSystemValuesToRead();
-            addTCMvaluesToRead();
-            if (!transceive()) return;
-            TCM.act.calculateValues();
-            TCM.counters.GBT.calculateRate(TCM.act.GBT.Status.wordsCount, TCM.act.GBT.Status.eventsCount);
-            foreach (DimService *s, TCM.services) s->updateService();
-            if (TCM.act.resetSystem) {
-                PMsReady = false;
-                PM.clear();
-            } else if (PMsReady == false) { // reset completed
-                checkPMlinks();
-                defaultGBT();
-                PMsReady = true;
-            }
-            if (TCM.act.PM_MASK_SPI != TCM.set.PM_MASK_SPI) checkPMlinks();
-            if (PMsReady) { foreach (TypePM *pm, PM) if (!read1PM(pm)) return; }
-            emit valuesReady();
-            if (TCM.act.COUNTERS_UPD_RATE == 0) readCountersDirectly();
+    void adjustThresholds(TypePM *pm, double rate_Hz) { //debug function! lab use only!
+        if (adjustConnection) return;
+        targetPM = pm;
+        targetRate_Hz = rate_Hz;
+        for (quint8 iCh = 0; iCh<12; ++iCh) {
+            thLo[iCh] = 1024;
+            thHi[iCh] = 3072;
         }
-
-        void adjustThresholds(TypePM *pm, double rate_Hz) { //experimental function! lab use only!
-            if (adjustConnection) return;
-            targetPM = pm;
-            targetRate_Hz = rate_Hz;
+        adjEven = false;
+        adjustConnection = connect(this, &FITelectronics::countersReady, this, [&](quint16 FEEid) {
+            if (FEEid != targetPM->FEEid) return;
+            adjEven = !adjEven;
+            if (adjEven) return;
+            quint8 c = 0;
             for (quint8 iCh = 0; iCh<12; ++iCh) {
-                thLo[iCh] = 1500;
-                thHi[iCh] = 2500;
-            }
-            adjEven = false;
-            adjustConnection = connect(this, &FITelectronics::countersReady, this, [&]() {
-                adjEven = !adjEven;
-                if (adjEven) return;
-                quint8 c = 0;
-                for (quint8 iCh = 0; iCh<12; ++iCh) {
-                    if (targetPM->counters.rateCh[iCh].CFD < targetRate_Hz + sqrt(targetRate_Hz)) { thHi[iCh] = targetPM->act.THRESHOLD_CALIBR[iCh]; }
-                    if (targetPM->counters.rateCh[iCh].CFD > targetRate_Hz - sqrt(targetRate_Hz)) { thLo[iCh] = targetPM->act.THRESHOLD_CALIBR[iCh]; }
-                    if (thLo[iCh] != thHi[iCh]) {
-                        addWordToWrite(targetPM->baseAddress + PMparameters["THRESHOLD_CALIBR"].address + iCh, (thHi[iCh] + thLo[iCh]) / 2);
-                        ++c;
-                    }
+                if (targetPM->counters.rateCh[iCh].CFD < targetRate_Hz + sqrt(targetRate_Hz)) { thHi[iCh] = targetPM->act.THRESHOLD_CALIBR[iCh]; }
+                if (targetPM->counters.rateCh[iCh].CFD > targetRate_Hz - sqrt(targetRate_Hz)) { thLo[iCh] = targetPM->act.THRESHOLD_CALIBR[iCh]; }
+                if (thLo[iCh] != thHi[iCh]) {
+                    addWordToWrite(targetPM->baseAddress + PMparameters["THRESHOLD_CALIBR"].address + iCh, (thHi[iCh] + thLo[iCh]) / 2);
+                    ++c;
                 }
-                if (c == 0) disconnect(adjustConnection); else transceive();
-            });
-        }
+            }
+            if (c == 0) disconnect(adjustConnection); else transceive();
+        });
+    }
 
     void reset(quint16 FEEid, quint8 RB_position, bool syncOnSuccess = true) {
         quint32 address = (FEEid == TCMid ? 0x0 : PM[FEEid]->baseAddress) + GBTunit::controlAddress;
@@ -639,6 +659,7 @@ public slots:
         if (FEEid == TCMid) {
             TCM.counters.oldTime = QDateTime::currentDateTime();
             for (quint8 i=0; i<TypeTCM::Counters::number; ++i) TCM.counters.Old[i] = 0;
+
             setBit(9, 0xF);
         } else { //PM
             PM[FEEid]->counters.oldTime = QDateTime::currentDateTime();
@@ -646,7 +667,7 @@ public slots:
             setBit(9, 0x7F + PM[FEEid]->baseAddress);
         }
     }
-    void apply_RESET_SYSTEM(bool forceLocalClock = false) { PMsReady = false; writeRegister(forceLocalClock ? 0xC00 : 0x800, 0xF); }
+    void apply_RESET_SYSTEM(bool forceLocalClock = false) { PMsReady = false; writeRegister(0xF, forceLocalClock ? 0xC00 : 0x800); }
     void apply_RESET_ERRORS(bool syncOnSuccess = true) {
         if (!TCM.act.GBT.isOK()) {
             addTransaction(RMWbits, GBTunit::controlAddress, masks(0xFFFF00FF, 0x00000000)); //clear all reset bits
@@ -659,7 +680,7 @@ public slots:
             addTransaction(RMWbits, address, masks(0xFFFFFFFF, 1 << GBTunit::RB_readoutFSM | 1 << GBTunit::RB_GBTRxError));
             addTransaction(RMWbits, address, masks(0xFFBF00FF, 0x00000000)); //clear all reset bits and unlock
         }
-        writeRegister(0x4, 0xF, syncOnSuccess);
+        writeRegister(0xF, 0x4, syncOnSuccess);
     }
 
     void apply_ADC0_RANGE      (quint16 FEEid, quint8 Ch) { writeParameter("ADC0_RANGE"      , PM[FEEid]->set.ADC_RANGE[Ch-1][0]    , FEEid, Ch-1); }

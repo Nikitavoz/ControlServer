@@ -175,7 +175,7 @@ struct TypePM {
         static const quint8
             number = 24,
             addressDirect   =  0xC0;
-        quint16 FIFOload;
+        quint32 FIFOload;
         QDateTime newTime, oldTime = QDateTime::currentDateTime();
         union {
             quint32 New[number] = {0};

@@ -155,9 +155,9 @@ struct GBTunit { // 32 registers * 4 bytes = 128 bytes
     RB_dataCounter      	=  9,
     RB_generatorsBunchOffset= 10,
     RB_GBTRxError			= 11,
-        RB_GBT					= 12,
-        RB_RXphaseError			= 13,
-        RB_readoutFSM           = 14;
+    RB_GBT					= 12,
+    RB_RXphaseError			= 13,
+    RB_readoutFSM           = 14;
     static constexpr quint32 defaults[controlSize] = {
         0x00100000, //D8, HB response is on
               0x40, //D9, actuate laser on 'Calibration' trigger

@@ -64,7 +64,7 @@ protected:
     void debugPrint() {
         qDebug("request:");
         for (quint16 i=0; i<requestSize; ++i)  qDebug("%08X", request[i]);
-        qDebug("        response:\n");
+        qDebug("        response:");
         for (quint16 i=0; i<responseSize; ++i) qDebug("        %08X", response[i]);
     }
 
@@ -190,7 +190,7 @@ protected:
             }
             if (th->InfoCode != 0) {
                 debugPrint();
-                emit error(th->infoCodeString() + QString::asprintf(", address: %08X", *transactionsList.at(i).address + (th->InfoCode == 4 ? th->Words : 0)), IPbusError);
+                emit error(th->infoCodeString() + QString::asprintf(", address: %08X", *transactionsList.at(i).address + th->Words + (th->InfoCode == 4 ? -1 : 0)), IPbusError);
                 return false;
             }
         }
@@ -238,7 +238,7 @@ public slots:
 
     virtual void sync() =0;
 
-	void writeRegister(quint32 data, quint32 address, bool syncOnSuccess = true) {
+    void writeRegister(quint32 address, quint32 data, bool syncOnSuccess = true) {
         addTransaction(write, address, &data, 1);
 		if (transceive() && syncOnSuccess) sync();
     }
@@ -253,7 +253,7 @@ public slots:
 		if (transceive() && syncOnSuccess) sync();
 	}
 
-	void writeNbits(quint32 data, quint32 address, quint8 nbits = 16, quint8 shift = 0, bool syncOnSuccess = true) {
+    void writeNbits(quint32 address, quint32 data, quint8 nbits = 16, quint8 shift = 0, bool syncOnSuccess = true) {
         quint32 mask = (1 << nbits) - 1; //e.g. 0x00000FFF for nbits==12
         addTransaction(RMWbits, address, masks( ~quint32(mask << shift), quint32((data & mask) << shift) ));
 		if (transceive() && syncOnSuccess) sync();

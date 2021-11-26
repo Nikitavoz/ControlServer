@@ -31,7 +31,6 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     QSettings settings;
     FITelectronics FEE;
-    QActionGroup *controlsGroup;
     QPixmap
 		Green0 = QPixmap(":/0G.png"), //OK
 		Green1 = QPixmap(":/1G.png"), //OK
@@ -105,14 +104,14 @@ class MainWindow : public QMainWindow
     bool ok, laserFreqIsEditing = false;
     quint8 mode;
     quint32 value;
-    int sz;
+    int fontSize_px;
     double prevPhaseStep_ns = 25. / 2048; //value for 40. Mhz clock and production TCM; var is used to detect values change in case of clock source and/or TCM change
     GBTunit *curGBTact = &FEE.TCM.act.GBT;
     GBTunit::ControlData *curGBTset = &FEE.TCM.set.GBT;
     GBTcounters *curGBTcnt = &FEE.TCM.counters.GBT;
     TypePM *curPM = FEE.allPMs;
-    quint16 selectedBoard;
-    inline bool isTCM() { return selectedBoard == FEE.TCMid; } //is TCM selected
+    quint16 curFEEid;
+    inline bool isTCM() { return curFEEid == FEE.TCMid; } //is TCM selected
 
 public:
     void resetHighlight() {
@@ -136,7 +135,7 @@ public:
 
 //initialization and lists creation
         setWindowTitle(QCoreApplication::applicationName() + " v" + QCoreApplication::applicationVersion() + ": " + FIT[FEE.subdetector].name + " settings");
-        selectedBoard = FEE.TCMid;
+        curFEEid = FEE.TCMid;
         applyButtons = ui->centralWidget->findChildren<QPushButton *>(QRegularExpression("buttonApply.*"));
         switchBitButtons = ui->groupBoxLaser->findChildren<QPushButton *>(QRegularExpression("buttonSwitchBit.*")).toVector();
         selectorsPMA = ui->groupBoxBoardSelection->findChildren<QPushButton *>(QRegularExpression("PM_selector_A[0-9]")).toVector();
@@ -271,14 +270,15 @@ public:
         }
 
 //initial scaling (a label with fontsize 10 (Calibri) has pixelsize of 13 without system scaling and e.g. 20 at 150% scaling so widgets size should be recalculated)
-        sz = ui->labelTextPMOK->fontInfo().pixelSize();
-        resize(lround(width()*sz/13.), lround(690*sz/13.)); //mainWindow
+        fontSize_px = ui->labelTextPMOK->fontInfo().pixelSize();
+        double factor = fontSize_px / 13.;
+        resize(lround(width()*factor), lround((10 + ui->groupBoxBoardSelection->height()+ui->groupBoxTCM->height()+ui->statusBar->height())*factor)); //mainWindow
         setMaximumSize(size());
         setMinimumSize(size());
-        if (sz > 13) { //not default pixelsize for font of size 10
-            foreach (QWidget *w, allWidgets) w->setGeometry(lround(w->x()*sz/13.), lround(w->y()*sz/13.), lround(w->width()*sz/13.), lround(w->height()*sz/13.));
-            foreach (QPushButton *b, applyButtons) b->setIconSize(QSize( lround(16.*sz/13), lround(16.*sz/13) ));
-            foreach (QPushButton *b, switchBitButtons) b->setIconSize(QSize( lround(22.*sz/13), lround(37.*sz/13) ));
+        if (fontSize_px > 13) { //not default pixelsize for font of size 10
+            foreach (QWidget *w, allWidgets) w->setGeometry(lround(w->x()*factor), lround(w->y()*factor), lround(w->width()*factor), lround(w->height()*factor));
+            foreach (QPushButton *b, applyButtons) b->setIconSize(QSize( lround(16.*fontSize_px/13), lround(16.*fontSize_px/13) ));
+            foreach (QPushButton *b, switchBitButtons) b->setIconSize(QSize( lround(22.*fontSize_px/13), lround(37.*fontSize_px/13) ));
 		}
 
 //menus
@@ -290,7 +290,6 @@ public:
         fileMenu->addAction(actionLoad);
         connect(actionLoad, &QAction::triggered, this, &MainWindow::load);
         actionLoad->setDisabled(false);
-        //controlsGroup = new QActionGroup(this);
         QMenu *controlMenu = menuBar()->addMenu("&Control");
         QAction *enableControls = new QAction(QIcon(":/controls.png"), "Disable", this);
         enableControls->setCheckable(true);
@@ -320,7 +319,10 @@ public:
         enableDebugActions->setShortcut(QKeySequence("Ctrl+!"));
         connect(enableDebugActions, &QAction::triggered, this, [=]() {
             QMenu *debugMenu = menuBar()->addMenu("&Debug");
-            debugMenu->addAction("Adjust &PM treshholds", this, [=]() { FEE.adjustThresholds(curPM, 20); } ); //decrease thresholds to noise levels to see counting without signals
+            debugMenu->addAction("Adjust &PM treshholds", this, [=]() { //decrease thresholds to noise levels to see counting without signals
+                if (curFEEid == FEE.TCMid) QMessageBox::warning(this, "Warning", "This operation is not applicable for TCM!");
+                else FEE.adjustThresholds(curPM, QInputDialog::getDouble(this, "Adjusting " + ui->groupBoxPM->title() + " thresholds", "Set CFD hits target rate", 20, 1, 1e6, 0)); }
+            );
             debugMenu->addAction("Randomize OrbitFillMask", this, [=]() { for (quint8 i=0; i<213; ++i) FEE.TCM.ORBIT_FILL_MASK[i] = QRandomGenerator::global()->generate(); FEE.apply_ORBIT_FILL_MASK(); });
         });
 
@@ -399,14 +401,14 @@ public:
             connect(editsADC0rangeCh      [i], &QLineEdit::editingFinished      , this, [=]() { resetHighlight(); });
             connect(editsADC1rangeCh      [i], &QLineEdit::editingFinished      , this, [=]() { resetHighlight(); });
 
-            connect(buttonsTimeAlignmentCh  [i], &QPushButton::clicked, this, [=] { curPM->set.TIME_ALIGN[i].value = editsTimeAlignmentCh  [i]->text(). toInt(); FEE.apply_TIME_ALIGN      (selectedBoard, i+1); });
-            connect(buttonsThresholdCalibrCh[i], &QPushButton::clicked, this, [=] { curPM->set.THRESHOLD_CALIBR[i] = editsThresholdCalibrCh[i]->text().toUInt(); FEE.apply_THRESHOLD_CALIBR(selectedBoard, i+1); });
-            connect(buttonsADCdelayCh       [i], &QPushButton::clicked, this, [=] { curPM->set.Ch[i].ADC_DELAY     = editsADCdelayCh       [i]->text().toUInt(); FEE.apply_ADC_DELAY       (selectedBoard, i+1); });
-            connect(buttonsCFDthresholdCh   [i], &QPushButton::clicked, this, [=] { curPM->set.Ch[i].CFD_THRESHOLD = editsCFDthresholdCh   [i]->text().toUInt(); FEE.apply_CFD_THRESHOLD   (selectedBoard, i+1); });
-            connect(buttonsADCzeroCh        [i], &QPushButton::clicked, this, [=] { curPM->set.Ch[i].ADC_ZERO      = editsADCzeroCh        [i]->text(). toInt(); FEE.apply_ADC_ZERO        (selectedBoard, i+1); });
-            connect(buttonsCFDzeroCh        [i], &QPushButton::clicked, this, [=] { curPM->set.Ch[i].CFD_ZERO      = editsCFDzeroCh        [i]->text(). toInt(); FEE.apply_CFD_ZERO        (selectedBoard, i+1); });
-            connect(buttonsADC0rangeCh      [i], &QPushButton::clicked, this, [=] { curPM->set.ADC_RANGE    [i][0] = editsADC0rangeCh      [i]->text().toUInt(); FEE.apply_ADC0_RANGE      (selectedBoard, i+1); });
-            connect(buttonsADC1rangeCh      [i], &QPushButton::clicked, this, [=] { curPM->set.ADC_RANGE    [i][1] = editsADC1rangeCh      [i]->text().toUInt(); FEE.apply_ADC1_RANGE      (selectedBoard, i+1); });
+            connect(buttonsTimeAlignmentCh  [i], &QPushButton::clicked, this, [=] { curPM->set.TIME_ALIGN[i].value = editsTimeAlignmentCh  [i]->text(). toInt(); FEE.apply_TIME_ALIGN      (curFEEid, i+1); });
+            connect(buttonsThresholdCalibrCh[i], &QPushButton::clicked, this, [=] { curPM->set.THRESHOLD_CALIBR[i] = editsThresholdCalibrCh[i]->text().toUInt(); FEE.apply_THRESHOLD_CALIBR(curFEEid, i+1); });
+            connect(buttonsADCdelayCh       [i], &QPushButton::clicked, this, [=] { curPM->set.Ch[i].ADC_DELAY     = editsADCdelayCh       [i]->text().toUInt(); FEE.apply_ADC_DELAY       (curFEEid, i+1); });
+            connect(buttonsCFDthresholdCh   [i], &QPushButton::clicked, this, [=] { curPM->set.Ch[i].CFD_THRESHOLD = editsCFDthresholdCh   [i]->text().toUInt(); FEE.apply_CFD_THRESHOLD   (curFEEid, i+1); });
+            connect(buttonsADCzeroCh        [i], &QPushButton::clicked, this, [=] { curPM->set.Ch[i].ADC_ZERO      = editsADCzeroCh        [i]->text(). toInt(); FEE.apply_ADC_ZERO        (curFEEid, i+1); });
+            connect(buttonsCFDzeroCh        [i], &QPushButton::clicked, this, [=] { curPM->set.Ch[i].CFD_ZERO      = editsCFDzeroCh        [i]->text(). toInt(); FEE.apply_CFD_ZERO        (curFEEid, i+1); });
+            connect(buttonsADC0rangeCh      [i], &QPushButton::clicked, this, [=] { curPM->set.ADC_RANGE    [i][0] = editsADC0rangeCh      [i]->text().toUInt(); FEE.apply_ADC0_RANGE      (curFEEid, i+1); });
+            connect(buttonsADC1rangeCh      [i], &QPushButton::clicked, this, [=] { curPM->set.ADC_RANGE    [i][1] = editsADC1rangeCh      [i]->text().toUInt(); FEE.apply_ADC1_RANGE      (curFEEid, i+1); });
 
             connect(switchesCh[i], &Switch::clicked, this, [=](bool checked) { FEE.switchPMchannel     (curPM - FEE.allPMs, i + 1, !checked); });
             connect(noTRGCh   [i], &Switch::clicked, this, [=](bool checked) { FEE.apply_PMchannelNoTRG(curPM - FEE.allPMs, i + 1,  checked); });
@@ -457,12 +459,12 @@ public slots:
         newset.remove("TCMpars");
         if (newset.contains("TCM")) {
             memcpy(&FEE.TCM.set, newset.value("TCM").toByteArray().data(), sizeof(TypeTCM::Settings));
-            if (FEE.TCM.set.GBT.BCID_DELAY == 0 || FEE.TCM.set.GBT.BCID_DELAY == 0x10) for (quint8 i=0; i<GBTunit::controlSize; ++i) FEE.TCM.set.GBT.registers[i] = FEE.TCM.set.GBT.registers[i+1]; //because of a wrong alignment in ControlServer v1.8 and 1.8.1
+            for (quint8 i=0; i<GBTunit::controlSize; ++i) FEE.TCM.set.GBT.registers[i] = FEE.TCM.set.GBT.registers[i+1];
         }
         TypePM *pm = FEE.allPMs;
         for (quint8 i=0; i<20; ++i, ++pm) if (newset.contains(QString("PM") + pm->name)) {
             memcpy(&pm->set, newset.value(QString("PM") + pm->name).toByteArray().data(), sizeof(TypePM::Settings));
-            if (pm->set.GBT.BCID_DELAY == 0 || pm->set.GBT.BCID_DELAY == 0x10) for (quint8 i=0; i<GBTunit::controlSize; ++i) pm->set.GBT.registers[i] = pm->set.GBT.registers[i+1]; //because of a wrong alignment in ControlServer v1.8 and 1.8.1
+            for (quint8 i=0; i<GBTunit::controlSize; ++i) pm->set.GBT.registers[i] = pm->set.GBT.registers[i+1];
         }
         updateEdits();
         return true;
@@ -681,6 +683,15 @@ public slots:
                 ui->spinBoxLaserPhase->setSingleStep(phaseStepLaser_ns);
                 prevPhaseStep_ns = phaseStep_ns;
             }
+            ok = FEE.TCM.act.registers0[0x20] != 0xFFFFFFFF;
+            ui->labelValueAverageTime_A->setVisible(ok);
+            ui->labelValueAverageTime_C->setVisible(ok);
+            ui->labelTextAverageTime_A->setVisible(ok);
+            ui->labelTextAverageTime_C->setVisible(ok);
+            if (ok) {
+                ui->labelValueAverageTime_A->setText(QString::asprintf("%7.3f", FEE.TCM.act.averageTimeA_ns));
+                ui->labelValueAverageTime_C->setText(QString::asprintf("%7.3f", FEE.TCM.act.averageTimeC_ns));
+            }
             ui->labelValuePhase_A->setText(QString::asprintf("%7.3f", FEE.TCM.act.delayAside_ns));
             ui->labelValuePhase_C->setText(QString::asprintf("%7.3f", FEE.TCM.act.delayCside_ns));
             if (FEE.PMsA.isEmpty()) {
@@ -878,7 +889,8 @@ public slots:
         resetHighlight();
     }
 
-    void updateCounters() {
+    void updateCounters(quint16 FEEid) {
+        if (FEEid != curFEEid) return;
         if (isTCM()) {
             for (quint8 i=0; i<TypeTCM::Counters::number; ++i) {
                 labelsTriggersCount[i]->setText(QString::number(FEE.TCM.counters.New[i]));
@@ -900,39 +912,38 @@ public slots:
         curGBTcnt->calculateRate(curGBTact->Status.wordsCount, curGBTact->Status.eventsCount);
         curGBTcnt-> wordsOld = 0;
         curGBTcnt->eventsOld = 0;
-        FEE.reset(selectedBoard, GBTunit::RB_dataCounter);
+        FEE.reset(curFEEid, GBTunit::RB_dataCounter);
     }
-    void on_buttonResetOffset_clicked                () { FEE.reset(selectedBoard, GBTunit::RB_generatorsBunchOffset); }
-    void on_buttonResetOrbitSync_clicked             () { FEE.reset(selectedBoard, GBTunit::RB_orbitSync            ); }
-    void on_buttonResetGBTerrors_clicked             () { FEE.reset(selectedBoard, GBTunit::RB_GBTRxError           ); }
-    void on_buttonResetGBT_clicked                   () { FEE.reset(selectedBoard, GBTunit::RB_GBT                  ); }
-    //void on_buttonResetReadoutFSM_clicked            () { FEE.reset(selectedBoard, GBTunit::RB_readoutFSM           ); }
-    void on_buttonResetRxPhaseError_clicked          () { FEE.reset(selectedBoard, GBTunit::RB_RXphaseError         ); }
-    void on_buttonDataGeneratorOff_clicked           () { FEE.apply_DG_MODE(selectedBoard, GBTunit::DG_noData); }
-    void on_buttonDataGeneratorMain_clicked          () { FEE.apply_DG_MODE(selectedBoard, GBTunit::DG_main  ); }
-    void on_buttonDataGeneratorTx_clicked            () { FEE.apply_DG_MODE(selectedBoard, GBTunit::DG_Tx    ); }
-    void on_buttonApplyDGtriggerRespondMask_clicked  () { FEE.apply_DG_TRG_RESPOND_MASK(selectedBoard); }
-    void on_buttonApplyDGbunchPattern_clicked        () { on_lineEditDGbunchPattern_textEdited   (); FEE.apply_DG_BUNCH_PATTERN   (selectedBoard); }
-    void on_buttonApplyDGbunchFrequency_clicked      () { on_lineEditDGbunchFrequency_textEdited (); FEE.apply_DG_BUNCH_FREQ      (selectedBoard); }
-    void on_buttonApplyDGfrequencyOffset_clicked     () { on_lineEditDGfrequencyOffset_textEdited(); FEE.apply_DG_FREQ_OFFSET     (selectedBoard); }
-    void on_buttonTriggerGeneratorOff_clicked        () { FEE.apply_TG_MODE(selectedBoard, GBTunit::TG_noTrigger ); }
-    void on_buttonTriggerGeneratorContinuous_clicked () { FEE.apply_TG_MODE(selectedBoard, GBTunit::TG_continuous); }
-    void on_buttonTriggerGeneratorTx_clicked         () { FEE.apply_TG_MODE(selectedBoard, GBTunit::TG_Tx        ); }
-    void on_buttonApplyTGcontinuousPattern_clicked   () { on_lineEditTGcontinuousPattern_textEdited  (); FEE.apply_TG_PATTERN       (selectedBoard); }
-    void on_buttonApplyTGcontinuousValue_clicked     () { on_lineEditTGcontinuousValue_textEdited    (); FEE.apply_TG_CONT_VALUE    (selectedBoard); }
-    void on_buttonApplyTGbunchFrequency_clicked      () { on_lineEditTGbunchFrequency_textEdited     (); FEE.apply_TG_BUNCH_FREQ    (selectedBoard); }
-    void on_buttonApplyTGfrequencyOffset_clicked     () { on_lineEditTGfrequencyOffset_textEdited    (); FEE.apply_TG_FREQ_OFFSET   (selectedBoard); }
-    void on_buttonApplyBCIDdelay_clicked             () { on_lineEditBCIDdelayHex_textEdited         (); FEE.apply_BCID_DELAY       (selectedBoard); }
-    void on_buttonApplyDataSelectTriggerMask_clicked () { on_lineEditDataSelectTriggerMask_textEdited(); FEE.apply_DATA_SEL_TRG_MASK(selectedBoard); }
-    void on_buttonApplyTGHBrRate_clicked             () { on_lineEditTGHBrRate_textEdited            (); FEE.apply_TG_HBr_RATE      (selectedBoard); }
+    void on_buttonResetOffset_clicked                () { FEE.reset(curFEEid, GBTunit::RB_generatorsBunchOffset); }
+    void on_buttonResetOrbitSync_clicked             () { FEE.reset(curFEEid, GBTunit::RB_orbitSync            ); }
+    void on_buttonResetGBTerrors_clicked             () { FEE.reset(curFEEid, GBTunit::RB_GBTRxError           ); }
+    void on_buttonResetGBT_clicked                   () { FEE.reset(curFEEid, GBTunit::RB_GBT                  ); }
+    void on_buttonResetRxPhaseError_clicked          () { FEE.reset(curFEEid, GBTunit::RB_RXphaseError         ); }
+    void on_buttonDataGeneratorOff_clicked           () { FEE.apply_DG_MODE(curFEEid, GBTunit::DG_noData); }
+    void on_buttonDataGeneratorMain_clicked          () { FEE.apply_DG_MODE(curFEEid, GBTunit::DG_main  ); }
+    void on_buttonDataGeneratorTx_clicked            () { FEE.apply_DG_MODE(curFEEid, GBTunit::DG_Tx    ); }
+    void on_buttonApplyDGtriggerRespondMask_clicked  () { FEE.apply_DG_TRG_RESPOND_MASK(curFEEid); }
+    void on_buttonApplyDGbunchPattern_clicked        () { on_lineEditDGbunchPattern_textEdited   (); FEE.apply_DG_BUNCH_PATTERN   (curFEEid); }
+    void on_buttonApplyDGbunchFrequency_clicked      () { on_lineEditDGbunchFrequency_textEdited (); FEE.apply_DG_BUNCH_FREQ      (curFEEid); }
+    void on_buttonApplyDGfrequencyOffset_clicked     () { on_lineEditDGfrequencyOffset_textEdited(); FEE.apply_DG_FREQ_OFFSET     (curFEEid); }
+    void on_buttonTriggerGeneratorOff_clicked        () { FEE.apply_TG_MODE(curFEEid, GBTunit::TG_noTrigger ); }
+    void on_buttonTriggerGeneratorContinuous_clicked () { FEE.apply_TG_MODE(curFEEid, GBTunit::TG_continuous); }
+    void on_buttonTriggerGeneratorTx_clicked         () { FEE.apply_TG_MODE(curFEEid, GBTunit::TG_Tx        ); }
+    void on_buttonApplyTGcontinuousPattern_clicked   () { on_lineEditTGcontinuousPattern_textEdited  (); FEE.apply_TG_PATTERN       (curFEEid); }
+    void on_buttonApplyTGcontinuousValue_clicked     () { on_lineEditTGcontinuousValue_textEdited    (); FEE.apply_TG_CONT_VALUE    (curFEEid); }
+    void on_buttonApplyTGbunchFrequency_clicked      () { on_lineEditTGbunchFrequency_textEdited     (); FEE.apply_TG_BUNCH_FREQ    (curFEEid); }
+    void on_buttonApplyTGfrequencyOffset_clicked     () { on_lineEditTGfrequencyOffset_textEdited    (); FEE.apply_TG_FREQ_OFFSET   (curFEEid); }
+    void on_buttonApplyBCIDdelay_clicked             () { on_lineEditBCIDdelayHex_textEdited         (); FEE.apply_BCID_DELAY       (curFEEid); }
+    void on_buttonApplyDataSelectTriggerMask_clicked () { on_lineEditDataSelectTriggerMask_textEdited(); FEE.apply_DATA_SEL_TRG_MASK(curFEEid); }
+    void on_buttonApplyTGHBrRate_clicked             () { on_lineEditTGHBrRate_textEdited            (); FEE.apply_TG_HBr_RATE      (curFEEid); }
     void on_SwitcherLockReadout_clicked() {
         ui->SwitcherLockReadout->setChecked(false);
-        FEE.apply_RESET_FSM(selectedBoard,  false);
+        FEE.apply_RESET_FSM(curFEEid,  false);
     }
 
-    void on_SwitcherBypassMode_clicked (bool checked) { FEE.apply_BYPASS_MODE (selectedBoard,  checked); }
-    void on_SwitcherHBresponse_clicked (bool checked) { FEE.apply_HB_RESPONSE (selectedBoard, !checked); }
-    void on_SwitcherHBreject_clicked   (bool checked) { FEE.apply_HB_REJECT   (selectedBoard, !checked); }
+    void on_SwitcherBypassMode_clicked (bool checked) { FEE.apply_BYPASS_MODE (curFEEid,  checked); }
+    void on_SwitcherHBresponse_clicked (bool checked) { FEE.apply_HB_RESPONSE (curFEEid, !checked); }
+    void on_SwitcherHBreject_clicked   (bool checked) { FEE.apply_HB_REJECT   (curFEEid, !checked); }
     void on_lineEditDGtriggerRespondMask_textEdited  () { curGBTset->DG_TRG_RESPOND_MASK = ui->lineEditDGtriggerRespondMask->displayText().toUInt(&ok, 16); }
     void on_lineEditDGbunchPattern_textEdited        () { curGBTset->DG_BUNCH_PATTERN  = ui->lineEditDGbunchPattern        ->displayText().toUInt(&ok, 16); }
     void on_lineEditDGbunchFrequency_textEdited      () { curGBTset->DG_BUNCH_FREQ     = ui->lineEditDGbunchFrequency      ->displayText().toUInt(&ok, 16); }
@@ -944,7 +955,7 @@ public slots:
     void on_lineEditTGHBrRate_textEdited             () { curGBTset->TG_HBr_RATE       = ui->lineEditTGHBrRate             ->displayText().toUInt()       ; }
     void on_lineEditTGcontinuousPattern_textEdited   () { curGBTset->TG_PATTERN_LSB = ui->lineEditTGcontinuousPattern->displayText().right(8).toUInt(&ok, 16);
                                                           curGBTset->TG_PATTERN_MSB = ui->lineEditTGcontinuousPattern->displayText().left (8).toUInt(&ok, 16); }
-    void on_comboBoxLTUemuReadoutMode_activated(int index) { curGBTset->TG_CTP_EMUL_MODE = index; FEE.apply_TG_CTP_EMUL_MODE(selectedBoard, index); }
+    void on_comboBoxLTUemuReadoutMode_activated(int index) { curGBTset->TG_CTP_EMUL_MODE = index; FEE.apply_TG_CTP_EMUL_MODE(curFEEid, index); }
     void on_lineEditBCIDdelayHex_textEdited() {
         curGBTset->BCID_DELAY = ui->lineEditBCIDdelayHex->displayText().toUInt(&ok, 16);
         ui->lineEditBCIDdelayDec->setText(QString::asprintf("%d"  , curGBTset->BCID_DELAY));
@@ -968,29 +979,29 @@ public slots:
         ui->labelTextExtraWord->setText(checked ? "TCM data FIFO full" : "PM: extra word");
         (checked ? ui->groupBoxPM : ui->groupBoxTCM)->setVisible(false);
         if (checked) {
-            selectedBoard = FEE.TCMid;
+            curFEEid = FEE.TCMid;
             ui->groupBoxBoardStatus->setTitle("Board status (TCM)");
             curGBTact = &FEE.TCM.act.GBT;
             curGBTset = &FEE.TCM.set.GBT;
             curGBTcnt = &FEE.TCM.counters.GBT;
             ui->groupBoxReadoutControl->setEnabled(true);
+            updateEdits();
+            updateCounters(FEE.TCMid);
             if (FEE.isOnline) FEE.sync();
-			updateEdits();
-            updateCounters();
         }
 	}
 
     void selectPM(quint16 FEEid) {
         ui->groupBoxPM->setTitle(QString("PM") + FEE.PM[FEEid]->name);
         ui->groupBoxBoardStatus->setTitle(QString::asprintf("Board status (PM%s)", FEE.PM[FEEid]->name));
-        selectedBoard = FEEid;
+        curFEEid = FEEid;
         curPM = FEE.PM[FEEid];
         curGBTact = &curPM->act.GBT;
         curGBTset = &curPM->set.GBT;
         curGBTcnt = &curPM->counters.GBT;
+        updateEdits();
+        updateCounters(curFEEid);
         if (FEE.isOnline) FEE.sync();
-		updateEdits();
-        updateCounters();
     }
 
     void on_comboBoxUpdatePeriod_activated(int index) { /*if (FEE.TCM.act.COUNTERS_UPD_RATE != quint32(index))*/ FEE.apply_COUNTERS_UPD_RATE(index); }
@@ -1084,7 +1095,7 @@ public slots:
     void on_radioButtonSum_clicked  (bool checked) { if (checked) FEE.apply_C_SC_TRG_MODE(3); }
 
     void on_buttonResetCountersTCM_clicked() { FEE.apply_RESET_COUNTERS(FEE.TCMid); }
-    void on_butonResetChCounters_clicked() { FEE.apply_RESET_COUNTERS(selectedBoard); }
+    void on_butonResetChCounters_clicked() { FEE.apply_RESET_COUNTERS(curFEEid); }
 
     void on_comboBoxTriggersMode_1_activated(int index) { FEE.apply_T1_MODE(index); }
     void on_comboBoxTriggersMode_2_activated(int index) { FEE.apply_T2_MODE(index); }
@@ -1119,11 +1130,11 @@ public slots:
 
     void on_lineEditORgate_textEdited       (const QString text) { curPM->set.OR_GATE  = text.toUInt(); curPM->servicesNew["OR_GATE" ]->updateService(); }
     void on_lineEditCFDsaturation_textEdited(const QString text) { curPM->set.CFD_SATR = text.toUInt(); curPM->servicesNew["CFD_SATR"]->updateService(); }
-    void on_buttonApplyORgate_clicked       () { FEE.apply_OR_GATE_PM (selectedBoard); }
-    void on_buttonApplyCFDsaturation_clicked() { FEE.apply_CFD_SATR(selectedBoard); }
+    void on_buttonApplyORgate_clicked       () { FEE.apply_OR_GATE_PM (curFEEid); }
+    void on_buttonApplyCFDsaturation_clicked() { FEE.apply_CFD_SATR(curFEEid); }
 
-    void on_radioButtonStrict_clicked    () { FEE.apply_TRG_CNT_MODE(selectedBoard, false); }
-    void on_radioButtonCFDinGate_clicked () { FEE.apply_TRG_CNT_MODE(selectedBoard, true ); }
+    void on_radioButtonStrict_clicked    () { FEE.apply_TRG_CNT_MODE(curFEEid, false); }
+    void on_radioButtonCFDinGate_clicked () { FEE.apply_TRG_CNT_MODE(curFEEid, true ); }
 
     void on_buttonSCNchan_clicked () { FEE.apply_SC_EVAL_MODE(true ); }
     void on_buttonSCcharge_clicked() { FEE.apply_SC_EVAL_MODE(false); }
