@@ -2,10 +2,10 @@
 #define IPBUSINTERFACE_H
 
 #include <QtNetwork>
-#include "IPbusHeaders.h"
+#include <QMutex>
+#include "IPbusControlPacket.h"
 
-const quint16 maxPacket = 368; //368 words, limit from ethernet MTU of 1500 bytes
-enum errorType {networkError = 0, IPbusError = 1, logicError = 2};
+
 static const char *errorTypeName[3] = {"Network error" , "IPbus error", "Logic error"};
 
 class IPbusTarget: public QObject {
@@ -15,6 +15,8 @@ class IPbusTarget: public QObject {
     const StatusPacket statusRequest;
     StatusPacket statusResponse;
     QList<Transaction> transactionsList;
+    QMutex mutex;
+    bool isLocked = false;
 
 protected:
     quint16 requestSize = 1, responseSize = 1; //values are measured in words
@@ -33,6 +35,8 @@ public:
         updateTimer->setTimerType(Qt::PreciseTimer);
         connect(updateTimer, &QTimer::timeout, this, [=]() { if (isOnline) sync(); else checkStatus(); });
         connect(this, &IPbusTarget::error, this, [=]() {
+            qDebug()<<(isLocked?"Locked":"not locked");
+            debugPrint();
             updateTimer->stop();
             resetTransactions();
         });

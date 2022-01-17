@@ -44,7 +44,9 @@ public:
 
     QMap<quint16, TypePM *> PM;
     QList<TypePM *> PMsA, PMsC;
-	QTimer *countersTimer = new QTimer();
+    QTimer *countersTimer = new QTimer();
+    QTimer *shuttleTimer = new QTimer();
+    qint16 shuttleStartPhase = -1024;
     //QTimer *fullSyncTimer = new QTimer();
     QFile logFile;
     QTextStream logStream;
@@ -81,6 +83,7 @@ public:
             }
             readCountersFIFO();
         });
+        connect(shuttleTimer, &QTimer::timeout, this, &FITelectronics::inverseLaserPhase);
         //connect(fullSyncTimer, &QTimer::timeout, this, &FITelectronics::fullSync);
         connect(this, &IPbusTarget::error, this, [=]() {
             if (countersTimer->isActive()) countersTimer->stop();
@@ -553,9 +556,15 @@ public slots:
                     ++c;
                 }
             }
-            if (c == 0) disconnect(adjustConnection); else transceive();
+            if (c) transceive();
+            else {
+                disconnect(adjustConnection);
+                resetTransactions();
+            }
         });
     }
+
+    void inverseLaserPhase() { writeRegister(0x2, shuttleStartPhase = -shuttleStartPhase, false); }
 
     void reset(quint16 FEEid, quint8 RB_position, bool syncOnSuccess = true) {
         quint32 address = (FEEid == TCMid ? 0x0 : PM[FEEid]->baseAddress) + GBTunit::controlAddress;
