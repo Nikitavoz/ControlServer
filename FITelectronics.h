@@ -62,6 +62,8 @@ public:
         logFile.setFileName(QCoreApplication::applicationName() + ".log");
         logFile.open(QFile::WriteOnly | QIODevice::Append | QFile::Text);
         logStream.setDevice(&logFile);
+        qRegisterMetaType<DimCommand *>("DIMcommandPointer");
+        connect(this, &FITelectronics::DIMcommandReceived, this, &FITelectronics::executeDIMcommand);
         for (quint8 i=0; i<10; ++i) {
             allPMs[i     ].FEEid = FIT[sd].PMA0id + i;
             allPMs[i + 10].FEEid = FIT[sd].PMC0id + i;
@@ -166,7 +168,6 @@ public:
             for (quint8 i=0; i<12; ++i) pm->set.TIME_ALIGN[i].blockTriggers = !(1 << i & mask);
             apply_CH_MASK_TRG(pm->FEEid);
         });
-
 
         addCommand(pm->commands, prefix+"control/CFD_SATR""/set", "S", [=](DimCommand *c) { pm->set.CFD_SATR = c->getShort(); pm->servicesNew["CFD_SATR"]->updateService(); });
         addCommand(pm->commands, prefix+"control/OR_GATE" "/set", "S", [=](DimCommand *c) { pm->set.OR_GATE  = c->getShort(); pm->servicesNew["OR_GATE" ]->updateService(); });
@@ -294,18 +295,18 @@ public:
         TCM.commands.clear();
     }
 
-    void commandHandler() {
-        DimCommand *cmd = getCommand();
-        allCommands[cmd](cmd);
-    }
+    void commandHandler() { emit DIMcommandReceived(getCommand()); }
 
 signals:
     void linksStatusReady();
     void valuesReady();
     void countersReady(quint16 FEEid);
     void resetFinished();
+    void DIMcommandReceived(DimCommand *);
 
 public slots:
+
+    void executeDIMcommand(DimCommand *cmd) { allCommands[cmd](cmd); }
 
     void clearFIFOs() {
 		quint32 load = readRegister(TypeTCM::Counters::addressFIFOload);
