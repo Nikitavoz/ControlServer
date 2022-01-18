@@ -101,7 +101,8 @@ class MainWindow : public QMainWindow
 	QIntValidator *intValidator = new QIntValidator(this);
 	QDoubleValidator *doubleValidator = new QDoubleValidator(this);
     QRegExpValidator *uint16Validator = new QRegExpValidator(QRegExp("[0-5]?[0-9]{1,4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]"), this);
-    bool ok, laserFreqIsEditing = false;
+    bool ok, laserFreqIsEditing = false, laserIsShuttling = false;
+    QTimer shuttleTimer;
     quint8 mode;
     quint32 value;
     int fontSize_px;
@@ -269,17 +270,18 @@ public:
             ui->   lineEditTriggersLevelC_1->move(ui->   lineEditTriggersLevelA_1 ->x(), 30 * 4 + 2);
         }
 
+
+        resize(width(), 10 + ui->groupBoxBoardSelection->height()+ui->groupBoxTCM->height()+ui->statusBar->height());
 //initial scaling (a label with fontsize 10 (Calibri) has pixelsize of 13 without system scaling and e.g. 20 at 150% scaling so widgets size should be recalculated)
         fontSize_px = ui->labelTextPMOK->fontInfo().pixelSize();
-        double factor = fontSize_px / 13.;
-        resize(lround(width()*factor), lround((10 + ui->groupBoxBoardSelection->height()+ui->groupBoxTCM->height()+ui->statusBar->height())*factor)); //mainWindow
-        setMaximumSize(size());
-        setMinimumSize(size());
         if (fontSize_px > 13) { //not default pixelsize for font of size 10
-            foreach (QWidget *w, allWidgets) w->setGeometry(lround(w->x()*factor), lround(w->y()*factor), lround(w->width()*factor), lround(w->height()*factor));
-            foreach (QPushButton *b, applyButtons) b->setIconSize(QSize( lround(16.*fontSize_px/13), lround(16.*fontSize_px/13) ));
-            foreach (QPushButton *b, switchBitButtons) b->setIconSize(QSize( lround(22.*fontSize_px/13), lround(37.*fontSize_px/13) ));
+            double f = fontSize_px / 13.;
+            resize(size()*f); //mainWindow
+            foreach (QWidget *w, allWidgets) { w->resize(w->size()*f); w->move(w->pos()*f); }
+            foreach (QPushButton *b,     applyButtons) b->setIconSize(b->iconSize()*f);
+            foreach (QPushButton *b, switchBitButtons) b->setIconSize(b->iconSize()*f);
 		}
+        setFixedSize(size());
 
 //menus
         QMenu *fileMenu = menuBar()->addMenu("&File");
@@ -318,12 +320,37 @@ public:
         networkMenu->addAction(enableDebugActions);
         enableDebugActions->setShortcut(QKeySequence("Ctrl+!"));
         connect(enableDebugActions, &QAction::triggered, this, [=]() {
+            networkMenu->removeAction(enableDebugActions);
             QMenu *debugMenu = menuBar()->addMenu("&Debug");
             debugMenu->addAction("Adjust &PM treshholds", this, [=]() { //decrease thresholds to noise levels to see counting without signals
                 if (curFEEid == FEE.TCMid) QMessageBox::warning(this, "Warning", "This operation is not applicable for TCM!");
                 else FEE.adjustThresholds(curPM, QInputDialog::getDouble(this, "Adjusting " + ui->groupBoxPM->title() + " thresholds", "Set CFD hits target rate", 20, 1, 1e6, 0)); }
             );
             debugMenu->addAction("Randomize OrbitFillMask", this, [=]() { for (quint8 i=0; i<213; ++i) FEE.TCM.ORBIT_FILL_MASK[i] = QRandomGenerator::global()->generate(); FEE.apply_ORBIT_FILL_MASK(); });
+            QAction *shuttleLaser = new QAction("Start laser phase shuttling");
+            connect(&shuttleTimer, &QTimer::timeout, this, [&]() {
+                qint16 start = FEE.shuttleStartPhase, end = -start;
+                double r = FEE.shuttleTimer->remainingTime() / 2100.;
+                ui->sliderLaser->setValue( qRound(start * r + end * (1-r)) );
+            });
+            connect(shuttleLaser, &QAction::triggered, this, [=]() {
+                if (laserIsShuttling) {
+                    this->shuttleTimer.stop();
+                    this->FEE.shuttleTimer->stop();
+                    FEE.TCM.set.LASER_DELAY = this->settings.value("LASER_DELAY", FEE.TCM.set.LASER_DELAY).toInt();
+                } else {
+                    this->settings.setValue("LASER_DELAY", FEE.TCM.set.LASER_DELAY);
+                    this->FEE.inverseLaserPhase();
+                    this->FEE.shuttleTimer->start(2100);
+                    this->shuttleTimer.start(100);
+                }
+                this->laserIsShuttling = !this->laserIsShuttling;
+                this->ui->spinBoxLaserPhase->setDisabled(laserIsShuttling);
+                this->ui->sliderLaser->setDisabled(laserIsShuttling);
+                this->ui->buttonApplyLaserPhase->setDisabled(laserIsShuttling);
+                shuttleLaser->setText(laserIsShuttling ? "Stop shuttling laser phase" : "Start shuttling laser phase");
+            });
+            debugMenu->addAction(shuttleLaser);
         });
 
 //signal-slot conections
@@ -459,12 +486,10 @@ public slots:
         newset.remove("TCMpars");
         if (newset.contains("TCM")) {
             memcpy(&FEE.TCM.set, newset.value("TCM").toByteArray().data(), sizeof(TypeTCM::Settings));
-            for (quint8 i=0; i<GBTunit::controlSize; ++i) FEE.TCM.set.GBT.registers[i] = FEE.TCM.set.GBT.registers[i+1];
         }
         TypePM *pm = FEE.allPMs;
         for (quint8 i=0; i<20; ++i, ++pm) if (newset.contains(QString("PM") + pm->name)) {
             memcpy(&pm->set, newset.value(QString("PM") + pm->name).toByteArray().data(), sizeof(TypePM::Settings));
-            for (quint8 i=0; i<GBTunit::controlSize; ++i) pm->set.GBT.registers[i] = pm->set.GBT.registers[i+1];
         }
         updateEdits();
         return true;
@@ -683,15 +708,8 @@ public slots:
                 ui->spinBoxLaserPhase->setSingleStep(phaseStepLaser_ns);
                 prevPhaseStep_ns = phaseStep_ns;
             }
-            ok = FEE.TCM.act.registers0[0x20] != 0xFFFFFFFF;
-            ui->labelValueAverageTime_A->setVisible(ok);
-            ui->labelValueAverageTime_C->setVisible(ok);
-            ui->labelTextAverageTime_A->setVisible(ok);
-            ui->labelTextAverageTime_C->setVisible(ok);
-            if (ok) {
-                ui->labelValueAverageTime_A->setText(QString::asprintf("%7.3f", FEE.TCM.act.averageTimeA_ns));
-                ui->labelValueAverageTime_C->setText(QString::asprintf("%7.3f", FEE.TCM.act.averageTimeC_ns));
-            }
+            ui->labelValueAverageTime_A->setText(QString::asprintf("%7.3f", FEE.TCM.act.averageTimeA_ns));
+            ui->labelValueAverageTime_C->setText(QString::asprintf("%7.3f", FEE.TCM.act.averageTimeC_ns));
             ui->labelValuePhase_A->setText(QString::asprintf("%7.3f", FEE.TCM.act.delayAside_ns));
             ui->labelValuePhase_C->setText(QString::asprintf("%7.3f", FEE.TCM.act.delayCside_ns));
             if (FEE.PMsA.isEmpty()) {

@@ -129,14 +129,14 @@ struct GBTunit { // 32 registers * 4 bytes = 128 bytes
                 eventsCount                     ; //]F1
         };
     } Status;
-    static const quint8
-        controlSize   =   13,
-        statusSize    =   10,
-        controlAddress= 0xD8,
-        statusAddress = 0xE8,
-    //data generator states
-        DG_noData	= 0,
-        DG_main		= 1,
+static const quint8
+    controlSize   =   13,
+    statusSize    =   10,
+    controlAddress= 0xD8,
+    statusAddress = 0xE8,
+//data generator states
+    DG_noData	= 0,
+    DG_main		= 1,
     DG_Tx		= 2,
 //trigger generator states
     TG_noTrigger  = 0,

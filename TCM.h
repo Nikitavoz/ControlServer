@@ -202,7 +202,7 @@ struct TypeTCM {
 			delayAside_ns = DELAY_A     * phaseStep_ns;
 			delayCside_ns = DELAY_C     * phaseStep_ns;
             averageTimeA_ns = averageTimeA * TDCunit_ps / 1000;
-            averageTimeC_ns = averageTimeA * TDCunit_ps / 1000;
+            averageTimeC_ns = averageTimeC * TDCunit_ps / 1000;
             laserFrequency_Hz = systemClock_MHz * 1e6 / (LASER_DIVIDER == 0 ? 1 << 24 : LASER_DIVIDER);
             //
             attenuation = attenSteps;
