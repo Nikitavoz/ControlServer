@@ -47,7 +47,6 @@ public:
     QTimer *countersTimer = new QTimer();
     QTimer *shuttleTimer = new QTimer();
     qint16 shuttleStartPhase = -1024;
-    //QTimer *fullSyncTimer = new QTimer();
     QFile logFile;
     QTextStream logStream;
     bool PMsReady = false;
@@ -87,15 +86,8 @@ public:
             readCountersFIFO();
         });
         connect(shuttleTimer, &QTimer::timeout, this, &FITelectronics::inverseLaserPhase);
-        //connect(fullSyncTimer, &QTimer::timeout, this, &FITelectronics::fullSync);
-        connect(this, &IPbusTarget::error, this, [=]() {
-            if (countersTimer->isActive()) countersTimer->stop();
-            //if (fullSyncTimer->isActive()) fullSyncTimer->stop();
-        });
-        connect(this, &IPbusTarget::noResponse, this, [=]() {
-            if (countersTimer->isActive()) countersTimer->stop();
-            //if (fullSyncTimer->isActive()) fullSyncTimer->stop();
-        });
+        connect(this, &IPbusTarget::error     , countersTimer, &QTimer::stop);
+        connect(this, &IPbusTarget::noResponse, countersTimer, &QTimer::stop);
         connect(this, &IPbusTarget::IPbusStatusOK, this, [=]() {
             if (subdetector == FV0) writeNbits(0xE, 0x3, 2, 8); //apply FV0 trigger mode
             IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
@@ -388,10 +380,9 @@ public slots:
                 else       TCM.set.CH_MASK_A |= 1 << i;
             }
         }
-        IPbusControlPacket p1; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
-        p1.addWordToWrite(TCMparameters["CH_MASK_A"].address, TCM.set.CH_MASK_A);
-        p1.addWordToWrite(TCMparameters["CH_MASK_C"].address, TCM.set.CH_MASK_C);
-        if (transceive(p1)) emit linksStatusReady();
+        p.addWordToWrite(TCMparameters["CH_MASK_A"].address, TCM.set.CH_MASK_A);
+        p.addWordToWrite(TCMparameters["CH_MASK_C"].address, TCM.set.CH_MASK_C);
+        if (transceive(p)) emit linksStatusReady();
     }
 
     void writeParameter(QString name, quint64 val, quint16 FEEid, quint8 iCh = 0) {
@@ -422,10 +413,7 @@ public slots:
         if (!transceive(p)) return;
         if (TCM.counters.FIFOload) p.addTransaction(nonIncrementingRead, TypeTCM::Counters::addressFIFO, TCM.counters.New, TypeTCM::Counters::number);
         foreach (TypePM *pm, PM) if (pm->counters.FIFOload) {
-            if (maxPacket - p.responseSize <= TypePM::Counters::number) {
-                if (!transceive(p)) return;
-                p.reset();
-            }
+            if (maxPacket - p.responseSize <= TypePM::Counters::number) if (!transceive(p)) return;
             p.addTransaction(nonIncrementingRead, pm->baseAddress + TypePM::Counters::addressFIFO, pm->counters.New, TypePM::Counters::number);
         }
         if (p.requestSize > 1 && !transceive(p)) return;
@@ -465,9 +453,8 @@ public slots:
             emit countersReady(TCMid);
         } else return;
         foreach (TypePM *pm, PM) {
-            IPbusControlPacket p1; connect(&p1, &IPbusControlPacket::error, this, &IPbusTarget::error);
-            p1.addTransaction(read, pm->baseAddress + TypePM::Counters::addressDirect, pm->counters.New, TypePM::Counters::number);
-            if (!transceive(p1) || !PM.contains(pm->FEEid)) continue;
+            p.addTransaction(read, pm->baseAddress + TypePM::Counters::addressDirect, pm->counters.New, TypePM::Counters::number);
+            if (!transceive(p) || !PM.contains(pm->FEEid)) continue;
             pm->counters.newTime = QDateTime::currentDateTime();
             quint32 time_ms = pm->counters.oldTime.msecsTo(pm->counters.newTime);
             for (quint8 i=0; i<TypePM::Counters::number; ++i) {

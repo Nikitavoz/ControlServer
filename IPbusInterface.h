@@ -23,7 +23,6 @@ public:
     IPbusTarget(quint16 lport = 0) : localport(lport) {
         qRegisterMetaType<errorType>("errorType");
         qRegisterMetaType<QAbstractSocket::SocketError>("socketError");
-//        request[0] = PacketHeader(control, 0);
         updateTimer->setTimerType(Qt::PreciseTimer);
         connect(updateTimer, &QTimer::timeout, this, [=]() { if (isOnline) sync(); else checkStatus(); });
         connect(this, &IPbusTarget::error, this, [=]() {
@@ -84,7 +83,7 @@ protected:
         } else {
             p.responseSize = quint16(n / wordSize); //response can be shorter then expected if a transaction wasn't successful
             bool result = shouldResponseBeProcessed ? p.processResponse() : true;
-//            resetTransactions();
+            p.reset();
             return result;
         }
 	}
