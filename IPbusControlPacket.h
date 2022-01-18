@@ -5,9 +5,11 @@
 
 const quint16 maxPacket = 368; //368 words, limit from ethernet MTU of 1500 bytes
 enum errorType {networkError = 0, IPbusError = 1, logicError = 2};
+static const char *errorTypeName[3] = {"Network error" , "IPbus error", "Logic error"};
 
-struct IPbusControlPacket : public QObject {
+class IPbusControlPacket : public QObject {
     Q_OBJECT
+public:
     QList<Transaction> transactionsList;
     quint16 requestSize = 1, responseSize = 1; //values are measured in words
     quint32 request[maxPacket], response[maxPacket];
@@ -15,7 +17,9 @@ struct IPbusControlPacket : public QObject {
 
     IPbusControlPacket() {
         request[0] = PacketHeader(control, 0);
+        connect(this, &IPbusControlPacket::error, this, &IPbusControlPacket::debugPrint);
     }
+    ~IPbusControlPacket() { this->disconnect(); }
 
     void debugPrint() {
         qDebug("request:");
@@ -111,12 +115,16 @@ struct IPbusControlPacket : public QObject {
                     return false;
             }
             if (th->InfoCode != 0) {
-                debugPrint();
                 emit error(th->infoCodeString() + QString::asprintf(", address: %08X", *transactionsList.at(i).address + th->Words + (th->InfoCode == 4 ? -1 : 0)), IPbusError);
                 return false;
             }
         }
         return true;
+    }
+    void reset() {
+        transactionsList.clear();
+        requestSize = 1;
+        responseSize = 1;
     }
 
 signals:
