@@ -48,11 +48,11 @@ signals:
 protected:
     bool transceive(IPbusControlPacket &p, bool shouldResponseBeProcessed = true) { //send request, wait for response, receive it and check correctness
         if (!isOnline) return false;
-        QMutexLocker ml(&mutex);
         if (p.requestSize <= 1) {
             emit error("Empty request", logicError);
             return false;
         }
+        QMutexLocker ml(&mutex);
         qint32 n = qint32(qsocket->write((char *)p.request, p.requestSize * wordSize));
 		if (n < 0) {
             emit error("Socket write error: " + qsocket->errorString(), networkError);

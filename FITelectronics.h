@@ -17,7 +17,7 @@ public:
     TypeFITsubdetector subdetector;
     const quint16 TCMid;
     DimServer DIMserver;
-    QHash<DimCommand *, std::function<void(DimCommand *)>> allCommands;
+    QHash<DimCommand *, std::function<void(void *)>> allCommands;
     TypeTCM TCM;
     TypePM allPMs[20] = { //PMs by link №
         TypePM(0x0200, "A0"),
@@ -121,7 +121,7 @@ public:
 
     void log(QString st) { logStream << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz ") + st; }
 
-    void addCommand(QList<DimCommand *> &list, QString name, const char* format, std::function<void(DimCommand *)> function) {
+    void addCommand(QList<DimCommand *> &list, QString name, const char* format, std::function<void(void *)> function) {
         DimCommand *command = new DimCommand(qPrintable(name), format, this);
         list.append(command);
         allCommands.insert(command, function);
@@ -149,20 +149,20 @@ public:
         pm->servicesNew.insert("CFD_SATR", new DimService(qPrintable(prefix+"control/CFD_SATR""/new"), "S", &pm->set.CFD_SATR    , 2));
 		pm->servicesNew.insert("OR_GATE" , new DimService(qPrintable(prefix+"control/OR_GATE" "/new"), "S", &pm->set.OR_GATE     , 2));
 
-        addCommand(pm->commands, prefix+"control/TRG_CNT_MODE""/apply", "S", [=](DimCommand *c) { apply_TRG_CNT_MODE(pm->FEEid, c->getShort()); });
-        addCommand(pm->commands, prefix+"control/CFD_SATR"    "/apply", "S", [=](DimCommand * ) { apply_CFD_SATR(pm->FEEid); });
-        addCommand(pm->commands, prefix+"control/OR_GATE"     "/apply", "S", [=](DimCommand * ) { apply_OR_GATE_PM(pm->FEEid); });
-        addCommand(pm->commands, prefix+"control/RESET_COUNTERS"	  , "S", [=](DimCommand * ) { apply_RESET_COUNTERS(pm->FEEid); });
-        addCommand(pm->commands, prefix+"control/switchTRGsync"		  , "S", [=](DimCommand *c) { switchTRGsyncPM(pm-allPMs, c->getShort()); });
-        addCommand(pm->commands, prefix+"control/CH_MASK_DATA""/apply", "I", [=](DimCommand *c) { pm->set.CH_MASK_DATA = c->getShort(); apply_CH_MASK_DATA(pm->FEEid); });
-        addCommand(pm->commands, prefix+"control/CH_MASK_TRG" "/apply", "I", [=](DimCommand *c) {
-            quint16 mask = c->getShort();
+        addCommand(pm->commands, prefix+"control/TRG_CNT_MODE""/apply", "S", [=](void *d) { apply_TRG_CNT_MODE(pm->FEEid, *(quint16 *)d); });
+        addCommand(pm->commands, prefix+"control/CFD_SATR"    "/apply", "S", [=](void * ) { apply_CFD_SATR(pm->FEEid); });
+        addCommand(pm->commands, prefix+"control/OR_GATE"     "/apply", "S", [=](void * ) { apply_OR_GATE_PM(pm->FEEid); });
+        addCommand(pm->commands, prefix+"control/RESET_COUNTERS"	  , "S", [=](void * ) { apply_RESET_COUNTERS(pm->FEEid); });
+        addCommand(pm->commands, prefix+"control/switchTRGsync"		  , "S", [=](void *d) { switchTRGsyncPM(pm-allPMs, *(quint16 *)d); });
+        addCommand(pm->commands, prefix+"control/CH_MASK_DATA""/apply", "I", [=](void *d) { pm->set.CH_MASK_DATA = *(quint16 *)d; apply_CH_MASK_DATA(pm->FEEid); });
+        addCommand(pm->commands, prefix+"control/CH_MASK_TRG" "/apply", "I", [=](void *d) {
+            quint16 mask = *(quint16 *)d;
             for (quint8 i=0; i<12; ++i) pm->set.TIME_ALIGN[i].blockTriggers = !(1 << i & mask);
             apply_CH_MASK_TRG(pm->FEEid);
         });
 
-        addCommand(pm->commands, prefix+"control/CFD_SATR""/set", "S", [=](DimCommand *c) { pm->set.CFD_SATR = c->getShort(); pm->servicesNew["CFD_SATR"]->updateService(); });
-        addCommand(pm->commands, prefix+"control/OR_GATE" "/set", "S", [=](DimCommand *c) { pm->set.OR_GATE  = c->getShort(); pm->servicesNew["OR_GATE" ]->updateService(); });
+        addCommand(pm->commands, prefix+"control/CFD_SATR""/set", "S", [=](void *d) { pm->set.CFD_SATR = *(quint16 *)d; pm->servicesNew["CFD_SATR"]->updateService(); });
+        addCommand(pm->commands, prefix+"control/OR_GATE" "/set", "S", [=](void *d) { pm->set.OR_GATE  = *(quint16 *)d; pm->servicesNew["OR_GATE" ]->updateService(); });
 
         for (quint8 iCh=0; iCh<12; ++iCh) {
 			QString ch = QString::asprintf("Ch%02d/", iCh + 1);
@@ -179,40 +179,40 @@ public:
             pm->services.append(new DimService(qPrintable(prefix+ch+"control/TIME_ALIGN"    "/actual"), "S", pm->act.TIME_ALIGN + iCh, 2));
             pm->services.append(new DimService(qPrintable(prefix+ch+"control/ADC0_RANGE"    "/actual"), "S", &pm->act.ADC_RANGE   [iCh][0] , 2));
             pm->services.append(new DimService(qPrintable(prefix+ch+"control/ADC1_RANGE"    "/actual"), "S", &pm->act.ADC_RANGE   [iCh][1] , 2));
-            pm->services.append(new DimService(qPrintable(prefix+ch+"control/CFD_THRESHOLD" "/actual"), "S", (qint16 *)&pm->act.Ch[iCh]    , 2));
-            pm->services.append(new DimService(qPrintable(prefix+ch+"control/CFD_ZERO"      "/actual"), "S", (qint16 *)&pm->act.Ch[iCh] + 2, 2));
-            pm->services.append(new DimService(qPrintable(prefix+ch+"control/ADC_ZERO"      "/actual"), "S", (qint16 *)&pm->act.Ch[iCh] + 4, 2));
-            pm->services.append(new DimService(qPrintable(prefix+ch+"control/ADC_DELAY"     "/actual"), "S", (qint16 *)&pm->act.Ch[iCh] + 6, 2));
-            pm->services.append(new DimService(qPrintable(prefix+ch+"control/THRESHOLD_CALIBR/actual"), "S", (qint16 *)&pm->act.THRESHOLD_CALIBR[iCh], 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"control/CFD_THRESHOLD" "/actual"), "S", (qint16  *)&pm->act.Ch[iCh]    , 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"control/CFD_ZERO"      "/actual"), "S", (qint16  *)&pm->act.Ch[iCh] + 2, 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"control/ADC_ZERO"      "/actual"), "S", (qint16  *)&pm->act.Ch[iCh] + 4, 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"control/ADC_DELAY"     "/actual"), "S", (qint16  *)&pm->act.Ch[iCh] + 6, 2));
+            pm->services.append(new DimService(qPrintable(prefix+ch+"control/THRESHOLD_CALIBR/actual"), "S", (quint16 *)&pm->act.THRESHOLD_CALIBR[iCh], 2));
 
 			pm->servicesNew.insert(ch+"TIME_ALIGN"      , new DimService(qPrintable(prefix+ch+"control/TIME_ALIGN"    "/new"), "S", pm->set.TIME_ALIGN +  iCh	  , 2));
 			pm->servicesNew.insert(ch+"ADC0_RANGE"      , new DimService(qPrintable(prefix+ch+"control/ADC0_RANGE"    "/new"), "S", &pm->set.ADC_RANGE   [iCh][0] , 2));
 			pm->servicesNew.insert(ch+"ADC1_RANGE"      , new DimService(qPrintable(prefix+ch+"control/ADC1_RANGE"    "/new"), "S", &pm->set.ADC_RANGE   [iCh][1] , 2));
-			pm->servicesNew.insert(ch+"CFD_THRESHOLD"   , new DimService(qPrintable(prefix+ch+"control/CFD_THRESHOLD" "/new"), "S", (qint16 *)&pm->set.Ch[iCh]    , 2));
-			pm->servicesNew.insert(ch+"CFD_ZERO"        , new DimService(qPrintable(prefix+ch+"control/CFD_ZERO"      "/new"), "S", (qint16 *)&pm->set.Ch[iCh] + 2, 2));
-			pm->servicesNew.insert(ch+"ADC_ZERO"        , new DimService(qPrintable(prefix+ch+"control/ADC_ZERO"      "/new"), "S", (qint16 *)&pm->set.Ch[iCh] + 4, 2));
-			pm->servicesNew.insert(ch+"ADC_DELAY"       , new DimService(qPrintable(prefix+ch+"control/ADC_DELAY"     "/new"), "S", (qint16 *)&pm->set.Ch[iCh] + 6, 2));
-			pm->servicesNew.insert(ch+"THRESHOLD_CALIBR", new DimService(qPrintable(prefix+ch+"control/THRESHOLD_CALIBR/new"), "S", (qint16 *)&pm->set.THRESHOLD_CALIBR[iCh], 2));
+            pm->servicesNew.insert(ch+"CFD_THRESHOLD"   , new DimService(qPrintable(prefix+ch+"control/CFD_THRESHOLD" "/new"), "S", (qint16  *)&pm->set.Ch[iCh]    , 2));
+            pm->servicesNew.insert(ch+"CFD_ZERO"        , new DimService(qPrintable(prefix+ch+"control/CFD_ZERO"      "/new"), "S", (qint16  *)&pm->set.Ch[iCh] + 2, 2));
+            pm->servicesNew.insert(ch+"ADC_ZERO"        , new DimService(qPrintable(prefix+ch+"control/ADC_ZERO"      "/new"), "S", (qint16  *)&pm->set.Ch[iCh] + 4, 2));
+            pm->servicesNew.insert(ch+"ADC_DELAY"       , new DimService(qPrintable(prefix+ch+"control/ADC_DELAY"     "/new"), "S", (qint16  *)&pm->set.Ch[iCh] + 6, 2));
+            pm->servicesNew.insert(ch+"THRESHOLD_CALIBR", new DimService(qPrintable(prefix+ch+"control/THRESHOLD_CALIBR/new"), "S", (quint16 *)&pm->set.THRESHOLD_CALIBR[iCh], 2));
 
-            addCommand(pm->commands, prefix+ch+"control/TIME_ALIGN"    "/set", "S", [=](DimCommand *c) { pm->set.TIME_ALIGN[iCh].value = c->getShort(); pm->servicesNew[ch+"TIME_ALIGN"      ]->updateService(); });
-            addCommand(pm->commands, prefix+ch+"control/ADC0_RANGE"    "/set", "S", [=](DimCommand *c) { pm->set.ADC_RANGE[iCh][0]     = c->getShort(); pm->servicesNew[ch+"ADC0_RANGE"      ]->updateService(); });
-            addCommand(pm->commands, prefix+ch+"control/ADC1_RANGE"    "/set", "S", [=](DimCommand *c) { pm->set.ADC_RANGE[iCh][1]     = c->getShort(); pm->servicesNew[ch+"ADC1_RANGE"      ]->updateService(); });
-            addCommand(pm->commands, prefix+ch+"control/CFD_THRESHOLD" "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].CFD_THRESHOLD = c->getShort(); pm->servicesNew[ch+"CFD_THRESHOLD"   ]->updateService(); });
-            addCommand(pm->commands, prefix+ch+"control/CFD_ZERO"      "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].CFD_ZERO      = c->getShort(); pm->servicesNew[ch+"CFD_ZERO"        ]->updateService(); });
-            addCommand(pm->commands, prefix+ch+"control/ADC_ZERO"      "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].ADC_ZERO      = c->getShort(); pm->servicesNew[ch+"ADC_ZERO"        ]->updateService(); });
-            addCommand(pm->commands, prefix+ch+"control/ADC_DELAY"     "/set", "S", [=](DimCommand *c) { pm->set.Ch[iCh].ADC_DELAY     = c->getShort(); pm->servicesNew[ch+"ADC_DELAY"       ]->updateService(); });
-            addCommand(pm->commands, prefix+ch+"control/THRESHOLD_CALIBR/set", "S", [=](DimCommand *c) { pm->set.THRESHOLD_CALIBR[iCh] = c->getShort(); pm->servicesNew[ch+"THRESHOLD_CALIBR"]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/TIME_ALIGN"    "/set", "S", [=](void *d) { pm->set.TIME_ALIGN[iCh].value = *(qint16  *)d; pm->servicesNew[ch+"TIME_ALIGN"      ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/ADC0_RANGE"    "/set", "S", [=](void *d) { pm->set.ADC_RANGE[iCh][0]     = *(quint16 *)d; pm->servicesNew[ch+"ADC0_RANGE"      ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/ADC1_RANGE"    "/set", "S", [=](void *d) { pm->set.ADC_RANGE[iCh][1]     = *(quint16 *)d; pm->servicesNew[ch+"ADC1_RANGE"      ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/CFD_THRESHOLD" "/set", "S", [=](void *d) { pm->set.Ch[iCh].CFD_THRESHOLD = *(qint16  *)d; pm->servicesNew[ch+"CFD_THRESHOLD"   ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/CFD_ZERO"      "/set", "S", [=](void *d) { pm->set.Ch[iCh].CFD_ZERO      = *(qint16  *)d; pm->servicesNew[ch+"CFD_ZERO"        ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/ADC_ZERO"      "/set", "S", [=](void *d) { pm->set.Ch[iCh].ADC_ZERO      = *(qint16  *)d; pm->servicesNew[ch+"ADC_ZERO"        ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/ADC_DELAY"     "/set", "S", [=](void *d) { pm->set.Ch[iCh].ADC_DELAY     = *(qint16  *)d; pm->servicesNew[ch+"ADC_DELAY"       ]->updateService(); });
+            addCommand(pm->commands, prefix+ch+"control/THRESHOLD_CALIBR/set", "S", [=](void *d) { pm->set.THRESHOLD_CALIBR[iCh] = *(quint16 *)d; pm->servicesNew[ch+"THRESHOLD_CALIBR"]->updateService(); });
 
-            addCommand(pm->commands, prefix+ch+"control/TIME_ALIGN"    "/apply", "S", [=](DimCommand *) { apply_TIME_ALIGN      (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, prefix+ch+"control/ADC0_RANGE"    "/apply", "S", [=](DimCommand *) { apply_ADC0_RANGE      (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, prefix+ch+"control/ADC1_RANGE"    "/apply", "S", [=](DimCommand *) { apply_ADC1_RANGE      (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, prefix+ch+"control/CFD_THRESHOLD" "/apply", "S", [=](DimCommand *) { apply_CFD_THRESHOLD   (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, prefix+ch+"control/CFD_ZERO"      "/apply", "S", [=](DimCommand *) { apply_CFD_ZERO        (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, prefix+ch+"control/ADC_ZERO"      "/apply", "S", [=](DimCommand *) { apply_ADC_ZERO        (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, prefix+ch+"control/ADC_DELAY"     "/apply", "S", [=](DimCommand *) { apply_ADC_DELAY       (pm->FEEid, iCh+1); });
-            addCommand(pm->commands, prefix+ch+"control/THRESHOLD_CALIBR/apply", "S", [=](DimCommand *) { apply_THRESHOLD_CALIBR(pm->FEEid, iCh+1); });
-            addCommand(pm->commands, prefix+ch+"control/switch"				   , "S", [=](DimCommand *c) { switchPMchannel(pm-allPMs, iCh+1, c->getShort()); });
-            addCommand(pm->commands, prefix+ch+"control/noTriggerMode"		   , "S", [=](DimCommand *c) { apply_PMchannelNoTRG(pm-allPMs, iCh+1, c->getShort()); });
+            addCommand(pm->commands, prefix+ch+"control/TIME_ALIGN"    "/apply", "S", [=](void * ) { apply_TIME_ALIGN      (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/ADC0_RANGE"    "/apply", "S", [=](void * ) { apply_ADC0_RANGE      (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/ADC1_RANGE"    "/apply", "S", [=](void * ) { apply_ADC1_RANGE      (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/CFD_THRESHOLD" "/apply", "S", [=](void * ) { apply_CFD_THRESHOLD   (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/CFD_ZERO"      "/apply", "S", [=](void * ) { apply_CFD_ZERO        (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/ADC_ZERO"      "/apply", "S", [=](void * ) { apply_ADC_ZERO        (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/ADC_DELAY"     "/apply", "S", [=](void * ) { apply_ADC_DELAY       (pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/THRESHOLD_CALIBR/apply", "S", [=](void * ) { apply_THRESHOLD_CALIBR(pm->FEEid, iCh+1); });
+            addCommand(pm->commands, prefix+ch+"control/switch"				   , "S", [=](void *d) { switchPMchannel(pm-allPMs, iCh+1, *(quint16 *)d); });
+            addCommand(pm->commands, prefix+ch+"control/noTriggerMode"		   , "S", [=](void *d) { apply_PMchannelNoTRG(pm-allPMs, iCh+1, *(quint16 *)d); });
         }
     }
 
@@ -263,7 +263,7 @@ public:
         }
 
         //TCM.services.append(new DimService(qPrintable(prefix+"Trigger1/OUTPUT_ENABLED"), "S", TCM.counters.rate    , 8));
-        addCommand(TCM.commands, prefix+"control/ORBIT_FILL_MASK/set", "I:223", [=](DimCommand *c) { int s = c->getSize(); memcpy(TCM.ORBIT_FILL_MASK, c->getData(), s); });
+        addCommand(TCM.commands, prefix+"control/ORBIT_FILL_MASK/set", "I:223", [=](void *d) { memcpy(TCM.ORBIT_FILL_MASK, d, 223*wordSize); });
     }
 
     void deletePMservices(TypePM *pm) {
@@ -287,18 +287,17 @@ public:
         TCM.commands.clear();
     }
 
-    void commandHandler() { emit DIMcommandReceived(getCommand()); }
+    void commandHandler() { DimCommand *c = getCommand(); emit DIMcommandReceived(c, c->getData()); }
 
 signals:
     void linksStatusReady();
     void valuesReady();
     void countersReady(quint16 FEEid);
     void resetFinished();
-    void DIMcommandReceived(DimCommand *);
+    void DIMcommandReceived(DimCommand *, void *);
 
 public slots:
-
-    void executeDIMcommand(DimCommand *cmd) { allCommands[cmd](cmd); }
+    void executeDIMcommand(DimCommand *cmd, void *data) { allCommands[cmd](data); }
 
     void clearFIFOs() {
 		quint32 load = readRegister(TypeTCM::Counters::addressFIFOload);
