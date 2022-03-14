@@ -7,8 +7,7 @@ int main(int argc, char *argv[])
 	QApplication a(argc, argv);
 	QCoreApplication::setOrganizationName("INR");
 	QCoreApplication::setApplicationName("ControlServer");
-    QCoreApplication::setApplicationVersion("1.d beta");
-	//QApplication::setStyle(QStyleFactory::create("windowsvista"));
+    QCoreApplication::setApplicationVersion("1.e");
     MainWindow w;
 	w.show();
 

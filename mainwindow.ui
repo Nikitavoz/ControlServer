@@ -29413,7 +29413,7 @@ correction</string>
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="QPushButton" name="butonResetChCounters">
+     <widget class="QPushButton" name="buttonResetChCounters">
       <property name="geometry">
        <rect>
         <x>680</x>
@@ -29706,7 +29706,7 @@ TRG</string>
      <zorder>frame_12</zorder>
      <zorder>labelTextADCRMS</zorder>
      <zorder>labelTextChRate</zorder>
-     <zorder>butonResetChCounters</zorder>
+     <zorder>buttonResetChCounters</zorder>
      <zorder>lineL</zorder>
      <zorder>lineT</zorder>
      <zorder>labelTextADC0</zorder>
@@ -56499,9 +56499,9 @@ GBT</string>
      <widget class="QLabel" name="labelTextTriggers_79">
       <property name="geometry">
        <rect>
-        <x>266</x>
+        <x>281</x>
         <y>47</y>
-        <width>100</width>
+        <width>70</width>
         <height>15</height>
        </rect>
       </property>
@@ -56544,7 +56544,7 @@ GBT</string>
      <widget class="QLabel" name="labelValueTriggersCount_79">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>354</x>
         <y>47</y>
         <width>72</width>
         <height>15</height>
@@ -56589,7 +56589,7 @@ GBT</string>
      <widget class="QLabel" name="labelValueTriggersRate_79">
       <property name="geometry">
        <rect>
-        <x>446</x>
+        <x>430</x>
         <y>47</y>
         <width>60</width>
         <height>15</height>
@@ -56634,7 +56634,7 @@ GBT</string>
      <widget class="QLabel" name="labelTextTriggersCount_0">
       <property name="geometry">
        <rect>
-        <x>119</x>
+        <x>94</x>
         <y>12</y>
         <width>72</width>
         <height>13</height>
@@ -56676,7 +56676,7 @@ GBT</string>
      <widget class="QLabel" name="labelTextTriggersRate_0">
       <property name="geometry">
        <rect>
-        <x>195</x>
+        <x>170</x>
         <y>12</y>
         <width>60</width>
         <height>13</height>
@@ -56792,7 +56792,7 @@ GBT</string>
      <widget class="QLabel" name="labelTextTriggersRate_1">
       <property name="geometry">
        <rect>
-        <x>446</x>
+        <x>430</x>
         <y>12</y>
         <width>60</width>
         <height>13</height>
@@ -56834,7 +56834,7 @@ GBT</string>
      <widget class="QLabel" name="labelTextTriggersCount_1">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>354</x>
         <y>12</y>
         <width>72</width>
         <height>13</height>
@@ -57281,7 +57281,7 @@ GBT</string>
      <widget class="QLabel" name="labelValueTriggersRate_78">
       <property name="geometry">
        <rect>
-        <x>195</x>
+        <x>170</x>
         <y>47</y>
         <width>60</width>
         <height>15</height>
@@ -57326,7 +57326,7 @@ GBT</string>
      <widget class="QLabel" name="labelTextTriggers_78">
       <property name="geometry">
        <rect>
-        <x>45</x>
+        <x>20</x>
         <y>47</y>
         <width>70</width>
         <height>15</height>
@@ -57371,7 +57371,7 @@ GBT</string>
      <widget class="QLabel" name="labelValueTriggersCount_78">
       <property name="geometry">
        <rect>
-        <x>119</x>
+        <x>94</x>
         <y>47</y>
         <width>72</width>
         <height>15</height>
@@ -57411,54 +57411,6 @@ GBT</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="buttonWriteOrbitFillMask">
-      <property name="geometry">
-       <rect>
-        <x>1</x>
-        <y>14</y>
-        <width>42</width>
-        <height>70</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string>Write
-ORBIT
-FILL
-MASK</string>
       </property>
      </widget>
      <widget class="QLabel" name="labelValueTriggersRate_77">
@@ -57509,9 +57461,9 @@ MASK</string>
      <widget class="QLabel" name="labelTextTriggers_76">
       <property name="geometry">
        <rect>
-        <x>265</x>
+        <x>281</x>
         <y>28</y>
-        <width>100</width>
+        <width>70</width>
         <height>15</height>
        </rect>
       </property>
@@ -57599,7 +57551,7 @@ MASK</string>
      <widget class="QLabel" name="labelValueTriggersRate_75">
       <property name="geometry">
        <rect>
-        <x>195</x>
+        <x>170</x>
         <y>28</y>
         <width>60</width>
         <height>15</height>
@@ -57644,7 +57596,7 @@ MASK</string>
      <widget class="QLabel" name="labelValueTriggersRate_76">
       <property name="geometry">
        <rect>
-        <x>446</x>
+        <x>430</x>
         <y>28</y>
         <width>60</width>
         <height>15</height>
@@ -57734,7 +57686,7 @@ MASK</string>
      <widget class="QLabel" name="labelValueTriggersCount_75">
       <property name="geometry">
        <rect>
-        <x>119</x>
+        <x>94</x>
         <y>28</y>
         <width>72</width>
         <height>15</height>
@@ -57779,7 +57731,7 @@ MASK</string>
      <widget class="QLabel" name="labelValueTriggersCount_76">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>354</x>
         <y>28</y>
         <width>72</width>
         <height>15</height>
@@ -57824,7 +57776,7 @@ MASK</string>
      <widget class="QLabel" name="labelTextTriggers_75">
       <property name="geometry">
        <rect>
-        <x>45</x>
+        <x>20</x>
         <y>28</y>
         <width>70</width>
         <height>15</height>
@@ -57869,7 +57821,7 @@ MASK</string>
      <widget class="QLabel" name="labelValueTriggersRate_7D">
       <property name="geometry">
        <rect>
-        <x>195</x>
+        <x>170</x>
         <y>66</y>
         <width>60</width>
         <height>15</height>
@@ -57914,7 +57866,7 @@ MASK</string>
      <widget class="QLabel" name="labelValueTriggersRate_7E">
       <property name="geometry">
        <rect>
-        <x>446</x>
+        <x>430</x>
         <y>66</y>
         <width>60</width>
         <height>15</height>
@@ -57959,7 +57911,7 @@ MASK</string>
      <widget class="QLabel" name="labelValueTriggersCount_7E">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>354</x>
         <y>66</y>
         <width>72</width>
         <height>15</height>
@@ -58004,7 +57956,7 @@ MASK</string>
      <widget class="QLabel" name="labelTextTriggers_7D">
       <property name="geometry">
        <rect>
-        <x>45</x>
+        <x>20</x>
         <y>66</y>
         <width>70</width>
         <height>15</height>
@@ -58049,7 +58001,7 @@ MASK</string>
      <widget class="QLabel" name="labelValueTriggersCount_7D">
       <property name="geometry">
        <rect>
-        <x>119</x>
+        <x>94</x>
         <y>66</y>
         <width>72</width>
         <height>15</height>
@@ -58094,9 +58046,9 @@ MASK</string>
      <widget class="QLabel" name="labelTextTriggers_7E">
       <property name="geometry">
        <rect>
-        <x>265</x>
+        <x>281</x>
         <y>66</y>
-        <width>100</width>
+        <width>70</width>
         <height>15</height>
        </rect>
       </property>
@@ -59952,7 +59904,7 @@ system</string>
   <tabstop>buttonApplyORgate</tabstop>
   <tabstop>lineEditCFDsaturation</tabstop>
   <tabstop>buttonApplyCFDsaturation</tabstop>
-  <tabstop>butonResetChCounters</tabstop>
+  <tabstop>buttonResetChCounters</tabstop>
   <tabstop>SwitcherLockReadout</tabstop>
   <tabstop>buttonDataGeneratorOff</tabstop>
   <tabstop>buttonDataGeneratorMain</tabstop>

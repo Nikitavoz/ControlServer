@@ -38,95 +38,93 @@ const struct {char name[4]; quint16 TCMid, PMA0id, PMC0id; quint8 systemID; stru
                                                                                      {         "OrA",             114} }             }
 };
 
-struct GBTunit { // 32 registers * 4 bytes = 128 bytes
+struct GBTunit { // (13 + 3 + 10) registers * 4 bytes = 104 bytes
     union ControlData {
         quint32 registers[16] = {0};
-        char pointer[16 * sizeof(quint32)]; // 64 bytes
         struct {
             quint32
-                DG_MODE              :  4, //┐
-                TG_MODE              :  4, //│
-                RESET				 :  8, //│
-                TG_CTP_EMUL_MODE     :  4, //│
-                HB_RESPONSE			 :  1, //│D8
-                BYPASS_MODE			 :  1, //│
-                READOUT_LOCK		 :  1, //│
-                HB_REJECT            :  1, //│
-                                     :  8, //┘
-                DG_TRG_RESPOND_MASK,       //]D9
-                DG_BUNCH_PATTERN,          //]DA
-                TG_SINGLE_VALUE,           //]DB
-                TG_PATTERN_LSB,            //]DC
-                TG_PATTERN_MSB,            //]DD
-                TG_CONT_VALUE,             //]DE
-                DG_BUNCH_FREQ        : 16, //┐
-                TG_BUNCH_FREQ        : 16, //┘DF
-                DG_FREQ_OFFSET       : 12, //┐
-                                     :  4, //│
-                TG_FREQ_OFFSET       : 12, //│E0
-                TG_HBr_RATE          :  4, //┘
-                RDH_FEE_ID           : 16, //┐
-                RDH_SYS_ID           :  8, //│E1
-                PRIORITY_BIT         :  8, //┘
-                                     : 32, //]E2
-                BCID_DELAY           : 12, //┐
-                                     : 20, //┘E3
-                DATA_SEL_TRG_MASK        , //]E4
-                _reserved[3]             ; //]E5-E7
+                DG_MODE                      :  4, //┐
+                TG_MODE                      :  4, //│
+                RESET                        :  8, //│
+                TG_CTP_EMUL_MODE             :  4, //│
+                HB_RESPONSE                  :  1, //│D8
+                BYPASS_MODE                  :  1, //│
+                READOUT_LOCK                 :  1, //│
+                HB_REJECT                    :  1, //│
+                                             :  8, //┘
+                DG_TRG_RESPOND_MASK,               //]D9
+                DG_BUNCH_PATTERN,                  //]DA
+                TG_SINGLE_VALUE,                   //]DB
+                TG_PATTERN_LSB,                    //]DC
+                TG_PATTERN_MSB,                    //]DD
+                TG_CONT_VALUE,                     //]DE
+                DG_BUNCH_FREQ                : 16, //┐
+                TG_BUNCH_FREQ                : 16, //┘DF
+                DG_FREQ_OFFSET               : 12, //┐
+                                             :  4, //│
+                TG_FREQ_OFFSET               : 12, //│E0
+                TG_HBr_RATE                  :  4, //┘
+                RDH_FEE_ID                   : 16, //┐
+                RDH_SYS_ID                   :  8, //│E1
+                PRIORITY_BIT                 :  8, //┘
+                                             : 32, //]E2
+                BCID_DELAY                   : 12, //┐
+                                             : 20, //┘E3
+                DATA_SEL_TRG_MASK                , //]E4
+                _reservedSpace[3]                ; //]E5-E7
         };
     } Control;
     union StatusData {
         quint32 registers[10] = {0};
-        char pointer[10 * sizeof(quint32)]; // 64 bytes
         struct {
             quint32
-                phaseAlignerCPLLlock        :  1, //┐
-                RxWorkClockReady            :  1, //│
-                RxFrameClockReady           :  1, //│
-                MGTlinkReady                :  1, //│
-                TxResetDone                 :  1, //│
-                TxFSMresetDone              :  1, //│
-                GBTRxReady                  :  1, //│
-                GBTRxError                  :  1, //│E8
-                RxPhaseError                :  1, //│
-                                            :  7, //│
-                READOUT_MODE                :  4, //│
-                BCID_SYNC_MODE              :  4, //│
-                RX_PHASE                    :  4, //│
-                CRU_READOUT_MODE            :  4, //┘
-                CRU_ORBIT                       , //]E9
-                FIFOempty_header            :  1, //┐
-                FIFOempty_data              :  1, //│
-                FIFOempty_trg               :  1, //│
-                FIFOempty_slct              :  1, //│
-                FIFOempty_cntpck            :  1, //│
-                                            : 11, //│
-                slctFIFOemptyWhileRead      :  1, //│
-                FIFOnotEmptyOnRunStart_slct :  1, //│
-                FIFOnotEmptyOnRunStart_cntpck: 1, //│
-                FIFOnotEmptyOnRunStart_trg  :  1, //│EA
-                trgFIFOwasFull              :  1, //│
-                FIFOnotEmptyOnRunStart_data :  1, //│
-                FIFOnotEmptyOnRunStart_header: 1, //│
-                TCMdataFIFOfull             :  1, //│
-                PMpacketCorruptedExtraWord  :  1, //│
-                PMpacketCorruptedEarlyHeader:  1, //│
-                BCsyncLostInRun             :  1, //│
-                                            :  4, //│
-                dataFIFOnotReady            :  1, //┘
-                CNVdropCount                : 16, //┐
-                CNVFIFOmax                  : 16, //┘EB
-                SELdropCount                : 16, //┐
-                SELFIFOmax                  : 16, //┘EC
-                wordsCount                  : 32, //]ED
-                BCindicatorData             : 12, //┐
-                BCpurityData                :  4, //│
-                BCindicatorTrg              : 12, //│EE
-                BCpurityTrg                 :  4, //┘
-                                            : 16, //┐
-                FTMIPbusFIFOcount           : 16, //┘EF
-                FTMIPbusFIFOdata                , //]F0
-                eventsCount                     ; //]F1
+                phaseAlignerCPLLlock         :  1, //┐
+                RxWorkClockReady             :  1, //│
+                RxFrameClockReady            :  1, //│
+                MGTlinkReady                 :  1, //│
+                TxResetDone                  :  1, //│
+                TxFSMresetDone               :  1, //│
+                GBTRxReady                   :  1, //│
+                GBTRxError                   :  1, //│E8
+                RxPhaseError                 :  1, //│
+                                             :  7, //│
+                READOUT_MODE                 :  4, //│
+                BCID_SYNC_MODE               :  4, //│
+                RX_PHASE                     :  4, //│
+                CRU_READOUT_MODE             :  4, //┘
+                CRU_ORBIT                        , //]E9
+                FIFOempty_header             :  1, //┐
+                FIFOempty_data               :  1, //│
+                FIFOempty_trg                :  1, //│
+                FIFOempty_slct               :  1, //│
+                FIFOempty_cntpck             :  1, //│
+                                             : 11, //│
+                slctFIFOemptyWhileRead       :  1, //│
+                FIFOnotEmptyOnRunStart_slct  :  1, //│
+                FIFOnotEmptyOnRunStart_cntpck:  1, //│
+                FIFOnotEmptyOnRunStart_trg   :  1, //│EA
+                trgFIFOwasFull               :  1, //│
+                FIFOnotEmptyOnRunStart_data  :  1, //│
+                FIFOnotEmptyOnRunStart_header:  1, //│
+                TCMdataFIFOfull              :  1, //│
+                PMpacketCorruptedExtraWord   :  1, //│
+                PMpacketCorruptedEarlyHeader :  1, //│
+                BCsyncLostInRun              :  1, //│
+                                             :  4, //│
+                dataFIFOnotReady             :  1, //┘
+                CNVdropCount                 : 16, //┐
+                CNVFIFOmax                   : 16, //┘EB
+                SELdropCount                 : 16, //┐
+                SELFIFOmax                   : 16, //┘EC
+                wordsCount                   : 32, //]ED
+                BCindicatorData              : 12, //┐
+                BCpurityData                 :  4, //│
+                BCindicatorTrg               : 12, //│EE
+                BCpurityTrg                  :  4, //┘
+                                             : 16, //┐
+                FTMIPbusFIFOcount            : 16, //┘EF
+                FTMIPbusFIFOdata                 , //]F0
+                eventsCount                      ; //]F1
         };
     } Status;
 static const quint8
@@ -232,13 +230,13 @@ const QHash<QString, Parameter> GBTparameters = {
 };
 
 struct Timestamp {
-	quint32 second : 6, //0..59
-			minute : 6, //0..59
-			hour   : 5, //0..23
-			year   : 6, //0..63
-			month  : 4, //1..12
-			day    : 5; //1..31
-	Timestamp(const quint32 v=0) { memcpy(this, &v, 4); }
+    quint32 second : 6, //0..59
+            minute : 6, //0..59
+            hour   : 5, //0..23
+            year   : 6, //0..63
+            month  : 4, //1..12
+            day    : 5; //1..31
+    Timestamp() = default;
 	Timestamp(quint16 y, quint8 mo, quint8 d, quint8 h, quint8 mi, quint8 s): second(s), minute(mi), hour(h), year(y > 2000 ? y - 2000 : y), month(mo), day(d) {};
 	QString printFull() { return QString::asprintf("20%02d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second); }
 	QString printISO () { return QString::asprintf("20%02d-%02d-%02dT%02d:%02d:%02d", year, month, day, hour, minute, second); }
@@ -274,12 +272,40 @@ struct TRGsyncStatus {
         linkOK              : 1;
 };
 
-//class CustomDIMservice {
-//    DimService *service;
-//public:
-//    CustomDIMservice(DimService *s) {}
-//    int updateService() {}
+struct regblock {
+    const quint8 addr, endAddr;
+    inline quint8 size() { return endAddr - addr + 1; }
+};
+
+class CustomDIMservice {
+    DimService *service;
+    const bool dataIsExternal;
+    const size_t dataSize;
+    void *dataNew, *dataOld;
+    std::function<void(void *)> dataCollect;
+public:
+    CustomDIMservice(const char *name, const char *format, size_t size, std::function<void(void *)> dataCollectingFunction, void *data = nullptr):
+        dataIsExternal(data != nullptr),
+        dataSize(size),
+        dataNew(dataIsExternal ? data : malloc(dataSize)),
+        dataOld(malloc(dataSize)),
+        dataCollect(dataCollectingFunction)
+    {
+        service = new DimService(name, format, dataOld, int(dataSize));
+    }
+    ~CustomDIMservice() {
+        delete service;
+        if (!dataIsExternal) free(dataNew);
+        free(dataOld);
+    }
+    void updateService() {
+        if (dataCollect != 0) dataCollect(dataNew);
+        if (memcmp(dataNew, dataOld, dataSize) != 0) {//data has changed
+            memcpy(dataOld, dataNew, dataSize);
+            service->updateService();
+        }
+    }
 //    template<typename... Args> int updateService(Args... args) { return service->updateService(args...); }
-//};
+};
 
 #endif // GBT_H

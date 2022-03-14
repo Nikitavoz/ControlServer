@@ -25,10 +25,7 @@ public:
         qRegisterMetaType<QAbstractSocket::SocketError>("socketError");
         updateTimer->setTimerType(Qt::PreciseTimer);
         connect(updateTimer, &QTimer::timeout, this, [=]() { if (isOnline) sync(); else checkStatus(); });
-        connect(this, &IPbusTarget::error, this, [=]() {
-            qDebug()<<(isLocked?"Locked":"not locked");
-            updateTimer->stop();
-        });
+        connect(this, &IPbusTarget::error, updateTimer, &QTimer::stop);
         if (!qsocket->bind(QHostAddress::AnyIPv4, localport)) qsocket->bind(QHostAddress::AnyIPv4);
         updateTimer->start(updatePeriod_ms);
     }

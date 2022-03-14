@@ -270,7 +270,6 @@ public:
             ui->   lineEditTriggersLevelC_1->move(ui->   lineEditTriggersLevelA_1 ->x(), 30 * 4 + 2);
         }
 
-
         resize(width(), 10 + ui->groupBoxBoardSelection->height()+ui->groupBoxTCM->height()+ui->statusBar->height());
 //initial scaling (a label with fontsize 10 (Calibri) has pixelsize of 13 without system scaling and e.g. 20 at 150% scaling so widgets size should be recalculated)
         fontSize_px = ui->labelTextPMOK->fontInfo().pixelSize();
@@ -295,7 +294,7 @@ public:
         QMenu *controlMenu = menuBar()->addMenu("&Control");
         QAction *enableControls = new QAction(QIcon(":/controls.png"), "Disable", this);
         enableControls->setCheckable(true);
-        enableControls->setChecked(true);
+        enableControls->setChecked(false);
         controlMenu->addAction(enableControls);
         connect(enableControls, &QAction::triggered, this, [=](bool checked) {
             actionLoad->setEnabled(checked);
@@ -355,8 +354,8 @@ public:
 
 //signal-slot conections
         connect(&FEE, &IPbusTarget::error, this, [=](QString message, errorType et) {
-            QMessageBox::warning(this, errorTypeName[et], message);
-            statusBar()->showMessage(message);
+//            QMessageBox::warning(this, errorTypeName[et], message);
+            statusBar()->showMessage(message + " (" + errorTypeName[et] + ")");
             ui->centralWidget->setDisabled(true);
         });
         connect(&FEE, &IPbusTarget::IPbusStatusOK, this, [=]() {
@@ -385,7 +384,6 @@ public:
             QLineEdit *e = ui->centralWidget->findChild<QLineEdit *>(label->objectName().replace("labelValue", "lineEdit"));
             if (e != nullptr) connect(label, &ActualLabel::doubleclicked, [=](QString text) { e->setText( text.right(e->maxLength()) ); emit e->textEdited(text); });
         }
-		//connect(ui->labelValueLaserFrequency, &ActualLabel::doubleclicked, ui->lineEditLaserFrequency, &QLineEdit::textEdited);
         connect(&FEE, &FITelectronics::linksStatusReady, this, [=]() { //disable PMs' selectors and link indicators if no physical link present
             //if (!isTCM() && !FEE.PM.contains(curPM->FEEid)) ui->TCM_selector->toggle();
 			for (quint8 i=0; i<=9; ++i) {
@@ -459,65 +457,49 @@ public:
 //read settings
         QString IPaddress = settings.value("IPaddress", FEE.IPaddress).toString();
         if (validIPaddressRE.exactMatch(IPaddress)) FEE.IPaddress = IPaddress;
-        fileRead(QCoreApplication::applicationName() + ".ini");
+        FEE.fileRead(QCoreApplication::applicationName() + ".ini");
+        updateEdits();
         FEE.reconnect();
-
         resetHighlight();
+        emit enableControls->triggered(false);
     }
 
     ~MainWindow() {
+        settings.clear();
         settings.setValue("IPaddress", FEE.IPaddress);
         settings.setValue("subdetector", FIT[FEE.subdetector].name);
-        fileWrite(QCoreApplication::applicationName() + ".ini");
+        FEE.fileWrite(QCoreApplication::applicationName() + ".ini");
         delete ui;
     }
 
 public slots:
-    bool fileWrite(QString fileName) {
-        QSettings newset(fileName, QSettings::IniFormat);
-        newset.setValue("TCM", QByteArray( (char *)&FEE.TCM.set, sizeof(TypeTCM::Settings) ));
-        foreach (TypePM *pm, FEE.PM) newset.setValue(QString("PM") + pm->name, QByteArray( (char *)&(pm->set), sizeof(TypePM::Settings) ));
-        newset.sync();
-        return true;
-    }
-
-    bool fileRead(QString fileName) {
-        QSettings newset(fileName, QSettings::IniFormat);
-        newset.remove("TCMpars");
-        if (newset.contains("TCM")) {
-            memcpy(&FEE.TCM.set, newset.value("TCM").toByteArray().data(), sizeof(TypeTCM::Settings));
-        }
-        TypePM *pm = FEE.allPMs;
-        for (quint8 i=0; i<20; ++i, ++pm) if (newset.contains(QString("PM") + pm->name)) {
-            memcpy(&pm->set, newset.value(QString("PM") + pm->name).toByteArray().data(), sizeof(TypePM::Settings));
-        }
-        updateEdits();
-        return true;
-    }
-
     void load() {
         QFileDialog dialog(this);
 		dialog.setWindowModality(Qt::WindowModal);
 		dialog.setAcceptMode(QFileDialog::AcceptOpen);
-		if (dialog.exec() != QDialog::Accepted || !fileRead(dialog.selectedFiles().first()))
+        if (dialog.exec() != QDialog::Accepted)
             statusBar()->showMessage("File not loaded");
-        else
-            statusBar()->showMessage("File loaded", 2000);
+        else {
+            FEE.fileRead(dialog.selectedFiles().first());
+            updateEdits();
+            statusBar()->showMessage("File loaded");
+        }
     }
 
     void save() {
         QFileDialog dialog(this);
 		dialog.setWindowModality(Qt::WindowModal);
 		dialog.setAcceptMode(QFileDialog::AcceptSave);
-		if (dialog.exec() != QDialog::Accepted || !fileWrite(dialog.selectedFiles().first()))
+        if (dialog.exec() != QDialog::Accepted)
             statusBar()->showMessage("File not saved");
-        else
-            statusBar()->showMessage("File saved", 2000);
+        else {
+            FEE.fileWrite(dialog.selectedFiles().first());
+            statusBar()->showMessage("File saved");
+        }
     }
 
 	void recheckTarget() {
 		statusBar()->showMessage(FEE.IPaddress + ": status requested...");
-        //if (FEE.fullSyncTimer->isActive()) FEE.fullSyncTimer->stop();
         if (FEE.countersTimer->isActive()) FEE.countersTimer->stop();
 		FEE.reconnect();
 	}
@@ -851,8 +833,8 @@ public slots:
 
     void updateEdits() {
         if (isTCM()) {
-			ui->spinBoxPhase_A->setValue(FEE.TCM.set.delayAside_ns);
-			ui->spinBoxPhase_C->setValue(FEE.TCM.set.delayCside_ns);
+            ui->spinBoxPhase_A->setValue(FEE.TCM.set.DELAY_A * phaseStep_ns);
+            ui->spinBoxPhase_C->setValue(FEE.TCM.set.DELAY_C * phaseStep_ns);
             ui->spinBoxORgate_A->setValue(FEE.allPMs[ 0].set.OR_GATE * TDCunit_ps / 1000);
             ui->spinBoxORgate_C->setValue(FEE.allPMs[10].set.OR_GATE * TDCunit_ps / 1000);
             if (!FEE.PM.isEmpty()) {
@@ -1033,7 +1015,7 @@ public slots:
 		ui->sliderAttenuation->setValue(FEE.TCM.set.attenSteps);
 	}
 	void on_sliderAttenuation_sliderReleased() { FEE.apply_attenSteps(); }
-    void on_SwitcherLaser_clicked (bool checked) { FEE.apply_LASER_ENABLED(!checked); }
+    void on_SwitcherLaser_clicked (bool checked) { FEE.TCM.set.LASER_ENABLED = !checked; FEE.apply_LASER_ENABLED(!checked); }
     void on_radioButtonGenerator_clicked	  () { FEE.TCM.set.LASER_SOURCE = true ; FEE.apply_LASER_SOURCE(true ); }
     void on_radioButtonExternalTrigger_clicked() { FEE.TCM.set.LASER_SOURCE = false; FEE.apply_LASER_SOURCE(false); }
     void on_buttonApplyLaserFrequency_clicked() { FEE.TCM.set.LASER_DIVIDER = ui->spinBoxLaserFreqDivider->value(); FEE.apply_LASER_DIVIDER(); }
@@ -1070,23 +1052,17 @@ public slots:
 
     void on_spinBoxORgate_A_valueChanged(double val) { for (quint8 iPM= 0; iPM<10; ++iPM) FEE.allPMs[iPM].set.OR_GATE = lround(val * 1000 / TDCunit_ps); }
     void on_spinBoxORgate_C_valueChanged(double val) { for (quint8 iPM=10; iPM<20; ++iPM) FEE.allPMs[iPM].set.OR_GATE = lround(val * 1000 / TDCunit_ps); }
-    void on_buttonApplyORgate_A_clicked() { FEE.apply_OR_GATE_sideA(ui->spinBoxORgate_A->value() * 1000 / TDCunit_ps); }
-    void on_buttonApplyORgate_C_clicked() { FEE.apply_OR_GATE_sideC(ui->spinBoxORgate_C->value() * 1000 / TDCunit_ps); }
+    void on_buttonApplyORgate_A_clicked() { on_spinBoxORgate_A_valueChanged(ui->spinBoxORgate_A->value()); FEE.apply_OR_GATE_sideA(FEE.allPMs[ 0].set.OR_GATE); }
+    void on_buttonApplyORgate_C_clicked() { on_spinBoxORgate_C_valueChanged(ui->spinBoxORgate_C->value()); FEE.apply_OR_GATE_sideC(FEE.allPMs[10].set.OR_GATE); }
 
-    void on_spinBoxPhase_A_valueChanged(double val) {
-		FEE.TCM.set.DELAY_A = lround(val / phaseStep_ns);
-		FEE.TCM.set.delayAside_ns = FEE.TCM.set.DELAY_A * phaseStep_ns;
-    }
-    void on_spinBoxPhase_C_valueChanged(double val) {
-		FEE.TCM.set.DELAY_C = lround(val / phaseStep_ns);
-		FEE.TCM.set.delayCside_ns = FEE.TCM.set.DELAY_C * phaseStep_ns;
-    }
+    void on_spinBoxPhase_A_valueChanged(double val) { FEE.TCM.set.DELAY_A = lround(val / phaseStep_ns); }
+    void on_spinBoxPhase_C_valueChanged(double val) { FEE.TCM.set.DELAY_C = lround(val / phaseStep_ns); }
     void on_spinBoxLaserPhase_valueChanged(double val) {
 		FEE.TCM.set.LASER_DELAY = lround(val / phaseStepLaser_ns);
 		FEE.TCM.set.delayLaser_ns = FEE.TCM.set.LASER_DELAY * phaseStepLaser_ns;
     }
-    void on_buttonApplyPhase_A_clicked() { FEE.apply_DELAY_A(); }
-    void on_buttonApplyPhase_C_clicked() { FEE.apply_DELAY_C(); }
+    void on_buttonApplyPhase_A_clicked() { on_spinBoxPhase_A_valueChanged(ui->spinBoxPhase_A->value()); FEE.apply_DELAY_A(); }
+    void on_buttonApplyPhase_C_clicked() { on_spinBoxPhase_C_valueChanged(ui->spinBoxPhase_C->value()); FEE.apply_DELAY_C(); }
 	void on_buttonApplyLaserPhase_clicked() {
 		FEE.apply_LASER_DELAY();
 		ui->sliderLaser->setValue(FEE.TCM.set.LASER_DELAY);
@@ -1113,7 +1089,7 @@ public slots:
     void on_radioButtonSum_clicked  (bool checked) { if (checked) FEE.apply_C_SC_TRG_MODE(3); }
 
     void on_buttonResetCountersTCM_clicked() { FEE.apply_RESET_COUNTERS(FEE.TCMid); }
-    void on_butonResetChCounters_clicked() { FEE.apply_RESET_COUNTERS(curFEEid); }
+    void on_buttonResetChCounters_clicked() { FEE.apply_RESET_COUNTERS(curFEEid); }
 
     void on_comboBoxTriggersMode_1_activated(int index) { FEE.apply_T1_MODE(index); }
     void on_comboBoxTriggersMode_2_activated(int index) { FEE.apply_T2_MODE(index); }
@@ -1159,8 +1135,6 @@ public slots:
 
     void on_buttonCopyActual_clicked() { FEE.copyActualToSettingsPM(curPM); updateEdits(); }
     void on_buttonApplyAll_clicked() { FEE.applySettingsPM(curPM); }
-
-    void on_buttonWriteOrbitFillMask_clicked() { FEE.apply_ORBIT_FILL_MASK(); }
 
 private:
     Ui::MainWindow *ui;

@@ -5,94 +5,80 @@
 
 struct TypePM {
     struct ActualValues{
-        static const quint8// size = end_address + 1 - start_address
-            block0addr = 0x00, block0size = 0x7D + 1 - block0addr, //126
-            block1addr = 0x7F, block1size = 0xBE + 1 - block1addr, // 64
-            block2addr = 0xFC, block2size = 0xFE + 1 - block2addr; //  3
+        quint32 OR_GATE               ; //]00
+        struct TimeAlignment {          //┐
+            qint32                      //│
+                value              :12, //│
+                blockTriggers      : 1, //│01-0C
+                                   :19; //│
+        }      timeAlignment[12]      ; //┘
+        quint32 ADC_BASELINE[12][2]   , //]0D-24 //[Ch][0] for ADC0, [Ch][1] for ADC1
+                ADC_RANGE   [12][2]   , //]25-3C
+                CFD_SATR              ; //]3D
+        qint32  TDC1tuning         : 8, //┐
+                TDC2tuning         : 8, //│3E
+                                   :16, //┘
+                TDC3tuning         : 8, //┐
+                                   :24; //┘3F
+        quint8  RAW_TDC_DATA[12][4]   ; //]40-4B //[Ch][0] for val1, [Ch][1] for val2
+        quint32 DISPERSION  [12][2]   ; //]4C-63
+        qint16  MEANAMPL    [12][2][2]; //]64-7B //[Ch][0][0] for ADC0, [Ch][1][0] for ADC1
+        quint32 CH_MASK_DATA          , //]7C
+                CH_BASELINES_NOK      , //]7D
+                _reservedSpace0       , //]7E
+                mainPLLlocked      : 1, //┐
+                TDC1PLLlocked      : 1, //│
+                TDC2PLLlocked      : 1, //│
+                TDC3PLLlocked      : 1, //│
+                GBTlinkPresent     : 1, //│
+                GBTreceiverError   : 1, //│
+                TDC1syncError      : 1, //│
+                TDC2syncError      : 1, //│
+                TDC3syncError      : 1, //│7F
+                RESET_COUNTERS     : 1, //│
+                TRGcountMode       : 1, //│
+                restartDetected    : 1, //│
+                GBTRxPhaseError    : 1, //│
+                BCIDsyncLost       : 1, //│
+                droppingHits       : 1, //│
+                                   :17; //┘
+        struct ChannelSettings {        //┐
+            quint32 CFD_THRESHOLD  :16, //│
+                                   :16; //│
+            qint32  CFD_ZERO       :16, //│
+                                   :16, //│
+                    ADC_ZERO       :16, //│80-AF
+                                   :16; //│
+            quint32 ADC_DELAY      :16, //│
+                                   :16; //│
+        } Ch[12];                       //┘
+        quint32 THRESHOLD_CALIBR[12]  , //]B0-BB
+                boardTemperature   :16, //┐
+                                   :16; //┘BC
+        quint32 boardType          : 2, //┐
+                                   : 6, //│
+                SERIAL_NUM         : 8, //│BD
+                                   :16, //┘
+                restartReasonCode  : 2, //┐
+                                   :30, //┘BE
+                _reservedSpace1[0xD8 - 0xBE - 1];
+        GBTunit GBT;                    //]D8-F1
+        quint32 _reservedSpace2[0xF7 - 0xF1 - 1];
+        Timestamp FW_TIME_MCU;			//]F7
+        quint32 _reservedSpace3[0xFC - 0xF7 - 1];
+        quint32 FPGAtemperature,        //]FC
+                voltage1,               //]FD
+                voltage1_8;             //]FE
+        Timestamp FW_TIME_FPGA;         //]FF
 
-        union { //block0
-            quint32 registers0[block0size] = {0};
-            char pointer0[block0size * sizeof(quint32)];
-            struct {
-                quint32 OR_GATE               ; //]00
-                struct TimeAlignment {          //┐
-                    qint32                      //│
-                        value              :12, //│
-                        blockTriggers      : 1, //│01-0C
-                                           :19; //│
-                }      timeAlignment[12]      ; //┘
-                quint32 ADC_BASELINE[12][2]   , //]0D-24 //[Ch][0] for ADC0, [Ch][1] for ADC1
-                        ADC_RANGE   [12][2]   , //]25-3C
-                        CFD_SATR              ; //]3D
-                qint32  TDC1tuning         : 8, //┐
-                        TDC2tuning         : 8, //│3E
-                                           :16, //┘
-                        TDC3tuning         : 8, //┐
-                                           :24; //┘3F
-                quint8  RAW_TDC_DATA[12][4]   ; //]40-4B //[Ch][0] for val1, [Ch][1] for val2
-                quint32 DISPERSION  [12][2]   ; //]4C-63
-                qint16  MEANAMPL    [12][2][2]; //]64-7B //[Ch][0][0] for ADC0, [Ch][1][0] for ADC1
-                quint32 CH_MASK_DATA          , //]7C
-                        CH_BASELINES_NOK      ; //]7D
-            };
-        };
-        quint32 _reservedSpace0;                //]7E
-        union { //block1
-            quint32 registers1[block1size] = {0};
-            char pointer1[block1size * sizeof(quint32)];
-            struct {
-                quint32 mainPLLlocked      : 1, //┐
-                        TDC1PLLlocked      : 1, //│
-                        TDC2PLLlocked      : 1, //│
-                        TDC3PLLlocked      : 1, //│
-                        GBTlinkPresent     : 1, //│
-                        GBTreceiverError   : 1, //│
-                        TDC1syncError      : 1, //│
-                        TDC2syncError      : 1, //│
-                        TDC3syncError      : 1, //│7F
-                        RESET_COUNTERS     : 1, //│
-                        TRGcountMode       : 1, //│
-                        restartDetected    : 1, //│
-                        GBTRxPhaseError    : 1, //│
-                        BCIDsyncLost       : 1, //│
-                        droppingHits       : 1, //│
-                                           :17; //┘
-                struct ChannelSettings {        //┐
-                    quint32 CFD_THRESHOLD  :16, //│
-                                           :16; //│
-                    qint32  CFD_ZERO       :16, //│
-                                           :16, //│
-                            ADC_ZERO       :16, //│80-AF
-                                           :16; //│
-                    quint32 ADC_DELAY      :16, //│
-                                           :16; //│
-                } Ch[12];                       //┘
-                quint32 THRESHOLD_CALIBR[12]  , //]B0-BB
-                        boardTemperature   :16, //┐
-										   :16; //┘BC
-                quint32 boardType          : 2, //┐
-                                           : 6, //│
-                        SERIAL_NUM         : 8, //│BD
-                                           :16, //┘
-                        restartReasonCode  : 2, //┐
-                                           :30; //┘BE
-            };
-        };
-        quint32 _reservedSpace1[0xD8 - 0xBE - 1];
-        GBTunit GBT;                            //]D8-F1
-        Timestamp FW_TIME_MCU;					//]F7
-        union { //block2
-            quint32 registers2[block2size] = {0};
-            char pointer2[block2size * sizeof(quint32)];
-            struct {
-                quint32 FPGAtemperature,        //]FC
-                        voltage1,               //]FD
-                        voltage1_8;             //]FE
-            };
-        };
-        Timestamp FW_TIME_FPGA;                 //]FF
-//calculable parameters
-        double
+        quint32 *registers = (quint32 *)this;
+        static const inline QVector<regblock> regblocks {{0x00, 0x7D}, //block0     , 126 registers
+                                                         {0x7F, 0xBE}, //block1     ,  64 registers
+                                                         {0xD8, 0xE4}, //GBTcontrol ,  13 registers
+                                                         {0xE8, 0xF1}, //GBTstatus  ,  10 registers
+                                                         {0xF7, 0xF7}, //FW_TIME_MCU
+                                                         {0xFC, 0xFF}};//block2     ,   4 registers
+        double //calculable values
             TEMP_BOARD,
             TEMP_FPGA,
             VOLTAGE_1V,
@@ -121,51 +107,39 @@ struct TypePM {
     } act;
 
     struct Settings {
-        static const quint8// size = end_address + 1 - start_address
-            block0addr = 0x00, block0size = 0x0C + 1 - block0addr, //13
-            block1addr = 0x25, block1size = 0x3D + 1 - block1addr, //25
-            block2addr = 0x80, block2size = 0xBB + 1 - block2addr; //60
+        quint32 OR_GATE               ; //]00
+        struct TimeAlignment {          //┐
+            qint32                      //│
+                value              :12, //│
+                blockTriggers      : 1, //│01-0C
+                                   :19; //│
+        } TIME_ALIGN           [12]   ;	//┘
+        quint32 _reservedSpace0[0x25 - 0x0C - 1],
+                ADC_RANGE      [12][2], //]25-3C
+                CFD_SATR              , //]3D
+                _reservedSpace1[0x7C - 0x3D - 1],
+                CH_MASK_DATA          , //]7C
+                _reservedSpace2[0x80 - 0x7C - 1];
+        struct ChannelSettings {        //┐
+            quint32 CFD_THRESHOLD  :16, //│
+                                   :16; //│
+            qint32  CFD_ZERO       :16, //│
+                                   :16, //│80-AF
+                    ADC_ZERO       :16, //│
+                                   :16; //│
+            quint32 ADC_DELAY      :16, //│
+                                   :16; //│
+        } Ch[12];                       //┘
+        quint32  THRESHOLD_CALIBR[12] , //]B0-BB
+                _reservedSpace3[0xD8 - 0xBB - 1];
+        GBTunit::ControlData GBT;       //]D8-E7
 
-        union { //block0
-            quint32 registers0[block0size] = {0};
-            char pointer0[block0size * sizeof(quint32)];
-            struct {
-                quint32 OR_GATE               ; //]00
-                struct TimeAlignment {          //┐
-                    qint32                      //│
-                        value              :12, //│
-                        blockTriggers      : 1, //│01-0C
-                                           :19; //│
-				} TIME_ALIGN  [12];				//┘
-            };
-        };
-        union { //block1
-            quint32 registers1[block1size] = {0};
-            char pointer1[block1size * sizeof(quint32)];
-            struct {
-                quint32 ADC_RANGE   [12][2]    , //]25-3C
-                        CFD_SATR               ; //]3D
-            };
-        };
-        quint32 CH_MASK_DATA;                    //]7C
-        union { //block2
-            quint32 registers2[block2size] = {0};
-            char pointer2[block2size * sizeof(quint32)];
-            struct {
-                struct ChannelSettings {        //┐
-                    quint32 CFD_THRESHOLD  :16, //│
-                                           :16; //│
-                    qint32  CFD_ZERO       :16, //│
-                                           :16, //│80-AF
-                            ADC_ZERO       :16, //│
-                                           :16; //│
-                    quint32 ADC_DELAY      :16, //│
-                                           :16; //│
-                } Ch[12];                       //┘
-				quint32  THRESHOLD_CALIBR[12];  //]B0-BB
-            };
-        };
-        GBTunit::ControlData GBT;               //]D8-E7
+        quint32 *registers = (quint32 *)this;
+        static const inline QVector<regblock> regblocks {{0x00, 0x0C}, //block0     , 13 registers
+                                                         {0x25, 0x3D}, //block1     , 25 registers
+                                                         {0x7C, 0x7C}, //CH_MASK_DATA
+                                                         {0x80, 0xBB}, //block2     , 60 registers
+                                                         {0xD8, 0xE4}};//GBT control, 13 registers
     } set;
 
     struct Counters {

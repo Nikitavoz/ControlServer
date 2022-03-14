@@ -12,167 +12,147 @@ extern double phaseStepLaser_ns, phaseStep_ns;
 
 struct TypeTCM {
     struct ActualValues {
-        static const quint8// size = end_address + 1 - start_address
-            block0addr = 0x00, block0size = 0x20 + 1 - block0addr, //33
-            block1addr = 0x30, block1size = 0x3A + 1 - block1addr, //11
-            block2addr = 0x60, block2size = 0x6A + 1 - block2addr, //11
-            block3addr = 0xFC, block3size = 0xFE + 1 - block3addr; // 3
-
-        union { //block0
-            quint32 registers0[block0size] = {0};
-            char pointer0[block0size * sizeof(quint32)];
-            struct {
-                qint32  DELAY_A         :16, //┐
-                                        :16, //┘00
-                        DELAY_C         :16, //┐
-                                        :16, //┘01
-                        LASER_DELAY     :16, //┐
-                                        :16; //┘02
-				quint32 attenSteps      :14, //┐
-						attenBusy       : 1, //│
-						attenNotFound   : 1, //│03
-                                        :16, //┘
-                        EXT_SW          : 4, //┐
-                                        :28; //┘04
-                qint32  boardTemperature:16, //┐
-                                        :16, //┘05
-                                        :32; //]06
-                quint32 boardType       : 2, //┐
-                                        : 6, //│
-                        SERIAL_NUM      : 8, //│07
-                                        :16; //┘
-				qint32  VTIME_LOW       :10, //┐
-										:22, //┘08
-						VTIME_HIGH      :10, //┐
-										:22; //┘09
-                quint32 T2_LEVEL_A      :16, //┐
-                                        :16, //┘0A
-                        T2_LEVEL_C      :16, //┐
-                                        :16, //┘0B
-                        T1_LEVEL_A      :16, //┐
-                                        :16, //┘0C
-                        T1_LEVEL_C      :16, //┐
-                                        :16, //┘0D
-                        ADD_C_DELAY     : 1, //┐
-                        C_SC_TRG_MODE   : 2, //│
-                        EXTENDED_READOUT: 1, //│
-                        corrCNTselect   : 4, //│0E
-                        SC_EVAL_MODE    : 1, //│
-                        FV0_MODE        : 1, //│
-                                        :22, //┘
-                        PLLlockC        : 1, //┐
-                        PLLlockA        : 1, //│
-                        systemRestarted : 1, //│
-                        externalClock   : 1, //│
-                        GBTRxReady      : 1, //│
-                        GBTRxError      : 1, //│
-                        GBTRxPhaseError : 1, //│0F
-                        BCIDsyncLost    : 1, //│
-                        droppingHits    : 1, //│
-                        resetCounters   : 1, //│
-                        forceLocalClock : 1, //│
-                        resetSystem     : 1, //│
-                        PMstatusChanged :20; //┘
-                TRGsyncStatus TRG_SYNC_A[10];//]10-19
-                quint32 CH_MASK_A       :10, //┐
-                                        : 7, //│
-                        syncErrorInLinkA:10, //│
-                        masterLinkErrorA: 1, //│
-                        sideAenabled    : 1, //│1A
-                        delayRangeErrorA: 1, //│
-                        readinessChangeA: 1, //│
-                        sideAready      : 1, //┘
-                        LASER_DIVIDER   :24, //┐
-                                        : 6, //│
-                        LASER_ENABLED   : 1, //│1B
-                        LASER_SOURCE    : 1, //┘
-						laserPatternMSB	   , //]1C
-						laserPatternLSB	   , //]1D
-						PM_MASK_SPI        , //]1E
-                        lsrTrgSupprDelay: 6, //┐
-                        lsrTrgSupprDur  : 2, //│1F
-                                        :24; //┘
-                qint16  averageTimeA       , //┐
-                        averageTimeC       ; //┘20
-            };
-        };
+        qint32  DELAY_A         :16,  //┐
+                                :16,  //┘00
+                DELAY_C         :16,  //┐
+                                :16,  //┘01
+                LASER_DELAY     :16,  //┐
+                                :16;  //┘02
+        quint32 attenSteps      :14,  //┐
+                attenBusy       : 1,  //│
+                attenNotFound   : 1,  //│03
+                                :16,  //┘
+                EXT_SW          : 4,  //┐
+                                :28;  //┘04
+        qint32  boardTemperature:16,  //┐
+                                :16,  //┘05
+                                :32;  //]06
+        quint32 boardType       : 2,  //┐
+                                : 6,  //│
+                SERIAL_NUM      : 8,  //│07
+                                :16;  //┘
+        qint32  VTIME_LOW       :10,  //┐
+                                :22,  //┘08
+                VTIME_HIGH      :10,  //┐
+                                :22;  //┘09
+        quint32 T2_LEVEL_A      :16,  //┐
+                                :16,  //┘0A
+                T2_LEVEL_C      :16,  //┐
+                                :16,  //┘0B
+                T1_LEVEL_A      :16,  //┐
+                                :16,  //┘0C
+                T1_LEVEL_C      :16,  //┐
+                                :16,  //┘0D
+                ADD_C_DELAY     : 1,  //┐
+                C_SC_TRG_MODE   : 2,  //│
+                EXTENDED_READOUT: 1,  //│
+                corrCNTselect   : 4,  //│0E
+                SC_EVAL_MODE    : 1,  //│
+                FV0_MODE        : 1,  //│
+                                :22,  //┘
+                PLLlockC        : 1,  //┐
+                PLLlockA        : 1,  //│
+                systemRestarted : 1,  //│
+                externalClock   : 1,  //│
+                GBTRxReady      : 1,  //│
+                GBTRxError      : 1,  //│
+                GBTRxPhaseError : 1,  //│0F
+                BCIDsyncLost    : 1,  //│
+                droppingHits    : 1,  //│
+                resetCounters   : 1,  //│
+                forceLocalClock : 1,  //│
+                resetSystem     : 1,  //│
+                PMstatusChanged :20;  //┘
+        TRGsyncStatus TRG_SYNC_A[10]; //]10-19
+        quint32 CH_MASK_A       :10,  //┐
+                                : 7,  //│
+                syncErrorInLinkA:10,  //│
+                masterLinkErrorA: 1,  //│
+                sideAenabled    : 1,  //│1A
+                delayRangeErrorA: 1,  //│
+                readinessChangeA: 1,  //│
+                sideAready      : 1,  //┘
+                LASER_DIVIDER   :24,  //┐
+                                : 6,  //│
+                LASER_ENABLED   : 1,  //│1B
+                LASER_SOURCE    : 1,  //┘
+                laserPatternMSB	   ,  //]1C
+                laserPatternLSB	   ,  //]1D
+                PM_MASK_SPI        ,  //]1E
+                lsrTrgSupprDelay: 6,  //┐
+                lsrTrgSupprDur  : 2,  //│1F
+                                :24;  //┘
+        qint16  averageTimeA       ,  //┐
+                averageTimeC       ;  //┘20
         quint32 _reservedSpace0[0x30 - 0x20 - 1];
-        union { //block1
-            quint32 registers1[block1size] = {0};
-            char pointer1[block1size * sizeof(quint32)];
-            struct {
-                TRGsyncStatus TRG_SYNC_C[10]; //]30-39
-                quint32 CH_MASK_C       :10, //┐
-                                        : 7, //│
-                        syncErrorInLinkC:10, //│
-                        masterLinkErrorC: 1, //│
-                        sideCenabled    : 1, //│3A
-                        delayRangeErrorC: 1, //│
-                        readinessChangeC: 1, //│
-                        sideCready      : 1; //┘
-            };
-        };
-        quint32 _reservedSpace1[0x50 - 0x3A - 1];
-		quint32 COUNTERS_UPD_RATE;			 //]50
-        quint32 _reservedSpace2[0x60 - 0x50 - 1];
-        union { //block2
-            quint32 registers2[block2size] = {0};
-            char pointer2[block2size * sizeof(quint32)];
-            struct {
-                quint32                 : 7, //┐
-                        T5_SIGN         : 7, //│60
-                                        :18, //┘
-                        T5_RATE         :31, //┐
-                                        : 1, //┘61
-                                        : 7, //┐
-                        T4_SIGN         : 7, //│62
-                                        :18, //┘
-                        T4_RATE         :31, //┐
-                                        : 1, //┘63
-                                        : 7, //┐
-                        T2_SIGN         : 7, //│64
-                                        :18, //┘
-                        T2_RATE         :31, //┐
-                                        : 1, //┘65
-                                        : 7, //┐
-                        T1_SIGN         : 7, //│66
-                                        :18, //┘
-                        T1_RATE         :31, //┐
-                                        : 1, //┘67
-                                        : 7, //┐
-                        T3_SIGN         : 7, //│68
-                                        :18, //┘
-                        T3_RATE         :31, //┐
-                                        : 1, //┘69
-                        T5_MODE         : 2, //┐
-                        T5_ENABLED      : 1, //│
-                        T4_MODE         : 2, //│
-                        T4_ENABLED      : 1, //│
-                        T2_MODE         : 2, //│
-                        T2_ENABLED      : 1, //│6A
-                        T1_MODE         : 2, //│
-                        T1_ENABLED      : 1, //│
-                        T3_MODE         : 2, //│
-                        T3_ENABLED      : 1, //│
-                                        :17; //┘
-            };
-        };
-        quint32 _reservedSpace3[0xD8 - 0x6A - 1];
-        GBTunit GBT;						 //]D8-F1
-		Timestamp FW_TIME_MCU;				 //]F7
-        union { //block3
-            quint32 registers3[block3size] = {0};
-            char pointer3[block3size * sizeof(quint32)];
-            struct {
-                quint32 FPGAtemperature,     //]FC
-                        voltage1,            //]FD
-                        voltage1_8;          //]FE
-            };
-        };
-        Timestamp FW_TIME_FPGA;              //]FF
+        TRGsyncStatus TRG_SYNC_C[10]; //]30-39
+        quint32 CH_MASK_C       :10,  //┐
+                                : 7,  //│
+                syncErrorInLinkC:10,  //│
+                masterLinkErrorC: 1,  //│
+                sideCenabled    : 1,  //│3A
+                delayRangeErrorC: 1,  //│
+                readinessChangeC: 1,  //│
+                sideCready      : 1,  //┘
+                _reservedSpace1[0x50 - 0x3A - 1],
+                COUNTERS_UPD_RATE  ,  //]50
+                _reservedSpace2[0x60 - 0x50 - 1],
+                                : 7,  //┐
+                T5_SIGN         : 7,  //│60
+                                :18,  //┘
+                T5_RATE         :31,  //┐
+                                : 1,  //┘61
+                                : 7,  //┐
+                T4_SIGN         : 7,  //│62
+                                :18,  //┘
+                T4_RATE         :31,  //┐
+                                : 1,  //┘63
+                                : 7,  //┐
+                T2_SIGN         : 7,  //│64
+                                :18,  //┘
+                T2_RATE         :31,  //┐
+                                : 1,  //┘65
+                                : 7,  //┐
+                T1_SIGN         : 7,  //│66
+                                :18,  //┘
+                T1_RATE         :31,  //┐
+                                : 1,  //┘67
+                                : 7,  //┐
+                T3_SIGN         : 7,  //│68
+                                :18,  //┘
+                T3_RATE         :31,  //┐
+                                : 1,  //┘69
+                T5_MODE         : 2,  //┐
+                T5_ENABLED      : 1,  //│
+                T4_MODE         : 2,  //│
+                T4_ENABLED      : 1,  //│
+                T2_MODE         : 2,  //│
+                T2_ENABLED      : 1,  //│6A
+                T1_MODE         : 2,  //│
+                T1_ENABLED      : 1,  //│
+                T3_MODE         : 2,  //│
+                T3_ENABLED      : 1,  //│
+                                :17,  //┘
+                _reservedSpace3[0xD8 - 0x6A - 1];
+        GBTunit GBT;				  //]D8-F1
+        quint32 _reservedSpace4[0xF7 - 0xF1 - 1];
+        Timestamp FW_TIME_MCU;		  //]F7
+        quint32 _reservedSpace5[0xFC - 0xF7 - 1],
+                FPGAtemperature,      //]FC
+                voltage1,             //]FD
+                voltage1_8;           //]FE
+        Timestamp FW_TIME_FPGA;       //]FF
 
-//calculable parameters
-        double
+        quint32 *registers = (quint32 *)this;
+        static const inline QVector<regblock> regblocks {{0x00, 0x20}, //block0     , 33 registers
+                                                         {0x30, 0x3A}, //block1     , 11 registers
+                                                         {0x50, 0x50}, //COUNTERS_UPD_RATE
+                                                         {0x60, 0x6A}, //block2     , 11 registers
+                                                         {0xD8, 0xE4}, //GBTcontrol , 13 registers
+                                                         {0xE8, 0xF1}, //GBTstatus  , 10 registers
+                                                         {0xF7, 0xF7}, //FW_TIME_MCU
+                                                         {0xFC, 0xFF}};//block3     ,  4 registers
+        double //calculable values
             TEMP_BOARD,
             TEMP_FPGA,
             VOLTAGE_1V,
@@ -215,122 +195,112 @@ struct TypeTCM {
     } act;
 
     struct Settings {
-        static const quint8// size = end_address + 1 - start_address
-            block0addr = 0x00, block0size = 0x04 + 1 - block0addr, // 5
-            block1addr = 0x08, block1size = 0x0E + 1 - block1addr, // 7
-            block2addr = 0x1A, block2size = 0x1F + 1 - block2addr, // 6
-            block3addr = 0x60, block3size = 0x6A + 1 - block3addr; //11
+        qint32  DELAY_A         :16,  //┐
+                                :16,  //┘00
+                DELAY_C         :16,  //┐
+                                :16,  //┘01
+                LASER_DELAY     :16,  //┐
+                                :16;  //┘02
+        quint32 attenSteps      :14,  //┐
+                                :18,  //┘03
+                EXT_SW          : 4,  //┐
+                                :28,  //┘04
+                _reservedSpace0[0x08 - 0x04 - 1];
+        qint32  VTIME_LOW       :10,  //┐
+                                :22,  //┘08
+                VTIME_HIGH      :10,  //┐
+                                :22;  //┘09
+        quint32 T2_LEVEL_A      :16,  //┐
+                                :16,  //┘0A
+                T2_LEVEL_C      :16,  //┐
+                                :16,  //┘0B
+                T1_LEVEL_A      :16,  //┐
+                                :16,  //┘0C
+                T1_LEVEL_C      :16,  //┐
+                                :16,  //┘0D
+                ADD_C_DELAY     : 1,  //┐
+                C_SC_TRG_MODE   : 2,  //│
+                EXTENDED_READOUT: 1,  //│
+                corrCNTselect   : 4,  //│0E
+                SC_EVAL_MODE    : 1,  //│
+                FV0_MODE        : 1,  //│
+                                :22,  //┘
+                _reservedSpace1[0x1A - 0x0E - 1],
+                CH_MASK_A       :10,  //┐
+                                :22,  //┘1A
+                LASER_DIVIDER   :24,  //┐
+                                : 6,  //│
+                LASER_ENABLED   : 1,  //│1B
+                LASER_SOURCE    : 1,  //┘
+                laserPatternMSB	   ,  //]1C
+                laserPatternLSB	   ,  //]1D
+                PM_MASK_SPI        ,  //]1E
+                lsrTrgSupprDelay: 6,  //┐
+                lsrTrgSupprDur  : 2,  //│1F
+                                :24,  //┘
+                _reservedSpace2[0x3A - 0x1F - 1],
+                CH_MASK_C       :10,  //┐
+                                :22,  //┘3A
+                _reservedSpace3[0x50 - 0x3A - 1],
+                COUNTERS_UPD_RATE,    //]50
+                _reservedSpace4[0x60 - 0x50 - 1],
+                                : 7,  //┐
+                T5_SIGN         : 7,  //│60
+                                :18,  //┘
+                T5_RATE         :31,  //┐
+                                : 1,  //┘61
+                                : 7,  //┐
+                T4_SIGN         : 7,  //│62
+                                :18,  //┘
+                T4_RATE         :31,  //┐
+                                : 1,  //┘63
+                                : 7,  //┐
+                T2_SIGN         : 7,  //│64
+                                :18,  //┘
+                T2_RATE         :31,  //┐
+                                : 1,  //┘65
+                                : 7,  //┐
+                T1_SIGN         : 7,  //│66
+                                :18,  //┘
+                T1_RATE         :31,  //┐
+                                : 1,  //┘67
+                                : 7,  //┐
+                T3_SIGN         : 7,  //│68
+                                :18,  //┘
+                T3_RATE         :31,  //┐
+                                : 1,  //┘69
+                T5_MODE         : 2,  //┐
+                T5_ENABLED      : 1,  //│
+                T4_MODE         : 2,  //│
+                T4_ENABLED      : 1,  //│
+                T2_MODE         : 2,  //│
+                T2_ENABLED      : 1,  //│6A
+                T1_MODE         : 2,  //│
+                T1_ENABLED      : 1,  //│
+                T3_MODE         : 2,  //│
+                T3_ENABLED      : 1,  //│
+                                :17,  //┘
+                _reservedSpace5[0xD8 - 0x6A - 1];
+        GBTunit::ControlData GBT;     //]D8-E7
 
-        union { //block0
-            quint32 registers0[block0size] = {0};
-            char pointer0[block0size * sizeof(quint32)];
-            struct {
-                qint32  DELAY_A         :16, //┐
-                                        :16, //┘00
-                        DELAY_C         :16, //┐
-                                        :16, //┘01
-                        LASER_DELAY     :16, //┐
-                                        :16; //┘02
-				quint32 attenSteps      :14, //┐
-										:18, //┘03
-                        EXT_SW          : 4, //┐
-                                        :28; //┘04
-            };
-        };
+        quint32 *registers = (quint32 *)this;
+        static const inline QVector<regblock> regblocksToRead {{0x00, 0x04}, //block0     ,  5 registers
+                                                               {0x08, 0x0E}, //block1     ,  7 registers
+                                                               {0x1A, 0x1D}, //block2     ,  4 registers
+                                                               {0x1F, 0x1F}, //laser induced trigger suppression
+                                                               {0x3A, 0x3A}, //CH_MASK_C
+                                                               {0x50, 0x50}, //COUNTERS_UPD_RATE
+                                                               {0x60, 0x6A}, //block3     , 11 registers
+                                                               {0xD8, 0xE4}},//GBT control, 13 registers
 
-        union { //block1
-            quint32 registers1[block1size] = {0};
-            char pointer1[block1size * sizeof(quint32)];
-            struct {
-				qint32  VTIME_LOW       :10, //┐
-										:22, //┘08
-						VTIME_HIGH      :10, //┐
-										:22; //┘09
-                quint32 T2_LEVEL_A      :16, //┐
-                                        :16, //┘0A
-                        T2_LEVEL_C      :16, //┐
-                                        :16, //┘0B
-                        T1_LEVEL_A      :16, //┐
-                                        :16, //┘0C
-                        T1_LEVEL_C      :16, //┐
-                                        :16, //┘0D
-                        ADD_C_DELAY     : 1, //┐
-                        C_SC_TRG_MODE   : 2, //│
-                        EXTENDED_READOUT: 1, //│
-                        corrCNTselect   : 4, //│0E
-                        SC_EVAL_MODE    : 1, //│
-                        FV0_MODE        : 1, //│
-                                        :22; //┘
-            };
-        };
-
-        union { //block2
-            quint32 registers2[block2size] = {0};
-            char pointer2[block2size * sizeof(quint32)];
-            struct {
-                quint32 CH_MASK_A       :10, //┐
-                                        :22, //┘1A
-                        LASER_DIVIDER   :24, //┐
-                                        : 6, //│
-                        LASER_ENABLED   : 1, //│1B
-						LASER_SOURCE    : 1, //┘
-						laserPatternMSB	   , //]1C
-						laserPatternLSB	   , //]1D
-						PM_MASK_SPI        , //]1E
-                        lsrTrgSupprDelay: 6, //┐
-                        lsrTrgSupprDur  : 2, //│1F
-                                        :24; //┘
-            };
-        };
-        quint32 CH_MASK_C,                   //]3A
-				COUNTERS_UPD_RATE;			 //]50
-        union { //block3
-            quint32 registers3[block3size] = {0};
-            char pointer3[block3size * sizeof(quint32)];
-            struct {
-                quint32                 : 7, //┐
-                        T5_SIGN         : 7, //│60
-                                        :18, //┘
-                        T5_RATE         :31, //┐
-                                        : 1, //┘61
-                                        : 7, //┐
-                        T4_SIGN         : 7, //│62
-                                        :18, //┘
-                        T4_RATE         :31, //┐
-                                        : 1, //┘63
-                                        : 7, //┐
-                        T2_SIGN         : 7, //│64
-                                        :18, //┘
-                        T2_RATE         :31, //┐
-                                        : 1, //┘65
-                                        : 7, //┐
-                        T1_SIGN         : 7, //│66
-                                        :18, //┘
-                        T1_RATE         :31, //┐
-                                        : 1, //┘67
-                                        : 7, //┐
-                        T3_SIGN         : 7, //│68
-                                        :18, //┘
-                        T3_RATE         :31, //┐
-                                        : 1, //┘69
-                        T5_MODE         : 2, //┐
-                        T5_ENABLED      : 1, //│
-                        T4_MODE         : 2, //│
-                        T4_ENABLED      : 1, //│
-                        T2_MODE         : 2, //│
-                        T2_ENABLED      : 1, //│6A
-                        T1_MODE         : 2, //│
-                        T1_ENABLED      : 1, //│
-                        T3_MODE         : 2, //│
-                        T3_ENABLED      : 1, //│
-                                        :17; //┘
-            };
-        };
-        GBTunit::ControlData GBT;            //]D8-E7
-        double //calculated values
+                                             regblocksToApply {{0x00, 0x04}, //block0     ,  5 registers
+                                                               {0x08, 0x0E}, //block1     ,  7 registers
+                                                               {0x1B, 0x1D}, //block2     ,  3 registers
+                                                               {0x1F, 0x1F}, //laser induced trigger suppression
+                                                               {0x60, 0x6A}, //block3     , 11 registers
+                                                               {0xD8, 0xE4}};//GBT control, 13 registers
+        double //calculable values
             delayLaser_ns,
-            delayAside_ns,
-            delayCside_ns,
             laserFrequency_Hz,
             attenuation;
     } set;
