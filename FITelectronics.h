@@ -287,7 +287,7 @@ public:
 
         prefix = QString(FIT[subdetector].name) + "/"; //for system services
         services.append(new CustomDIMservice(qPrintable(prefix+"BOARDS_OK"), "I", 4, {}, &BOARDS_OK));
-        addCommand(commands, prefix+"LOAD_CONFIG"   , "C"  , [=](void *d) { QString name((char *)d); fileRead(name); applySettingsAll(); });
+        addCommand(commands, prefix+"LOAD_CONFIG"   , "C"  , [=](void *d) { QString name((char *)d); fileRead(name, true); });
         addCommand(commands, prefix+"CLEAR_ERRORS"  , "C:1", [=](void * ) { apply_RESET_ERRORS(); });
         addCommand(commands, prefix+"RECONNECT"     , "C:1", [=](void * ) { reconnect(); });
         addCommand(commands, prefix+"RESTART_SYSTEM", "C:1", [=](void * ) { apply_RESET_SYSTEM(false); });
@@ -350,7 +350,7 @@ public slots:
         }
         QSettings newset(fileName, QSettings::IniFormat);
         if (newset.contains("TCM")) { //old settings format
-            quint32 *r = (quint32 *)newset.value("TCM").toByteArray().remove(64,4).data(); //PM_MASK_SPI is not a setting value starting from v1.e, so this 4 bytes are removed
+            quint32 *r = (quint32 *)newset.value("TCM").toByteArray().remove(64,4).data(); //PM_MASK_SPI is not a setting value starting from v1.e, so 4 bytes are removed
             foreach (regblock b, TCM.set.regblocksToRead) for (quint8 i=b.addr; i<=b.endAddr; ++i) TCM.set.registers[i] = *r++;
             if (doApply) applySettingsTCM();
         } else { //new settings format
@@ -366,8 +366,20 @@ public slots:
                 }
                 if (doApply) {
                     IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
-                    foreach(quint8 address, M.keys()) { p.addWordToWrite(address, M[address]); }
-                    transceive(p);
+                    quint8 a = TCMparameters["DELAY_A"].address; if (M.contains(a)) p.addWordToWrite(a, M[a]);
+                           a = TCMparameters["DELAY_C"].address; if (M.contains(a)) p.addWordToWrite(a, M[a]);
+                    if (!p.transactionsList.isEmpty()) { //phase to be changed
+                        qint32 delay_ms = qMax(qAbs(TCM.set.DELAY_A - TCM.act.DELAY_A), qAbs(TCM.set.DELAY_C - TCM.act.DELAY_C)); //phase needs time to move
+                        if (!transceive(p)) return;
+                        if (delay_ms > 2) QThread::msleep(delay_ms + 1); //waiting for phases shift to complete
+                    }
+                    M.remove(TCMparameters["COUNTERS_UPD_RATE"].address); //will be applied afterwards
+                    if (!M.isEmpty()) {
+                        foreach(quint8 a, M.keys()) p.addWordToWrite(a, M[a]);
+                        if (!transceive(p)) return;
+                    }
+                    writeRegister(0xF, 0x4, false); //clear "Readiness changed" flags
+                    if (newset.childKeys().contains( QString::asprintf("reg%02X", TCMparameters["COUNTERS_UPD_RATE"].address) )) apply_COUNTERS_UPD_RATE(TCM.set.COUNTERS_UPD_RATE);
                 }
             }
             newset.endGroup();
@@ -380,7 +392,21 @@ public slots:
                 foreach (regblock b, pm->set.regblocks) for (quint8 i=b.addr; i<=b.endAddr; ++i) pm->set.registers[i] = *r++;
             } else { //new settings format
                 newset.beginGroup(name);
-                foreach (QString reg, newset.childKeys()) { pm->set.registers[reg.rightRef(2).toUShort(nullptr, 16)] = newset.value(reg).toString().toUInt(nullptr, 16); }
+                if (!newset.childKeys().isEmpty()) {
+                    QMap<quint8, quint32> M;
+                    foreach (QString reg, newset.childKeys()) {
+                        bool addressOK, valueOK;
+                        quint16 address = reg.rightRef(2).toUShort(&addressOK, 16);
+                        quint32 value = newset.value(reg).toString().toUInt(&valueOK, 16);
+                        if (valueOK && addressOK && address < 256) M[address] = value;
+                        TCM.set.registers[address] = value;
+                    }
+                    if (doApply) {
+                        IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
+                        foreach(quint8 a, M.keys()) p.addWordToWrite(pm->baseAddress + a, M[a]);
+                        if (!transceive(p)) return;
+                    }
+                }
                 newset.endGroup();
             }
         }
@@ -876,7 +902,6 @@ public slots:
         foreach(regblock b, TCM.set.regblocksToApply) p.addTransaction(write, b.addr, TCM.set.registers + b.addr, b.size());
         qint32 delay_ms = qMax(qAbs(TCM.set.DELAY_A - TCM.act.DELAY_A), qAbs(TCM.set.DELAY_C - TCM.act.DELAY_C)); //phase needs time to move
         if (!transceive(p)) return;
-        p.reset();
         if (delay_ms > 2) QThread::msleep(delay_ms + 1); //waiting for phases shift to complete
         p.addWordToWrite(TCMparameters["CH_MASK_A"].address, TCM.set.CH_MASK_A);
         p.addWordToWrite(TCMparameters["CH_MASK_C"].address, TCM.set.CH_MASK_C);

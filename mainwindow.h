@@ -285,12 +285,16 @@ public:
 //menus
         QMenu *fileMenu = menuBar()->addMenu("&File");
         fileMenu->addAction(QIcon(":/save.png"), "&Save settings to...", this, SLOT(save()), QKeySequence::Save);
-        //fileMenu->addAction(QIcon(":/load.png"), "&Load settings from...", this, SLOT(load()), QKeySequence::Open);
         QAction *actionLoad = new QAction(QIcon(":/load.png"), "&Load settings from...", this);
         actionLoad->setShortcut(QKeySequence::Open);
         fileMenu->addAction(actionLoad);
         connect(actionLoad, &QAction::triggered, this, &MainWindow::load);
         actionLoad->setDisabled(false);
+        QAction *actionLoadApply = new QAction(QIcon(":/load.png"), "&Load and apply...", this);
+        actionLoad->setShortcut(QKeySequence::Open);
+        fileMenu->addAction(actionLoadApply);
+        connect(actionLoadApply, &QAction::triggered, this, [=]() { load(true); } );
+        actionLoadApply->setDisabled(false);
         QMenu *controlMenu = menuBar()->addMenu("&Control");
         QAction *enableControls = new QAction(QIcon(":/controls.png"), "Disable", this);
         enableControls->setCheckable(true);
@@ -309,6 +313,7 @@ public:
             ui->sliderLaser->setEnabled(checked);
             ui->sliderAttenuation->setEnabled(checked);
             actionLoad->setEnabled(checked);
+            actionLoadApply->setEnabled(checked);
         });
         controlMenu->addAction("Copy ALL actual values to settings", this, [=]() { FEE.copyActualToSettingsAll(); updateEdits(); });
         controlMenu->addAction(QIcon(":/write.png"), "Apply ALL settings to FEE", &FEE, &FITelectronics::applySettingsAll);
@@ -473,16 +478,16 @@ public:
     }
 
 public slots:
-    void load() {
+    void load(bool doApply = false) {
         QFileDialog dialog(this);
 		dialog.setWindowModality(Qt::WindowModal);
 		dialog.setAcceptMode(QFileDialog::AcceptOpen);
         if (dialog.exec() != QDialog::Accepted)
             statusBar()->showMessage("File not loaded");
         else {
-            FEE.fileRead(dialog.selectedFiles().first());
+            FEE.fileRead(dialog.selectedFiles().first(), doApply);
             updateEdits();
-            statusBar()->showMessage("File loaded");
+            if (!doApply) statusBar()->showMessage("File loaded");
         }
     }
 
