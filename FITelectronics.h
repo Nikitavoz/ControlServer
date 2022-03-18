@@ -368,18 +368,21 @@ public slots:
                     IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
                     quint8 a = TCMparameters["DELAY_A"].address; if (M.contains(a)) p.addWordToWrite(a, M[a]);
                            a = TCMparameters["DELAY_C"].address; if (M.contains(a)) p.addWordToWrite(a, M[a]);
-                    if (!p.transactionsList.isEmpty()) { //phase to be changed
+                    if (!p.transactionsList.isEmpty()) { //phase is to be changed
                         qint32 delay_ms = qMax(qAbs(TCM.set.DELAY_A - TCM.act.DELAY_A), qAbs(TCM.set.DELAY_C - TCM.act.DELAY_C)); //phase needs time to move
                         if (!transceive(p)) return;
-                        if (delay_ms > 2) QThread::msleep(delay_ms + 1); //waiting for phases shift to complete
+                        if (delay_ms > 2) QThread::msleep(delay_ms + 1); //waiting for phases shift to finish
                     }
                     M.remove(TCMparameters["COUNTERS_UPD_RATE"].address); //will be applied afterwards
                     if (!M.isEmpty()) {
                         foreach(quint8 a, M.keys()) p.addWordToWrite(a, M[a]);
                         if (!transceive(p)) return;
                     }
-                    writeRegister(0xF, 0x4, false); //clear "Readiness changed" flags
-                    if (newset.childKeys().contains( QString::asprintf("reg%02X", TCMparameters["COUNTERS_UPD_RATE"].address) )) apply_COUNTERS_UPD_RATE(TCM.set.COUNTERS_UPD_RATE);
+                    if (M.contains(TCMparameters["CH_MASK_A"].address) || M.contains(TCMparameters["CH_MASK_C"].address)) {
+                        QThread::msleep(10);
+                        writeRegister(0xF, 0x4, false); //clear "Readiness changed" flags
+                    }
+                    if (newset.childKeys().contains("reg50")) apply_COUNTERS_UPD_RATE(TCM.set.COUNTERS_UPD_RATE);
                 }
             }
             newset.endGroup();
@@ -399,7 +402,7 @@ public slots:
                         quint16 address = reg.rightRef(2).toUShort(&addressOK, 16);
                         quint32 value = newset.value(reg).toString().toUInt(&valueOK, 16);
                         if (valueOK && addressOK && address < 256) M[address] = value;
-                        TCM.set.registers[address] = value;
+                        pm->set.registers[address] = value;
                     }
                     if (doApply) {
                         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
@@ -906,6 +909,7 @@ public slots:
         p.addWordToWrite(TCMparameters["CH_MASK_A"].address, TCM.set.CH_MASK_A);
         p.addWordToWrite(TCMparameters["CH_MASK_C"].address, TCM.set.CH_MASK_C);
         if (!transceive(p)) return;
+        QThread::msleep(10); //to finish all PMs resync with TCM
         writeRegister(0xF, 0x4, false); //clear "Readiness changed" flags
         apply_COUNTERS_UPD_RATE(TCM.set.COUNTERS_UPD_RATE);
     }

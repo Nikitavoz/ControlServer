@@ -32,15 +32,15 @@ class MainWindow : public QMainWindow
     QSettings settings;
     FITelectronics FEE;
     QPixmap
-		Green0 = QPixmap(":/0G.png"), //OK
-		Green1 = QPixmap(":/1G.png"), //OK
-		Red0 = QPixmap(":/0R.png"), //not OK
+        Green0 = QPixmap(":/0G.png"), //OK
+        Green1 = QPixmap(":/1G.png"), //OK
+        Red0 = QPixmap(":/0R.png"), //not OK
         Red1 = QPixmap(":/1R.png"), //not OK
         RedDash = Red1.transformed(QTransform().rotate(90)),
         SwOff = QPixmap(":/SW0.png"), //isOff
-		SwOn  = QPixmap(":/SW1.png"); //isOn
-	QFont  regularValueFont = QFont("Consolas", 10, QFont::Normal);
-	QFont selectedValueFont = QFont("Consolas", 10, QFont::Bold  );
+        SwOn  = QPixmap(":/SW1.png"); //isOn
+    QFont  regularValueFont = QFont("Consolas", 10, QFont::Normal);
+    QFont selectedValueFont = QFont("Consolas", 10, QFont::Bold  );
     QString
         OKstyle    = QString::asprintf("background-color: rgba(%d, %d, %d, 127)", OKcolor   .red(), OKcolor   .green(), OKcolor   .blue()),
         notOKstyle = QString::asprintf("background-color: rgba(%d, %d, %d, 127)", notOKcolor.red(), notOKcolor.green(), notOKcolor.blue()),
@@ -95,11 +95,11 @@ class MainWindow : public QMainWindow
     QList<Switch *> allSwitches;
     QList<QComboBox *> allComboBoxes;
     QList<QAbstractSpinBox *> allSpinBoxes;
-	QList<QWidget *> allWidgets;
+    QList<QWidget *> allWidgets;
     QList<QWidget *> notForFV0;
 
-	QIntValidator *intValidator = new QIntValidator(this);
-	QDoubleValidator *doubleValidator = new QDoubleValidator(this);
+    QIntValidator *intValidator = new QIntValidator(this);
+    QDoubleValidator *doubleValidator = new QDoubleValidator(this);
     QRegExpValidator *uint16Validator = new QRegExpValidator(QRegExp("[0-5]?[0-9]{1,4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]"), this);
     bool ok, laserFreqIsEditing = false, laserIsShuttling = false;
     QTimer shuttleTimer;
@@ -279,7 +279,7 @@ public:
             foreach (QWidget *w, allWidgets) { w->resize(w->size()*f); w->move(w->pos()*f); }
             foreach (QPushButton *b,     applyButtons) b->setIconSize(b->iconSize()*f);
             foreach (QPushButton *b, switchBitButtons) b->setIconSize(b->iconSize()*f);
-		}
+        }
         setFixedSize(size());
 
 //menus
@@ -298,10 +298,10 @@ public:
         QMenu *controlMenu = menuBar()->addMenu("&Control");
         QAction *enableControls = new QAction(QIcon(":/controls.png"), "Disable", this);
         enableControls->setCheckable(true);
-        enableControls->setChecked(false);
         controlMenu->addAction(enableControls);
+        controlMenu->addAction("Copy ALL actual values to settings", this, [=]() { FEE.copyActualToSettingsAll(); updateEdits(); });
+        QAction *applyAll = controlMenu->addAction(QIcon(":/write.png"), "Apply ALL settings to FEE", &FEE, &FITelectronics::applySettingsAll);
         connect(enableControls, &QAction::triggered, this, [=](bool checked) {
-            actionLoad->setEnabled(checked);
             enableControls->setText(checked ? "Disable" : "Enable");
             foreach (QLineEdit        *e, allLineEdits   ) e->setEnabled(checked);
             foreach (QPushButton      *b, allButtons     ) b->setEnabled(checked);
@@ -312,13 +312,11 @@ public:
             foreach (QCheckBox        *c, noTRGCh        ) c->setEnabled(checked);
             ui->sliderLaser->setEnabled(checked);
             ui->sliderAttenuation->setEnabled(checked);
-            actionLoad->setEnabled(checked);
             actionLoadApply->setEnabled(checked);
+            applyAll->setEnabled(checked);
         });
-        controlMenu->addAction("Copy ALL actual values to settings", this, [=]() { FEE.copyActualToSettingsAll(); updateEdits(); });
-        controlMenu->addAction(QIcon(":/write.png"), "Apply ALL settings to FEE", &FEE, &FITelectronics::applySettingsAll);
         QMenu *networkMenu = menuBar()->addMenu("&Network");
-		networkMenu->addAction(QIcon(":/recheck.png"), "&Recheck and default", this, SLOT(recheckTarget()), QKeySequence::Refresh);
+        networkMenu->addAction(QIcon(":/recheck.png"), "&Recheck and default", this, SLOT(recheckTarget()), QKeySequence::Refresh);
         networkMenu->addAction("&Change target IP address...", this, SLOT(changeIP()));
         QAction *enableDebugActions = new QAction("Activate debug menu", this);
         networkMenu->addAction(enableDebugActions);
@@ -391,10 +389,10 @@ public:
         }
         connect(&FEE, &FITelectronics::linksStatusReady, this, [=]() { //disable PMs' selectors and link indicators if no physical link present
             //if (!isTCM() && !FEE.PM.contains(curPM->FEEid)) ui->TCM_selector->toggle();
-			for (quint8 i=0; i<=9; ++i) {
+            for (quint8 i=0; i<=9; ++i) {
                 selectorsPMA[i]->setEnabled(FEE.PM.contains(FEE.allPMs[i   ].FEEid));
                 selectorsPMC[i]->setEnabled(FEE.PM.contains(FEE.allPMs[i+10].FEEid));
-            } 
+            }
         });
         for (quint8 i=0; i<=9; ++i) { //PM switchers and selectors
             connect(switchesPMA[i], QOverload<bool>::of(&QPushButton::clicked), this, [=](bool checked) { FEE.switchTRGsyncPM(i     , !checked); });
@@ -404,7 +402,7 @@ public:
         }
 
         for (quint8 i=0; i<12; ++i) { //channels
-			QString ch = QString::asprintf("Ch%02d/", i + 1);
+            QString ch = QString::asprintf("Ch%02d/", i + 1);
             connect(editsTimeAlignmentCh  [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.TIME_ALIGN[i].value = text. toInt(); resetHighlight(); ui->labelTextTimeAlignment  ->setStyleSheet(highlightStyle); curPM->servicesNew[ch+"TIME_ALIGN"		]->updateService(); });
             connect(editsThresholdCalibrCh[i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.THRESHOLD_CALIBR[i] = text.toUInt(); resetHighlight(); ui->labelTextThresholdCalibr->setStyleSheet(highlightStyle); curPM->servicesNew[ch+"THRESHOLD_CALIBR"]->updateService(); });
             connect(editsADCdelayCh       [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.Ch[i].ADC_DELAY     = text.toUInt(); resetHighlight(); ui->labelTextADCdelay       ->setStyleSheet(highlightStyle); curPM->servicesNew[ch+"ADC_DELAY"		]->updateService(); });
@@ -480,8 +478,8 @@ public:
 public slots:
     void load(bool doApply = false) {
         QFileDialog dialog(this);
-		dialog.setWindowModality(Qt::WindowModal);
-		dialog.setAcceptMode(QFileDialog::AcceptOpen);
+        dialog.setWindowModality(Qt::WindowModal);
+        dialog.setAcceptMode(QFileDialog::AcceptOpen);
         if (dialog.exec() != QDialog::Accepted)
             statusBar()->showMessage("File not loaded");
         else {
@@ -493,8 +491,8 @@ public slots:
 
     void save() {
         QFileDialog dialog(this);
-		dialog.setWindowModality(Qt::WindowModal);
-		dialog.setAcceptMode(QFileDialog::AcceptSave);
+        dialog.setWindowModality(Qt::WindowModal);
+        dialog.setAcceptMode(QFileDialog::AcceptSave);
         if (dialog.exec() != QDialog::Accepted)
             statusBar()->showMessage("File not saved");
         else {
@@ -503,11 +501,11 @@ public slots:
         }
     }
 
-	void recheckTarget() {
-		statusBar()->showMessage(FEE.IPaddress + ": status requested...");
+    void recheckTarget() {
+        statusBar()->showMessage(FEE.IPaddress + ": status requested...");
         if (FEE.countersTimer->isActive()) FEE.countersTimer->stop();
-		FEE.reconnect();
-	}
+        FEE.reconnect();
+    }
 
     void changeIP() {
         QString text = QInputDialog::getText(this, "Changing target", "Enter new target's IP address", QLineEdit::Normal, FEE.IPaddress, &ok);
@@ -559,7 +557,7 @@ public slots:
         ui->labelValueMCUFWversion->setToolTip(tMCUfull);
         ui->labelTextFPGAFWversion ->setToolTip(tFPGAfull);
         ui->labelValueFPGAFWversion->setToolTip(tFPGAfull);
-		ui->comboBoxUpdatePeriod->setCurrentIndex(FEE.TCM.act.COUNTERS_UPD_RATE);
+        ui->comboBoxUpdatePeriod->setCurrentIndex(FEE.TCM.act.COUNTERS_UPD_RATE);
         for (quint8 i=0; i<=9; ++i) {
             linksPMA[i]->setPixmap(FEE.allPMs[i   ].isOK() && FEE.TCM.act.TRG_SYNC_A[i].linkOK ? (FEE.allPMs[i   ].act.GBT.isOK() ? Green1 : Red0) : RedDash); switchesPMA[i]->setChecked(FEE.TCM.act.CH_MASK_A & (1 << i));
             linksPMC[i]->setPixmap(FEE.allPMs[i+10].isOK() && FEE.TCM.act.TRG_SYNC_C[i].linkOK ? (FEE.allPMs[i+10].act.GBT.isOK() ? Green1 : Red0) : RedDash); switchesPMC[i]->setChecked(FEE.TCM.act.CH_MASK_C & (1 << i));
@@ -573,7 +571,7 @@ public slots:
             case GBTunit::TG_noTrigger : ui->buttonTriggerGeneratorOff		 ->setChecked(true); break;
             case GBTunit::TG_continuous: ui->buttonTriggerGeneratorContinuous->setChecked(true); break;
             case GBTunit::TG_Tx        : ui->buttonTriggerGeneratorTx        ->setChecked(true);
-		}
+        }
         ui->labelValueDGtriggerRespondMask  ->setText(QString::asprintf("0x%08X" , curGBTact->Control.DG_TRG_RESPOND_MASK));
         ui->labelValueDGbunchPattern        ->setText(QString::asprintf("0x%08X" , curGBTact->Control.DG_BUNCH_PATTERN   ));
         ui->labelValueDGbunchFrequency      ->setText(QString::asprintf("0x%04X" , curGBTact->Control.DG_BUNCH_FREQ      ));
@@ -724,7 +722,7 @@ public slots:
             ui->SwitcherExt3->setChecked(FEE.TCM.act.EXT_SW & 4);
             ui->SwitcherExt4->setChecked(FEE.TCM.act.EXT_SW & 8);
             ui->SwitcherExtendedReadout->setChecked(FEE.TCM.act.EXTENDED_READOUT);
-			ui->SwitcherAddCdelay->setChecked(FEE.TCM.act.ADD_C_DELAY);
+            ui->SwitcherAddCdelay->setChecked(FEE.TCM.act.ADD_C_DELAY);
             ui->SwitcherTriggers_1->setChecked(FEE.TCM.act.T1_ENABLED);
             ui->SwitcherTriggers_2->setChecked(FEE.TCM.act.T2_ENABLED);
             ui->SwitcherTriggers_3->setChecked(FEE.TCM.act.T3_ENABLED);
@@ -757,17 +755,17 @@ public slots:
             ui->labelValueTriggersLevelC_2->setEnabled(mode < 2);
             ui->labelValueVertexTimeLow ->setText(QString::asprintf("%d", FEE.TCM.act.VTIME_LOW ));
             ui->labelValueVertexTimeHigh->setText(QString::asprintf("%d", FEE.TCM.act.VTIME_HIGH));
-			ui->labelValueAttenuation->setText(QString::asprintf("%5.0f", FEE.TCM.act.attenuation));
+            ui->labelValueAttenuation->setText(QString::asprintf("%5.0f", FEE.TCM.act.attenuation));
             ui->labelIconAttenBusy ->setPixmap(FEE.TCM.act.attenBusy     ? Red1 : Green0);
             ui->labelIconAttenError->setPixmap(FEE.TCM.act.attenNotFound ? Red1 : Green0);
-			ui->sliderAttenuation->setDisabled(FEE.TCM.act.attenBusy || FEE.TCM.act.attenNotFound);
+            ui->sliderAttenuation->setDisabled(FEE.TCM.act.attenBusy || FEE.TCM.act.attenNotFound);
             ui->SwitcherLaser->setChecked(FEE.TCM.act.LASER_ENABLED);
-			FEE.TCM.act.LASER_SOURCE ? ui->radioButtonGenerator->setChecked(true) : ui->radioButtonExternalTrigger->setChecked(true);
+            FEE.TCM.act.LASER_SOURCE ? ui->radioButtonGenerator->setChecked(true) : ui->radioButtonExternalTrigger->setChecked(true);
             ui->labelValueLaserFreqDivider->setText(QString::asprintf("0x%06x", FEE.TCM.act.LASER_DIVIDER));
             ui->labelValueLaserFrequency->setText(frequencyFormat(FEE.TCM.act.laserFrequency_Hz));
             ui->labelValueLaserPattern->setText(QString::asprintf("0x%08X%08X", FEE.TCM.act.laserPatternMSB, FEE.TCM.act.laserPatternLSB));
             ui->labelValueLaserPhase->setText(QString::asprintf("%7.3f", FEE.TCM.act.delayLaser_ns));
-			for (quint8 i=0; i<64; ++i) { switchBitButtons.at(i)->setChecked(FEE.TCM.act.LASER_PATTERN & (1ULL << i)); }
+            for (quint8 i=0; i<64; ++i) { switchBitButtons.at(i)->setChecked(FEE.TCM.act.LASER_PATTERN & (1ULL << i)); }
             ui->labelValueSuppressDuration->setText(QString::asprintf("%d", FEE.TCM.act.lsrTrgSupprDur));
             ui->labelValueSuppressDelayBC ->setText(QString::asprintf("%d", FEE.TCM.act.lsrTrgSupprDelay));
             ui->labelValueSuppressDelay_ns->setText(QString::asprintf("%.1f", FEE.TCM.act.lsrTrgSupprDelay * 2 * halfBC_ns));
@@ -855,20 +853,20 @@ public slots:
             ui->lineEditTriggersLevelC_1->setText(QString::asprintf("%d", FEE.TCM.set.T1_LEVEL_C));
             ui->lineEditTriggersLevelA_2->setText(QString::asprintf("%d", FEE.TCM.set.T2_LEVEL_A));
             ui->lineEditTriggersLevelC_2->setText(QString::asprintf("%d", FEE.TCM.set.T2_LEVEL_C));
-			ui->lineEditVertexTimeLow ->setText(QString::asprintf("%d", FEE.TCM.set.VTIME_LOW ));
-			ui->lineEditVertexTimeHigh->setText(QString::asprintf("%d", FEE.TCM.set.VTIME_HIGH));
-			ui->sliderAttenuation->setValue(FEE.TCM.set.attenSteps);
-			if (ui->spinBoxAttenuation->value() != FEE.TCM.set.attenuation) ui->spinBoxAttenuation->setValue(FEE.TCM.set.attenuation);
-			ui->spinBoxLaserFreqDivider->setValue(FEE.TCM.set.LASER_DIVIDER);
+            ui->lineEditVertexTimeLow ->setText(QString::asprintf("%d", FEE.TCM.set.VTIME_LOW ));
+            ui->lineEditVertexTimeHigh->setText(QString::asprintf("%d", FEE.TCM.set.VTIME_HIGH));
+            ui->sliderAttenuation->setValue(FEE.TCM.set.attenSteps);
+            if (ui->spinBoxAttenuation->value() != FEE.TCM.set.attenuation) ui->spinBoxAttenuation->setValue(FEE.TCM.set.attenuation);
+            ui->spinBoxLaserFreqDivider->setValue(FEE.TCM.set.LASER_DIVIDER);
             ui->lineEditLaserPattern->setText(QString::asprintf("%08X%08X", FEE.TCM.set.laserPatternMSB, FEE.TCM.set.laserPatternLSB));
-			ui->sliderLaser->setValue(FEE.TCM.set.LASER_DELAY);
-			if (ui->spinBoxLaserPhase->value() != FEE.TCM.set.delayLaser_ns) ui->spinBoxLaserPhase->setValue(FEE.TCM.set.delayLaser_ns);
+            ui->sliderLaser->setValue(FEE.TCM.set.LASER_DELAY);
+            if (ui->spinBoxLaserPhase->value() != FEE.TCM.set.delayLaser_ns) ui->spinBoxLaserPhase->setValue(FEE.TCM.set.delayLaser_ns);
             ui->spinBoxSuppressDuration->setValue(FEE.TCM.set.lsrTrgSupprDur);
             ui->spinBoxSuppressDelayBC->setValue(FEE.TCM.set.lsrTrgSupprDelay);
-		} else { //PM
+        } else { //PM
             ui->lineEditORgate->setText(QString::asprintf("%d", curPM->set.OR_GATE));
             ui->lineEditCFDsaturation->setText(QString::asprintf("%d", curPM->set.CFD_SATR));
-			for (quint8 i=0; i<12; ++i) {
+            for (quint8 i=0; i<12; ++i) {
                 editsTimeAlignmentCh  [i]->setText(QString::asprintf("%d", curPM->set.TIME_ALIGN[i].value));
                 editsThresholdCalibrCh[i]->setText(QString::asprintf("%d", curPM->set.THRESHOLD_CALIBR[i]));
                 editsADCdelayCh       [i]->setText(QString::asprintf("%d", curPM->set.Ch[i].ADC_DELAY));
@@ -877,8 +875,8 @@ public slots:
                 editsCFDzeroCh        [i]->setText(QString::asprintf("%d", curPM->set.Ch[i].CFD_ZERO));
                 editsADC0rangeCh      [i]->setText(QString::asprintf("%d", curPM->set.ADC_RANGE[i][0]));
                 editsADC1rangeCh      [i]->setText(QString::asprintf("%d", curPM->set.ADC_RANGE[i][1]));
-			}
-		}
+            }
+        }
         ui->lineEditDGtriggerRespondMask  ->setText(QString::asprintf("%08X", curGBTset->DG_TRG_RESPOND_MASK  ));
         ui->lineEditDGbunchPattern        ->setText(QString::asprintf("%08X", curGBTset->DG_BUNCH_PATTERN	  ));
         ui->lineEditDGbunchFrequency      ->setText(QString::asprintf("%04X", curGBTset->DG_BUNCH_FREQ		  ));
@@ -994,7 +992,7 @@ public slots:
             updateCounters(FEE.TCMid);
             if (FEE.isOnline) FEE.sync();
         }
-	}
+    }
 
     void selectPM(quint16 FEEid) {
         ui->groupBoxPM->setTitle(QString("PM") + FEE.PM[FEEid]->name);
@@ -1013,13 +1011,13 @@ public slots:
     void on_buttonRestart_clicked() { FEE.apply_RESET_SYSTEM(ui->radioButtonForceLocal->isChecked()); }
     void on_buttonDismissErrors_clicked() { FEE.apply_RESET_ERRORS(); }
 
-	void on_spinBoxAttenuation_valueChanged(double val) { FEE.TCM.set.attenuation = val; FEE.TCM.set.attenSteps = val; }
-	void on_sliderAttenuation_valueChanged(int value) { ui->spinBoxAttenuation->setValue(value); }
-	void on_buttonApplyAttenuation_clicked() {
-		FEE.apply_attenSteps();
-		ui->sliderAttenuation->setValue(FEE.TCM.set.attenSteps);
-	}
-	void on_sliderAttenuation_sliderReleased() { FEE.apply_attenSteps(); }
+    void on_spinBoxAttenuation_valueChanged(double val) { FEE.TCM.set.attenuation = val; FEE.TCM.set.attenSteps = val; }
+    void on_sliderAttenuation_valueChanged(int value) { ui->spinBoxAttenuation->setValue(value); }
+    void on_buttonApplyAttenuation_clicked() {
+        FEE.apply_attenSteps();
+        ui->sliderAttenuation->setValue(FEE.TCM.set.attenSteps);
+    }
+    void on_sliderAttenuation_sliderReleased() { FEE.apply_attenSteps(); }
     void on_SwitcherLaser_clicked (bool checked) { FEE.TCM.set.LASER_ENABLED = !checked; FEE.apply_LASER_ENABLED(!checked); }
     void on_radioButtonGenerator_clicked	  () { FEE.TCM.set.LASER_SOURCE = true ; FEE.apply_LASER_SOURCE(true ); }
     void on_radioButtonExternalTrigger_clicked() { FEE.TCM.set.LASER_SOURCE = false; FEE.apply_LASER_SOURCE(false); }
@@ -1046,10 +1044,10 @@ public slots:
         }
     }
     void on_lineEditLaserFrequency_editingFinished() { laserFreqIsEditing = false; };
-	void on_lineEditLaserPattern_textChanged() {
-		FEE.TCM.set.laserPatternMSB = ui->lineEditLaserPattern->displayText(). left(8).toUInt(&ok, 16);
-		FEE.TCM.set.laserPatternLSB = ui->lineEditLaserPattern->displayText().right(8).toUInt(&ok, 16);
-	}
+    void on_lineEditLaserPattern_textChanged() {
+        FEE.TCM.set.laserPatternMSB = ui->lineEditLaserPattern->displayText(). left(8).toUInt(&ok, 16);
+        FEE.TCM.set.laserPatternLSB = ui->lineEditLaserPattern->displayText().right(8).toUInt(&ok, 16);
+    }
     void on_spinBoxSuppressDuration_valueChanged(int div) { FEE.TCM.set.lsrTrgSupprDur   = div; }
     void on_spinBoxSuppressDelayBC_valueChanged (int div) { FEE.TCM.set.lsrTrgSupprDelay = div; }
     void on_buttonApplySuppressDuration_clicked() { FEE.TCM.set.lsrTrgSupprDur   = ui->spinBoxSuppressDuration->value(); FEE.apply_LASER_TRG_SUPPR_DUR  (); }
@@ -1063,17 +1061,17 @@ public slots:
     void on_spinBoxPhase_A_valueChanged(double val) { FEE.TCM.set.DELAY_A = lround(val / phaseStep_ns); }
     void on_spinBoxPhase_C_valueChanged(double val) { FEE.TCM.set.DELAY_C = lround(val / phaseStep_ns); }
     void on_spinBoxLaserPhase_valueChanged(double val) {
-		FEE.TCM.set.LASER_DELAY = lround(val / phaseStepLaser_ns);
-		FEE.TCM.set.delayLaser_ns = FEE.TCM.set.LASER_DELAY * phaseStepLaser_ns;
+        FEE.TCM.set.LASER_DELAY = lround(val / phaseStepLaser_ns);
+        FEE.TCM.set.delayLaser_ns = FEE.TCM.set.LASER_DELAY * phaseStepLaser_ns;
     }
     void on_buttonApplyPhase_A_clicked() { on_spinBoxPhase_A_valueChanged(ui->spinBoxPhase_A->value()); FEE.apply_DELAY_A(); }
     void on_buttonApplyPhase_C_clicked() { on_spinBoxPhase_C_valueChanged(ui->spinBoxPhase_C->value()); FEE.apply_DELAY_C(); }
-	void on_buttonApplyLaserPhase_clicked() {
-		FEE.apply_LASER_DELAY();
-		ui->sliderLaser->setValue(FEE.TCM.set.LASER_DELAY);
-	}
-	void on_sliderLaser_sliderReleased() { FEE.apply_LASER_DELAY(); }
-	void on_sliderLaser_valueChanged(int value) { ui->spinBoxLaserPhase->setValue(value * phaseStepLaser_ns); }
+    void on_buttonApplyLaserPhase_clicked() {
+        FEE.apply_LASER_DELAY();
+        ui->sliderLaser->setValue(FEE.TCM.set.LASER_DELAY);
+    }
+    void on_sliderLaser_sliderReleased() { FEE.apply_LASER_DELAY(); }
+    void on_sliderLaser_valueChanged(int value) { ui->spinBoxLaserPhase->setValue(value * phaseStepLaser_ns); }
 
     void on_SwitcherExt1_clicked(bool checked) { FEE.apply_SW_EXT(1, !checked); }
     void on_SwitcherExt2_clicked(bool checked) { FEE.apply_SW_EXT(2, !checked); }
