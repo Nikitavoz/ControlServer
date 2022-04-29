@@ -152,7 +152,7 @@ struct TypeTCM {
                                                          {0xE8, 0xF1}, //GBTstatus  , 10 registers
                                                          {0xF7, 0xF7}, //FW_TIME_MCU
                                                          {0xFC, 0xFF}};//block3     ,  4 registers
-        double //calculable values
+        float //calculable values
             TEMP_BOARD,
             TEMP_FPGA,
             VOLTAGE_1V,
@@ -163,7 +163,7 @@ struct TypeTCM {
             averageTimeA_ns,
             averageTimeC_ns,
             laserFrequency_Hz,
-            attenuation;
+            attenuation_dB;
         char BOARD_TYPE[4] = {0};
 		quint64 LASER_PATTERN;
         void calculateValues() {
@@ -172,7 +172,6 @@ struct TypeTCM {
             VOLTAGE_1V   = voltage1         * 3.      / 65536;
             VOLTAGE_1_8V = voltage1_8       * 3.      / 65536;
             memcpy(BOARD_TYPE, FIT[boardType].name, 4);
-            //on reset only
             systemClock_MHz = externalClock ? LHCclock_MHz : 40.;
             TDCunit_ps = 1e6 / 30 / 64 / systemClock_MHz;
             halfBC_ns = 500. / systemClock_MHz;
@@ -184,8 +183,6 @@ struct TypeTCM {
             averageTimeA_ns = averageTimeA * TDCunit_ps / 1000;
             averageTimeC_ns = averageTimeC * TDCunit_ps / 1000;
             laserFrequency_Hz = systemClock_MHz * 1e6 / (LASER_DIVIDER == 0 ? 1 << 24 : LASER_DIVIDER);
-            //
-            attenuation = attenSteps;
             for (quint8 i=0; i<10; ++i) {
                 TRG_SYNC_A[i].syncError = syncErrorInLinkA & 1 << i;
                 TRG_SYNC_C[i].syncError = syncErrorInLinkC & 1 << i;
@@ -299,10 +296,13 @@ struct TypeTCM {
                                                                {0x1F, 0x1F}, //laser induced trigger suppression
                                                                {0x60, 0x6A}, //block3     , 11 registers
                                                                {0xD8, 0xE4}};//GBT control, 13 registers
-        double //calculable values
+        float //calculable values
             delayLaser_ns,
             laserFrequency_Hz,
-            attenuation;
+            attenuation_dB;
+        void calculate_LASER_DIVIDER(float frequency_Hz) { quint32 div = lround(systemClock_MHz * 1e6 / frequency_Hz); LASER_DIVIDER = div ? (div >= 1<<24 ? 0 : div) : 1; }
+        void calculate_LASER_DELAY(float delay_ns) { LASER_DELAY = lround(delay_ns / phaseStepLaser_ns); }
+        void calculate_LASER_PATTERN(quint64 pattern) { laserPatternLSB = quint32(pattern); laserPatternMSB = pattern >> 32; }
     } set;
 
     struct Counters {

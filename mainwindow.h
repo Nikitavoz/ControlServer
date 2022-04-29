@@ -97,6 +97,7 @@ class MainWindow : public QMainWindow
     QList<QAbstractSpinBox *> allSpinBoxes;
     QList<QWidget *> allWidgets;
     QList<QWidget *> notForFV0;
+    QAction *enableControls;
 
     QIntValidator *intValidator = new QIntValidator(this);
     QDoubleValidator *doubleValidator = new QDoubleValidator(this);
@@ -234,7 +235,6 @@ public:
         allLineEdits  = ui->centralWidget->findChildren<QLineEdit *>();
         allComboBoxes = ui->centralWidget->findChildren<QComboBox *>();
         allSpinBoxes  = ui->centralWidget->findChildren<QAbstractSpinBox *>();
-
         allWidgets    = ui->centralWidget->findChildren<QWidget *>();
         notForFV0 = {
             ui->groupBoxCentralityMode       ,
@@ -251,7 +251,14 @@ public:
             ui->buttonSCcharge               ,
             ui->buttonSCNchan                ,
         };
-
+        foreach(QPushButton *b, applyButtons) b->setToolTip("Apply");
+//        ui-> labelTextDataSelectTriggerMask->too
+        ui-> labelTextDataSelectTriggerMask->setToolTip(TriggerTypeNames);
+        ui->labelValueDataSelectTriggerMask->setToolTip(TriggerTypeNames);
+        ui->  lineEditDataSelectTriggerMask->setToolTip(TriggerTypeNames);
+        ui-> labelTextDGtriggerRespondMask ->setToolTip(TriggerTypeNames);
+        ui->labelValueDGtriggerRespondMask ->setToolTip(TriggerTypeNames);
+        ui->  lineEditDGtriggerRespondMask ->setToolTip(TriggerTypeNames);
         ui->groupBoxPM->hide();
         ui->labelTextEarlyHeader->hide();
         ui->labelIconEarlyHeader->hide();
@@ -296,7 +303,7 @@ public:
         connect(actionLoadApply, &QAction::triggered, this, [=]() { load(true); } );
         actionLoadApply->setDisabled(false);
         QMenu *controlMenu = menuBar()->addMenu("&Control");
-        QAction *enableControls = new QAction(QIcon(":/controls.png"), "Disable", this);
+        enableControls = new QAction(QIcon(":/controls.png"), "Disable", this);
         enableControls->setCheckable(true);
         controlMenu->addAction(enableControls);
         controlMenu->addAction("Copy ALL actual values to settings", this, [=]() { FEE.copyActualToSettingsAll(); updateEdits(); });
@@ -403,14 +410,14 @@ public:
 
         for (quint8 i=0; i<12; ++i) { //channels
             QString ch = QString::asprintf("Ch%02d/", i + 1);
-            connect(editsTimeAlignmentCh  [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.TIME_ALIGN[i].value = text. toInt(); resetHighlight(); ui->labelTextTimeAlignment  ->setStyleSheet(highlightStyle); curPM->servicesNew[ch+"TIME_ALIGN"		]->updateService(); });
-            connect(editsThresholdCalibrCh[i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.THRESHOLD_CALIBR[i] = text.toUInt(); resetHighlight(); ui->labelTextThresholdCalibr->setStyleSheet(highlightStyle); curPM->servicesNew[ch+"THRESHOLD_CALIBR"]->updateService(); });
-            connect(editsADCdelayCh       [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.Ch[i].ADC_DELAY     = text.toUInt(); resetHighlight(); ui->labelTextADCdelay       ->setStyleSheet(highlightStyle); curPM->servicesNew[ch+"ADC_DELAY"		]->updateService(); });
-            connect(editsCFDthresholdCh   [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.Ch[i].CFD_THRESHOLD = text.toUInt(); resetHighlight(); ui->labelTextCFDthreshold   ->setStyleSheet(highlightStyle); curPM->servicesNew[ch+"CFD_THRESHOLD"	]->updateService(); });
-            connect(editsADCzeroCh        [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.Ch[i].ADC_ZERO      = text. toInt(); resetHighlight(); ui->labelTextADCzero        ->setStyleSheet(highlightStyle); curPM->servicesNew[ch+"ADC_ZERO"		]->updateService(); });
-            connect(editsCFDzeroCh        [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.Ch[i].CFD_ZERO      = text. toInt(); resetHighlight(); ui->labelTextCFDzero        ->setStyleSheet(highlightStyle); curPM->servicesNew[ch+"CFD_ZERO"		]->updateService(); });
-            connect(editsADC0rangeCh      [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.ADC_RANGE    [i][0] = text.toUInt(); resetHighlight(); ui->labelTextADC0           ->setStyleSheet(highlightStyle); curPM->servicesNew[ch+"ADC0_RANGE"		]->updateService(); });
-            connect(editsADC1rangeCh      [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.ADC_RANGE    [i][1] = text.toUInt(); resetHighlight(); ui->labelTextADC1           ->setStyleSheet(highlightStyle); curPM->servicesNew[ch+"ADC1_RANGE"		]->updateService(); });
+            connect(editsTimeAlignmentCh  [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.TIME_ALIGN[i].value = text. toInt(); resetHighlight(); ui->labelTextTimeAlignment  ->setStyleSheet(highlightStyle); });
+            connect(editsThresholdCalibrCh[i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.THRESHOLD_CALIBR[i] = text.toUInt(); resetHighlight(); ui->labelTextThresholdCalibr->setStyleSheet(highlightStyle); });
+            connect(editsADCdelayCh       [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.Ch[i].ADC_DELAY     = text.toUInt(); resetHighlight(); ui->labelTextADCdelay       ->setStyleSheet(highlightStyle); });
+            connect(editsCFDthresholdCh   [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.Ch[i].CFD_THRESHOLD = text.toUInt(); resetHighlight(); ui->labelTextCFDthreshold   ->setStyleSheet(highlightStyle); });
+            connect(editsADCzeroCh        [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.Ch[i].ADC_ZERO      = text. toInt(); resetHighlight(); ui->labelTextADCzero        ->setStyleSheet(highlightStyle); });
+            connect(editsCFDzeroCh        [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.Ch[i].CFD_ZERO      = text. toInt(); resetHighlight(); ui->labelTextCFDzero        ->setStyleSheet(highlightStyle); });
+            connect(editsADC0rangeCh      [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.ADC_RANGE    [i][0] = text.toUInt(); resetHighlight(); ui->labelTextADC0           ->setStyleSheet(highlightStyle); });
+            connect(editsADC1rangeCh      [i], &QLineEdit::textEdited, this, [=](QString text) { curPM->set.ADC_RANGE    [i][1] = text.toUInt(); resetHighlight(); ui->labelTextADC1           ->setStyleSheet(highlightStyle); });
 
             connect(editsTimeAlignmentCh  [i], &QLineEdit::cursorPositionChanged, this, [=]() { resetHighlight(); ui->labelTextTimeAlignment  ->setStyleSheet(highlightStyle); });
             connect(editsThresholdCalibrCh[i], &QLineEdit::cursorPositionChanged, this, [=]() { resetHighlight(); ui->labelTextThresholdCalibr->setStyleSheet(highlightStyle); });
@@ -755,10 +762,10 @@ public slots:
             ui->labelValueTriggersLevelC_2->setEnabled(mode < 2);
             ui->labelValueVertexTimeLow ->setText(QString::asprintf("%d", FEE.TCM.act.VTIME_LOW ));
             ui->labelValueVertexTimeHigh->setText(QString::asprintf("%d", FEE.TCM.act.VTIME_HIGH));
-            ui->labelValueAttenuation->setText(QString::asprintf("%5.0f", FEE.TCM.act.attenuation));
+            ui->labelValueAttenuation->setText(QString::asprintf("%d", FEE.TCM.act.attenSteps));
             ui->labelIconAttenBusy ->setPixmap(FEE.TCM.act.attenBusy     ? Red1 : Green0);
             ui->labelIconAttenError->setPixmap(FEE.TCM.act.attenNotFound ? Red1 : Green0);
-            ui->sliderAttenuation->setDisabled(FEE.TCM.act.attenBusy || FEE.TCM.act.attenNotFound);
+            if (enableControls->isChecked()) ui->sliderAttenuation->setDisabled(FEE.TCM.act.attenBusy || FEE.TCM.act.attenNotFound);
             ui->SwitcherLaser->setChecked(FEE.TCM.act.LASER_ENABLED);
             FEE.TCM.act.LASER_SOURCE ? ui->radioButtonGenerator->setChecked(true) : ui->radioButtonExternalTrigger->setChecked(true);
             ui->labelValueLaserFreqDivider->setText(QString::asprintf("0x%06x", FEE.TCM.act.LASER_DIVIDER));
@@ -856,7 +863,7 @@ public slots:
             ui->lineEditVertexTimeLow ->setText(QString::asprintf("%d", FEE.TCM.set.VTIME_LOW ));
             ui->lineEditVertexTimeHigh->setText(QString::asprintf("%d", FEE.TCM.set.VTIME_HIGH));
             ui->sliderAttenuation->setValue(FEE.TCM.set.attenSteps);
-            if (ui->spinBoxAttenuation->value() != FEE.TCM.set.attenuation) ui->spinBoxAttenuation->setValue(FEE.TCM.set.attenuation);
+            if (ui->spinBoxAttenuation->value() != FEE.TCM.set.attenSteps) ui->spinBoxAttenuation->setValue(FEE.TCM.set.attenSteps);
             ui->spinBoxLaserFreqDivider->setValue(FEE.TCM.set.LASER_DIVIDER);
             ui->lineEditLaserPattern->setText(QString::asprintf("%08X%08X", FEE.TCM.set.laserPatternMSB, FEE.TCM.set.laserPatternLSB));
             ui->sliderLaser->setValue(FEE.TCM.set.LASER_DELAY);
@@ -1011,16 +1018,16 @@ public slots:
     void on_buttonRestart_clicked() { FEE.apply_RESET_SYSTEM(ui->radioButtonForceLocal->isChecked()); }
     void on_buttonDismissErrors_clicked() { FEE.apply_RESET_ERRORS(); }
 
-    void on_spinBoxAttenuation_valueChanged(double val) { FEE.TCM.set.attenuation = val; FEE.TCM.set.attenSteps = val; }
+    void on_spinBoxAttenuation_valueChanged(double val) { FEE.TCM.set.attenSteps = val; }
     void on_sliderAttenuation_valueChanged(int value) { ui->spinBoxAttenuation->setValue(value); }
     void on_buttonApplyAttenuation_clicked() {
         FEE.apply_attenSteps();
         ui->sliderAttenuation->setValue(FEE.TCM.set.attenSteps);
     }
     void on_sliderAttenuation_sliderReleased() { FEE.apply_attenSteps(); }
-    void on_SwitcherLaser_clicked (bool checked) { FEE.TCM.set.LASER_ENABLED = !checked; FEE.apply_LASER_ENABLED(!checked); }
-    void on_radioButtonGenerator_clicked	  () { FEE.TCM.set.LASER_SOURCE = true ; FEE.apply_LASER_SOURCE(true ); }
-    void on_radioButtonExternalTrigger_clicked() { FEE.TCM.set.LASER_SOURCE = false; FEE.apply_LASER_SOURCE(false); }
+    void on_SwitcherLaser_clicked (bool checked) { FEE.apply_LASER_ENABLED(!checked); }
+    void on_radioButtonGenerator_clicked	  () { FEE.apply_LASER_SOURCE(true ); }
+    void on_radioButtonExternalTrigger_clicked() { FEE.apply_LASER_SOURCE(false); }
     void on_buttonApplyLaserFrequency_clicked() { FEE.TCM.set.LASER_DIVIDER = ui->spinBoxLaserFreqDivider->value(); FEE.apply_LASER_DIVIDER(); }
     void on_buttonApplyLaserPattern_clicked() { on_lineEditLaserPattern_textChanged(); FEE.apply_LASER_PATTERN(); }
 
@@ -1050,8 +1057,8 @@ public slots:
     }
     void on_spinBoxSuppressDuration_valueChanged(int div) { FEE.TCM.set.lsrTrgSupprDur   = div; }
     void on_spinBoxSuppressDelayBC_valueChanged (int div) { FEE.TCM.set.lsrTrgSupprDelay = div; }
-    void on_buttonApplySuppressDuration_clicked() { FEE.TCM.set.lsrTrgSupprDur   = ui->spinBoxSuppressDuration->value(); FEE.apply_LASER_TRG_SUPPR_DUR  (); }
-    void on_buttonApplySuppressDelayBC_clicked () { FEE.TCM.set.lsrTrgSupprDelay = ui->spinBoxSuppressDelayBC ->value(); FEE.apply_LASER_TRG_SUPPR_DELAY(); }
+    void on_buttonApplySuppressDuration_clicked() { FEE.TCM.set.lsrTrgSupprDur   = ui->spinBoxSuppressDuration->value(); FEE.apply_LSR_TRG_SUPPR_DUR  (); }
+    void on_buttonApplySuppressDelayBC_clicked () { FEE.TCM.set.lsrTrgSupprDelay = ui->spinBoxSuppressDelayBC ->value(); FEE.apply_LSR_TRG_SUPPR_DELAY(); }
 
     void on_spinBoxORgate_A_valueChanged(double val) { for (quint8 iPM= 0; iPM<10; ++iPM) FEE.allPMs[iPM].set.OR_GATE = lround(val * 1000 / TDCunit_ps); }
     void on_spinBoxORgate_C_valueChanged(double val) { for (quint8 iPM=10; iPM<20; ++iPM) FEE.allPMs[iPM].set.OR_GATE = lround(val * 1000 / TDCunit_ps); }
@@ -1125,8 +1132,8 @@ public slots:
     void on_buttonApplyVertexTimeLow_clicked() { FEE.apply_VTIME_LOW (); }
     void on_buttonApplyVertexTimeHigh_clicked () { FEE.apply_VTIME_HIGH(); }
 
-    void on_lineEditORgate_textEdited       (const QString text) { curPM->set.OR_GATE  = text.toUInt(); curPM->servicesNew["OR_GATE" ]->updateService(); }
-    void on_lineEditCFDsaturation_textEdited(const QString text) { curPM->set.CFD_SATR = text.toUInt(); curPM->servicesNew["CFD_SATR"]->updateService(); }
+    void on_lineEditORgate_textEdited       (const QString text) { curPM->set.OR_GATE  = text.toUInt(); }
+    void on_lineEditCFDsaturation_textEdited(const QString text) { curPM->set.CFD_SATR = text.toUInt(); }
     void on_buttonApplyORgate_clicked       () { FEE.apply_OR_GATE_PM (curFEEid); }
     void on_buttonApplyCFDsaturation_clicked() { FEE.apply_CFD_SATR(curFEEid); }
 

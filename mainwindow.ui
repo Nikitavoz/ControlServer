@@ -43944,7 +43944,7 @@ GBT</string>
        <locale language="English" country="World"/>
       </property>
       <property name="title">
-       <string notr="true">Counters</string>
+       <string notr="true">Statistics</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -45009,7 +45009,7 @@ GBT</string>
         <rect>
          <x>64</x>
          <y>9</y>
-         <width>211</width>
+         <width>111</width>
          <height>17</height>
         </rect>
        </property>

@@ -37,6 +37,28 @@ const struct {char name[4]; quint16 TCMid, PMA0id, PMC0id; quint8 systemID; stru
                                                                                      {         "OrC",             113},
                                                                                      {         "OrA",             114} }             }
 };
+static const char* TriggerTypeNames = "Bit Name   \n"
+                                      " 0 ORBIT   \n"
+                                      " 1 HB      \n"
+                                      " 2 HBr     \n"
+                                      " 3 HC      \n"
+                                      " 4 PhT     \n"
+                                      " 5 PP      \n"
+                                      " 6 Cal     \n"
+                                      " 7 SOT     \n"
+                                      " 8 EOT     \n"
+                                      " 9 SOC     \n"
+                                      "10 EOC     \n"
+                                      "11 TF      \n"
+                                      "12 FErst   \n"
+                                      "13 RT      \n"
+                                      "14 RS      \n"
+                                      "···spare···\n"
+                                      "27 LHCgap1 \n"
+                                      "28 LHCgap2 \n"
+                                      "29 TPCsync \n"
+                                      "30 TPCrst  \n"
+                                      "31 TOF       ";
 
 struct GBTunit { // (13 + 3 + 10) registers * 4 bytes = 104 bytes
     union ControlData {
@@ -157,18 +179,18 @@ static const quint8
     RB_RXphaseError			= 13,
     RB_readoutFSM           = 14;
     static constexpr quint32 defaults[controlSize] = {
-        0x00100000, //D8, HB response is on
-              0x40, //D9, actuate laser on 'Calibration' trigger
-                 0, //DA, data gen bunch pattern: 1 single event with 1 data word
-                 0, //DB
-                 0, //DC
-                 0, //DD
-                 0, //DE
-                 0, //DF
-                 0, //E0
-                 0, //E1, to be filled during initialization
-                 0, //E2
-        0x000F0020, //E3
+        0x00100000, //D8, HB response is on, emulation is off
+              0x40, //D9, show BC indicator for 'Calibration' trigger
+                 0, //DA, no emulated data
+                 0, //DB, (not used anymore)
+                 0, //DC, empty trigger pattern
+                 0, //DD, empty trigger pattern
+                 0, //DE, zero trigger type
+                 0, //DF, zero intervals
+                 0, //E0, zero offsets
+                 0, //E1, RDH settings, to be filled during initialization
+                 0, //E2, (not used)
+                 0, //E3, individual for each side, to be restored from settings
               0x10  //E4, select data on 'Physics' trigger
     };
     inline bool isOK() {return
@@ -224,7 +246,7 @@ const QHash<QString, Parameter> GBTparameters = {
     {"TG_FREQ_OFFSET"       , {0xE0, 12, 16}},
     {"TG_HBr_RATE"          , {0xE0,  4, 28}},
     {"RDH_FEE_ID"           , {0xE1, 16,  0}},
-    {"SYSTEM_ID"            , {0xE1,  8, 16}},
+    {"RDH_SYS_ID"           , {0xE1,  8, 16}},
     {"BCID_DELAY"           , {0xE3, 12,  0}},
     {"DATA_SEL_TRG_MASK"    ,  0xE4         }
 };
@@ -307,5 +329,13 @@ public:
     }
 //    template<typename... Args> int updateService(Args... args) { return service->updateService(args...); }
 };
+
+inline quint32 changeNbits(quint32 base, quint8 length, quint8 shift, quint32 value) {
+    if (length == 32) return value;
+    quint32 mask = (1 << length) - 1;
+    base &= ~mask << shift;
+    base |= (mask & value) << shift;
+    return base;
+}
 
 #endif // GBT_H

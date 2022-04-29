@@ -2,6 +2,22 @@
 #define PM_H
 
 #include "FITboardsCommon.h"
+const QHash<QString, Parameter> PMparameters = {
+    //name                  address width shift interval
+    {"OR_GATE"              ,  0x00               },
+    {"TIME_ALIGN"           , {0x01, 12,  0,    1}},
+    {"noTriggerMode"        , {0x01,  1, 12,    1}},
+    {"ADC0_RANGE"           , {0x25, 32,  0,    2}},
+    {"ADC1_RANGE"           , {0x26, 32,  0,    2}},
+    {"CFD_SATR"             ,  0x3D               },
+    {"CH_MASK_DATA"         ,  0x7C               },
+    {"TRG_CNT_MODE"         , {0x7F,  1, 10}      },
+    {"CFD_THRESHOLD"        , {0x80, 32,  0,    4}},
+    {"CFD_ZERO"             , {0x81, 32,  0,    4}},
+    {"ADC_ZERO"             , {0x82, 32,  0,    4}},
+    {"ADC_DELAY"            , {0x83, 32,  0,    4}},
+    {"THRESHOLD_CALIBR"     , {0xB0, 32,  0,    1}}
+};
 
 struct TypePM {
     struct ActualValues{
@@ -78,7 +94,7 @@ struct TypePM {
                                                          {0xE8, 0xF1}, //GBTstatus  ,  10 registers
                                                          {0xF7, 0xF7}, //FW_TIME_MCU
                                                          {0xFC, 0xFF}};//block2     ,   4 registers
-        double //calculable values
+        float //calculable values
             TEMP_BOARD,
             TEMP_FPGA,
             VOLTAGE_1V,
@@ -86,7 +102,7 @@ struct TypePM {
             RMS_Ch[12][2]; //[Ch][0] for ADC0, [Ch][1] for ADC1
         qint16
             TIME_ALIGN[12]  ,
-			TRG_CNT_MODE    ;
+            TRG_CNT_MODE    ;
 		quint32 CH_MASK_TRG;
         char BOARD_TYPE[4] = {0};
         void calculateValues() {
@@ -160,19 +176,18 @@ struct TypePM {
         };
         quint32 Old[number] = {0};
         union {
-			double rate[number] = {0.};
+            float rate[number] = {0.};
             struct {
-				double CFD,
-					   TRG;
+                float CFD,
+                      TRG;
             } rateCh[12];
         };
         GBTcounters GBT;
-        QList<DimService *> services;
+//        QList<DimService *> services;
     } counters;
 
     QList<DimService *> services;
     QList<DimCommand *> commands;
-    QHash<QString, DimService *> servicesNew;
     quint16 FEEid;
     const quint16 baseAddress;
     const char *name;
@@ -188,26 +203,15 @@ struct TypePM {
          act.restartReasonCode != 2 ; //not by PLL relock
     }
 
-    TypePM(quint16 addr, const char *PMname) : baseAddress(addr), name(PMname) {}
-};
+    bool setParameter(QString parameterName, quint32 value, quint8 iCh = 0) {
+        if (PMparameters.contains(parameterName)) return false;
+        Parameter par = PMparameters[parameterName];
+        quint32 &reg = set.registers[par.address + iCh * par.interval];
+        reg = changeNbits(reg, par.bitwidth, par.bitshift, value);
+        return true;
+    }
 
-const QHash<QString, Parameter> PMparameters = {
-    //name                  address width shift interval
-    {"OR_GATE"              ,  0x00               },
-    {"TIME_ALIGN"           , {0x01, 12,  0,    1}},
-	{"noTriggerMode"        , {0x01,  1, 12,    1}},
-    {"ADC0_OFFSET"          , {0x0D, 32,  0,    2}},
-    {"ADC1_OFFSET"          , {0x0E, 32,  0,    2}},
-    {"ADC0_RANGE"           , {0x25, 32,  0,    2}},
-    {"ADC1_RANGE"           , {0x26, 32,  0,    2}},
-    {"CFD_SATR"             ,  0x3D               },
-    {"CH_MASK_DATA"         ,  0x7C               },
-    {"TRG_CNT_MODE"         , {0x7F,  1, 10}      },
-    {"CFD_THRESHOLD"        , {0x80, 32,  0,    4}},
-    {"CFD_ZERO"             , {0x81, 32,  0,    4}},
-    {"ADC_ZERO"             , {0x82, 32,  0,    4}},
-    {"ADC_DELAY"            , {0x83, 32,  0,    4}},
-    {"THRESHOLD_CALIBR"     , {0xB0, 32,  0,    1}}
+    TypePM(quint16 addr, const char *PMname) : baseAddress(addr), name(PMname) {}
 };
 
 #endif // PM_H
