@@ -115,7 +115,7 @@ public:
                     return false;
             }
             if (th->InfoCode != 0) {
-                emit error(th->infoCodeString() + QString::asprintf(", address: %08X", *transactionsList.at(i).address + th->Words + (th->InfoCode == 4 ? -1 : 0)), IPbusError);
+				emit error(th->infoCodeString() + QString::asprintf(", address: %08X", *transactionsList.at(i).address + th->Words), IPbusError);
                 return false;
             }
         }

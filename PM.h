@@ -9,7 +9,7 @@ const QHash<QString, Parameter> PMparameters = {
     {"noTriggerMode"        , {0x01,  1, 12,    1}},
     {"ADC0_RANGE"           , {0x25, 32,  0,    2}},
     {"ADC1_RANGE"           , {0x26, 32,  0,    2}},
-    {"CFD_SATR"             ,  0x3D               },
+	{"CFD_SATR"             , {0x3D, 12,  0}	  },
     {"CH_MASK_DATA"         ,  0x7C               },
     {"TRG_CNT_MODE"         , {0x7F,  1, 10}      },
     {"CFD_THRESHOLD"        , {0x80, 32,  0,    4}},
@@ -30,7 +30,9 @@ struct TypePM {
         }      timeAlignment[12]      ; //┘
         quint32 ADC_BASELINE[12][2]   , //]0D-24 //[Ch][0] for ADC0, [Ch][1] for ADC1
                 ADC_RANGE   [12][2]   , //]25-3C
-                CFD_SATR              ; //]3D
+				CFD_SATR           :12, //┐
+								   : 4, //│3D
+								   :16; //┘
         qint32  TDC1tuning         : 8, //┐
                 TDC2tuning         : 8, //│3E
                                    :16, //┘
@@ -46,8 +48,8 @@ struct TypePM {
                 TDC1PLLlocked      : 1, //│
                 TDC2PLLlocked      : 1, //│
                 TDC3PLLlocked      : 1, //│
-                GBTlinkPresent     : 1, //│
-                GBTreceiverError   : 1, //│
+				GBTRxReady	       : 1, //│
+				GBTRxError		   : 1, //│
                 TDC1syncError      : 1, //│
                 TDC2syncError      : 1, //│
                 TDC3syncError      : 1, //│7F
@@ -86,7 +88,6 @@ struct TypePM {
                 voltage1,               //]FD
                 voltage1_8;             //]FE
         Timestamp FW_TIME_FPGA;         //]FF
-
         quint32 *registers = (quint32 *)this;
         static const inline QVector<regblock> regblocks {{0x00, 0x7D}, //block0     , 126 registers
                                                          {0x7F, 0xBE}, //block1     ,  64 registers
@@ -95,10 +96,10 @@ struct TypePM {
                                                          {0xF7, 0xF7}, //FW_TIME_MCU
                                                          {0xFC, 0xFF}};//block2     ,   4 registers
         float //calculable values
-            TEMP_BOARD,
-            TEMP_FPGA,
-            VOLTAGE_1V,
-            VOLTAGE_1_8V,
+			TEMP_BOARD = 20.0F,
+			TEMP_FPGA  = 20.0F,
+			VOLTAGE_1V   = 1.0F,
+			VOLTAGE_1_8V = 1.8F,
             RMS_Ch[12][2]; //[Ch][0] for ADC0, [Ch][1] for ADC1
         qint16
             TIME_ALIGN[12]  ,
@@ -132,7 +133,9 @@ struct TypePM {
         } TIME_ALIGN           [12]   ;	//┘
         quint32 _reservedSpace0[0x25 - 0x0C - 1],
                 ADC_RANGE      [12][2], //]25-3C
-                CFD_SATR              , //]3D
+				CFD_SATR           :12, //┐
+								   : 4, //│3D
+								   :16, //┘
                 _reservedSpace1[0x7C - 0x3D - 1],
                 CH_MASK_DATA          , //]7C
                 _reservedSpace2[0x80 - 0x7C - 1];
@@ -176,10 +179,10 @@ struct TypePM {
         };
         quint32 Old[number] = {0};
         union {
-            float rate[number] = {0.};
-            struct {
-                float CFD,
-                      TRG;
+			float rate[number];
+			struct {
+				float CFD,
+					  TRG;
             } rateCh[12];
         };
         GBTcounters GBT;
@@ -191,6 +194,7 @@ struct TypePM {
     quint16 FEEid;
     const quint16 baseAddress;
     const char *name;
+	TRGsyncStatus &TRGsync;
 
     bool isOK() { return
          act.mainPLLlocked &&
@@ -200,18 +204,25 @@ struct TypePM {
         !act.TDC1syncError &&
         !act.TDC2syncError &&
         !act.TDC3syncError &&
+		 TRGsync.linkOK	   &&
+		!TRGsync.syncError &&
          act.restartReasonCode != 2 ; //not by PLL relock
     }
 
+	bool GBTisOK() {return
+		act.GBT.isOK() &&
+		act.GBTRxReady;
+	}
+
     bool setParameter(QString parameterName, quint32 value, quint8 iCh = 0) {
-        if (PMparameters.contains(parameterName)) return false;
+		if (!PMparameters.contains(parameterName)) return false;
         Parameter par = PMparameters[parameterName];
         quint32 &reg = set.registers[par.address + iCh * par.interval];
         reg = changeNbits(reg, par.bitwidth, par.bitshift, value);
         return true;
     }
 
-    TypePM(quint16 addr, const char *PMname) : baseAddress(addr), name(PMname) {}
+	TypePM(quint16 addr, const char *PMname, TRGsyncStatus &TRGsyncRef) : baseAddress(addr), name(PMname), TRGsync(TRGsyncRef) {}
 };
 
 #endif // PM_H

@@ -73,7 +73,8 @@ struct GBTunit { // (13 + 3 + 10) registers * 4 bytes = 104 bytes
                 BYPASS_MODE                  :  1, //│
                 READOUT_LOCK                 :  1, //│
                 HB_REJECT                    :  1, //│
-                                             :  8, //┘
+				shiftRxPhase                 :  1, //│
+											 :  7, //┘
                 DG_TRG_RESPOND_MASK,               //]D9
                 DG_BUNCH_PATTERN,                  //]DA
                 TG_SINGLE_VALUE,                   //]DB
@@ -194,11 +195,11 @@ static const quint8
               0x10  //E4, select data on 'Physics' trigger
     };
     inline bool isOK() {return
-        !Status.GBTRxError &&
+//        !Status.GBTRxError && //this flag indicates errors in past, the actual error bit is read from board status
         !Status.RxPhaseError &&
         Status.READOUT_MODE == Status.CRU_READOUT_MODE &&
-        (Control.registers[0] & 1 << 14) == 0 && //GBT reset not locked
-        (Status.registers[2] >> 16 & 0x7FFF) == 0 && //no FSM reset errors
+        (Control.registers[0] & 1 << 14) == 0 && //FSM reset not locked
+        (Status.registers[2] >> 16 & 0x7FFF) == 0 && //no FSM errors
         (!Status.dataFIFOnotReady || Status.READOUT_MODE != RO_idle); //FIFOs must me ready in Idle
     }
 };
@@ -211,12 +212,30 @@ struct GBTcounters {
         newTime = QDateTime::currentDateTime();
         quint32 time_ms = oldTime.msecsTo(newTime);
         if (time_ms < 100) return;
-         wordsRate = ( wordsNew -  wordsOld) * 1000. / time_ms;
-        eventsRate = (eventsNew - eventsOld) * 1000. / time_ms;
+		 wordsRate =  wordsNew >=  wordsOld ? ( wordsNew -  wordsOld) * 1000. / time_ms :  wordsNew;
+		eventsRate = eventsNew >= eventsOld ? (eventsNew - eventsOld) * 1000. / time_ms : eventsNew;
          wordsOld =  wordsNew;
         eventsOld = eventsNew;
         oldTime = newTime;
     }
+};
+
+struct GBTerrorReport {
+	quint16 GBTwords[6][5], //]reg0-14
+			RxPhases[4]   , //]reg15-16
+			boardBC		  , //┐
+			CRU_BC		  ; //┘reg17
+	quint32 boardOrbit,		//]reg18
+			CRU_orbit;		//]reg19
+	quint32 *registers = (quint32 *)this;
+	inline quint8 getPhase(quint8 i) { return i > 15 ? -1 : *(quint64 *)RxPhases >> 4*i & 0xF; }
+	QString text() {
+		QString res = "BCID sync lost";
+		if (QVector<quint32>(registers, registers + 20).count(0) == 20) return res;
+		for (quint8 w=0; w<6; ++w) res += QString::asprintf("\nGBTword%d: 0x%04x%04x %04x %04x%04x, triggers: ", w, GBTwords[w][4], GBTwords[w][3], GBTwords[w][2], GBTwords[w][1], GBTwords[w][0]);
+		return res;
+
+	}
 };
 
 struct Parameter {
@@ -236,6 +255,7 @@ const QHash<QString, Parameter> GBTparameters = {
     {"BYPASS_MODE"          , {0xD8,  1, 21}},
     {"READOUT_LOCK"         , {0xD8,  1, 22}},
     {"HB_REJECT"            , {0xD8,  1, 23}},
+	{"shiftRxPhase"			, {0xD8,  1, 24}},
     {"DG_TRG_RESPOND_MASK"  ,  0xD9         },
     {"DG_BUNCH_PATTERN"     ,  0xDA         },
     {"TG_PATTERN"           , {0xDC, 64,  0}},
@@ -333,7 +353,7 @@ public:
 inline quint32 changeNbits(quint32 base, quint8 length, quint8 shift, quint32 value) {
     if (length == 32) return value;
     quint32 mask = (1 << length) - 1;
-    base &= ~mask << shift;
+	base &= ~(mask << shift);
     base |= (mask & value) << shift;
     return base;
 }

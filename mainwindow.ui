@@ -4213,7 +4213,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -4227,14 +4227,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -4245,6 +4242,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditADCzero_01">
@@ -4496,7 +4496,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -4510,14 +4510,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -4528,6 +4525,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC0range_01">
@@ -4665,7 +4665,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -4679,14 +4679,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -4697,6 +4694,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC1range_01">
@@ -4834,7 +4834,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -4848,14 +4848,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -4866,6 +4863,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueTimeAlignment_01">
@@ -5000,7 +5000,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -5014,14 +5014,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -5032,6 +5029,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDthreshold_01">
@@ -5169,7 +5169,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -5183,14 +5183,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -5201,6 +5198,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDzero_01">
@@ -5338,7 +5338,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -5352,14 +5352,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -5370,6 +5367,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueThresholdCalibr_01">
@@ -5507,7 +5507,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -5521,14 +5521,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -5539,6 +5536,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLabel" name="labelValueADC0meanAmplitude_01">
@@ -6225,6 +6225,12 @@ correction</string>
          <height>14</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="toolTip">
         <string notr="true">non-triggering channel</string>
        </property>
@@ -6308,7 +6314,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -6322,14 +6328,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -6340,6 +6343,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyADCzero_02">
@@ -6366,7 +6372,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -6380,14 +6386,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -6398,6 +6401,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADCdelay_02">
@@ -6649,7 +6655,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -6663,14 +6669,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -6681,6 +6684,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditADC0range_02">
@@ -6770,7 +6776,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -6784,14 +6790,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -6802,6 +6805,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC1range_02">
@@ -7146,7 +7152,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -7160,14 +7166,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -7178,6 +7181,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyThresholdCalibr_02">
@@ -7204,7 +7210,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -7218,14 +7224,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -7236,6 +7239,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditTimeAlignment_02">
@@ -7370,7 +7376,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -7384,14 +7390,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -7402,6 +7405,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDzero_02">
@@ -7476,7 +7482,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -7490,14 +7496,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -7508,6 +7511,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditCFDthreshold_02">
@@ -8320,6 +8326,14 @@ correction</string>
          <height>14</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="toolTip">
         <string notr="true">non-triggering channel</string>
        </property>
@@ -8400,7 +8414,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -8414,14 +8428,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -8432,6 +8443,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditADCzero_03">
@@ -8683,7 +8697,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -8697,14 +8711,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -8715,6 +8726,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC0range_03">
@@ -8852,7 +8866,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -8866,14 +8880,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -8884,6 +8895,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC1range_03">
@@ -9021,7 +9035,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -9035,14 +9049,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -9053,6 +9064,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueTimeAlignment_03">
@@ -9187,7 +9201,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -9201,14 +9215,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -9219,6 +9230,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDthreshold_03">
@@ -9356,7 +9370,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -9370,14 +9384,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -9388,6 +9399,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDzero_03">
@@ -9525,7 +9539,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -9539,14 +9553,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -9557,6 +9568,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueThresholdCalibr_03">
@@ -9694,7 +9708,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -9708,14 +9722,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -9726,6 +9737,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLabel" name="labelValueADC0meanAmplitude_03">
@@ -10413,6 +10427,8 @@ correction</string>
         <font>
          <family>Calibri</family>
          <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="toolTip">
@@ -10501,7 +10517,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -10515,14 +10531,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -10533,6 +10546,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyADCzero_04">
@@ -10559,7 +10575,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -10573,14 +10589,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -10591,6 +10604,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADCdelay_04">
@@ -10842,7 +10858,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -10856,14 +10872,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -10874,6 +10887,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditADC0range_04">
@@ -10963,7 +10979,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -10977,14 +10993,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -10995,6 +11008,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC1range_04">
@@ -11339,7 +11355,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -11353,14 +11369,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -11371,6 +11384,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyThresholdCalibr_04">
@@ -11397,7 +11413,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -11411,14 +11427,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -11429,6 +11442,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditTimeAlignment_04">
@@ -11563,7 +11579,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -11577,14 +11593,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -11595,6 +11608,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDzero_04">
@@ -11669,7 +11685,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -11683,14 +11699,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -11701,6 +11714,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditCFDthreshold_04">
@@ -12513,6 +12529,14 @@ correction</string>
          <height>14</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="toolTip">
         <string notr="true">non-triggering channel</string>
        </property>
@@ -12596,7 +12620,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -12610,14 +12634,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -12628,6 +12649,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditADCzero_05">
@@ -12879,7 +12903,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -12893,14 +12917,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -12911,6 +12932,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC0range_05">
@@ -13048,7 +13072,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -13062,14 +13086,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -13080,6 +13101,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC1range_05">
@@ -13217,7 +13241,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -13231,14 +13255,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -13249,6 +13270,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueTimeAlignment_05">
@@ -13383,7 +13407,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -13397,14 +13421,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -13415,6 +13436,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDthreshold_05">
@@ -13552,7 +13576,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -13566,14 +13590,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -13584,6 +13605,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDzero_05">
@@ -13721,7 +13745,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -13735,14 +13759,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -13753,6 +13774,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueThresholdCalibr_05">
@@ -13890,7 +13914,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -13904,14 +13928,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -13922,6 +13943,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLabel" name="labelValueADC0meanAmplitude_05">
@@ -14612,6 +14636,8 @@ correction</string>
         <font>
          <family>Calibri</family>
          <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="toolTip">
@@ -14700,7 +14726,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -14714,14 +14740,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -14732,6 +14755,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyADCzero_06">
@@ -14758,7 +14784,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -14772,14 +14798,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -14790,6 +14813,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADCdelay_06">
@@ -15041,7 +15067,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -15055,14 +15081,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -15073,6 +15096,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditADC0range_06">
@@ -15162,7 +15188,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -15176,14 +15202,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -15194,6 +15217,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC1range_06">
@@ -15538,7 +15564,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -15552,14 +15578,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -15570,6 +15593,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyThresholdCalibr_06">
@@ -15596,7 +15622,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -15610,14 +15636,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -15628,6 +15651,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditTimeAlignment_06">
@@ -15762,7 +15788,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -15776,14 +15802,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -15794,6 +15817,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDzero_06">
@@ -15868,7 +15894,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -15882,14 +15908,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -15900,6 +15923,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditCFDthreshold_06">
@@ -16712,6 +16738,14 @@ correction</string>
          <height>14</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="toolTip">
         <string notr="true">non-triggering channel</string>
        </property>
@@ -16795,7 +16829,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -16809,14 +16843,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -16827,6 +16858,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditADCzero_07">
@@ -17078,7 +17112,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -17092,14 +17126,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -17110,6 +17141,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC0range_07">
@@ -17247,7 +17281,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -17261,14 +17295,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -17279,6 +17310,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC1range_07">
@@ -17416,7 +17450,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -17430,14 +17464,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -17448,6 +17479,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueTimeAlignment_07">
@@ -17582,7 +17616,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -17596,14 +17630,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -17614,6 +17645,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDthreshold_07">
@@ -17751,7 +17785,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -17765,14 +17799,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -17783,6 +17814,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDzero_07">
@@ -17920,7 +17954,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -17934,14 +17968,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -17952,6 +17983,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueThresholdCalibr_07">
@@ -18089,7 +18123,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -18103,14 +18137,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -18121,6 +18152,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLabel" name="labelValueADC0meanAmplitude_07">
@@ -18808,6 +18842,8 @@ correction</string>
         <font>
          <family>Calibri</family>
          <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="toolTip">
@@ -18896,7 +18932,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -18910,14 +18946,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -18928,6 +18961,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyADCzero_08">
@@ -18954,7 +18990,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -18968,14 +19004,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -18986,6 +19019,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADCdelay_08">
@@ -19237,7 +19273,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -19251,14 +19287,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -19269,6 +19302,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditADC0range_08">
@@ -19358,7 +19394,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -19372,14 +19408,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -19390,6 +19423,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC1range_08">
@@ -19734,7 +19770,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -19748,14 +19784,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -19766,6 +19799,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyThresholdCalibr_08">
@@ -19792,7 +19828,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -19806,14 +19842,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -19824,6 +19857,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditTimeAlignment_08">
@@ -19958,7 +19994,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -19972,14 +20008,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -19990,6 +20023,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDzero_08">
@@ -20064,7 +20100,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -20078,14 +20114,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -20096,6 +20129,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditCFDthreshold_08">
@@ -20908,6 +20944,14 @@ correction</string>
          <height>14</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="toolTip">
         <string notr="true">non-triggering channel</string>
        </property>
@@ -20991,7 +21035,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -21005,14 +21049,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -21023,6 +21064,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditADCzero_09">
@@ -21274,7 +21318,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -21288,14 +21332,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -21306,6 +21347,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC0range_09">
@@ -21443,7 +21487,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -21457,14 +21501,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -21475,6 +21516,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC1range_09">
@@ -21612,7 +21656,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -21626,14 +21670,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -21644,6 +21685,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueTimeAlignment_09">
@@ -21778,7 +21822,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -21792,14 +21836,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -21810,6 +21851,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDthreshold_09">
@@ -21947,7 +21991,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -21961,14 +22005,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -21979,6 +22020,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDzero_09">
@@ -22116,7 +22160,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -22130,14 +22174,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -22148,6 +22189,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueThresholdCalibr_09">
@@ -22285,7 +22329,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -22299,14 +22343,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -22317,6 +22358,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLabel" name="labelValueADC0meanAmplitude_09">
@@ -23004,6 +23048,8 @@ correction</string>
         <font>
          <family>Calibri</family>
          <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="toolTip">
@@ -23092,7 +23138,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -23106,14 +23152,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -23124,6 +23167,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyADCzero_10">
@@ -23150,7 +23196,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -23164,14 +23210,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -23182,6 +23225,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADCdelay_10">
@@ -23433,7 +23479,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -23447,14 +23493,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -23465,6 +23508,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditADC0range_10">
@@ -23554,7 +23600,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -23568,14 +23614,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -23586,6 +23629,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC1range_10">
@@ -23930,7 +23976,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -23944,14 +23990,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -23962,6 +24005,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyThresholdCalibr_10">
@@ -23988,7 +24034,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -24002,14 +24048,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -24020,6 +24063,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditTimeAlignment_10">
@@ -24154,7 +24200,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -24168,14 +24214,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -24186,6 +24229,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDzero_10">
@@ -24260,7 +24306,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -24274,14 +24320,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -24292,6 +24335,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditCFDthreshold_10">
@@ -25101,6 +25147,14 @@ correction</string>
          <height>14</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="toolTip">
         <string notr="true">non-triggering channel</string>
        </property>
@@ -25184,7 +25238,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -25198,14 +25252,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -25216,6 +25267,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditADCzero_11">
@@ -25467,7 +25521,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -25481,14 +25535,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -25499,6 +25550,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC0range_11">
@@ -25636,7 +25690,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -25650,14 +25704,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -25668,6 +25719,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC1range_11">
@@ -25805,7 +25859,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -25819,14 +25873,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -25837,6 +25888,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueTimeAlignment_11">
@@ -25971,7 +26025,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -25985,14 +26039,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -26003,6 +26054,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDthreshold_11">
@@ -26140,7 +26194,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -26154,14 +26208,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -26172,6 +26223,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDzero_11">
@@ -26309,7 +26363,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -26323,14 +26377,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -26341,6 +26392,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueThresholdCalibr_11">
@@ -26478,7 +26532,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -26492,14 +26546,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -26510,6 +26561,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLabel" name="labelValueADC0meanAmplitude_11">
@@ -27200,6 +27254,8 @@ correction</string>
         <font>
          <family>Calibri</family>
          <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="toolTip">
@@ -27288,7 +27344,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -27302,14 +27358,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -27320,6 +27373,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyADCzero_12">
@@ -27346,7 +27402,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -27360,14 +27416,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -27378,6 +27431,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADCdelay_12">
@@ -27629,7 +27685,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -27643,14 +27699,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -27661,6 +27714,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditADC0range_12">
@@ -27750,7 +27806,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -27764,14 +27820,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -27782,6 +27835,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueADC1range_12">
@@ -28126,7 +28182,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -28140,14 +28196,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -28158,6 +28211,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyThresholdCalibr_12">
@@ -28184,7 +28240,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -28198,14 +28254,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -28216,6 +28269,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditTimeAlignment_12">
@@ -28350,7 +28406,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -28364,14 +28420,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -28382,6 +28435,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueCFDzero_12">
@@ -28456,7 +28512,7 @@ correction</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -28470,14 +28526,11 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string>border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -28488,6 +28541,9 @@ correction</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditCFDthreshold_12">
@@ -29299,6 +29355,14 @@ correction</string>
          <width>14</width>
          <height>14</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
        </property>
        <property name="toolTip">
         <string notr="true">non-triggering channel</string>
@@ -32501,7 +32565,7 @@ TRG</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Write&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -32515,14 +32579,11 @@ TRG</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -32533,6 +32594,9 @@ TRG</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="buttonApplyCFDsaturation">
@@ -32559,7 +32623,7 @@ TRG</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Write&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -32573,14 +32637,11 @@ TRG</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -32591,6 +32652,9 @@ TRG</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="labelTextCFDsaturation">
@@ -33303,7 +33367,7 @@ TRG</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -33317,14 +33381,11 @@ TRG</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -33335,6 +33396,9 @@ TRG</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="ActualLabel" name="labelValuePhase_A">
@@ -33975,6 +34039,9 @@ TRG</string>
       <property name="cursor">
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
+      <property name="toolTip">
+       <string>Write</string>
+      </property>
       <property name="statusTip">
        <string notr="true"/>
       </property>
@@ -33987,14 +34054,11 @@ TRG</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -34005,6 +34069,9 @@ TRG</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="labelTextORgate_A">
@@ -34924,6 +34991,9 @@ TRG</string>
       <property name="cursor">
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
+      <property name="toolTip">
+       <string>Write</string>
+      </property>
       <property name="statusTip">
        <string notr="true"/>
       </property>
@@ -34936,14 +35006,11 @@ TRG</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -34954,6 +35021,9 @@ TRG</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="labelTextPhase_C">
@@ -35136,7 +35206,7 @@ TRG</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -35150,14 +35220,11 @@ TRG</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -35168,6 +35235,9 @@ TRG</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="ActualLabel" name="labelValuePhase_C">
@@ -35564,7 +35634,7 @@ TRG</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -35578,14 +35648,11 @@ TRG</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -35596,6 +35663,9 @@ TRG</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueTriggersSignature_1">
@@ -36358,7 +36428,7 @@ TRG</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -36372,14 +36442,11 @@ TRG</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -36390,6 +36457,9 @@ TRG</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueTriggersSignature_2">
@@ -36798,7 +36868,7 @@ TRG</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -36812,14 +36882,11 @@ TRG</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -36830,6 +36897,9 @@ TRG</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueTriggersSignature_5">
@@ -37232,7 +37302,7 @@ TRG</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -37246,14 +37316,11 @@ TRG</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -37264,6 +37331,9 @@ TRG</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueTriggersSignature_4">
@@ -37669,7 +37739,7 @@ TRG</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -37683,14 +37753,11 @@ TRG</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -37701,6 +37768,9 @@ TRG</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueTriggersSignature_3">
@@ -38337,7 +38407,7 @@ TRG</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -38351,14 +38421,11 @@ TRG</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -38369,6 +38436,9 @@ TRG</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="ActualLabel" name="labelValueVertexTimeHigh">
@@ -38443,7 +38513,7 @@ TRG</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -38457,14 +38527,11 @@ TRG</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -38475,6 +38542,9 @@ TRG</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLineEdit" name="lineEditVertexTimeHigh">
@@ -38904,7 +38974,7 @@ TRG</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -38918,14 +38988,11 @@ TRG</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -38936,6 +39003,9 @@ TRG</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="ActualLabel" name="labelValueTriggersLevelA_1">
@@ -39058,7 +39128,7 @@ TRG</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -39072,14 +39142,11 @@ TRG</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -39090,6 +39157,9 @@ TRG</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLineEdit" name="lineEditTriggersLevelA_1">
@@ -39290,7 +39360,7 @@ TRG</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -39304,14 +39374,11 @@ TRG</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -39322,6 +39389,9 @@ TRG</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="buttonApplyTriggersLevelC_1">
@@ -39348,7 +39418,7 @@ TRG</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -39362,14 +39432,11 @@ TRG</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -39380,6 +39447,9 @@ TRG</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="ActualLabel" name="labelValueTriggersLevelC_1">
@@ -40202,7 +40272,7 @@ TRG</string>
        <x>780</x>
        <y>6</y>
        <width>511</width>
-       <height>460</height>
+       <height>462</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -41040,7 +41110,7 @@ GBT</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -41054,14 +41124,11 @@ GBT</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -41072,6 +41139,9 @@ GBT</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="ActualLabel" name="labelValueDataSelectTriggerMask">
@@ -41768,7 +41838,7 @@ GBT</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -41782,14 +41852,11 @@ GBT</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -41800,6 +41867,9 @@ GBT</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="ActualLabel" name="labelValueBCIDdelayDec">
@@ -43544,104 +43614,6 @@ GBT</string>
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="labelTextRxPhase">
-      <property name="geometry">
-       <rect>
-        <x>301</x>
-        <y>290</y>
-        <width>52</width>
-        <height>15</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-        <kerning>false</kerning>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string>Rx phase:</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelValueRxPhase">
-      <property name="geometry">
-       <rect>
-        <x>355</x>
-        <y>290</y>
-        <width>10</width>
-        <height>15</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-        <kerning>false</kerning>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string>7</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
      <widget class="QLabel" name="labelValueFSMerror">
       <property name="geometry">
        <rect>
@@ -44900,7 +44872,7 @@ GBT</string>
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string>0xDEC</string>
+        <string>3563</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -44949,7 +44921,7 @@ GBT</string>
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string>0xDEC</string>
+        <string>0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -45356,7 +45328,7 @@ GBT</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -45370,14 +45342,11 @@ GBT</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -45388,6 +45357,9 @@ GBT</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyTGcontinuousValue">
@@ -45420,7 +45392,7 @@ GBT</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -45434,14 +45406,11 @@ GBT</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -45452,6 +45421,9 @@ GBT</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditTGcontinuousValue">
@@ -45634,7 +45606,7 @@ GBT</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -45648,14 +45620,11 @@ GBT</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -45666,6 +45635,9 @@ GBT</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditTGbunchFrequency">
@@ -45848,7 +45820,7 @@ GBT</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -45862,14 +45834,11 @@ GBT</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -45880,6 +45849,9 @@ GBT</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditTGfrequencyOffset">
@@ -46269,7 +46241,7 @@ GBT</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -46283,14 +46255,11 @@ GBT</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -46301,6 +46270,9 @@ GBT</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditTGHBrRate">
@@ -46804,7 +46776,7 @@ GBT</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -46818,14 +46790,11 @@ GBT</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -46836,6 +46805,9 @@ GBT</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditDGfrequencyOffset">
@@ -47018,7 +46990,7 @@ GBT</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -47032,14 +47004,11 @@ GBT</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -47050,6 +47019,9 @@ GBT</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditDGbunchFrequency">
@@ -47532,7 +47504,7 @@ GBT</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -47546,14 +47518,11 @@ GBT</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -47564,6 +47533,9 @@ GBT</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonApplyDGtriggerRespondMask">
@@ -47596,7 +47568,7 @@ GBT</string>
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
-        <string notr="true"/>
+        <string notr="true">Write</string>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -47610,14 +47582,11 @@ GBT</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">border-style: solid;</string>
-       </property>
        <property name="locale">
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="icon">
         <iconset resource="../!images/img.qrc">
@@ -47628,6 +47597,9 @@ GBT</string>
          <width>16</width>
          <height>16</height>
         </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="buttonResetOffset">
@@ -47682,7 +47654,7 @@ GBT</string>
         <x>290</x>
         <y>13</y>
         <width>217</width>
-        <height>187</height>
+        <height>161</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -47723,51 +47695,6 @@ GBT</string>
       <property name="flat">
        <bool>false</bool>
       </property>
-      <widget class="QPushButton" name="buttonResetRxPhaseError">
-       <property name="geometry">
-        <rect>
-         <x>69</x>
-         <y>160</y>
-         <width>40</width>
-         <height>19</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string notr="true"/>
-       </property>
-       <property name="statusTip">
-        <string notr="true"/>
-       </property>
-       <property name="whatsThis">
-        <string notr="true"/>
-       </property>
-       <property name="accessibleName">
-        <string notr="true"/>
-       </property>
-       <property name="accessibleDescription">
-        <string notr="true"/>
-       </property>
-       <property name="locale">
-        <locale language="English" country="World"/>
-       </property>
-       <property name="text">
-        <string notr="true">Reset</string>
-       </property>
-      </widget>
       <widget class="QLabel" name="labelTextTxResetDone">
        <property name="geometry">
         <rect>
@@ -47927,61 +47854,6 @@ GBT</string>
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
-      <widget class="QLabel" name="labelIconGBTRxErrorDetected">
-       <property name="geometry">
-        <rect>
-         <x>199</x>
-         <y>144</y>
-         <width>16</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Consolas</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-         <kerning>false</kerning>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string notr="true"/>
-       </property>
-       <property name="statusTip">
-        <string notr="true"/>
-       </property>
-       <property name="whatsThis">
-        <string notr="true"/>
-       </property>
-       <property name="accessibleName">
-        <string notr="true"/>
-       </property>
-       <property name="accessibleDescription">
-        <string notr="true"/>
-       </property>
-       <property name="locale">
-        <locale language="English" country="World"/>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../!images/img.qrc">:/0G.png</pixmap>
-       </property>
-       <property name="scaledContents">
-        <bool>true</bool>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
       <widget class="QLabel" name="labelIconGBTRxReady">
        <property name="geometry">
         <rect>
@@ -48084,55 +47956,6 @@ GBT</string>
        </property>
        <property name="text">
         <string>Rx frameclk ready</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-      <widget class="QLabel" name="labelTextRxPhaseError">
-       <property name="geometry">
-        <rect>
-         <x>115</x>
-         <y>162</y>
-         <width>80</width>
-         <height>14</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-         <kerning>false</kerning>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string notr="true"/>
-       </property>
-       <property name="statusTip">
-        <string notr="true"/>
-       </property>
-       <property name="whatsThis">
-        <string notr="true"/>
-       </property>
-       <property name="accessibleName">
-        <string notr="true"/>
-       </property>
-       <property name="accessibleDescription">
-        <string notr="true"/>
-       </property>
-       <property name="locale">
-        <locale language="English" country="World"/>
-       </property>
-       <property name="text">
-        <string>Rx phase error</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -48463,9 +48286,9 @@ GBT</string>
        <property name="geometry">
         <rect>
          <x>69</x>
-         <y>142</y>
+         <y>127</y>
          <width>40</width>
-         <height>19</height>
+         <height>31</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -48501,7 +48324,7 @@ GBT</string>
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string>Reset</string>
+        <string>Clear</string>
        </property>
       </widget>
       <widget class="QLabel" name="labelTextTxFSMresetDone">
@@ -48660,61 +48483,6 @@ GBT</string>
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
-      <widget class="QLabel" name="labelIconRxPhaseError">
-       <property name="geometry">
-        <rect>
-         <x>199</x>
-         <y>162</y>
-         <width>16</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Consolas</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-         <kerning>false</kerning>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string notr="true"/>
-       </property>
-       <property name="statusTip">
-        <string notr="true"/>
-       </property>
-       <property name="whatsThis">
-        <string notr="true"/>
-       </property>
-       <property name="accessibleName">
-        <string notr="true"/>
-       </property>
-       <property name="accessibleDescription">
-        <string notr="true"/>
-       </property>
-       <property name="locale">
-        <locale language="English" country="World"/>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../!images/img.qrc">:/0G.png</pixmap>
-       </property>
-       <property name="scaledContents">
-        <bool>true</bool>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
       <widget class="QLabel" name="labelIconPhaseAlignerCPLLlock">
        <property name="geometry">
         <rect>
@@ -48765,6 +48533,387 @@ GBT</string>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBoxRxPhase">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>175</y>
+        <width>217</width>
+        <height>47</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="title">
+       <string notr="true">Rx phase</string>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <widget class="QPushButton" name="buttonResetRxPhaseError">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>10</y>
+         <width>40</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="locale">
+        <locale language="English" country="World"/>
+       </property>
+       <property name="text">
+        <string notr="true">Reset</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelTextRxPhaseError">
+       <property name="geometry">
+        <rect>
+         <x>165</x>
+         <y>12</y>
+         <width>30</width>
+         <height>14</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+         <kerning>false</kerning>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="locale">
+        <locale language="English" country="World"/>
+       </property>
+       <property name="text">
+        <string>error</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelIconRxPhaseError">
+       <property name="geometry">
+        <rect>
+         <x>199</x>
+         <y>12</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+         <kerning>false</kerning>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="locale">
+        <locale language="English" country="World"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../!images/img.qrc">:/0G.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelValueRxPhase">
+       <property name="geometry">
+        <rect>
+         <x>62</x>
+         <y>12</y>
+         <width>15</width>
+         <height>15</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+         <kerning>false</kerning>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="locale">
+        <locale language="English" country="World"/>
+       </property>
+       <property name="text">
+        <string>7</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelTextRxPhase">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>12</y>
+         <width>40</width>
+         <height>15</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+         <kerning>false</kerning>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="locale">
+        <locale language="English" country="World"/>
+       </property>
+       <property name="text">
+        <string>Value:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="Switch" name="SwitcherShiftRxPhase">
+       <property name="geometry">
+        <rect>
+         <x>3</x>
+         <y>26</y>
+         <width>30</width>
+         <height>18</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="brush">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>176</red>
+          <green>217</green>
+          <blue>89</blue>
+         </color>
+        </brush>
+       </property>
+       <property name="SwitchOnClick">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelTextShiftRxPhase">
+       <property name="geometry">
+        <rect>
+         <x>32</x>
+         <y>27</y>
+         <width>55</width>
+         <height>14</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+         <kerning>false</kerning>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="locale">
+        <locale language="English" country="World"/>
+       </property>
+       <property name="text">
+        <string>Shift by 4</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -53558,7 +53707,7 @@ GBT</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -53572,14 +53721,11 @@ GBT</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -53590,6 +53736,9 @@ GBT</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="labelTextLaserPhase">
@@ -54580,7 +54729,7 @@ GBT</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -54594,14 +54743,11 @@ GBT</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -54612,6 +54758,9 @@ GBT</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="labelTextAttenBusy">
@@ -54980,7 +55129,7 @@ GBT</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -54994,14 +55143,11 @@ GBT</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -55012,6 +55158,9 @@ GBT</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="buttonApplyLaserFrequency">
@@ -55044,7 +55193,7 @@ GBT</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -55058,14 +55207,11 @@ GBT</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -55076,6 +55222,9 @@ GBT</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="ActualLabel" name="labelValueLaserFreqDivider">
@@ -55980,7 +56129,7 @@ GBT</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -55994,14 +56143,11 @@ GBT</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -56012,6 +56158,9 @@ GBT</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="ActualLabel" name="labelValueSuppressDelayBC">
@@ -56434,7 +56583,7 @@ GBT</string>
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -56448,14 +56597,11 @@ GBT</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border-style: solid;</string>
-      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string/>
+       <string notr="true"/>
       </property>
       <property name="icon">
        <iconset resource="../!images/img.qrc">
@@ -56466,6 +56612,9 @@ GBT</string>
         <width>16</width>
         <height>16</height>
        </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
@@ -60004,9 +60153,6 @@ system</string>
   <tabstop>buttonSwitchBit63</tabstop>
  </tabstops>
  <resources>
-  <include location="../!images/img.qrc"/>
-  <include location="../!images/img.qrc"/>
-  <include location="../!images/img.qrc"/>
   <include location="../!images/img.qrc"/>
  </resources>
  <connections/>

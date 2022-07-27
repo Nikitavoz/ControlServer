@@ -3,7 +3,7 @@
 
 #include "FITboardsCommon.h"
 
-const double LHCclock_MHz = 40.0785; //reference value
+const double LHCclock_MHz = 40.0789; //reference value
 const quint16 countersUpdatePeriod_ms[8] = {0, 100, 200, 500, 1000, 2000, 5000, 10000};
 extern double systemClock_MHz; //40
 extern double TDCunit_ps; // 13
@@ -75,11 +75,10 @@ struct TypeTCM {
                 LASER_DIVIDER   :24,  //┐
                                 : 6,  //│
                 LASER_ENABLED   : 1,  //│1B
-                LASER_SOURCE    : 1,  //┘
-                laserPatternMSB	   ,  //]1C
-                laserPatternLSB	   ,  //]1D
-                PM_MASK_SPI        ,  //]1E
-                lsrTrgSupprDelay: 6,  //┐
+				LASER_SOURCE    : 1;  //┘
+		quint64 LASER_PATTERN	   ;  //]1C-1D
+		quint32 PM_MASK_SPI        ,  //]1E
+				lsrTrgSupprDelay: 6,  //┐
                 lsrTrgSupprDur  : 2,  //│1F
                                 :24;  //┘
         qint16  averageTimeA       ,  //┐
@@ -153,10 +152,10 @@ struct TypeTCM {
                                                          {0xF7, 0xF7}, //FW_TIME_MCU
                                                          {0xFC, 0xFF}};//block3     ,  4 registers
         float //calculable values
-            TEMP_BOARD,
-            TEMP_FPGA,
-            VOLTAGE_1V,
-            VOLTAGE_1_8V,
+			TEMP_BOARD = 20.0F,
+			TEMP_FPGA  = 20.0F,
+			VOLTAGE_1V   = 1.0F,
+			VOLTAGE_1_8V = 1.8F,
             delayLaser_ns,
             delayAside_ns,
             delayCside_ns,
@@ -165,7 +164,6 @@ struct TypeTCM {
             laserFrequency_Hz,
             attenuation_dB;
         char BOARD_TYPE[4] = {0};
-		quint64 LASER_PATTERN;
         void calculateValues() {
             TEMP_BOARD   = boardTemperature / 10.;
             TEMP_FPGA    = FPGAtemperature  * 503.975 / 65536 - 273.15;
@@ -187,7 +185,6 @@ struct TypeTCM {
                 TRG_SYNC_A[i].syncError = syncErrorInLinkA & 1 << i;
                 TRG_SYNC_C[i].syncError = syncErrorInLinkC & 1 << i;
             }
-			LASER_PATTERN = laserPatternLSB | quint64(laserPatternMSB) << 32;
         }
     } act;
 
@@ -228,10 +225,9 @@ struct TypeTCM {
                 LASER_DIVIDER   :24,  //┐
                                 : 6,  //│
                 LASER_ENABLED   : 1,  //│1B
-                LASER_SOURCE    : 1,  //┘
-                laserPatternMSB	   ,  //]1C
-                laserPatternLSB	   ,  //]1D
-                PM_MASK_SPI        ,  //]1E
+				LASER_SOURCE    : 1;  //┘
+		quint64 LASER_PATTERN	   ;  //]1C-1D
+		quint32 PM_MASK_SPI        ,  //]1E
                 lsrTrgSupprDelay: 6,  //┐
                 lsrTrgSupprDur  : 2,  //│1F
                                 :24,  //┘
@@ -284,7 +280,7 @@ struct TypeTCM {
         static const inline QVector<regblock> regblocksToRead {{0x00, 0x04}, //block0     ,  5 registers
                                                                {0x08, 0x0E}, //block1     ,  7 registers
                                                                {0x1A, 0x1D}, //block2     ,  4 registers
-                                                               {0x1F, 0x1F}, //laser induced trigger suppression
+															   {0x1F, 0x1F}, //trigger suppression
                                                                {0x3A, 0x3A}, //CH_MASK_C
                                                                {0x50, 0x50}, //COUNTERS_UPD_RATE
                                                                {0x60, 0x6A}, //block3     , 11 registers
@@ -293,7 +289,7 @@ struct TypeTCM {
                                              regblocksToApply {{0x00, 0x04}, //block0     ,  5 registers
                                                                {0x08, 0x0E}, //block1     ,  7 registers
                                                                {0x1B, 0x1D}, //block2     ,  3 registers
-                                                               {0x1F, 0x1F}, //laser induced trigger suppression
+															   {0x1F, 0x1F}, //trigger suppression
                                                                {0x60, 0x6A}, //block3     , 11 registers
                                                                {0xD8, 0xE4}};//GBT control, 13 registers
         float //calculable values
@@ -302,7 +298,6 @@ struct TypeTCM {
             attenuation_dB;
         void calculate_LASER_DIVIDER(float frequency_Hz) { quint32 div = lround(systemClock_MHz * 1e6 / frequency_Hz); LASER_DIVIDER = div ? (div >= 1<<24 ? 0 : div) : 1; }
         void calculate_LASER_DELAY(float delay_ns) { LASER_DELAY = lround(delay_ns / phaseStepLaser_ns); }
-        void calculate_LASER_PATTERN(quint64 pattern) { laserPatternLSB = quint32(pattern); laserPatternMSB = pattern >> 32; }
     } set;
 
     struct Counters {
@@ -350,6 +345,11 @@ struct TypeTCM {
         !act.readinessChangeA &&
         !act.readinessChangeC ;
     }
+
+	bool GBTisOK() {return
+		act.GBT.isOK() &&
+		act.GBTRxReady;
+	}
 
     QList<DimService *> services, staticServices;
     QList<DimCommand *> commands;

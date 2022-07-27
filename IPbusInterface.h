@@ -33,8 +33,8 @@ public:
     quint32 readRegister(quint32 address) {
         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
         p.addTransaction(read, address, nullptr, 1);
-        TransactionHeader *th = p.transactionsList.last().responseHeader;
-        return transceive(p, false) && th->InfoCode == 0 ? quint32(*++th) : 0xFFFFFFFF;
+		TransactionHeader *th = p.transactionsList.last().responseHeader;
+		return transceive(p, false) && th->InfoCode == 0 ? quint32(*++th) : 0xFFFFFFFF;
     }
 
 signals:
@@ -46,8 +46,8 @@ protected:
     bool transceive(IPbusControlPacket &p, bool shouldResponseBeProcessed = true) { //send request, wait for response, receive it and check correctness
         if (!isOnline) return false;
         if (p.requestSize <= 1) {
-            emit error("Empty request", logicError);
-            return false;
+			qDebug()<<"Empty request"; //not a logicError anymore, just nothing to do
+			return true;
         }
         QMutexLocker ml(&mutex);
         qint32 n = qint32(qsocket->write((char *)p.request, p.requestSize * wordSize));
@@ -62,7 +62,7 @@ protected:
             emit noResponse();
 			return false;
         }
-        n = qsocket->readDatagram((char *)p.response, qsocket->pendingDatagramSize());
+		n = qsocket->readDatagram((char *)p.response, qsocket->pendingDatagramSize());
         if (n == 64 && p.response[0] == statusRequest.header) {
             if (!qsocket->hasPendingDatagrams() && !qsocket->waitForReadyRead(100) && !qsocket->hasPendingDatagrams()) {
                 isOnline = false;
@@ -78,7 +78,7 @@ protected:
             emit error(QString::asprintf("incorrect response (%d bytes)", n), networkError);
             return false;
         } else {
-            p.responseSize = quint16(n / wordSize); //response can be shorter then expected if a transaction wasn't successful
+			p.responseSize = quint16(n / wordSize); //response can be shorter then expected if a transaction wasn't successful
             bool result = shouldResponseBeProcessed ? p.processResponse() : true;
             p.reset();
             return result;
