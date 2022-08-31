@@ -2715,6 +2715,9 @@
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>
@@ -2753,6 +2756,9 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -2793,6 +2799,9 @@
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>
@@ -2831,6 +2840,9 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -2871,6 +2883,9 @@
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>
@@ -2909,6 +2924,9 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -2949,6 +2967,9 @@
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>
@@ -2987,6 +3008,9 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -3027,6 +3051,9 @@
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>
@@ -3066,6 +3093,9 @@
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>
@@ -3101,6 +3131,9 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -3141,6 +3174,9 @@
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>
@@ -3179,6 +3215,9 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -3219,6 +3258,9 @@
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>
@@ -3257,6 +3299,9 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -3297,6 +3342,9 @@
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>
@@ -3335,6 +3383,9 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -3375,6 +3426,9 @@
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>
@@ -3413,6 +3467,9 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -3455,6 +3512,9 @@
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -5076,7 +5136,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>300</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -5967,7 +6027,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -6015,7 +6075,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -6094,6 +6154,9 @@ correction</string>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -7564,7 +7627,7 @@ correction</string>
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>300</string>
        </property>
        <property name="maxLength">
         <number>5</number>
@@ -8068,7 +8131,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -8116,7 +8179,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -8190,11 +8253,14 @@ correction</string>
        </property>
        <property name="font">
         <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -9277,7 +9343,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>300</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -10168,7 +10234,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -10216,7 +10282,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -10295,6 +10361,9 @@ correction</string>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -11767,7 +11836,7 @@ correction</string>
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>300</string>
        </property>
        <property name="maxLength">
         <number>5</number>
@@ -12271,7 +12340,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -12319,7 +12388,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -12393,11 +12462,14 @@ correction</string>
        </property>
        <property name="font">
         <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -13483,7 +13555,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>300</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -14374,7 +14446,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -14422,7 +14494,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -14501,6 +14573,9 @@ correction</string>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -15976,7 +16051,7 @@ correction</string>
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>300</string>
        </property>
        <property name="maxLength">
         <number>5</number>
@@ -16480,7 +16555,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -16528,7 +16603,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -16602,11 +16677,14 @@ correction</string>
        </property>
        <property name="font">
         <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -17692,7 +17770,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>300</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -18583,7 +18661,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -18631,7 +18709,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -18710,6 +18788,9 @@ correction</string>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -20182,7 +20263,7 @@ correction</string>
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>300</string>
        </property>
        <property name="maxLength">
         <number>5</number>
@@ -20686,7 +20767,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -20734,7 +20815,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -20808,11 +20889,14 @@ correction</string>
        </property>
        <property name="font">
         <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -21898,7 +21982,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>300</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -22789,7 +22873,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -22837,7 +22921,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -22916,6 +23000,9 @@ correction</string>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -24388,7 +24475,7 @@ correction</string>
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>300</string>
        </property>
        <property name="maxLength">
         <number>5</number>
@@ -24892,7 +24979,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -24940,7 +25027,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -25014,11 +25101,14 @@ correction</string>
        </property>
        <property name="font">
         <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -26101,7 +26191,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>300</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -26992,7 +27082,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -27040,7 +27130,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -27119,6 +27209,9 @@ correction</string>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -28594,7 +28687,7 @@ correction</string>
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>300</string>
        </property>
        <property name="maxLength">
         <number>5</number>
@@ -29098,7 +29191,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -29146,7 +29239,7 @@ correction</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -29220,11 +29313,14 @@ correction</string>
        </property>
        <property name="font">
         <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -29493,6 +29589,9 @@ correction</string>
         <weight>50</weight>
         <bold>false</bold>
        </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
        <string notr="true"/>
@@ -29782,7 +29881,7 @@ TRG</string>
     <widget class="QGroupBox" name="groupBoxTDCStatus">
      <property name="geometry">
       <rect>
-       <x>955</x>
+       <x>965</x>
        <y>474</y>
        <width>141</width>
        <height>111</height>
@@ -29817,7 +29916,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextMainPLLlocked">
       <property name="geometry">
        <rect>
-        <x>40</x>
+        <x>39</x>
         <y>90</y>
         <width>28</width>
         <height>16</height>
@@ -29859,7 +29958,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextTDC3">
       <property name="geometry">
        <rect>
-        <x>3</x>
+        <x>2</x>
         <y>72</y>
         <width>22</width>
         <height>16</height>
@@ -29901,7 +30000,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextTDC2">
       <property name="geometry">
        <rect>
-        <x>3</x>
+        <x>2</x>
         <y>54</y>
         <width>22</width>
         <height>16</height>
@@ -29943,7 +30042,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextTDC1">
       <property name="geometry">
        <rect>
-        <x>3</x>
+        <x>2</x>
         <y>36</y>
         <width>22</width>
         <height>16</height>
@@ -29985,7 +30084,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconSyncErrorTDC3">
       <property name="geometry">
        <rect>
-        <x>35</x>
+        <x>34</x>
         <y>73</y>
         <width>16</width>
         <height>16</height>
@@ -30040,7 +30139,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconSyncErrorTDC1">
       <property name="geometry">
        <rect>
-        <x>35</x>
+        <x>34</x>
         <y>37</y>
         <width>16</width>
         <height>16</height>
@@ -30095,7 +30194,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconSyncErrorTDC2">
       <property name="geometry">
        <rect>
-        <x>35</x>
+        <x>34</x>
         <y>55</y>
         <width>16</width>
         <height>16</height>
@@ -30150,7 +30249,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconPLLlockedMain">
       <property name="geometry">
        <rect>
-        <x>72</x>
+        <x>71</x>
         <y>91</y>
         <width>16</width>
         <height>16</height>
@@ -30202,7 +30301,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconPLLlockedTDC2">
       <property name="geometry">
        <rect>
-        <x>72</x>
+        <x>71</x>
         <y>55</y>
         <width>16</width>
         <height>16</height>
@@ -30257,7 +30356,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconPLLlockedTDC1">
       <property name="geometry">
        <rect>
-        <x>72</x>
+        <x>71</x>
         <y>37</y>
         <width>16</width>
         <height>16</height>
@@ -30312,7 +30411,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconPLLlockedTDC3">
       <property name="geometry">
        <rect>
-        <x>72</x>
+        <x>71</x>
         <y>73</y>
         <width>16</width>
         <height>16</height>
@@ -30367,7 +30466,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextSync">
       <property name="geometry">
        <rect>
-        <x>31</x>
+        <x>30</x>
         <y>10</y>
         <width>28</width>
         <height>12</height>
@@ -30409,7 +30508,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextTDC">
       <property name="geometry">
        <rect>
-        <x>3</x>
+        <x>2</x>
         <y>16</y>
         <width>22</width>
         <height>12</height>
@@ -30451,7 +30550,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextPLL">
       <property name="geometry">
        <rect>
-        <x>63</x>
+        <x>62</x>
         <y>10</y>
         <width>34</width>
         <height>12</height>
@@ -30493,7 +30592,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextLocked">
       <property name="geometry">
        <rect>
-        <x>63</x>
+        <x>62</x>
         <y>20</y>
         <width>34</width>
         <height>12</height>
@@ -30535,7 +30634,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextError">
       <property name="geometry">
        <rect>
-        <x>31</x>
+        <x>30</x>
         <y>20</y>
         <width>28</width>
         <height>12</height>
@@ -30577,7 +30676,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextPhase">
       <property name="geometry">
        <rect>
-        <x>102</x>
+        <x>101</x>
         <y>10</y>
         <width>34</width>
         <height>12</height>
@@ -30619,7 +30718,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextTuning">
       <property name="geometry">
        <rect>
-        <x>102</x>
+        <x>101</x>
         <y>20</y>
         <width>34</width>
         <height>13</height>
@@ -30661,7 +30760,7 @@ TRG</string>
      <widget class="QLabel" name="labelValuePhaseTuningTDC3">
       <property name="geometry">
        <rect>
-        <x>95</x>
+        <x>94</x>
         <y>72</y>
         <width>29</width>
         <height>16</height>
@@ -30703,7 +30802,7 @@ TRG</string>
      <widget class="QLabel" name="labelValuePhaseTuningTDC2">
       <property name="geometry">
        <rect>
-        <x>95</x>
+        <x>94</x>
         <y>54</y>
         <width>29</width>
         <height>16</height>
@@ -30745,7 +30844,7 @@ TRG</string>
      <widget class="QLabel" name="labelValuePhaseTuningTDC1">
       <property name="geometry">
        <rect>
-        <x>95</x>
+        <x>94</x>
         <y>36</y>
         <width>29</width>
         <height>16</height>
@@ -30787,7 +30886,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextPhaseTuningTDC1ps">
       <property name="geometry">
        <rect>
-        <x>127</x>
+        <x>126</x>
         <y>36</y>
         <width>11</width>
         <height>16</height>
@@ -30829,7 +30928,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextPhaseTuningTDC2ps">
       <property name="geometry">
        <rect>
-        <x>127</x>
+        <x>126</x>
         <y>54</y>
         <width>11</width>
         <height>16</height>
@@ -30871,7 +30970,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextPhaseTuningTDC3ps">
       <property name="geometry">
        <rect>
-        <x>127</x>
+        <x>126</x>
         <y>72</y>
         <width>11</width>
         <height>16</height>
@@ -30914,9 +31013,9 @@ TRG</string>
     <widget class="QGroupBox" name="groupBoxHDMI">
      <property name="geometry">
       <rect>
-       <x>1100</x>
+       <x>1110</x>
        <y>474</y>
-       <width>191</width>
+       <width>181</width>
        <height>111</height>
       </rect>
      </property>
@@ -30949,7 +31048,7 @@ TRG</string>
      <widget class="QLabel" name="labelValueHDMIdelay0">
       <property name="geometry">
        <rect>
-        <x>155</x>
+        <x>145</x>
         <y>35</y>
         <width>30</width>
         <height>16</height>
@@ -30991,7 +31090,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextHDMIsignalLost">
       <property name="geometry">
        <rect>
-        <x>85</x>
+        <x>80</x>
         <y>20</y>
         <width>25</width>
         <height>14</height>
@@ -31033,7 +31132,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextHDMIsignal">
       <property name="geometry">
        <rect>
-        <x>85</x>
+        <x>78</x>
         <y>10</y>
         <width>65</width>
         <height>14</height>
@@ -31075,7 +31174,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextHDMIline1">
       <property name="geometry">
        <rect>
-        <x>59</x>
+        <x>56</x>
         <y>53</y>
         <width>22</width>
         <height>16</height>
@@ -31117,7 +31216,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextHDMIline2">
       <property name="geometry">
        <rect>
-        <x>59</x>
+        <x>56</x>
         <y>71</y>
         <width>22</width>
         <height>16</height>
@@ -31159,7 +31258,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextHDMIline0">
       <property name="geometry">
        <rect>
-        <x>59</x>
+        <x>56</x>
         <y>35</y>
         <width>22</width>
         <height>16</height>
@@ -31201,7 +31300,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextHDMIline3">
       <property name="geometry">
        <rect>
-        <x>59</x>
+        <x>56</x>
         <y>89</y>
         <width>22</width>
         <height>16</height>
@@ -31243,7 +31342,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconHDMIsignalLost2">
       <property name="geometry">
        <rect>
-        <x>90</x>
+        <x>85</x>
         <y>72</y>
         <width>16</width>
         <height>16</height>
@@ -31298,7 +31397,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconHDMIsignalLost0">
       <property name="geometry">
        <rect>
-        <x>90</x>
+        <x>85</x>
         <y>36</y>
         <width>16</width>
         <height>16</height>
@@ -31353,7 +31452,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconHDMIsignalLost1">
       <property name="geometry">
        <rect>
-        <x>90</x>
+        <x>85</x>
         <y>54</y>
         <width>16</width>
         <height>16</height>
@@ -31408,7 +31507,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconHDMIsignalLost3">
       <property name="geometry">
        <rect>
-        <x>90</x>
+        <x>85</x>
         <y>90</y>
         <width>16</width>
         <height>16</height>
@@ -31463,7 +31562,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconHDMIsignalStable3">
       <property name="geometry">
        <rect>
-        <x>124</x>
+        <x>117</x>
         <y>90</y>
         <width>16</width>
         <height>16</height>
@@ -31518,7 +31617,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconHDMIsignalStable1">
       <property name="geometry">
        <rect>
-        <x>124</x>
+        <x>117</x>
         <y>54</y>
         <width>16</width>
         <height>16</height>
@@ -31573,7 +31672,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconHDMIsignalStable0">
       <property name="geometry">
        <rect>
-        <x>124</x>
+        <x>117</x>
         <y>36</y>
         <width>16</width>
         <height>16</height>
@@ -31628,7 +31727,7 @@ TRG</string>
      <widget class="QLabel" name="labelIconHDMIsignalStable2">
       <property name="geometry">
        <rect>
-        <x>124</x>
+        <x>117</x>
         <y>72</y>
         <width>16</width>
         <height>16</height>
@@ -31683,7 +31782,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextHDMIsignalStable">
       <property name="geometry">
        <rect>
-        <x>115</x>
+        <x>108</x>
         <y>20</y>
         <width>35</width>
         <height>14</height>
@@ -31725,7 +31824,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextHDMIline">
       <property name="geometry">
        <rect>
-        <x>59</x>
+        <x>56</x>
         <y>15</y>
         <width>22</width>
         <height>16</height>
@@ -31767,7 +31866,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextHDMIdelay">
       <property name="geometry">
        <rect>
-        <x>155</x>
+        <x>145</x>
         <y>10</y>
         <width>30</width>
         <height>14</height>
@@ -31809,7 +31908,7 @@ TRG</string>
      <widget class="QLabel" name="labelTextHDMIns">
       <property name="geometry">
        <rect>
-        <x>155</x>
+        <x>145</x>
         <y>20</y>
         <width>30</width>
         <height>14</height>
@@ -31851,7 +31950,7 @@ TRG</string>
      <widget class="QLabel" name="labelValueHDMIdelay1">
       <property name="geometry">
        <rect>
-        <x>155</x>
+        <x>145</x>
         <y>53</y>
         <width>30</width>
         <height>16</height>
@@ -31893,7 +31992,7 @@ TRG</string>
      <widget class="QLabel" name="labelValueHDMIdelay2">
       <property name="geometry">
        <rect>
-        <x>155</x>
+        <x>145</x>
         <y>71</y>
         <width>30</width>
         <height>16</height>
@@ -31935,7 +32034,7 @@ TRG</string>
      <widget class="QLabel" name="labelValueHDMIdelay3">
       <property name="geometry">
        <rect>
-        <x>155</x>
+        <x>145</x>
         <y>89</y>
         <width>30</width>
         <height>16</height>
@@ -32395,13 +32494,101 @@ TRG</string>
       </property>
      </widget>
     </widget>
+    <widget class="QPushButton" name="buttonCopyActual">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>0</y>
+       <width>250</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string notr="true"/>
+     </property>
+     <property name="statusTip">
+      <string notr="true"/>
+     </property>
+     <property name="whatsThis">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleName">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleDescription">
+      <string notr="true"/>
+     </property>
+     <property name="locale">
+      <locale language="English" country="World"/>
+     </property>
+     <property name="text">
+      <string>Copy actual values to settings for this PM</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="buttonApplyAll">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>0</y>
+       <width>200</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string notr="true"/>
+     </property>
+     <property name="statusTip">
+      <string notr="true"/>
+     </property>
+     <property name="whatsThis">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleName">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleDescription">
+      <string notr="true"/>
+     </property>
+     <property name="locale">
+      <locale language="English" country="World"/>
+     </property>
+     <property name="text">
+      <string>Apply all settings for this PM</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../!images/img.qrc">
+       <normaloff>:/write.png</normaloff>:/write.png</iconset>
+     </property>
+    </widget>
     <widget class="QGroupBox" name="groupBoxPMControl">
      <property name="geometry">
       <rect>
        <x>780</x>
-       <y>473</y>
-       <width>172</width>
-       <height>111</height>
+       <y>474</y>
+       <width>182</width>
+       <height>87</height>
       </rect>
      </property>
      <property name="font">
@@ -32431,18 +32618,18 @@ TRG</string>
       <locale language="English" country="World"/>
      </property>
      <property name="title">
-      <string notr="true">PM control</string>
+      <string notr="true">PM TRG control</string>
      </property>
      <property name="flat">
       <bool>false</bool>
      </property>
-     <widget class="QLabel" name="labelTextORgate">
+     <widget class="QLabel" name="labelTextLevels">
       <property name="geometry">
        <rect>
-        <x>1</x>
-        <y>9</y>
-        <width>84</width>
-        <height>20</height>
+        <x>10</x>
+        <y>12</y>
+        <width>70</width>
+        <height>12</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -32475,17 +32662,17 @@ TRG</string>
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>OR gate:</string>
+       <string>Levels</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEditCFDsaturation">
+     <widget class="QLineEdit" name="lineEditChargeHi">
       <property name="geometry">
        <rect>
-        <x>115</x>
-        <y>30</y>
+        <x>77</x>
+        <y>45</y>
         <width>36</width>
         <height>18</height>
        </rect>
@@ -32547,8 +32734,8 @@ TRG</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>150</x>
-        <y>9</y>
+        <x>112</x>
+        <y>22</y>
         <width>20</width>
         <height>20</height>
        </rect>
@@ -32599,14 +32786,14 @@ TRG</string>
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="buttonApplyCFDsaturation">
+     <widget class="QPushButton" name="buttonApplyChargeHi">
       <property name="enabled">
        <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
-        <x>150</x>
-        <y>29</y>
+        <x>112</x>
+        <y>44</y>
         <width>20</width>
         <height>20</height>
        </rect>
@@ -32657,56 +32844,11 @@ TRG</string>
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLabel" name="labelTextCFDsaturation">
+     <widget class="ActualLabel" name="labelValueORgate">
       <property name="geometry">
        <rect>
-        <x>1</x>
-        <y>29</y>
-        <width>84</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true">Max amplitude for pretrigger signals</string>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>CFD saturation:</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelValueORgate">
-      <property name="geometry">
-       <rect>
-        <x>87</x>
-        <y>9</y>
+        <x>49</x>
+        <y>22</y>
         <width>28</width>
         <height>20</height>
        </rect>
@@ -32747,11 +32889,11 @@ TRG</string>
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="labelValueCFDsaturation">
+     <widget class="ActualLabel" name="labelValueChargeHi">
       <property name="geometry">
        <rect>
-        <x>87</x>
-        <y>29</y>
+        <x>49</x>
+        <y>44</y>
         <width>28</width>
         <height>20</height>
        </rect>
@@ -32795,8 +32937,8 @@ TRG</string>
      <widget class="QLineEdit" name="lineEditORgate">
       <property name="geometry">
        <rect>
-        <x>115</x>
-        <y>10</y>
+        <x>77</x>
+        <y>23</y>
         <width>36</width>
         <height>18</height>
        </rect>
@@ -32852,12 +32994,15 @@ TRG</string>
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QRadioButton" name="radioButtonCFDinGate">
+     <widget class="QPushButton" name="buttonApplyChargeLo">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="geometry">
        <rect>
-        <x>92</x>
-        <y>63</y>
-        <width>80</width>
+        <x>112</x>
+        <y>66</y>
+        <width>20</width>
         <height>20</height>
        </rect>
       </property>
@@ -32869,8 +33014,11 @@ TRG</string>
         <bold>false</bold>
        </font>
       </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="toolTip">
-       <string notr="true">all CFDinGate-flagged hits are counted</string>
+       <string notr="true">Write</string>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -32884,65 +33032,227 @@ TRG</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="text">
-       <string notr="true">CFD in gate</string>
-      </property>
-      <property name="checked">
-       <bool>false</bool>
-      </property>
-     </widget>
-     <widget class="QRadioButton" name="radioButtonStrict">
-      <property name="geometry">
-       <rect>
-        <x>92</x>
-        <y>48</y>
-        <width>80</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true">only hits valid for OR-trigger are counted:
-– TDC value received in time and is valid (TimeInfoLost OR TimeInfoTooLate OR TimeNotValid == false) 
-                    AND
-– TDC value is within ± current OR-gate setting (abs(Time) &lt; OR_GATE)
-                    AND
-– amplitude is below CFD saturation limit setting (Charge &lt; CFD_SATR)
-                    AND
-– CFD pulse is within delayable fixed-width gate (CFDinGate == true)</string>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
+      <property name="locale">
+       <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string notr="true">Strict</string>
+       <string notr="true"/>
       </property>
-      <property name="checked">
+      <property name="icon">
+       <iconset resource="../!images/img.qrc">
+        <normaloff>:/write.png</normaloff>:/write.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>16</width>
+        <height>16</height>
+       </size>
+      </property>
+      <property name="flat">
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLabel" name="labelTextTRGcountersMode">
+     <widget class="ActualLabel" name="labelValueChargeLo">
       <property name="geometry">
        <rect>
-        <x>1</x>
-        <y>53</y>
-        <width>90</width>
+        <x>49</x>
+        <y>66</y>
+        <width>28</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>15</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEditChargeLo">
+      <property name="geometry">
+       <rect>
+        <x>77</x>
+        <y>67</y>
+        <width>36</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="text">
+       <string>15</string>
+      </property>
+      <property name="maxLength">
+       <number>4</number>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="placeholderText">
+       <string notr="true"/>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextCount">
+      <property name="geometry">
+       <rect>
+        <x>138</x>
+        <y>7</y>
+        <width>35</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Count</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextMode">
+      <property name="geometry">
+       <rect>
+        <x>139</x>
+        <y>17</y>
+        <width>35</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>mode:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextORgate">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>22</y>
+        <width>47</width>
         <height>20</height>
        </rect>
       </property>
@@ -32961,7 +33271,7 @@ TRG</string>
        </font>
       </property>
       <property name="toolTip">
-       <string notr="true">Max amplitude for pretrigger signals</string>
+       <string notr="true"/>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -32976,17 +33286,361 @@ TRG</string>
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>TRG count mode:</string>
+       <string>Or gate:</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="labelTextRestartCode">
+     <widget class="QLabel" name="labelTextChargeHi">
       <property name="geometry">
        <rect>
         <x>1</x>
-        <y>86</y>
+        <y>39</y>
+        <width>42</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Charge</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="buttonCFDinGate">
+      <property name="geometry">
+       <rect>
+        <x>136</x>
+        <y>48</y>
+        <width>43</width>
+        <height>36</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="toolTip">
+       <string notr="true">all CFDinGate-flagged hits are counted</string>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="text">
+       <string notr="true">CFD in
+gate</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="buttonStrict">
+      <property name="geometry">
+       <rect>
+        <x>136</x>
+        <y>29</y>
+        <width>43</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="toolTip">
+       <string notr="true">only hits valid for OR-trigger are counted:
+– TDC value received in time and is valid (TimeInfoLost OR TimeInfoTooLate OR TimeNotValid == false) 
+                    AND
+– TDC value is within ± current OR-gate setting (abs(Time) &lt; OR_GATE)
+                    AND
+– charge is within range setting (Low level &lt; Charge &lt; High level)
+                    AND
+– CFD pulse is within delayable fixed-width gate (CFDinGate == true)</string>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="text">
+       <string notr="true">Strict</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextChargeHigh">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>49</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>high:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextChargeLow">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>72</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>low:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextChargeLo">
+      <property name="geometry">
+       <rect>
+        <x>1</x>
+        <y>62</y>
+        <width>42</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Charge</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBoxPMstatus">
+     <property name="geometry">
+      <rect>
+       <x>780</x>
+       <y>559</y>
+       <width>182</width>
+       <height>26</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string notr="true"/>
+     </property>
+     <property name="statusTip">
+      <string notr="true"/>
+     </property>
+     <property name="whatsThis">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleName">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleDescription">
+      <string notr="true"/>
+     </property>
+     <property name="locale">
+      <locale language="English" country="World"/>
+     </property>
+     <property name="title">
+      <string notr="true">PM status</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+     <widget class="QLabel" name="labelTextRestartReason">
+      <property name="geometry">
+       <rect>
+        <x>1</x>
+        <y>8</y>
         <width>85</width>
         <height>16</height>
        </rect>
@@ -33027,10 +33681,10 @@ TRG</string>
      <widget class="QLabel" name="labelValueRestartCode">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>86</y>
-        <width>80</width>
-        <height>16</height>
+        <x>94</x>
+        <y>10</y>
+        <width>82</width>
+        <height>13</height>
        </rect>
       </property>
       <property name="font">
@@ -33066,91 +33720,9 @@ TRG</string>
        <string>SPI command</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
-    </widget>
-    <widget class="QPushButton" name="buttonCopyActual">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>0</y>
-       <width>250</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Calibri</family>
-       <pointsize>10</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="toolTip">
-      <string notr="true"/>
-     </property>
-     <property name="statusTip">
-      <string notr="true"/>
-     </property>
-     <property name="whatsThis">
-      <string notr="true"/>
-     </property>
-     <property name="accessibleName">
-      <string notr="true"/>
-     </property>
-     <property name="accessibleDescription">
-      <string notr="true"/>
-     </property>
-     <property name="locale">
-      <locale language="English" country="World"/>
-     </property>
-     <property name="text">
-      <string>Copy actual values to settings for this PM</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="buttonApplyAll">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>0</y>
-       <width>200</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Calibri</family>
-       <pointsize>10</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="toolTip">
-      <string notr="true"/>
-     </property>
-     <property name="statusTip">
-      <string notr="true"/>
-     </property>
-     <property name="whatsThis">
-      <string notr="true"/>
-     </property>
-     <property name="accessibleName">
-      <string notr="true"/>
-     </property>
-     <property name="accessibleDescription">
-      <string notr="true"/>
-     </property>
-     <property name="locale">
-      <locale language="English" country="World"/>
-     </property>
-     <property name="text">
-      <string>Apply all settings for this PM</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../!images/img.qrc">
-       <normaloff>:/write.png</normaloff>:/write.png</iconset>
-     </property>
     </widget>
    </widget>
    <widget class="QGroupBox" name="groupBoxTCM">
@@ -34079,7 +34651,7 @@ TRG</string>
        <rect>
         <x>157</x>
         <y>72</y>
-        <width>70</width>
+        <width>63</width>
         <height>20</height>
        </rect>
       </property>
@@ -34113,7 +34685,7 @@ TRG</string>
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>OR gate, ±ns:</string>
+       <string>OR gate, ns:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -34182,9 +34754,9 @@ TRG</string>
      <widget class="ActualLabel" name="labelValueORgate_A">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>223</x>
         <y>72</y>
-        <width>35</width>
+        <width>42</width>
         <height>20</height>
        </rect>
       </property>
@@ -34926,9 +35498,9 @@ TRG</string>
      <widget class="ActualLabel" name="labelValueORgate_C">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>223</x>
         <y>72</y>
-        <width>35</width>
+        <width>42</width>
         <height>20</height>
        </rect>
       </property>
@@ -34962,7 +35534,7 @@ TRG</string>
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>3.315</string>
+       <string>±3.315</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -35136,7 +35708,7 @@ TRG</string>
        <rect>
         <x>157</x>
         <y>72</y>
-        <width>70</width>
+        <width>63</width>
         <height>20</height>
        </rect>
       </property>
@@ -35170,10 +35742,10 @@ TRG</string>
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>OR gate, ±ns:</string>
+       <string>OR gate, ns:</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QPushButton" name="buttonApplyPhase_C">
@@ -38361,6 +38933,9 @@ TRG</string>
         <bold>false</bold>
        </font>
       </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="toolTip">
        <string notr="true">Reset trigger counters</string>
       </property>
@@ -39649,6 +40224,9 @@ TRG</string>
         <bold>false</bold>
        </font>
       </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="toolTip">
        <string notr="true">SemiCentral trigger evaluation by number of channels</string>
       </property>
@@ -39699,6 +40277,9 @@ TRG</string>
         <weight>50</weight>
         <bold>false</bold>
        </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
        <string notr="true">SemiCentral trigger evaluation by charge</string>
@@ -39797,6 +40378,9 @@ TRG</string>
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>
@@ -39877,6 +40461,9 @@ TRG</string>
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -40001,6 +40588,9 @@ TRG</string>
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>
@@ -40081,6 +40671,9 @@ TRG</string>
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -40163,6 +40756,9 @@ TRG</string>
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>
@@ -40243,6 +40839,9 @@ TRG</string>
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -40790,6 +41389,9 @@ TRG</string>
         <bold>false</bold>
        </font>
       </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="toolTip">
        <string notr="true">Reset orbit sync</string>
       </property>
@@ -40936,6 +41538,9 @@ TRG</string>
         <bold>false</bold>
        </font>
       </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="toolTip">
        <string notr="true"/>
       </property>
@@ -40967,6 +41572,17 @@ GBT</string>
         <width>30</width>
         <height>18</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
        <string notr="true"/>
@@ -41168,7 +41784,40 @@ GBT</string>
        </font>
       </property>
       <property name="toolTip">
-       <string notr="true"/>
+       <string>&lt;html&gt;&lt;head&gt;&lt;style&gt;
+table { border: 1px solid grey; border-collapse: collapse;}
+th    { border: 1px solid grey; padding: 2px; }
+td    { border: 1px solid grey; padding: 2px; }
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;table&gt;
+&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;Bit&lt;/th&gt;&lt;th&gt;Hex word&lt;/th&gt;&lt;th&gt;Name   &lt;/th&gt;&lt;th&gt;Comment                   &lt;/th&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt;  0&lt;/td&gt;&lt;td&gt;00000001&lt;/td&gt;&lt;td&gt;ORBIT  &lt;/td&gt;&lt;td&gt;ORBIT                     &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt;  1&lt;/td&gt;&lt;td&gt;00000002&lt;/td&gt;&lt;td&gt;HB     &lt;/td&gt;&lt;td&gt;Heart Beat flag           &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt;  2&lt;/td&gt;&lt;td&gt;00000004&lt;/td&gt;&lt;td&gt;HBr    &lt;/td&gt;&lt;td&gt;Heart Beat reject flag    &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt;  3&lt;/td&gt;&lt;td&gt;00000008&lt;/td&gt;&lt;td&gt;HC     &lt;/td&gt;&lt;td&gt;Health Check              &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt;  4&lt;/td&gt;&lt;td&gt;00000010&lt;/td&gt;&lt;td&gt;PhT    &lt;/td&gt;&lt;td&gt;Physics Trigger           &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt;  5&lt;/td&gt;&lt;td&gt;00000020&lt;/td&gt;&lt;td&gt;PP     &lt;/td&gt;&lt;td&gt;Pre Pulse for calibration &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt;  6&lt;/td&gt;&lt;td&gt;00000040&lt;/td&gt;&lt;td&gt;Cal    &lt;/td&gt;&lt;td&gt;Calibration trigger       &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt;  7&lt;/td&gt;&lt;td&gt;00000080&lt;/td&gt;&lt;td&gt;SOT    &lt;/td&gt;&lt;td&gt;Start of Triggered Data   &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt;  8&lt;/td&gt;&lt;td&gt;00000100&lt;/td&gt;&lt;td&gt;EOT    &lt;/td&gt;&lt;td&gt;End of Triggered Data     &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt;  9&lt;/td&gt;&lt;td&gt;00000200&lt;/td&gt;&lt;td&gt;SOC    &lt;/td&gt;&lt;td&gt;Start of Continuous Data  &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt; 10&lt;/td&gt;&lt;td&gt;00000400&lt;/td&gt;&lt;td&gt;EOC    &lt;/td&gt;&lt;td&gt;End of Continuous Data    &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt; 11&lt;/td&gt;&lt;td&gt;00000800&lt;/td&gt;&lt;td&gt;TF     &lt;/td&gt;&lt;td&gt;Time Frame delimiter      &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt; 12&lt;/td&gt;&lt;td&gt;00001000&lt;/td&gt;&lt;td&gt;FErst  &lt;/td&gt;&lt;td&gt;Front End reset           &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt; 13&lt;/td&gt;&lt;td&gt;00002000&lt;/td&gt;&lt;td&gt;RT     &lt;/td&gt;&lt;td&gt;Run Type; 1=Cont, 0=Trig  &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt; 14&lt;/td&gt;&lt;td&gt;00004000&lt;/td&gt;&lt;td&gt;RS     &lt;/td&gt;&lt;td&gt;Running State; 1=Running  &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt;...&lt;/td&gt;&lt;td&gt;  ...   &lt;/td&gt;&lt;td&gt; ...   &lt;/td&gt;&lt;td&gt;--- spare ---             &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt; 27&lt;/td&gt;&lt;td&gt;08000000&lt;/td&gt;&lt;td&gt;LHCgap1&lt;/td&gt;&lt;td&gt;LHC abort gap 1           &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt; 28&lt;/td&gt;&lt;td&gt;10000000&lt;/td&gt;&lt;td&gt;LHCgap2&lt;/td&gt;&lt;td&gt;LHC abort gap 2           &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt; 29&lt;/td&gt;&lt;td&gt;20000000&lt;/td&gt;&lt;td&gt;TPCsync&lt;/td&gt;&lt;td&gt;TPC synchronisation/ITSrst&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt; 30&lt;/td&gt;&lt;td&gt;40000000&lt;/td&gt;&lt;td&gt;TPCrst &lt;/td&gt;&lt;td&gt;On request reset          &lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td align=&quot;right&quot;&gt; 31&lt;/td&gt;&lt;td&gt;80000000&lt;/td&gt;&lt;td&gt;TOF    &lt;/td&gt;&lt;td&gt;TOF special trigger       &lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="toolTipDuration">
+       <number>2147483647</number>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -41211,9 +41860,6 @@ GBT</string>
         <weight>50</weight>
         <bold>false</bold>
        </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -41303,6 +41949,17 @@ GBT</string>
         <height>18</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="toolTip">
        <string notr="true"/>
       </property>
@@ -41330,6 +41987,17 @@ GBT</string>
         <width>30</width>
         <height>18</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
        <string notr="true"/>
@@ -41564,6 +42232,17 @@ GBT</string>
         <width>30</width>
         <height>18</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
        <string notr="true"/>
@@ -43533,7 +44212,7 @@ GBT</string>
         <locale language="English" country="World"/>
        </property>
        <property name="text">
-        <string>BCID sync lost</string>
+        <string>BC sync lost in run</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -44622,7 +45301,7 @@ GBT</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -44722,7 +45401,7 @@ GBT</string>
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>40078970</string>
+        <string>40078966</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -44780,7 +45459,7 @@ GBT</string>
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
-      <widget class="QLabel" name="labelValueBCtrgPurity">
+      <widget class="QLabel" name="labelValueBCtrgModality">
        <property name="geometry">
         <rect>
          <x>235</x>
@@ -44927,7 +45606,7 @@ GBT</string>
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
-      <widget class="QLabel" name="labelValueBCdataPurity">
+      <widget class="QLabel" name="labelValueBCdataModality">
        <property name="geometry">
         <rect>
          <x>235</x>
@@ -44998,6 +45677,9 @@ GBT</string>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -45127,10 +45809,10 @@ GBT</string>
       <zorder>labelTextGBTrateHz</zorder>
       <zorder>labelValueEventsRate</zorder>
       <zorder>labelTextBCindicators</zorder>
-      <zorder>labelValueBCtrgPurity</zorder>
+      <zorder>labelValueBCtrgModality</zorder>
       <zorder>labelValueBCdata</zorder>
       <zorder>labelValueBCtrg</zorder>
-      <zorder>labelValueBCdataPurity</zorder>
+      <zorder>labelValueBCdataModality</zorder>
       <zorder>buttonResetCounters</zorder>
       <zorder>lineH</zorder>
      </widget>
@@ -45902,7 +46584,7 @@ GBT</string>
         <string notr="true">&gt;HHH;0</string>
        </property>
        <property name="text">
-        <string>FFF</string>
+        <string>DEB</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -45953,7 +46635,7 @@ GBT</string>
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>0xFFF</string>
+        <string>0xDEB</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -46527,6 +47209,31 @@ GBT</string>
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
+      <zorder>labelTextTGcontinuousPattern</zorder>
+      <zorder>buttonTriggerGeneratorOff</zorder>
+      <zorder>buttonTriggerGeneratorContinuous</zorder>
+      <zorder>buttonApplyTGcontinuousPattern</zorder>
+      <zorder>buttonApplyTGcontinuousValue</zorder>
+      <zorder>lineEditTGcontinuousValue</zorder>
+      <zorder>labelValueTGcontinuousValue</zorder>
+      <zorder>labelTextTGcontinuousValue</zorder>
+      <zorder>buttonApplyTGbunchFrequency</zorder>
+      <zorder>lineEditTGbunchFrequency</zorder>
+      <zorder>labelValueTGbunchFrequency</zorder>
+      <zorder>labelTextTGbunchFrequency</zorder>
+      <zorder>buttonApplyTGfrequencyOffset</zorder>
+      <zorder>lineEditTGfrequencyOffset</zorder>
+      <zorder>labelValueTGfrequencyOffset</zorder>
+      <zorder>labelTextTGfrequencyOffset</zorder>
+      <zorder>lineEditTGcontinuousPattern</zorder>
+      <zorder>labelValueTGcontinuousPattern</zorder>
+      <zorder>buttonTriggerGeneratorTx</zorder>
+      <zorder>buttonApplyTGHBrRate</zorder>
+      <zorder>lineEditTGHBrRate</zorder>
+      <zorder>labelValueHBrRate</zorder>
+      <zorder>labelTextTGHBrRate</zorder>
+      <zorder>comboBoxLTUemuReadoutMode</zorder>
+      <zorder>labelTextLTUemuMode</zorder>
      </widget>
      <widget class="QGroupBox" name="groupBoxDataGenerator">
       <property name="geometry">
@@ -47625,6 +48332,9 @@ GBT</string>
          <bold>false</bold>
         </font>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="toolTip">
         <string notr="true">Reset data and trigger generators bunch offset</string>
        </property>
@@ -48282,7 +48992,7 @@ GBT</string>
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
-      <widget class="QPushButton" name="buttonResetGBTerrors">
+      <widget class="QPushButton" name="buttonResetGBTRxErrors">
        <property name="geometry">
         <rect>
          <x>69</x>
@@ -48304,6 +49014,9 @@ GBT</string>
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -48609,6 +49322,9 @@ GBT</string>
          <bold>false</bold>
         </font>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="toolTip">
         <string notr="true"/>
        </property>
@@ -48841,6 +49557,17 @@ GBT</string>
          <width>30</width>
          <height>18</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="toolTip">
         <string notr="true"/>
@@ -55380,7 +56107,7 @@ GBT</string>
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>40078970</string>
+       <string>40078966</string>
       </property>
       <property name="maxLength">
        <number>8</number>
@@ -55569,7 +56296,7 @@ GBT</string>
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>40078970</string>
+       <string>40078966</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -55952,6 +56679,9 @@ GBT</string>
         <weight>50</weight>
         <bold>false</bold>
        </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="toolTip">
        <string notr="true"/>
@@ -56858,7 +57588,7 @@ GBT</string>
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string>Rate</string>
+       <string>Rate, Hz</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -56974,7 +57704,7 @@ GBT</string>
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string>Rate</string>
+       <string>Rate, Hz</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -59390,6 +60120,9 @@ GBT</string>
        <bold>false</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string notr="true">Clear errors in all modules</string>
      </property>
@@ -59434,6 +60167,9 @@ GBT</string>
        <weight>50</weight>
        <bold>false</bold>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="toolTip">
       <string notr="true"/>
@@ -60049,10 +60785,6 @@ system</string>
   <tabstop>buttonApplyCFDthreshold_12</tabstop>
   <tabstop>lineEditCFDzero_12</tabstop>
   <tabstop>buttonApplyCFDzero_12</tabstop>
-  <tabstop>lineEditORgate</tabstop>
-  <tabstop>buttonApplyORgate</tabstop>
-  <tabstop>lineEditCFDsaturation</tabstop>
-  <tabstop>buttonApplyCFDsaturation</tabstop>
   <tabstop>buttonResetChCounters</tabstop>
   <tabstop>SwitcherLockReadout</tabstop>
   <tabstop>buttonDataGeneratorOff</tabstop>
@@ -60085,7 +60817,7 @@ system</string>
   <tabstop>lineEditDataSelectTriggerMask</tabstop>
   <tabstop>buttonApplyDataSelectTriggerMask</tabstop>
   <tabstop>buttonResetOrbitSync</tabstop>
-  <tabstop>buttonResetGBTerrors</tabstop>
+  <tabstop>buttonResetGBTRxErrors</tabstop>
   <tabstop>buttonResetRxPhaseError</tabstop>
   <tabstop>buttonSwitchBit00</tabstop>
   <tabstop>buttonSwitchBit01</tabstop>

@@ -74,6 +74,11 @@ public:
 
     void addWordToWrite(quint32 address, quint32 value) { addTransaction(write, address, &value, 1); }
 
+    void addNBitsToChange(quint32 address, quint32 data, quint8 nbits = 16, quint8 shift = 0) {
+        quint32 mask = (1 << nbits) - 1; //e.g. 0x00000FFF for nbits==12
+        addTransaction(RMWbits, address, masks( ~quint32(mask << shift), quint32((data & mask) << shift) ));
+    }
+
     bool processResponse() { //check transactions successfulness and copy read data to destination
         for (quint16 i=0; i<transactionsList.size(); ++i) {
             TransactionHeader *th = transactionsList.at(i).responseHeader;

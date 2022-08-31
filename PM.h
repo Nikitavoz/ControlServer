@@ -9,7 +9,8 @@ const QHash<QString, Parameter> PMparameters = {
     {"noTriggerMode"        , {0x01,  1, 12,    1}},
     {"ADC0_RANGE"           , {0x25, 32,  0,    2}},
     {"ADC1_RANGE"           , {0x26, 32,  0,    2}},
-	{"CFD_SATR"             , {0x3D, 12,  0}	  },
+    {"TRGchargeLevelHi"     , {0x3D, 12,  0}	  }, //formerly known as CFD_SATR
+    {"TRGchargeLevelLo"     , {0x3D,  4, 12}	  },
     {"CH_MASK_DATA"         ,  0x7C               },
     {"TRG_CNT_MODE"         , {0x7F,  1, 10}      },
     {"CFD_THRESHOLD"        , {0x80, 32,  0,    4}},
@@ -30,8 +31,8 @@ struct TypePM {
         }      timeAlignment[12]      ; //┘
         quint32 ADC_BASELINE[12][2]   , //]0D-24 //[Ch][0] for ADC0, [Ch][1] for ADC1
                 ADC_RANGE   [12][2]   , //]25-3C
-				CFD_SATR           :12, //┐
-								   : 4, //│3D
+                TRGchargeLevelHi   :12, //┐
+                TRGchargeLevelLo   : 4, //│3D
 								   :16; //┘
         qint32  TDC1tuning         : 8, //┐
                 TDC2tuning         : 8, //│3E
@@ -133,9 +134,9 @@ struct TypePM {
         } TIME_ALIGN           [12]   ;	//┘
         quint32 _reservedSpace0[0x25 - 0x0C - 1],
                 ADC_RANGE      [12][2], //]25-3C
-				CFD_SATR           :12, //┐
-								   : 4, //│3D
-								   :16, //┘
+                TRGchargeLevelHi   :12, //┐
+                TRGchargeLevelLo   : 4, //│3D
+                                   :16, //┘
                 _reservedSpace1[0x7C - 0x3D - 1],
                 CH_MASK_DATA          , //]7C
                 _reservedSpace2[0x80 - 0x7C - 1];
@@ -186,7 +187,6 @@ struct TypePM {
             } rateCh[12];
         };
         GBTcounters GBT;
-//        QList<DimService *> services;
     } counters;
 
     QList<DimService *> services;
@@ -194,7 +194,12 @@ struct TypePM {
     quint16 FEEid;
     const quint16 baseAddress;
     const char *name;
+    QString fullName() const { return "PM" + QString(name); }
 	TRGsyncStatus &TRGsync;
+    struct { quint32
+        BCsyncLostInRun : 1 = 0,
+        earlyHeader     : 1 = 0;
+    } errorsLogged;
 
     bool isOK() { return
          act.mainPLLlocked &&
@@ -209,7 +214,7 @@ struct TypePM {
          act.restartReasonCode != 2 ; //not by PLL relock
     }
 
-	bool GBTisOK() {return
+    bool GBTisOK() const { return
 		act.GBT.isOK() &&
 		act.GBTRxReady;
 	}

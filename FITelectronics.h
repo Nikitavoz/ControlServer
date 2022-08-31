@@ -69,7 +69,7 @@ public:
     QTimer *shuttleTimer = new QTimer();
     qint16 shuttleStartPhase = -1024;
 //system variables
-    quint32 BOARDS_OK;
+    quint32 BOARDS_OK = 0xFFFFFFFF;
 
     FITelectronics(TypeFITsubdetector sd): IPbusTarget(50006), subdetector(sd), TCMid(FIT[sd].TCMid) {
         logFile.setFileName(QCoreApplication::applicationName() + ".log");
@@ -206,23 +206,6 @@ public:
         pm->services.append(new DimService(qPrintable(prefix+"status/SERIAL_NUM"      ), "S", (char *)&pm->act.registers[0xBD]+ 1, 2));
         pm->services.append(new DimService(qPrintable(prefix+"control/CH_MASK_DATA""/actual"), "I", &pm->act.CH_MASK_DATA, 4));
         pm->services.append(new DimService(qPrintable(prefix+"control/CH_MASK_TRG" "/actual"), "I", &pm->act.CH_MASK_TRG , 4));
-//        pm->services.append(new DimService(qPrintable(prefix+"control/TRG_CNT_MODE""/actual"), "S", &pm->act.TRG_CNT_MODE, 2));
-//        pm->services.append(new DimService(qPrintable(prefix+"control/CFD_SATR"    "/actual"), "S", &pm->act.CFD_SATR    , 2));
-//        pm->services.append(new DimService(qPrintable(prefix+"control/OR_GATE"     "/actual"), "S", &pm->act.OR_GATE     , 2));
-
-//        addCommand(pm->commands, prefix+"control/TRG_CNT_MODE""/apply", "S", [=](void *d) { apply_TRG_CNT_MODE(pm->FEEid, *(quint16 *)d); });
-//        addCommand(pm->commands, prefix+"control/CFD_SATR"    "/apply", "S", [=](void * ) { apply_CFD_SATR(pm->FEEid); });
-//        addCommand(pm->commands, prefix+"control/OR_GATE"     "/apply", "S", [=](void * ) { apply_OR_GATE_PM(pm->FEEid); });
-		addCommand(pm->commands, prefix+"control/RESET_COUNTERS"	  , "S", [=](void * ) { resetCounts(pm->FEEid); });
-//        addCommand(pm->commands, prefix+"control/switchTRGsync"		  , "S", [=](void *d) { switchTRGsyncPM(pm-allPMs, *(quint16 *)d); });
-//        addCommand(pm->commands, prefix+"control/CH_MASK_DATA""/apply", "I", [=](void *d) { pm->set.CH_MASK_DATA = *(quint16 *)d; apply_CH_MASK_DATA(pm->FEEid); });
-//        addCommand(pm->commands, prefix+"control/CH_MASK_TRG" "/apply", "I", [=](void *d) {
-//            quint16 mask = *(quint16 *)d;
-//            for (quint8 i=0; i<12; ++i) pm->set.TIME_ALIGN[i].blockTriggers = !(1 << i & mask);
-//            apply_CH_MASK_TRG(pm->FEEid);
-//        });
-
-
     }
 
     void createTCMservices() { //+ system services
@@ -232,29 +215,29 @@ public:
         TCM.services.append(new DimService(qPrintable(prefix+"status/VOLTAGE_1V"  ), "F", &TCM.act.VOLTAGE_1V                   , 4));
         TCM.services.append(new DimService(qPrintable(prefix+"status/VOLTAGE_1_8V"), "F", &TCM.act.VOLTAGE_1_8V                 , 4));
         TCM.services.append(new DimService(qPrintable(prefix+"status/SERIAL_NUM"  ), "S", (char *)&TCM.act.registers[0x7] + 1, 2));
-		TCM.services.append(new DimService(qPrintable(prefix+"status/BOARD_TYPE"  ), "C:4",TCM.act.BOARD_TYPE                   , 4));
-		TCM.services.append(new DimService(qPrintable(prefix+"status/FW_TIME_MCU" ), "I", &TCM.act.FW_TIME_MCU                  , 4));
-		TCM.services.append(new DimService(qPrintable(prefix+"status/FW_TIME_FPGA"), "I", &TCM.act.FW_TIME_FPGA                 , 4));
-		TCM.services.append(new DimService(qPrintable(prefix+"status/PM_MASK_SPI" ), "I", &TCM.act.PM_MASK_SPI                  , 4));
+        TCM.services.append(new DimService(qPrintable(prefix+"status/BOARD_TYPE"  ), "C:4",TCM.act.BOARD_TYPE                   , 4));
+        TCM.services.append(new DimService(qPrintable(prefix+"status/FW_TIME_MCU" ), "I", &TCM.act.FW_TIME_MCU                  , 4));
+        TCM.services.append(new DimService(qPrintable(prefix+"status/FW_TIME_FPGA"), "I", &TCM.act.FW_TIME_FPGA                 , 4));
+        TCM.services.append(new DimService(qPrintable(prefix+"status/PM_MASK_SPI" ), "I", &TCM.act.PM_MASK_SPI                  , 4));
         for (quint8 iPM=0; iPM<10; ++iPM) {
-			TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/TRG_SYNC/%s", FIT[subdetector].name, allPMs[iPM   ].name)), "I", TCM.act.TRG_SYNC_A + iPM, 4));
-			TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/TRG_SYNC/%s", FIT[subdetector].name, allPMs[iPM+10].name)), "I", TCM.act.TRG_SYNC_C + iPM, 4));
+            TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/TRG_SYNC/%s", FIT[subdetector].name, allPMs[iPM   ].name)), "I", TCM.act.TRG_SYNC_A + iPM, 4));
+            TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/TRG_SYNC/%s", FIT[subdetector].name, allPMs[iPM+10].name)), "I", TCM.act.TRG_SYNC_C + iPM, 4));
         }
 
         for (quint8 i=0; i<5; ++i) {
             TCM.staticServices.append(new DimService( qPrintable(prefix+"Trigger"+QString::number(i+1)+"/NAME"     ),  const_cast<char   *>( FIT[subdetector].triggers[i].name     ) ));
             TCM.staticServices.append(new DimService( qPrintable(prefix+"Trigger"+QString::number(i+1)+"/SIGNATURE"), *const_cast<qint16 *>(&FIT[subdetector].triggers[i].signature) ));
         }
-		TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd0/NAME"), const_cast<char *>("NoiseA: A-side out-of-gate hits AND NOT OrA"			) ));
-		TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd1/NAME"), const_cast<char *>("NoiseC: C-side out-of-gate hits AND NOT OrC"			) ));
-		TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd2/NAME"), const_cast<char *>("Total noise: NoiseA OR NoiseC"							) ));
-		TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd3/NAME"), const_cast<char *>("True OrA: bunch in both beams AND OrA"					) ));
-		TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd4/NAME"), const_cast<char *>("True OrC: bunch in both beams AND OrC"					) ));
-		TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd5/NAME"), const_cast<char *>("Interaction: both sides Or (OrA AND OrC)"				) ));
-		TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd6/NAME"), const_cast<char *>("True Interaction: bunch in both beams AND Interaction"	) ));
-		TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd7/NAME"), const_cast<char *>("True Vertex: bunch in both beams AND Vertex"			) ));
-		TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd8/NAME"), const_cast<char *>("Background A: bunch ONLY in beam1 AND OrC"				) ));
-		TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd9/NAME"), const_cast<char *>("Background C: bunch ONLY in beam2 AND OrA"				) ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd0/NAME"), const_cast<char *>("NoiseA: A-side out-of-gate hits AND NOT OrA"			) ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd1/NAME"), const_cast<char *>("NoiseC: C-side out-of-gate hits AND NOT OrC"			) ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd2/NAME"), const_cast<char *>("Total noise: NoiseA OR NoiseC"							) ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd3/NAME"), const_cast<char *>("True OrA: bunch in both beams AND OrA"					) ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd4/NAME"), const_cast<char *>("True OrC: bunch in both beams AND OrC"					) ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd5/NAME"), const_cast<char *>("Interaction: both sides Or (OrA AND OrC)"				) ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd6/NAME"), const_cast<char *>("True Interaction: bunch in both beams AND Interaction"	) ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd7/NAME"), const_cast<char *>("True Vertex: bunch in both beams AND Vertex"			) ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd8/NAME"), const_cast<char *>("Background A: bunch ONLY in beam1 AND OrC"				) ));
+        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd9/NAME"), const_cast<char *>("Background C: bunch ONLY in beam2 AND OrA"				) ));
 
         TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger1/CNT"), "I", &TCM.counters.CNT_T1, 4));
         TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger2/CNT"), "I", &TCM.counters.CNT_T2, 4));
@@ -560,7 +543,7 @@ public slots:
         } else emit error("Wrong COUNTERS_UPD_RATE value: " + QString::number(val), logicError);
     }
 
-	void initGBT() {
+	void initGBT() {        
         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
         if (quint16(readRegister(GBTparameters["RDH_FEE_ID"].address)) != TCMid) {
             for (quint8 j=0; j<GBTunit::controlSize; ++j) if (j != GBTparameters["BCID_DELAY"].address - GBTunit::controlAddress) TCM.set.GBT.registers[j] = GBTunit::defaults[j];
@@ -747,7 +730,7 @@ public slots:
             TCM.set.PM_MASK_SPI &= ~(1 << (pm - allPMs));
             PM.remove(pm->FEEid);
             (pm - allPMs < 10 ? PMsA : PMsC).removeOne(pm);
-            log(QString(pm->name) + " not available by SPI");
+            log(pm->fullName() + " is not available by SPI");
             emit linksStatusReady();
         } else {
             IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
@@ -756,6 +739,12 @@ public slots:
             pm->act.calculateValues();
             pm->counters.GBT.calculateRate(pm->act.GBT.Status.wordsCount, pm->act.GBT.Status.eventsCount);
             foreach (DimService *s, pm->services) s->updateService();
+            if (pm->act.FW_TIME_FPGA.printCode1() >= "28T.CI" && !pm->act.GBT.Status.FIFOempty_errorReport) {
+                GBTerrorReport errorReport;
+                p.addTransaction(nonIncrementingRead, pm->baseAddress + GBTerrorReport::address, errorReport.data, GBTerrorReport::reportSize);
+                if (!transceive(p)) return false;
+                log(pm->fullName() + " " + errorReport.print());
+            }
         }
         return true;
     }     
@@ -778,6 +767,12 @@ public slots:
             emit resetFinished();
             return;
         }
+        if (TCM.act.FW_TIME_FPGA.printCode1() >= "28T.CI" && !TCM.act.GBT.Status.FIFOempty_errorReport) {
+            GBTerrorReport errorReport;
+            p.addTransaction(nonIncrementingRead, GBTerrorReport::address, errorReport.data, GBTerrorReport::reportSize);
+            if (!transceive(p)) return;
+            log("TCM " + errorReport.print());
+        }
         if (PMsReady) { foreach (TypePM *pm, PM) if (!read1PM(pm)) return; }
         calculateSystemValues();
         foreach (CustomDIMservice *s, services) s->updateService();
@@ -786,10 +781,12 @@ public slots:
     }
 
     void calculateSystemValues() {
-        BOARDS_OK = 0;
-        for(quint8 iPM= 0; iPM<10; ++iPM) BOARDS_OK |= (TCM.act.TRG_SYNC_A[iPM   ].linkOK && allPMs[iPM].act.GBT.isOK() && allPMs[iPM].isOK()) << iPM;
-        for(quint8 iPM=10; iPM<20; ++iPM) BOARDS_OK |= (TCM.act.TRG_SYNC_C[iPM-10].linkOK && allPMs[iPM].act.GBT.isOK() && allPMs[iPM].isOK()) << iPM;
-        BOARDS_OK |= (TCM.isOK() && TCM.act.GBT.isOK()) << 20;
+//        BOARDS_OK = 0;
+//        for(quint8 iPM= 0; iPM<10; ++iPM) BOARDS_OK |= (TCM.act.TRG_SYNC_A[iPM   ].linkOK && allPMs[iPM].act.GBT.isOK() && allPMs[iPM].isOK()) << iPM;
+//        for(quint8 iPM=10; iPM<20; ++iPM) BOARDS_OK |= (TCM.act.TRG_SYNC_C[iPM-10].linkOK && allPMs[iPM].act.GBT.isOK() && allPMs[iPM].isOK()) << iPM;
+//        BOARDS_OK |= (TCM.isOK() && TCM.act.GBT.isOK()) << 20;
+        BOARDS_OK = (TCM.isOK() && TCM.act.GBT.isOK());
+        for(qint8 iPM=19; iPM>=0; --iPM) { BOARDS_OK <<= 1; if (allPMs[iPM].isOK() && allPMs[iPM].act.GBT.isOK()) ++BOARDS_OK; }
     }
 
     void adjustThresholds(TypePM *pm, double rate_Hz) { //debug function! lab use only!
@@ -829,18 +826,6 @@ public slots:
         p.addTransaction(RMWbits, address, p.masks(0xFFFF00FF, 0x00000000)); //clear all reset bits
         if (transceive(p) && syncOnSuccess) sync();
     }
-//	void resetGBTphases() {
-//		IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
-//		p.addTransaction(RMWbits, GBTunit::controlAddress, p.masks(0xFFFF00FF, 0x00000000));
-//		p.addTransaction(RMWbits, GBTunit::controlAddress, p.masks(0xFFFFFFFF, 1 << GBTunit::RB_RXphaseError));
-//		p.addTransaction(RMWbits, GBTunit::controlAddress, p.masks(0xFFFF00FF, 0x00000000));
-//		foreach (TypePM *pm, PM) {
-//			p.addTransaction(RMWbits, pm->baseAddress + GBTunit::controlAddress, p.masks(0xFFFF00FF, 0x00000000));
-//			p.addTransaction(RMWbits, pm->baseAddress + GBTunit::controlAddress, p.masks(0xFFFFFFFF, 1 << GBTunit::RB_RXphaseError));
-//			p.addTransaction(RMWbits, pm->baseAddress + GBTunit::controlAddress, p.masks(0xFFFF00FF, 0x00000000));
-//		}
-//		transceive(p);
-//	}
 
     void apply_RESET_ORBIT_SYNC           (quint16 FEEid, bool syncOnSuccess = true) { reset(FEEid, GBTunit::RB_orbitSync            , syncOnSuccess); }
     void apply_RESET_DATA_COUNTER         (quint16 FEEid, bool syncOnSuccess = true) { reset(FEEid, GBTunit::RB_dataCounter          , syncOnSuccess); }
@@ -1030,7 +1015,39 @@ public slots:
         for (quint8 iPM = 10; iPM < 20; ++iPM) if (TCM.act.PM_MASK_SPI & 1 << iPM) p.addWordToWrite(allPMs[iPM].baseAddress + PMparameters["OR_GATE"].address, val);
         if (transceive(p)) sync();
     }
-    void apply_CFD_SATR(quint16 FEEid) { writeParameter("CFD_SATR", PM[FEEid]->set.CFD_SATR, FEEid); }
+    void apply_TRGchargeLevelHi(qint8 iBd, quint16 val) {
+        if (val > 4095) val = 4095;
+        QString parameterName = "TRGchargeLevelHi";
+        Parameter par = PMparameters[parameterName];
+        if (iBd == -1) {
+            IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
+            foreach (TypePM *pm, PM) {
+                pm->setParameter(parameterName, val);
+                p.addNBitsToChange(pm->baseAddress + par.address, val, par.bitwidth, par.bitshift);
+            }
+            transceive(p);
+        } else if (iBd >= 0 && iBd < 20 && TCM.act.PM_MASK_SPI & 1 << iBd) {
+            allPMs[iBd].setParameter(parameterName, val);
+            writeParameter(parameterName, val, allPMs[iBd].FEEid);
+        }
+    }
+    void apply_TRGchargeLevelLo(qint8 iBd, quint16 val) {
+        if (val > 15) val = 15;
+        QString parameterName = "TRGchargeLevelLo";
+        Parameter par = PMparameters[parameterName];
+        if (iBd == -1) {
+            IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
+            foreach (TypePM *pm, PM) {
+                pm->setParameter(parameterName, val);
+                p.addNBitsToChange(pm->baseAddress + par.address, val, par.bitwidth, par.bitshift);
+            }
+            transceive(p);
+        } else if (iBd >= 0 && iBd < 20 && TCM.act.PM_MASK_SPI & 1 << iBd) {
+            allPMs[iBd].setParameter(parameterName, val);
+            writeParameter(parameterName, val, allPMs[iBd].FEEid);
+        }
+    }
+//    void apply_TRGchargeLevelHi(quint16 FEEid) { writeParameter("TRGchargeLevelHi", PM[FEEid]->set.TRGchargeLevelHi, FEEid); }
 	void apply_TRG_CNT_MODE(quint16 FEEid, bool CFDinGate) { writeParameter("TRG_CNT_MODE", CFDinGate, FEEid); }
     void apply_CH_MASK_DATA (quint16 FEEid) { writeParameter("CH_MASK_DATA" , PM[FEEid]->set.CH_MASK_DATA , FEEid); }
     void apply_CH_MASK_TRG  (quint16 FEEid) {

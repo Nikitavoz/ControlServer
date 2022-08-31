@@ -3,7 +3,7 @@
 
 #include "FITboardsCommon.h"
 
-const double LHCclock_MHz = 40.0789; //reference value
+const double LHCclock_MHz = 40.0789658; //reference value
 const quint16 countersUpdatePeriod_ms[8] = {0, 100, 200, 500, 1000, 2000, 5000, 10000};
 extern double systemClock_MHz; //40
 extern double TDCunit_ps; // 13
@@ -354,6 +354,9 @@ struct TypeTCM {
     QList<DimService *> services, staticServices;
     QList<DimCommand *> commands;
     quint32 ORBIT_FILL_MASK[223];
+    struct { quint32
+        BCsyncLostInRun : 1 = 0;
+    } errorsLogged;
 };
 
 const QHash<QString, Parameter> TCMparameters = {

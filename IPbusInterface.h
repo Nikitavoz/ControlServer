@@ -139,8 +139,7 @@ public slots:
 
     void writeNbits(quint32 address, quint32 data, quint8 nbits = 16, quint8 shift = 0, bool syncOnSuccess = true) {
         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
-        quint32 mask = (1 << nbits) - 1; //e.g. 0x00000FFF for nbits==12
-        p.addTransaction(RMWbits, address, p.masks( ~quint32(mask << shift), quint32((data & mask) << shift) ));
+        p.addNBitsToChange(address, data, nbits, shift);
         if (transceive(p) && syncOnSuccess) sync();
     }
 };

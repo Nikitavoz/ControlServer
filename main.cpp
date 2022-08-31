@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 	QApplication a(argc, argv);
 	QCoreApplication::setOrganizationName("INR");
 	QCoreApplication::setApplicationName("ControlServer");
-	QCoreApplication::setApplicationVersion("1.i");
+    QCoreApplication::setApplicationVersion("1.j");
     MainWindow w;
 	w.show();
 

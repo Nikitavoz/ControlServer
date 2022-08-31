@@ -37,28 +37,6 @@ const struct {char name[4]; quint16 TCMid, PMA0id, PMC0id; quint8 systemID; stru
                                                                                      {         "OrC",             113},
                                                                                      {         "OrA",             114} }             }
 };
-static const char* TriggerTypeNames = "Bit Name   \n"
-                                      " 0 ORBIT   \n"
-                                      " 1 HB      \n"
-                                      " 2 HBr     \n"
-                                      " 3 HC      \n"
-                                      " 4 PhT     \n"
-                                      " 5 PP      \n"
-                                      " 6 Cal     \n"
-                                      " 7 SOT     \n"
-                                      " 8 EOT     \n"
-                                      " 9 SOC     \n"
-                                      "10 EOC     \n"
-                                      "11 TF      \n"
-                                      "12 FErst   \n"
-                                      "13 RT      \n"
-                                      "14 RS      \n"
-                                      "···spare···\n"
-                                      "27 LHCgap1 \n"
-                                      "28 LHCgap2 \n"
-                                      "29 TPCsync \n"
-                                      "30 TPCrst  \n"
-                                      "31 TOF       ";
 
 struct GBTunit { // (13 + 3 + 10) registers * 4 bytes = 104 bytes
     union ControlData {
@@ -121,7 +99,8 @@ struct GBTunit { // (13 + 3 + 10) registers * 4 bytes = 104 bytes
                 FIFOempty_trg                :  1, //│
                 FIFOempty_slct               :  1, //│
                 FIFOempty_cntpck             :  1, //│
-                                             : 11, //│
+                FIFOempty_errorReport        :  1, //│
+                                             : 10, //│
                 slctFIFOemptyWhileRead       :  1, //│
                 FIFOnotEmptyOnRunStart_slct  :  1, //│
                 FIFOnotEmptyOnRunStart_cntpck:  1, //│
@@ -141,9 +120,9 @@ struct GBTunit { // (13 + 3 + 10) registers * 4 bytes = 104 bytes
                 SELFIFOmax                   : 16, //┘EC
                 wordsCount                   : 32, //]ED
                 BCindicatorData              : 12, //┐
-                BCpurityData                 :  4, //│
+                BCmodalityData               :  4, //│
                 BCindicatorTrg               : 12, //│EE
-                BCpurityTrg                  :  4, //┘
+                BCmodalityTrg                :  4, //┘
                                              : 16, //┐
                 FTMIPbusFIFOcount            : 16, //┘EF
                 FTMIPbusFIFOdata                 , //]F0
@@ -194,12 +173,13 @@ static const quint8
                  0, //E3, individual for each side, to be restored from settings
               0x10  //E4, select data on 'Physics' trigger
     };
-    inline bool isOK() {return
-//        !Status.GBTRxError && //this flag indicates errors in past, the actual error bit is read from board status
+    inline bool isOK() const {return
+//        Status.GBTRxReady && //this flag indicates errors in past, the actual error bit is read from board status
+//        !Status.GBTRxError &&
         !Status.RxPhaseError &&
         Status.READOUT_MODE == Status.CRU_READOUT_MODE &&
         (Control.registers[0] & 1 << 14) == 0 && //FSM reset not locked
-        (Status.registers[2] >> 16 & 0x7FFF) == 0 && //no FSM errors
+        (Status.registers[2] >> 16 & 0x04FF) == 0 && //no FSM errors except PM-specific ones
         (!Status.dataFIFOnotReady || Status.READOUT_MODE != RO_idle); //FIFOs must me ready in Idle
     }
 };
@@ -219,23 +199,53 @@ struct GBTcounters {
         oldTime = newTime;
     }
 };
-
+struct GBTword {
+    quint16 p[5];
+    QString printHex() const { return QString::asprintf("%04X%04X %04X %04X%04X", p[4], p[3], p[2], p[1], p[0]); }
+};
 struct GBTerrorReport {
-	quint16 GBTwords[6][5], //]reg0-14
-			RxPhases[4]   , //]reg15-16
-			boardBC		  , //┐
-			CRU_BC		  ; //┘reg17
-	quint32 boardOrbit,		//]reg18
-			CRU_orbit;		//]reg19
-	quint32 *registers = (quint32 *)this;
-	inline quint8 getPhase(quint8 i) { return i > 15 ? -1 : *(quint64 *)RxPhases >> 4*i & 0xF; }
-	QString text() {
-		QString res = "BCID sync lost";
-		if (QVector<quint32>(registers, registers + 20).count(0) == 20) return res;
-		for (quint8 w=0; w<6; ++w) res += QString::asprintf("\nGBTword%d: 0x%04x%04x %04x %04x%04x, triggers: ", w, GBTwords[w][4], GBTwords[w][3], GBTwords[w][2], GBTwords[w][1], GBTwords[w][0]);
-		return res;
-
-	}
+    static const quint32 errCodeBCsyncLostInRun  = 0xEEEE000A,
+                         errCodePMearlyheader = 0xEEEE0009;
+    static const quint8 reportSize = 36, address = 0xF2;
+    quint32  errCode;                   //]IPbus word 0
+    union {
+        struct TypeBCsyncLostInRun {
+            struct {
+                GBTword data;
+                quint16 counter : 12,
+                        isData  :  4;
+            } w[10];                    //]IPbus word 1-30
+            quint16 BC_CRU, BC_Board;   //]IPbus word 31
+            quint32 orbitBoard,         //]IPbus word 32
+                    orbitCRU,           //]IPbus word 33
+                    _reservedSpace[2];  //]IPbus word 34-35
+        } SL;
+        struct TypePMearlyHeader {
+            GBTword w[14];
+        } EH;
+    };
+    quint32 *data = (quint32 *)this;
+    static const inline QString LF = QString::asprintf("\n%*s", 24, ""); //a new line with indentation equal to timestamp length in logfile
+    QString print() const {
+        switch (errCode) {
+        case 0: return "error (zero report)";
+        case errCodeBCsyncLostInRun:  {
+            QString res = "BC sync lost in run";
+            res.append(LF + QString::asprintf("Board BCid: %08X  %03X", SL.orbitBoard, SL.BC_Board));
+            res.append(LF + QString::asprintf("  CRU BCid: %08X  %03X", SL.orbitCRU  , SL.BC_CRU  ));
+            res.append(LF + "#### isData GBTword");
+            for (quint8 i=0; i<10; ++i) res.append(LF + QString::asprintf("%4d %-6s ", SL.w[i].counter, SL.w[i].isData ? "true" : "false") + SL.w[i].data.printHex());
+            return res;               }
+        case errCodePMearlyheader:    {
+            QString res = "Input packet corrupted: header too early" + LF + "## GBTword";
+            for (quint8 i=0; i<14; ++i) res.append(LF + QString::asprintf("%2d ", i) + EH.w[i].printHex());
+            return res;               }
+        default:                      {
+            QString res = "Unknown error report:" + LF + "## IPbusWord";
+            for (quint8 i=0; i<reportSize; ++i) res.append(LF + QString::asprintf("%2d %08X", i, data[i]));
+            return res;               }
+        }
+    }
 };
 
 struct Parameter {
@@ -243,7 +253,7 @@ struct Parameter {
            bitwidth,
            bitshift,
            interval; //for PM channels parameters only
-    Parameter(quint8 addr = 0, quint8 w = 32, quint8 sh = 0, quint8 i = 0): address(addr), bitwidth(w), bitshift(sh), interval(i) {};
+    Parameter(quint8 address = 0, quint8 bitwidth = 32, quint8 bitshift = 0, quint8 interval = 0): address(address), bitwidth(bitwidth), bitshift(bitshift), interval(interval) {};
 };
 
 const QHash<QString, Parameter> GBTparameters = {
@@ -347,7 +357,6 @@ public:
             service->updateService();
         }
     }
-//    template<typename... Args> int updateService(Args... args) { return service->updateService(args...); }
 };
 
 inline quint32 changeNbits(quint32 base, quint8 length, quint8 shift, quint32 value) {
