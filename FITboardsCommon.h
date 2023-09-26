@@ -157,7 +157,8 @@ static const quint8
     RB_GBTRxError			= 11,
     RB_GBT					= 12,
     RB_RXphaseError			= 13,
-    RB_readoutFSM           = 14;
+    RB_readoutFSM           = 14,
+    RB_errorReport          = 15;
     static constexpr quint32 defaults[controlSize] = {
         0x00100000, //D8, HB response is on, emulation is off
               0x40, //D9, show BC indicator for 'Calibration' trigger
@@ -204,8 +205,9 @@ struct GBTword {
     QString printHex() const { return QString::asprintf("%04X%04X %04X %04X%04X", p[4], p[3], p[2], p[1], p[0]); }
 };
 struct GBTerrorReport {
-    static const quint32 errCodeBCsyncLostInRun  = 0xEEEE000A,
-                         errCodePMearlyheader = 0xEEEE0009;
+    static const quint32 errCodeBCsyncLostInRun = 0xEEEE000A,
+                         errCodePMearlyheader   = 0xEEEE0009,
+                         errCodeFIFOoverload    = 0xEEEE0008;
     static const quint8 reportSize = 36, address = 0xF2;
     quint32  errCode;                   //]IPbus word 0
     union {
@@ -223,6 +225,12 @@ struct GBTerrorReport {
         struct TypePMearlyHeader {
             GBTword w[14];
         } EH;
+        struct TypeFIFOoverload {
+            GBTword w[13];              //┐
+            quint16 _reservedSpace0,    //┘IPbus word 1-33
+                    rdRate, wrRate;     //]IPbus word 34
+            quint32 _reservedSpace1;    //]IPbus word 35
+        } FO;
     };
     quint32 *data = (quint32 *)this;
     static const inline QString LF = QString::asprintf("\n%*s", 24, ""); //a new line with indentation equal to timestamp length in logfile
@@ -239,6 +247,12 @@ struct GBTerrorReport {
         case errCodePMearlyheader:    {
             QString res = "Input packet corrupted: header too early" + LF + "## GBTword";
             for (quint8 i=0; i<14; ++i) res.append(LF + QString::asprintf("%2d ", i) + EH.w[i].printHex());
+            return res;               }
+        case errCodeFIFOoverload:    {
+            QString res = "raw data FIFO overload";
+            res.append(LF + QString::asprintf("%d read and %d write operations in last 1000 cycles", FO.rdRate, FO.wrRate));
+            res.append(LF + "## GBTword");
+            for (quint8 i=0; i<13; ++i) res.append(LF + QString::asprintf("%2d ", i) + FO.w[i].printHex());
             return res;               }
         default:                      {
             QString res = "Unknown error report:" + LF + "## IPbusWord";

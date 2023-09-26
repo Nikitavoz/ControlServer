@@ -573,7 +573,7 @@ public slots:
 //        ok = true;
 //        foreach (TypePM *pm, FEE.PM) if (!pm->isOK() || !pm->GBTisOK()) { ok = false; break; }
 //        ui->labelIconSystemErrors->setPixmap(ok && FEE.TCM.isOK() && FEE.TCM.act.GBT.isOK() ? Green0 : Red1);
-        ui->labelIconSystemErrors->setPixmap(FEE.BOARDS_OK >> 20 && (FEE.TCM.act.PM_MASK_SPI & FEE.BOARDS_OK) == FEE.TCM.act.PM_MASK_SPI ? Green0 : Red1);
+        ui->labelIconSystemErrors->setPixmap(FEE.BOARDS_OK >> 20 && (FEE.TCM.act.PM_MASK_TRG() & FEE.BOARDS_OK) == FEE.TCM.act.PM_MASK_TRG() ? Green0 : Red1);
 		ui->TCM_selector->setStyleSheet(FEE.TCM.isOK() && FEE.TCM.GBTisOK() ? "" : notOKstyle);
         ui->labelValueClockSource->setText(FEE.TCM.act.externalClock ? "external" : (FEE.TCM.act.forceLocalClock ? "force local" : "local"));
         ui->labelValueClockSource->setStyleSheet(FEE.TCM.act.externalClock ? OKstyle : (FEE.TCM.act.forceLocalClock ? neutralStyle : notOKstyle));
@@ -748,8 +748,9 @@ public slots:
                 prevPhaseStep_ns = phaseStep_ns;
             }
             ui->labelValueAverageTime_A->setText(QString::asprintf("%7.3f", FEE.TCM.act.averageTimeA_ns));
-            ui->labelValueAverageTime_A->setEnabled(FEE.TCM.counters.rate[0xA] >= 100.); //average time is calculated only on interactions (OrA AND OrC)
             ui->labelValueAverageTime_C->setText(QString::asprintf("%7.3f", FEE.TCM.act.averageTimeC_ns));
+            ui->labelValueAverageTime_A->setEnabled(FEE.TCM.counters.rate[0xA] >= 100.); //average time is calculated only on interactions (OrA AND OrC)
+            ui->labelValueAverageTime_C->setEnabled(FEE.TCM.counters.rate[0xA] >= 100.);
             ui->labelValuePhase_A->setText(QString::asprintf("%7.3f", FEE.TCM.act.delayAside_ns));
             ui->labelValuePhase_C->setText(QString::asprintf("%7.3f", FEE.TCM.act.delayCside_ns));
             if (FEE.PMsA.isEmpty()) {

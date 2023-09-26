@@ -2,6 +2,7 @@
 #define IPBUSCONTROLPACKET_H
 #include "IPbusHeaders.h"
 #include <QObject>
+#include <QDateTime>
 
 const quint16 maxPacket = 368; //368 words, limit from ethernet MTU of 1500 bytes
 enum errorType {networkError = 0, IPbusError = 1, logicError = 2};
@@ -21,7 +22,8 @@ public:
     }
     ~IPbusControlPacket() { this->disconnect(); }
 
-    void debugPrint() {
+    void debugPrint(QString st) {
+        qDebug(qPrintable(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz ") + st));
         qDebug("request:");
         for (quint16 i=0; i<requestSize; ++i)  qDebug("%08X", request[i]);
         qDebug("        response:");
