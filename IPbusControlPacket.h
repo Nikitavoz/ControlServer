@@ -76,7 +76,8 @@ public:
 
     void addWordToWrite(quint32 address, quint32 value) { addTransaction(write, address, &value, 1); }
 
-    void addNBitsToChange(quint32 address, quint32 data, quint8 nbits = 16, quint8 shift = 0) {
+    void addNBitsToChange(quint32 address, quint32 data, quint8 nbits, quint8 shift = 0) {
+        if (nbits == 32) { addTransaction(write, address, &data, 1); return; }
         quint32 mask = (1 << nbits) - 1; //e.g. 0x00000FFF for nbits==12
         addTransaction(RMWbits, address, masks( ~quint32(mask << shift), quint32((data & mask) << shift) ));
     }
@@ -122,7 +123,7 @@ public:
                     return false;
             }
             if (th->InfoCode != 0) {
-				emit error(th->infoCodeString() + QString::asprintf(", address: %08X", *transactionsList.at(i).address + th->Words), IPbusError);
+                emit error(th->infoCodeString() + QString::asprintf(", address: %08X", *transactionsList.at(i).address + th->Words), IPbusError);
                 return false;
             }
         }

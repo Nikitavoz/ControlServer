@@ -51,8 +51,8 @@ struct GBTunit { // (13 + 3 + 10) registers * 4 bytes = 104 bytes
                 BYPASS_MODE                  :  1, //│
                 READOUT_LOCK                 :  1, //│
                 HB_REJECT                    :  1, //│
-				shiftRxPhase                 :  1, //│
-											 :  7, //┘
+                shiftRxPhase                 :  1, //│
+                                             :  7, //┘
                 DG_TRG_RESPOND_MASK,               //]D9
                 DG_BUNCH_PATTERN,                  //]DA
                 TG_SINGLE_VALUE,                   //]DB
@@ -135,13 +135,13 @@ static const quint8
     controlAddress= 0xD8,
     statusAddress = 0xE8,
 //data generator states
-    DG_noData	= 0,
-    DG_main		= 1,
-    DG_Tx		= 2,
+    DG_noData     = 0,
+    DG_main       = 1,
+    DG_Tx         = 2,
 //trigger generator states
     TG_noTrigger  = 0,
     TG_continuous = 1,
-    TG_Tx		  = 2,
+    TG_Tx         = 2,
 //readout modes
     RO_idle       = 0,
     RO_continuous = 1,
@@ -151,12 +151,12 @@ static const quint8
     BS_sync  = 1,
     BS_lost  = 2,
 //positions of reset bits
-    RB_orbitSync			=  8,
-    RB_dataCounter      	=  9,
+    RB_orbitSync            =  8,
+    RB_dataCounter          =  9,
     RB_generatorsBunchOffset= 10,
-    RB_GBTRxError			= 11,
-    RB_GBT					= 12,
-    RB_RXphaseError			= 13,
+    RB_GBTRxError           = 11,
+    RB_GBT                  = 12,
+    RB_RXphaseError         = 13,
     RB_readoutFSM           = 14,
     RB_errorReport          = 15;
     static constexpr quint32 defaults[controlSize] = {
@@ -193,8 +193,8 @@ struct GBTcounters {
         newTime = QDateTime::currentDateTime();
         quint32 time_ms = oldTime.msecsTo(newTime);
         if (time_ms < 100) return;
-		 wordsRate =  wordsNew >=  wordsOld ? ( wordsNew -  wordsOld) * 1000. / time_ms :  wordsNew;
-		eventsRate = eventsNew >= eventsOld ? (eventsNew - eventsOld) * 1000. / time_ms : eventsNew;
+         wordsRate =  wordsNew >=  wordsOld ? ( wordsNew -  wordsOld) * 1000. / time_ms :  wordsNew;
+        eventsRate = eventsNew >= eventsOld ? (eventsNew - eventsOld) * 1000. / time_ms : eventsNew;
          wordsOld =  wordsNew;
         eventsOld = eventsNew;
         oldTime = newTime;
@@ -248,7 +248,7 @@ struct GBTerrorReport {
             QString res = "Input packet corrupted: header too early" + LF + "## GBTword";
             for (quint8 i=0; i<14; ++i) res.append(LF + QString::asprintf("%2d ", i) + EH.w[i].printHex());
             return res;               }
-        case errCodeFIFOoverload:    {
+        case errCodeFIFOoverload:     {
             QString res = "raw data FIFO overload";
             res.append(LF + QString::asprintf("%d read and %d write operations in last 1000 cycles", FO.rdRate, FO.wrRate));
             res.append(LF + "## GBTword");
@@ -267,7 +267,7 @@ struct Parameter {
            bitwidth,
            bitshift,
            interval; //for PM channels parameters only
-    Parameter(quint8 address = 0, quint8 bitwidth = 32, quint8 bitshift = 0, quint8 interval = 0): address(address), bitwidth(bitwidth), bitshift(bitshift), interval(interval) {};
+    Parameter(quint8 address = 0, quint8 bitwidth = 32, quint8 bitshift = 0, quint8 interval = 0): address(address), bitwidth(bitwidth), bitshift(bitshift), interval(interval) {}
 };
 
 const QHash<QString, Parameter> GBTparameters = {
@@ -279,7 +279,7 @@ const QHash<QString, Parameter> GBTparameters = {
     {"BYPASS_MODE"          , {0xD8,  1, 21}},
     {"READOUT_LOCK"         , {0xD8,  1, 22}},
     {"HB_REJECT"            , {0xD8,  1, 23}},
-	{"shiftRxPhase"			, {0xD8,  1, 24}},
+    {"shiftRxPhase"         , {0xD8,  1, 24}},
     {"DG_TRG_RESPOND_MASK"  ,  0xD9         },
     {"DG_BUNCH_PATTERN"     ,  0xDA         },
     {"TG_PATTERN"           , {0xDC, 64,  0}},
@@ -303,19 +303,20 @@ struct Timestamp {
             month  : 4, //1..12
             day    : 5; //1..31
     Timestamp() = default;
-	Timestamp(quint16 y, quint8 mo, quint8 d, quint8 h, quint8 mi, quint8 s): second(s), minute(mi), hour(h), year(y > 2000 ? y - 2000 : y), month(mo), day(d) {};
-	QString printFull() { return QString::asprintf("20%02d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second); }
-	QString printISO () { return QString::asprintf("20%02d-%02d-%02dT%02d:%02d:%02d", year, month, day, hour, minute, second); }
-	static constexpr char alph[65] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz|~";
-	QString printCode1() { //from "011.a0" (start of 2020) to "hCV.Nx" (end of 2063), minute accuracy
-		return *(quint32 *)(this)==0 ? "000000" : QString::asprintf("%c%c%c.%c%c", alph[(year - 20) % 64], alph[month], alph[day], alph[hour], alph[minute]);
-	}
-	QString printCode2() { //from "0GW0" (start of 2020) to "~Ftx" (end of 2035), minute accuracy
-		QString res(4);
-		quint32 v = ((year - 20) << 20) + (month << 16) + (day << 11) + (hour << 6) + (minute);
-		for (qint8 i=3; i>=0; --i, v >>= 6) res[i] = alph[v & 63];
-		return res;
-	}
+    Timestamp(quint16 y, quint8 mo, quint8 d, quint8 h, quint8 mi, quint8 s): second(s), minute(mi), hour(h), year(y % 2000), month(mo), day(d) {}
+    QString printFull() { return QString::asprintf("20%02d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second); }
+    QString printISO () { return QString::asprintf("20%02d-%02d-%02dT%02d:%02d:%02d", year, month, day, hour, minute, second); }
+                                    //          ↓10       ↓20       ↓30       ↓40       ↓50     60↓  ↓63
+    static constexpr char alph[65] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz|~";
+    QString printCode1() { //from "011.a0" (beginning of 2020) to "hCV.Nx" (end of 2063), minute accuracy
+        return *(quint32 *)(this)==0 ? "000000" : QString::asprintf("%c%c%c.%c%c", alph[(year - 20) % 64], alph[month], alph[day], alph[hour], alph[minute]);
+    }
+    QString printCode2() { //from "0GW0" (beginning of 2020) to "~Ftx" (end of 2035), minute accuracy
+        QString res(4);
+        quint32 v = ((year - 20) << 20) + (month << 16) + (day << 11) + (hour << 6) + (minute);
+        for (qint8 i=3; i>=0; --i, v >>= 6) res[i] = alph[v & 63];
+        return res;
+    }
 };
 
 struct TRGsyncStatus {
@@ -326,15 +327,15 @@ struct TRGsyncStatus {
                             : 1,
         line1delay          : 5,
         line1signalLost     : 1,
-        line1signalStable	: 1,
+        line1signalStable   : 1,
         syncError           : 1, //this bit should be read from side status register (0x1A or 0x3A)
         line2delay          : 5,
         line2signalLost     : 1,
-        line2signalStable	: 1,
-        bitPositionsOK		: 1,
+        line2signalStable   : 1,
+        bitPositionsOK      : 1,
         line3delay          : 5,
         line3signalLost     : 1,
-        line3signalStable	: 1,
+        line3signalStable   : 1,
         linkOK              : 1;
 };
 
@@ -343,40 +344,55 @@ struct regblock {
     inline quint8 size() { return endAddr - addr + 1; }
 };
 
-class CustomDIMservice {
+class AdvancedDIMservice {
     DimService *service;
     const bool dataIsExternal;
     const size_t dataSize;
     void *dataNew, *dataOld;
     std::function<void(void *)> dataCollect;
 public:
-    CustomDIMservice(const char *name, const char *format, size_t size, std::function<void(void *)> dataCollectingFunction, void *data = nullptr):
+    AdvancedDIMservice(const char *name, const char *format, size_t size, std::function<void(void *)> dataCollectingFunction, void *data = nullptr):
         dataIsExternal(data != nullptr),
         dataSize(size),
         dataNew(dataIsExternal ? data : malloc(dataSize)),
         dataOld(malloc(dataSize)),
         dataCollect(dataCollectingFunction)
     {
-        service = new DimService(name, format, dataOld, int(dataSize));
+        service = new DimService(name, format, dataNew, int(dataSize));
     }
-    ~CustomDIMservice() {
+    ~AdvancedDIMservice() {
         delete service;
         if (!dataIsExternal) free(dataNew);
         free(dataOld);
     }
-    void updateService() {
+    void updateService(bool onlyIfChanged = true) {
         if (dataCollect != 0) dataCollect(dataNew);
-        if (memcmp(dataNew, dataOld, dataSize) != 0) {//data has changed
+        if (onlyIfChanged == false) {
+            service->updateService();
+        } else if (memcmp(dataNew, dataOld, dataSize) != 0) {//data has changed
             memcpy(dataOld, dataNew, dataSize);
             service->updateService();
         }
     }
+//    void updateAnyway() {
+//        if (dataCollect != 0) dataCollect(dataNew);
+//        service->updateService();
+//    }
+//    void updateIfChanged() {
+//        if (dataCollect != 0) dataCollect(dataNew);
+//        if (memcmp(dataNew, dataOld, dataSize) != 0) {//data has changed
+//            memcpy(dataOld, dataNew, dataSize);
+//            service->updateService();
+//        }
+//    }
 };
 
 inline quint32 changeNbits(quint32 base, quint8 length, quint8 shift, quint32 value) {
-    if (length == 32) return value;
+    if (length == 0) return base;
+    if (length >= 32) return value;
+    if (length == 1) return value ? base | 1 << shift : base & ~(1 << shift);
     quint32 mask = (1 << length) - 1;
-	base &= ~(mask << shift);
+    base &= ~(mask << shift);
     base |= (mask & value) << shift;
     return base;
 }

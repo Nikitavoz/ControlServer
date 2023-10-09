@@ -1,6 +1,9 @@
 #ifndef FITELECTRONICS_H
 #define FITELECTRONICS_H
 
+#define qP(x) qPrintable(x)
+#define qPf(...) qPrintable(QString::asprintf(__VA_ARGS__))
+
 #include "IPbusInterface.h"
 #include "TCM.h"
 #include "PM.h"
@@ -18,7 +21,9 @@ public:
     const quint16 TCMid;
     DimServer DIMserver;
     QHash<DimCommand *, std::function<void(void *)>> allCommands;
-    QList<CustomDIMservice *> services, countServices;
+    QList<AdvancedDIMservice *> services;
+    AdvancedDIMservice *countsChannels, *countRatesChannels, *countsTriggers, *countRatesTriggers;
+    QList<DimService *> staticServices;
     QList<DimCommand *> commands;
     struct TypeServerStatus {
         char string[1024] = "offline";
@@ -30,33 +35,33 @@ public:
     } serverStatus;
     TypeTCM TCM;
     TypePM allPMs[20] = { //PMs by link №
-		TypePM(0x0200, "A0", TCM.act.TRG_SYNC_A[0]),
-		TypePM(0x0400, "A1", TCM.act.TRG_SYNC_A[1]),
-		TypePM(0x0600, "A2", TCM.act.TRG_SYNC_A[2]),
-		TypePM(0x0800, "A3", TCM.act.TRG_SYNC_A[3]),
-		TypePM(0x0A00, "A4", TCM.act.TRG_SYNC_A[4]),
-		TypePM(0x0C00, "A5", TCM.act.TRG_SYNC_A[5]),
-		TypePM(0x0E00, "A6", TCM.act.TRG_SYNC_A[6]),
-		TypePM(0x1000, "A7", TCM.act.TRG_SYNC_A[7]),
-		TypePM(0x1200, "A8", TCM.act.TRG_SYNC_A[8]),
-		TypePM(0x1400, "A9", TCM.act.TRG_SYNC_A[9]),
-		TypePM(0x1600, "C0", TCM.act.TRG_SYNC_C[0]),
-		TypePM(0x1800, "C1", TCM.act.TRG_SYNC_C[1]),
-		TypePM(0x1A00, "C2", TCM.act.TRG_SYNC_C[2]),
-		TypePM(0x1C00, "C3", TCM.act.TRG_SYNC_C[3]),
-		TypePM(0x1E00, "C4", TCM.act.TRG_SYNC_C[4]),
-		TypePM(0x2000, "C5", TCM.act.TRG_SYNC_C[5]),
-		TypePM(0x2200, "C6", TCM.act.TRG_SYNC_C[6]),
-		TypePM(0x2400, "C7", TCM.act.TRG_SYNC_C[7]),
-		TypePM(0x2600, "C8", TCM.act.TRG_SYNC_C[8]),
-		TypePM(0x2800, "C9", TCM.act.TRG_SYNC_C[9]),
+        TypePM(0x0200, "A0", TCM.act.TRG_SYNC_A[0]),
+        TypePM(0x0400, "A1", TCM.act.TRG_SYNC_A[1]),
+        TypePM(0x0600, "A2", TCM.act.TRG_SYNC_A[2]),
+        TypePM(0x0800, "A3", TCM.act.TRG_SYNC_A[3]),
+        TypePM(0x0A00, "A4", TCM.act.TRG_SYNC_A[4]),
+        TypePM(0x0C00, "A5", TCM.act.TRG_SYNC_A[5]),
+        TypePM(0x0E00, "A6", TCM.act.TRG_SYNC_A[6]),
+        TypePM(0x1000, "A7", TCM.act.TRG_SYNC_A[7]),
+        TypePM(0x1200, "A8", TCM.act.TRG_SYNC_A[8]),
+        TypePM(0x1400, "A9", TCM.act.TRG_SYNC_A[9]),
+        TypePM(0x1600, "C0", TCM.act.TRG_SYNC_C[0]),
+        TypePM(0x1800, "C1", TCM.act.TRG_SYNC_C[1]),
+        TypePM(0x1A00, "C2", TCM.act.TRG_SYNC_C[2]),
+        TypePM(0x1C00, "C3", TCM.act.TRG_SYNC_C[3]),
+        TypePM(0x1E00, "C4", TCM.act.TRG_SYNC_C[4]),
+        TypePM(0x2000, "C5", TCM.act.TRG_SYNC_C[5]),
+        TypePM(0x2200, "C6", TCM.act.TRG_SYNC_C[6]),
+        TypePM(0x2400, "C7", TCM.act.TRG_SYNC_C[7]),
+        TypePM(0x2600, "C8", TCM.act.TRG_SYNC_C[8]),
+        TypePM(0x2800, "C9", TCM.act.TRG_SYNC_C[9]),
     };
     QMap<quint16, TypePM *> PM;
     QList<TypePM *> PMsA, PMsC;
     QFile logFile;
     QTextStream logStream;
     bool PMsReady = false;
-	quint8 noResponseCounter = 0;
+    quint8 noResponseCounter = 0;
 
 //debug functions variables
     QMetaObject::Connection adjustConnection;
@@ -100,42 +105,40 @@ public:
         });
         connect(shuttleTimer, &QTimer::timeout, this, &FITelectronics::inverseLaserPhase);
         connect(this, &IPbusTarget::error     , this, [=](QString message) {
-			countersTimer->stop();
-			setRatesUnknown();
+            countersTimer->stop();
+            setRatesUnknown();
             serverStatus.update("Error: " + message);
-			log("Error: " + message);
+            log("Error: " + message);
         });
         connect(this, &IPbusTarget::noResponse, this, [=](QString message) {
-			countersTimer->stop();
-			if (noResponseCounter < 3) log(QString::asprintf("No response %d", noResponseCounter++));
-			else if (noResponseCounter == 3) {
-				++noResponseCounter;
-				log("FEE is OFF");
-				setRatesUnknown();
-				serverStatus.update(message);
-			}
+            countersTimer->stop();
+            if (noResponseCounter < 3) log(QString::asprintf("No response %d", noResponseCounter++));
+            else if (noResponseCounter == 3) {
+                ++noResponseCounter;
+                log("FEE is OFF");
+                setRatesUnknown();
+                serverStatus.update(message);
+            }
         });
         connect(this, &IPbusTarget::IPbusStatusOK, this, [=]() {
-			noResponseCounter = 0;
+            noResponseCounter = 0;
             serverStatus.update("OK");
-            if (subdetector == FV0) writeNbits(0xE, 0x3, 2, 8, false); //apply FV0 trigger mode
             IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
+            p.addNBitsToChange(0xE, subdetector == FV0 ? 0x3 : 0, 2, 8); //apply FV0 trigger mode
             p.addWordToWrite(TCMparameters["T1_SIGN"].address, prepareSignature(FIT[sd].triggers[0].signature));
             p.addWordToWrite(TCMparameters["T2_SIGN"].address, prepareSignature(FIT[sd].triggers[1].signature));
             p.addWordToWrite(TCMparameters["T3_SIGN"].address, prepareSignature(FIT[sd].triggers[2].signature));
             p.addWordToWrite(TCMparameters["T4_SIGN"].address, prepareSignature(FIT[sd].triggers[3].signature));
             p.addWordToWrite(TCMparameters["T5_SIGN"].address, prepareSignature(FIT[sd].triggers[4].signature));
-            p.addTransaction(read, TCMparameters["PM_MASK_SPI"].address, &TCM.act.PM_MASK_SPI);
-
             if (!transceive(p)) return;
             PMsReady = false;
             sync();
-			if (TCM.services.isEmpty()) createTCMservices();
         });
         connect(this, &FITelectronics::resetFinished, this, [=]() {
             checkPMlinks();
-			initGBT();
-			readCountersDirectly();
+            initGBT();
+            if (TCM.services.isEmpty()) createDIMservices();
+            readCountersDirectly(false);
             apply_COUNTERS_UPD_RATE(TCM.set.COUNTERS_UPD_RATE);
         });
 
@@ -157,14 +160,14 @@ public:
         logFile.close();
     }
 
-	void log(QString st) { logStream << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz ") + st << Qt::endl; logFile.flush(); }
+    void log(QString st) { logStream << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz ") + st << Qt::endl; logFile.flush(); }
 
     void addCommand(QList<DimCommand *> &list, QString name, const char* format, std::function<void(void *)> function) {
         DimCommand *command = new DimCommand(qPrintable(name), format, this);
         list.append(command);
         allCommands.insert(command, function);
     }
-    void addArrayCommand(QString parameter) { //PM parameters only for now
+    void addArrayCommand(QString parameter) { //channels parameters only
         if (!PMparameters.contains(parameter)) {
             emit error("No such PM parameter: " + parameter, logicError);
             return;
@@ -178,8 +181,8 @@ public:
                 IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
                 foreach(auto side, QList({PMsA, PMsC})) {
                     foreach(TypePM *pm, side) for (quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh) {
-						quint32 address = par.address + iCh * par.interval, value = changeNbits(pm->act.registers[address], par.bitwidth, par.bitshift, V[20*iCh + iPM]);
-						p.addWordToWrite(pm->baseAddress + address, value);
+                        quint32 address = par.address + iCh * par.interval, value = changeNbits(pm->act.registers[address], par.bitwidth, par.bitshift, V[20*iCh + iPM]);
+                        p.addWordToWrite(pm->baseAddress + address, value);
                     }
                     if (!p.transactionsList.isEmpty()) transceive(p);
                 }
@@ -195,134 +198,150 @@ public:
     }
 
     void createPMservices(TypePM *pm) {
-        QString prefix = QString::asprintf("%s/PM%s/", FIT[subdetector].name, pm->name);
-        pm->services.append(new DimService(qPrintable(prefix+"status/TEMP_BOARD"      ), "F", &pm->act.TEMP_BOARD      , 4));
-        pm->services.append(new DimService(qPrintable(prefix+"status/TEMP_FPGA"       ), "F", &pm->act.TEMP_FPGA       , 4));
-        pm->services.append(new DimService(qPrintable(prefix+"status/VOLTAGE_1V"      ), "F", &pm->act.VOLTAGE_1V      , 4));
-        pm->services.append(new DimService(qPrintable(prefix+"status/VOLTAGE_1_8V"    ), "F", &pm->act.VOLTAGE_1_8V    , 4));
-        pm->services.append(new DimService(qPrintable(prefix+"status/BOARD_TYPE"      ), "C:4",pm->act.BOARD_TYPE      , 4));
-        pm->services.append(new DimService(qPrintable(prefix+"status/FW_TIME_MCU"     ), "I", &pm->act.FW_TIME_MCU     , 4));
-        pm->services.append(new DimService(qPrintable(prefix+"status/FW_TIME_FPGA"    ), "I", &pm->act.FW_TIME_FPGA    , 4));
-        pm->services.append(new DimService(qPrintable(prefix+"status/CH_BASELINES_NOK"), "I", &pm->act.CH_BASELINES_NOK, 4));
-        pm->services.append(new DimService(qPrintable(prefix+"status/SERIAL_NUM"      ), "S", (char *)&pm->act.registers[0xBD]+ 1, 2));
-        pm->services.append(new DimService(qPrintable(prefix+"control/CH_MASK_DATA""/actual"), "I", &pm->act.CH_MASK_DATA, 4));
-        pm->services.append(new DimService(qPrintable(prefix+"control/CH_MASK_TRG" "/actual"), "I", &pm->act.CH_MASK_TRG , 4));
+        QString pfx = QString::asprintf("%s/PM%s/", FIT[subdetector].name, pm->name);
+        pm->services.append(new DimService(qP(pfx+"status/TEMP_BOARD"      ), "F", &pm->act.TEMP_BOARD      , 4));
+        pm->services.append(new DimService(qP(pfx+"status/TEMP_FPGA"       ), "F", &pm->act.TEMP_FPGA       , 4));
+        pm->services.append(new DimService(qP(pfx+"status/VOLTAGE_1V"      ), "F", &pm->act.VOLTAGE_1V      , 4));
+        pm->services.append(new DimService(qP(pfx+"status/VOLTAGE_1_8V"    ), "F", &pm->act.VOLTAGE_1_8V    , 4));
+        pm->services.append(new DimService(qP(pfx+"status/BOARD_TYPE"      ), "C:4",pm->act.BOARD_TYPE      , 4));
+        pm->services.append(new DimService(qP(pfx+"status/FW_TIME_MCU"     ), "I", &pm->act.FW_TIME_MCU     , 4));
+        pm->services.append(new DimService(qP(pfx+"status/FW_TIME_FPGA"    ), "I", &pm->act.FW_TIME_FPGA    , 4));
+        pm->services.append(new DimService(qP(pfx+"status/CH_BASELINES_NOK"), "I", &pm->act.CH_BASELINES_NOK, 4));
+        pm->services.append(new DimService(qP(pfx+"status/SERIAL_NUM"      ), "S", (char *)&pm->act.registers[0xBD]+ 1, 2));
+        pm->services.append(new DimService(qP(pfx+"control/CH_MASK_DATA""/actual"), "I", &pm->act.CH_MASK_DATA, 4));
+        pm->services.append(new DimService(qP(pfx+"control/CH_MASK_TRG" "/actual"), "I", &pm->act.CH_MASK_TRG , 4));
     }
 
-    void createTCMservices() { //+ system services
-		QString prefix = QString::asprintf("%s/TCM/", FIT[subdetector].name);
-        TCM.services.append(new DimService(qPrintable(prefix+"status/TEMP_BOARD"  ), "F", &TCM.act.TEMP_BOARD                   , 4));
-        TCM.services.append(new DimService(qPrintable(prefix+"status/TEMP_FPGA"   ), "F", &TCM.act.TEMP_FPGA                    , 4));
-        TCM.services.append(new DimService(qPrintable(prefix+"status/VOLTAGE_1V"  ), "F", &TCM.act.VOLTAGE_1V                   , 4));
-        TCM.services.append(new DimService(qPrintable(prefix+"status/VOLTAGE_1_8V"), "F", &TCM.act.VOLTAGE_1_8V                 , 4));
-        TCM.services.append(new DimService(qPrintable(prefix+"status/SERIAL_NUM"  ), "S", (char *)&TCM.act.registers[0x7] + 1, 2));
-        TCM.services.append(new DimService(qPrintable(prefix+"status/BOARD_TYPE"  ), "C:4",TCM.act.BOARD_TYPE                   , 4));
-        TCM.services.append(new DimService(qPrintable(prefix+"status/FW_TIME_MCU" ), "I", &TCM.act.FW_TIME_MCU                  , 4));
-        TCM.services.append(new DimService(qPrintable(prefix+"status/FW_TIME_FPGA"), "I", &TCM.act.FW_TIME_FPGA                 , 4));
-        TCM.services.append(new DimService(qPrintable(prefix+"status/PM_MASK_SPI" ), "I", &TCM.act.PM_MASK_SPI                  , 4));
+    void createDIMservices() { //+ system services
+        QString pfx = QString::asprintf("%s/TCM/", FIT[subdetector].name);
+        TCM.services.append(new DimService(qP(pfx+"status/TEMP_BOARD"  ), "F", &TCM.act.TEMP_BOARD                   , 4));
+        TCM.services.append(new DimService(qP(pfx+"status/TEMP_FPGA"   ), "F", &TCM.act.TEMP_FPGA                    , 4));
+        TCM.services.append(new DimService(qP(pfx+"status/VOLTAGE_1V"  ), "F", &TCM.act.VOLTAGE_1V                   , 4));
+        TCM.services.append(new DimService(qP(pfx+"status/VOLTAGE_1_8V"), "F", &TCM.act.VOLTAGE_1_8V                 , 4));
+        TCM.services.append(new DimService(qP(pfx+"status/SERIAL_NUM"  ), "S", (char *)&TCM.act.registers[0x7] + 1   , 2));
+        TCM.services.append(new DimService(qP(pfx+"status/BOARD_TYPE"  ), "C:4",TCM.act.BOARD_TYPE                   , 4));
+        TCM.services.append(new DimService(qP(pfx+"status/FW_TIME_MCU" ), "I", &TCM.act.FW_TIME_MCU                  , 4));
+        TCM.services.append(new DimService(qP(pfx+"status/FW_TIME_FPGA"), "I", &TCM.act.FW_TIME_FPGA                 , 4));
+        TCM.services.append(new DimService(qP(pfx+"status/PM_MASK_SPI" ), "I", &TCM.act.PM_MASK_SPI                  , 4));
         for (quint8 iPM=0; iPM<10; ++iPM) {
-            TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/TRG_SYNC/%s", FIT[subdetector].name, allPMs[iPM   ].name)), "I", TCM.act.TRG_SYNC_A + iPM, 4));
-            TCM.services.append(new DimService(qPrintable(QString::asprintf("%s/TCM/status/TRG_SYNC/%s", FIT[subdetector].name, allPMs[iPM+10].name)), "I", TCM.act.TRG_SYNC_C + iPM, 4));
+            TCM.services.append(new DimService(qPf("%s/TCM/status/TRG_SYNC/%s", FIT[subdetector].name, allPMs[iPM   ].name), "I", TCM.act.TRG_SYNC_A + iPM, 4));
+            TCM.services.append(new DimService(qPf("%s/TCM/status/TRG_SYNC/%s", FIT[subdetector].name, allPMs[iPM+10].name), "I", TCM.act.TRG_SYNC_C + iPM, 4));
         }
 
         for (quint8 i=0; i<5; ++i) {
-            TCM.staticServices.append(new DimService( qPrintable(prefix+"Trigger"+QString::number(i+1)+"/NAME"     ),  const_cast<char   *>( FIT[subdetector].triggers[i].name     ) ));
-            TCM.staticServices.append(new DimService( qPrintable(prefix+"Trigger"+QString::number(i+1)+"/SIGNATURE"), *const_cast<qint16 *>(&FIT[subdetector].triggers[i].signature) ));
+            TCM.staticServices.append(new DimService( qP(pfx+"Trigger"+QString::number(i+1)+"/NAME"     ),  const_cast<char   *>( FIT[subdetector].triggers[i].name     ) ));
+            TCM.staticServices.append(new DimService( qP(pfx+"Trigger"+QString::number(i+1)+"/SIGNATURE"), *const_cast<qint16 *>(&FIT[subdetector].triggers[i].signature) ));
         }
-        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd0/NAME"), const_cast<char *>("NoiseA: A-side out-of-gate hits AND NOT OrA"			) ));
-        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd1/NAME"), const_cast<char *>("NoiseC: C-side out-of-gate hits AND NOT OrC"			) ));
-        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd2/NAME"), const_cast<char *>("Total noise: NoiseA OR NoiseC"							) ));
-        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd3/NAME"), const_cast<char *>("True OrA: bunch in both beams AND OrA"					) ));
-        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd4/NAME"), const_cast<char *>("True OrC: bunch in both beams AND OrC"					) ));
-        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd5/NAME"), const_cast<char *>("Interaction: both sides Or (OrA AND OrC)"				) ));
-        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd6/NAME"), const_cast<char *>("True Interaction: bunch in both beams AND Interaction"	) ));
-        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd7/NAME"), const_cast<char *>("True Vertex: bunch in both beams AND Vertex"			) ));
-        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd8/NAME"), const_cast<char *>("Background A: bunch ONLY in beam1 AND OrC"				) ));
-        TCM.staticServices.append(new DimService( qPrintable(prefix+"Bkgrnd9/NAME"), const_cast<char *>("Background C: bunch ONLY in beam2 AND OrA"				) ));
+        TCM.staticServices.append(new DimService( qP(pfx+"Bkgrnd0/NAME"), (char *)("NoiseA: A-side out-of-gate hits AND NOT OrA"        ) ));
+        TCM.staticServices.append(new DimService( qP(pfx+"Bkgrnd1/NAME"), (char *)("NoiseC: C-side out-of-gate hits AND NOT OrC"        ) ));
+        TCM.staticServices.append(new DimService( qP(pfx+"Bkgrnd2/NAME"), (char *)("Total noise: NoiseA OR NoiseC"                      ) ));
+        TCM.staticServices.append(new DimService( qP(pfx+"Bkgrnd3/NAME"), (char *)("OrA in CB: bunch in both beams AND OrA"             ) ));
+        TCM.staticServices.append(new DimService( qP(pfx+"Bkgrnd4/NAME"), (char *)("OrC in CB: bunch in both beams AND OrC"             ) ));
+        TCM.staticServices.append(new DimService( qP(pfx+"Bkgrnd5/NAME"), (char *)("Interaction: both sides Or (OrA AND OrC)"           ) ));
+        TCM.staticServices.append(new DimService( qP(pfx+"Bkgrnd6/NAME"), (char *)("CB-Interaction: bunch in both beams AND Interaction") ));
+        TCM.staticServices.append(new DimService( qP(pfx+"Bkgrnd7/NAME"), (char *)qP(QString("CB-%1: bunch in both beams AND %1").arg(FIT[subdetector].triggers[2].name)) ));
+        TCM.staticServices.append(new DimService( qP(pfx+"Bkgrnd8/NAME"), (char *)("Background A: bunch ONLY in beam1 AND OrC"          ) ));
+        TCM.staticServices.append(new DimService( qP(pfx+"Bkgrnd9/NAME"), (char *)("Background C: bunch ONLY in beam2 AND OrA"          ) ));
 
-        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger1/CNT"), "I", &TCM.counters.CNT_T1, 4));
-        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger2/CNT"), "I", &TCM.counters.CNT_T2, 4));
-        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger3/CNT"), "I", &TCM.counters.CNT_T3, 4));
-        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger4/CNT"), "I", &TCM.counters.CNT_T4, 4));
-        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger5/CNT"), "I", &TCM.counters.CNT_T5, 4));
-        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger1/CNT_RATE"), "D", TCM.counters.rate + 3, 8));
-        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger2/CNT_RATE"), "D", TCM.counters.rate + 2, 8));
-        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger3/CNT_RATE"), "D", TCM.counters.rate + 4, 8));
-        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger4/CNT_RATE"), "D", TCM.counters.rate + 1, 8));
-        TCM.counters.services.append(new DimService(qPrintable(prefix+"Trigger5/CNT_RATE"), "D", TCM.counters.rate    , 8));
+        TCM.counters.services.append(new DimService(qP(pfx+"Trigger1/CNT"), "I", &TCM.counters.CNT_T1, 4));
+        TCM.counters.services.append(new DimService(qP(pfx+"Trigger2/CNT"), "I", &TCM.counters.CNT_T2, 4));
+        TCM.counters.services.append(new DimService(qP(pfx+"Trigger3/CNT"), "I", &TCM.counters.CNT_T3, 4));
+        TCM.counters.services.append(new DimService(qP(pfx+"Trigger4/CNT"), "I", &TCM.counters.CNT_T4, 4));
+        TCM.counters.services.append(new DimService(qP(pfx+"Trigger5/CNT"), "I", &TCM.counters.CNT_T5, 4));
+        TCM.counters.services.append(new DimService(qP(pfx+"Trigger1/CNT_RATE"), "D", TCM.counters.rate + 3, 8));
+        TCM.counters.services.append(new DimService(qP(pfx+"Trigger2/CNT_RATE"), "D", TCM.counters.rate + 2, 8));
+        TCM.counters.services.append(new DimService(qP(pfx+"Trigger3/CNT_RATE"), "D", TCM.counters.rate + 4, 8));
+        TCM.counters.services.append(new DimService(qP(pfx+"Trigger4/CNT_RATE"), "D", TCM.counters.rate + 1, 8));
+        TCM.counters.services.append(new DimService(qP(pfx+"Trigger5/CNT_RATE"), "D", TCM.counters.rate    , 8));
         for (quint8 i=5; i<15; ++i) {
-            TCM.counters.services.append(new DimService(qPrintable(prefix+"Bkgrnd"+QString::number(i-5)+"/CNT"), "I", TCM.counters.New + i, 4));
-            TCM.counters.services.append(new DimService(qPrintable(prefix+"Bkgrnd"+QString::number(i-5)+"/CNT_RATE"), "D", TCM.counters.rate + i, 8));
+            TCM.counters.services.append(new DimService(qP(pfx+"Bkgrnd"+QString::number(i-5)+"/CNT"), "I", TCM.counters.New + i, 4));
+            TCM.counters.services.append(new DimService(qP(pfx+"Bkgrnd"+QString::number(i-5)+"/CNT_RATE"), "D", TCM.counters.rate + i, 8));
         }
-        //TCM.services.append(new DimService(qPrintable(prefix+"Trigger1/OUTPUT_ENABLED"), "S", TCM.counters.rate    , 8));
+        countsTriggers = new AdvancedDIMservice(qP(pfx+"CNT"), "I:15", 15*4, [=](void *d) {
+            ((quint32 *)d)[0] = TCM.counters.CNT_T1;
+            ((quint32 *)d)[1] = TCM.counters.CNT_T2;
+            ((quint32 *)d)[2] = TCM.counters.CNT_T3;
+            ((quint32 *)d)[3] = TCM.counters.CNT_T4;
+            ((quint32 *)d)[4] = TCM.counters.CNT_T5;
+            for (quint8 i=5; i<15; ++i) ((quint32 *)d)[i] = TCM.counters.New[i];
+        });
+        countRatesTriggers = new AdvancedDIMservice(qP(pfx+"CNT_RATE"), "D:15", 15*8, [=](void *d) {
+            ((double  *)d)[0] = TCM.counters.rate[3];
+            ((double  *)d)[1] = TCM.counters.rate[2];
+            ((double  *)d)[2] = TCM.counters.rate[4];
+            ((double  *)d)[3] = TCM.counters.rate[1];
+            ((double  *)d)[4] = TCM.counters.rate[0];
+            for (quint8 i=5; i<15; ++i) ((double  *)d)[i] = TCM.counters.rate[i];
+        });
+        //TCM.services.append(new DimService(qP(pfx+"Trigger1/OUTPUT_ENABLED"), "S", TCM.counters.rate    , 8));
 
-		addCommand(TCM.commands, prefix+"control/ORBIT_FILL_MASK/set"  , "I:223", [=](void *d) { memcpy(TCM.ORBIT_FILL_MASK, d, 223*wordSize); apply_ORBIT_FILL_MASK(); }); //223 = ceil( 0xDEC * 2 / 32 )
-		addCommand(TCM.commands, prefix+"control/ORBIT_FILL_MASK/apply", "I:223", [=](void *d) { memcpy(TCM.ORBIT_FILL_MASK, d, 223*wordSize); apply_ORBIT_FILL_MASK(); });
+        addCommand(TCM.commands, pfx+"control/ORBIT_FILL_MASK/set"  , "I:223", [=](void *d) { memcpy(TCM.ORBIT_FILL_MASK, d, 223*wordSize); apply_ORBIT_FILL_MASK(); }); //223 = ceil( 0xDEC * 2 / 32 )
+        addCommand(TCM.commands, pfx+"control/ORBIT_FILL_MASK/apply", "I:223", [=](void *d) { memcpy(TCM.ORBIT_FILL_MASK, d, 223*wordSize); apply_ORBIT_FILL_MASK(); });
 
-        prefix = QString(FIT[subdetector].name) + "/"; //for system services
-        services.append(new CustomDIMservice(qPrintable(prefix+"BOARDS_OK"), "I", 4, {}, &BOARDS_OK));
-        services.append(new CustomDIMservice(qPrintable(prefix+"LASER_ENABLED"      "/actual"), "S", 2, [=](void *d) { *(quint16 *)d = TCM.act.LASER_ENABLED        ; }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"LASER_SOURCE"       "/actual"), "S", 2, [=](void *d) { *(quint16 *)d = TCM.act.LASER_SOURCE         ; }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"LASER_DIVIDER"      "/actual"), "I", 4, [=](void *d) { *(quint32 *)d = TCM.act.LASER_DIVIDER        ; }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"LASER_FREQUENCY_Hz" "/actual"), "F", 4,              { },             &TCM.act.laserFrequency_Hz       ));
-        services.append(new CustomDIMservice(qPrintable(prefix+"LASER_DELAY_ns"     "/actual"), "F", 4,              { },             &TCM.act.delayLaser_ns           ));
-        services.append(new CustomDIMservice(qPrintable(prefix+"LASER_PATTERN"      "/actual"), "X", 8,              { },             &TCM.act.LASER_PATTERN           ));
-        services.append(new CustomDIMservice(qPrintable(prefix+"LSR_TRG_SUPPR_DUR"  "/actual"), "I", 4, [=](void *d) { *(quint32 *)d = TCM.act.lsrTrgSupprDur       ; }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"LSR_TRG_SUPPR_DELAY""/actual"), "I", 4, [=](void *d) { *(quint32 *)d = TCM.act.lsrTrgSupprDelay     ; }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"ATTEN_STEPS"        "/actual"), "I", 4, [=](void *d) { *(quint32 *)d = TCM.act.attenSteps           ; }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"ATTEN_STATUS"                ), "I", 4, [=](void *d) { *(quint32 *)d = TCM.act.registers[0x3] >> 14 ; }));
+        pfx = QString(FIT[subdetector].name) + "/"; //for system services
+        services.append(new AdvancedDIMservice(qP(pfx+"BOARDS_OK"), "I", 4, {}, &BOARDS_OK));
+        services.append(new AdvancedDIMservice(qP(pfx+"LASER_ENABLED"      "/actual"), "S", 2, [=](void *d) { *(quint16 *)d = TCM.act.LASER_ENABLED        ; }));
+        services.append(new AdvancedDIMservice(qP(pfx+"LASER_SOURCE"       "/actual"), "S", 2, [=](void *d) { *(quint16 *)d = TCM.act.LASER_SOURCE         ; }));
+        services.append(new AdvancedDIMservice(qP(pfx+"LASER_DIVIDER"      "/actual"), "I", 4, [=](void *d) { *(quint32 *)d = TCM.act.LASER_DIVIDER        ; }));
+        services.append(new AdvancedDIMservice(qP(pfx+"LASER_FREQUENCY_Hz" "/actual"), "F", 4,              { },             &TCM.act.laserFrequency_Hz       ));
+        services.append(new AdvancedDIMservice(qP(pfx+"LASER_DELAY_ns"     "/actual"), "F", 4,              { },             &TCM.act.delayLaser_ns           ));
+        services.append(new AdvancedDIMservice(qP(pfx+"LASER_PATTERN"      "/actual"), "X", 8,              { },             &TCM.act.LASER_PATTERN           ));
+        services.append(new AdvancedDIMservice(qP(pfx+"LSR_TRG_SUPPR_DUR"  "/actual"), "I", 4, [=](void *d) { *(quint32 *)d = TCM.act.lsrTrgSupprDur       ; }));
+        services.append(new AdvancedDIMservice(qP(pfx+"LSR_TRG_SUPPR_DELAY""/actual"), "I", 4, [=](void *d) { *(quint32 *)d = TCM.act.lsrTrgSupprDelay     ; }));
+        services.append(new AdvancedDIMservice(qP(pfx+"ATTEN_STEPS"        "/actual"), "I", 4, [=](void *d) { *(quint32 *)d = TCM.act.attenSteps           ; }));
+        services.append(new AdvancedDIMservice(qP(pfx+"ATTEN_STATUS"                ), "I", 4, [=](void *d) { *(quint32 *)d = TCM.act.registers[0x3] >> 14 ; }));
 
-        addCommand(commands, prefix+"LOAD_CONFIG"   , "C"  , [=](void *d) { QString name((char *)d); fileRead(name, true); });
-        addCommand(commands, prefix+"CLEAR_ERRORS"  , "C:1", [=](void * ) { apply_RESET_ERRORS(); });
-        addCommand(commands, prefix+"RECONNECT"     , "C:1", [=](void * ) { reconnect(); });
-        addCommand(commands, prefix+"RESTART_SYSTEM", "C:1", [=](void * ) { apply_RESET_SYSTEM(false); });
+        addCommand(commands, pfx+"LOAD_CONFIG"   , "C"  , [=](void *d) { QString name((char *)d); fileRead(name, true); });
+        addCommand(commands, pfx+"CLEAR_ERRORS"  , "C:1", [=](void * ) { apply_RESET_ERRORS(); });
+        addCommand(commands, pfx+"RECONNECT"     , "C:1", [=](void * ) { reconnect(); });
+        addCommand(commands, pfx+"RESTART_SYSTEM", "C:1", [=](void * ) { apply_RESET_SYSTEM(false); });
 
-        addCommand(commands, prefix+"LASER_ENABLED"      "/apply", "S", [=](void *d) { apply_LASER_ENABLED            (*(bool    *)d); });
-        addCommand(commands, prefix+"LASER_SOURCE"       "/apply", "S", [=](void *d) { apply_LASER_SOURCE             (*(bool    *)d); });
-        addCommand(commands, prefix+"LASER_FREQUENCY_Hz" "/apply", "F", [=](void *d) { TCM.set.calculate_LASER_DIVIDER(*(float   *)d); apply_LASER_DIVIDER      (); });
-        addCommand(commands, prefix+"LASER_DELAY_ns"     "/apply", "F", [=](void *d) { TCM.set.calculate_LASER_DELAY  (*(float   *)d); apply_LASER_DELAY        (); });
-		addCommand(commands, prefix+"LASER_PATTERN"      "/apply", "X", [=](void *d) { TCM.set.LASER_PATTERN		 = *(quint64 *)d ; apply_LASER_PATTERN      (); });
-        addCommand(commands, prefix+"LSR_TRG_SUPPR_DUR"  "/apply", "I", [=](void *d) { TCM.set.lsrTrgSupprDur        = *(quint32 *)d ; apply_LSR_TRG_SUPPR_DUR  (); });
-        addCommand(commands, prefix+"LSR_TRG_SUPPR_DELAY""/apply", "I", [=](void *d) { TCM.set.lsrTrgSupprDelay      = *(quint32 *)d ; apply_LSR_TRG_SUPPR_DELAY(); });
-        addCommand(commands, prefix+"LASER_DIVIDER"      "/apply", "I", [=](void *d) { TCM.set.LASER_DIVIDER         = *(quint32 *)d ; apply_LASER_DIVIDER      (); });
-        addCommand(commands, prefix+"ATTEN_STEPS"        "/apply", "I", [=](void *d) { TCM.set.attenSteps            = *(quint32 *)d ; apply_attenSteps         (); });
+        addCommand(commands, pfx+"LASER_ENABLED"      "/apply", "S", [=](void *d) { apply_LASER_ENABLED            (*(bool    *)d); });
+        addCommand(commands, pfx+"LASER_SOURCE"       "/apply", "S", [=](void *d) { apply_LASER_SOURCE             (*(bool    *)d); });
+        addCommand(commands, pfx+"LASER_FREQUENCY_Hz" "/apply", "F", [=](void *d) { TCM.set.calculate_LASER_DIVIDER(*(float   *)d); apply_LASER_DIVIDER      (); });
+        addCommand(commands, pfx+"LASER_DELAY_ns"     "/apply", "F", [=](void *d) { TCM.set.calculate_LASER_DELAY  (*(float   *)d); apply_LASER_DELAY        (); });
+        addCommand(commands, pfx+"LASER_PATTERN"      "/apply", "X", [=](void *d) { TCM.set.LASER_PATTERN         = *(quint64 *)d ; apply_LASER_PATTERN      (); });
+        addCommand(commands, pfx+"LSR_TRG_SUPPR_DUR"  "/apply", "I", [=](void *d) { TCM.set.lsrTrgSupprDur        = *(quint32 *)d ; apply_LSR_TRG_SUPPR_DUR  (); });
+        addCommand(commands, pfx+"LSR_TRG_SUPPR_DELAY""/apply", "I", [=](void *d) { TCM.set.lsrTrgSupprDelay      = *(quint32 *)d ; apply_LSR_TRG_SUPPR_DELAY(); });
+        addCommand(commands, pfx+"LASER_DIVIDER"      "/apply", "I", [=](void *d) { TCM.set.LASER_DIVIDER         = *(quint32 *)d ; apply_LASER_DIVIDER      (); });
+        addCommand(commands, pfx+"ATTEN_STEPS"        "/apply", "I", [=](void *d) { TCM.set.attenSteps            = *(quint32 *)d ; apply_attenSteps         (); });
 
-        services.append(new CustomDIMservice(qPrintable(prefix+"ADC_RMS"                ), "F:480", 4*2*12*20, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh) {
+        services.append(new AdvancedDIMservice(qP(pfx+"ADC_RMS"                ), "F:480", 2*12*20*4, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh) {
             ((float   *)d)[  0 + 20*iCh + iPM] = pm->act.RMS_Ch[iCh][0];
-            ((float   *)d)[240 + 20*iCh + iPM] = pm->act.RMS_Ch[iCh][1];                                                    } }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"ADC_MEANAMPL"           ), "I:480", 4*2*12*20, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh) {
+            ((float   *)d)[240 + 20*iCh + iPM] = pm->act.RMS_Ch[iCh][1];                                         } }));
+        services.append(new AdvancedDIMservice(qP(pfx+"ADC_MEANAMPL"           ), "I:480", 2*12*20*4, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh) {
             (( qint32 *)d)[  0 + 20*iCh + iPM] = pm->act.MEANAMPL[iCh][0][0];
-            (( qint32 *)d)[240 + 20*iCh + iPM] = pm->act.MEANAMPL[iCh][1][0];                                               } }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"ADC_BASELINE"           ), "I:480", 4*2*12*20, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh) {
+            (( qint32 *)d)[240 + 20*iCh + iPM] = pm->act.MEANAMPL[iCh][1][0];                                    } }));
+        services.append(new AdvancedDIMservice(qP(pfx+"ADC_BASELINE"           ), "I:480", 2*12*20*4, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh) {
             ((quint32 *)d)[  0 + 20*iCh + iPM] = pm->act.ADC_BASELINE[iCh][0];
-            ((quint32 *)d)[240 + 20*iCh + iPM] = pm->act.ADC_BASELINE[iCh][1];                                              } }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"ADC_ZERO"      "/actual"), "I:240", 4  *12*20, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh)
-            (( qint32 *)d)[  0 + 20*iCh + iPM] = pm->act.Ch[iCh].ADC_ZERO;                                                  }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"ADC_DELAY"     "/actual"), "I:240", 4  *12*20, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh)
-            ((quint32 *)d)[  0 + 20*iCh + iPM] = pm->act.Ch[iCh].ADC_DELAY;                                                 }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"ADC_RANGE"     "/actual"), "I:480", 4*2*12*20, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh) {
+            ((quint32 *)d)[240 + 20*iCh + iPM] = pm->act.ADC_BASELINE[iCh][1];                                   } }));
+        services.append(new AdvancedDIMservice(qP(pfx+"ADC_ZERO"      "/actual"), "I:240",   12*20*4, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh)
+            (( qint32 *)d)[  0 + 20*iCh + iPM] = pm->act.Ch[iCh].ADC_ZERO;                                         }));
+        services.append(new AdvancedDIMservice(qP(pfx+"ADC_DELAY"     "/actual"), "I:240",   12*20*4, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh)
+            ((quint32 *)d)[  0 + 20*iCh + iPM] = pm->act.Ch[iCh].ADC_DELAY;                                        }));
+        services.append(new AdvancedDIMservice(qP(pfx+"ADC_RANGE"     "/actual"), "I:480", 2*12*20*4, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh) {
             ((quint32 *)d)[  0 + 20*iCh + iPM] = pm->act.ADC_RANGE[iCh][0];
-            ((quint32 *)d)[240 + 20*iCh + iPM] = pm->act.ADC_RANGE[iCh][1];                                                 } }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"TIME_ALIGN"    "/actual"), "I:240", 4  *12*20, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh)
-            (( qint32 *)d)[  0 + 20*iCh + iPM] = pm->act.timeAlignment[iCh].value;                                          }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"CFD_ZERO"      "/actual"), "I:240", 4  *12*20, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh)
-            (( qint32 *)d)[  0 + 20*iCh + iPM] = pm->act.Ch[iCh].CFD_ZERO;                                                  }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"CFD_THRESHOLD" "/actual"), "I:240", 4  *12*20, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh)
-            ((quint32 *)d)[  0 + 20*iCh + iPM] = pm->act.Ch[iCh].CFD_THRESHOLD;                                             }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"THRESHOLD_CALIBR/actual"), "I:240", 4  *12*20, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh)
-            ((quint32 *)d)[  0 + 20*iCh + iPM] = pm->act.THRESHOLD_CALIBR[iCh];                                             }));
+            ((quint32 *)d)[240 + 20*iCh + iPM] = pm->act.ADC_RANGE[iCh][1];                                      } }));
+        services.append(new AdvancedDIMservice(qP(pfx+"TIME_ALIGN"    "/actual"), "I:240",   12*20*4, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh)
+            (( qint32 *)d)[  0 + 20*iCh + iPM] = pm->act.timeAlignment[iCh].value;                                 }));
+        services.append(new AdvancedDIMservice(qP(pfx+"CFD_ZERO"      "/actual"), "I:240",   12*20*4, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh)
+            (( qint32 *)d)[  0 + 20*iCh + iPM] = pm->act.Ch[iCh].CFD_ZERO;                                         }));
+        services.append(new AdvancedDIMservice(qP(pfx+"CFD_THRESHOLD" "/actual"), "I:240",   12*20*4, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh)
+            ((quint32 *)d)[  0 + 20*iCh + iPM] = pm->act.Ch[iCh].CFD_THRESHOLD;                                    }));
+        services.append(new AdvancedDIMservice(qP(pfx+"THRESHOLD_CALIBR/actual"), "I:240",   12*20*4, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh)
+            ((quint32 *)d)[  0 + 20*iCh + iPM] = pm->act.THRESHOLD_CALIBR[iCh];                                    }));
 
-        countServices.append(new CustomDIMservice(qPrintable(prefix+"CNT_RATE_CH"       ), "F:480", 4*2*12*20, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh) {
+        countRatesChannels = new AdvancedDIMservice(qP(pfx+"CNT_RATE_CH"       ), "F:480", 2*12*20*4, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh) {
             ((float   *)d)[  0 + 20*iCh + iPM] = pm->counters.rateCh[iCh].CFD;
-            ((float   *)d)[240 + 20*iCh + iPM] = pm->counters.rateCh[iCh].TRG;                                              } }));
-        countServices.append(new CustomDIMservice(qPrintable(prefix+"CNT_CH"            ), "I:480", 4*2*12*20, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh) {
+            ((float   *)d)[240 + 20*iCh + iPM] = pm->counters.rateCh[iCh].TRG;                                   } });
+        countsChannels     = new AdvancedDIMservice(qP(pfx+"CNT_CH"            ), "I:480", 2*12*20*4, [=](void *d) { foreach(TypePM *pm, PM) for(quint8 iCh=0, iPM=pm-allPMs; iCh<12; ++iCh) {
             ((quint32 *)d)[  0 + 20*iCh + iPM] = pm->counters.Ch[iCh].CFD;
-            ((quint32 *)d)[240 + 20*iCh + iPM] = pm->counters.Ch[iCh].TRG;                                                  } }));
+            ((quint32 *)d)[240 + 20*iCh + iPM] = pm->counters.Ch[iCh].TRG;                                       } });
 
-        services.append(new CustomDIMservice(qPrintable(prefix+"CH_MASK_DATA"  "/actual"), "I:20" , 4     *20, [=](void *d) { foreach(TypePM *pm, PM) ((quint32 *)d)[pm-allPMs] = pm->act.CH_MASK_DATA; }));
-        services.append(new CustomDIMservice(qPrintable(prefix+"CH_MASK_TRG"   "/actual"), "I:20" , 4     *20, [=](void *d) { foreach(TypePM *pm, PM) ((quint32 *)d)[pm-allPMs] = pm->act.CH_MASK_TRG ; }));
+        services.append(new AdvancedDIMservice(qP(pfx+"CH_MASK_DATA"  "/actual"), "I:20" ,      20*4, [=](void *d) { foreach(TypePM *pm, PM) ((quint32 *)d)[pm-allPMs] = pm->act.CH_MASK_DATA; }));
+        services.append(new AdvancedDIMservice(qP(pfx+"CH_MASK_TRG"   "/actual"), "I:20" ,      20*4, [=](void *d) { foreach(TypePM *pm, PM) ((quint32 *)d)[pm-allPMs] = pm->act.CH_MASK_TRG ; }));
 
-        services.append(new CustomDIMservice(qPrintable(prefix+"GBT/RX_PHASE"           ), "I:21" , 4     *21, [=](void *d) {
+        services.append(new AdvancedDIMservice(qP(pfx+"GBT/RX_PHASE"           ), "I:21" , 4     *21, [=](void *d) {
             for(TypePM *pm=allPMs, *e=pm+20; pm<e; ++pm) ((quint32 *)d)[pm-allPMs] = (PM.contains(pm->FEEid) ? pm->act.GBT.Status.RX_PHASE : -1);
                                                          ((quint32 *)d)[20]        =                           TCM.act.GBT.Status.RX_PHASE;
         }));
@@ -333,7 +352,7 @@ public:
         addArrayCommand("TIME_ALIGN"      );
         addArrayCommand("CFD_ZERO"        );
         addArrayCommand("CFD_THRESHOLD"   );
-        addCommand(commands, prefix+"ADC_RANGE/apply", "I", [=](void *d) {
+        addCommand(commands, pfx+"ADC_RANGE/apply", "I", [=](void *d) {
             qint32 &id = ((qint32 *)d)[0], *V = (qint32 *)d + 1;
             if (id == -1) {
                 for(quint8 iPM=0; iPM<20; ++iPM) for (quint8 iCh=0; iCh<12; ++iCh) { allPMs[iPM].set.ADC_RANGE[iCh][0] = V[20*iCh + iPM]; allPMs[iPM].set.ADC_RANGE[iCh][1] = V[240 + 20*iCh + iPM]; }
@@ -351,7 +370,7 @@ public:
                 writeRegister(pm->baseAddress + PMparameters["ADC0_RANGE"].address + 2*iCh + iADC, *V);
             }
         });
-        addCommand(commands, prefix+"CH_MASK_DATA/apply", "I", [=](void *d) {
+        addCommand(commands, pfx+"CH_MASK_DATA/apply", "I", [=](void *d) {
             qint32 &id = ((qint32 *)d)[0], *V = (qint32 *)d + 1;
             if (id == -1) {
                 for(quint8 iPM=0; iPM<20; ++iPM) { allPMs[iPM].set.CH_MASK_DATA = V[iPM]; }
@@ -366,7 +385,7 @@ public:
                 *V ? setBit(iCh, pm->baseAddress + PMparameters["CH_MASK_DATA"].address) : clearBit(iCh, pm->baseAddress + PMparameters["CH_MASK_DATA"].address);
             }
         });
-        addCommand(commands, prefix+"CH_MASK_TRG/apply", "I", [=](void *d) {
+        addCommand(commands, pfx+"CH_MASK_TRG/apply", "I", [=](void *d) {
             qint32 &id = ((qint32 *)d)[0], *V = (qint32 *)d + 1;
             if (id == -1) {
                 for(quint8 iPM=0; iPM<20; ++iPM) for (quint8 iCh=0; iCh<12; ++iCh) {
@@ -387,20 +406,19 @@ public:
             }
         });
 
-		addCommand(commands, prefix+"RESET_COUNTS", "I", [=](void *d) {
-			qint32 id = *(qint32 *)d;
-			if (id > 20 || id < -2) return;
-			resetCounts(id >= 0 ? (id == 20 ? TCMid : allPMs[id].FEEid) : id);
-		});
-
-        addCommand(commands, prefix+"GBT/SUPPRESS_ERROR_REPORTS", "I", [=](void *d) { switchGBTerrorReports(!*(qint32 *)d); });
+        addCommand(commands, pfx+"RESET_COUNTS", "I", [=](void *d) {
+            qint32 id = *(qint32 *)d;
+            if (id > 20 || id < -2) return;
+            resetCounts(id >= 0 ? (id == 20 ? TCMid : allPMs[id].FEEid) : id);
+        });
+		addCommand(commands, pfx+"GBT/SUPPRESS_ERROR_REPORTS", "I", [=](void *d) { switchGBTerrorReports(!*(qint32 *)d); });
     }
 
     void deletePMservices(TypePM *pm) {
         foreach (DimService *s, pm->services) delete s;
         pm->services.clear();
 //        pm->counters.services.clear();
-		foreach (DimCommand *c, pm->commands) { allCommands.remove(c); delete c; }
+        foreach (DimCommand *c, pm->commands) { allCommands.remove(c); delete c; }
         pm->commands.clear();
     }
 
@@ -409,7 +427,7 @@ public:
         TCM.services.clear();
         TCM.counters.services.clear();
         TCM.staticServices.clear();
-        foreach (CustomDIMservice *s, services) delete s;
+        foreach (AdvancedDIMservice *s, services) delete s;
         services.clear();
         foreach (DimCommand *c, TCM.commands) { allCommands.remove(c); delete c; }
         TCM.commands.clear();
@@ -435,7 +453,7 @@ public slots:
         newset.endGroup();
         foreach (TypePM *pm, PM) {
             newset.remove(QString("PM") + pm->name);
-            if (!TRGsyncEnabledForPM(pm-allPMs)) continue;
+			if (!TRGsyncEnabledForPM(pm-allPMs)) continue;
             newset.beginGroup(QString("PM") + pm->name);
             foreach(regblock b, pm->set.regblocks) for (quint8 i=b.addr; i<=b.endAddr; ++i) newset.setValue(QString::asprintf("reg%02X", i), QString::asprintf("%08X", pm->set.registers[i]));
             newset.endGroup();
@@ -466,22 +484,21 @@ public slots:
                 }
                 if (doApply) {
                     IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
-                    quint8 a = TCMparameters["DELAY_A"].address; if (M.contains(a)) p.addWordToWrite(a, M[a]);
-                           a = TCMparameters["DELAY_C"].address; if (M.contains(a)) p.addWordToWrite(a, M[a]);
+                    foreach(QString side, QString("AC")) { quint8 a = TCMparameters["DELAY_"+side].address; if (M.contains(a) && TCM.act.registers[a] != TCM.set.registers[a]) p.addWordToWrite(a, M[a]);}
                     if (!p.transactionsList.isEmpty()) { //phase is to be changed
                         qint32 delay_ms = qMax(qAbs(TCM.set.DELAY_A - TCM.act.DELAY_A), qAbs(TCM.set.DELAY_C - TCM.act.DELAY_C)) + 10; //phase needs time to move
                         if (!transceive(p)) return;
-                        if (delay_ms > 1) QThread::msleep(delay_ms); //waiting for phases shift to finish
+                        QThread::msleep(delay_ms); //waiting for phases shift to finish
                     }
                     M.remove(TCMparameters["COUNTERS_UPD_RATE"].address); //will be applied afterwards
                     if (!M.isEmpty()) {
-                        foreach(quint8 a, M.keys()) p.addWordToWrite(a, M[a]);
+                        foreach(quint8 a, M.keys()) if (TCM.act.registers[a] != TCM.set.registers[a]) p.addWordToWrite(a, M[a]);
                         if (!transceive(p)) return;
                     }
                     if (M.contains(TCMparameters["CH_MASK_A"].address) || M.contains(TCMparameters["CH_MASK_C"].address)) {
                         QThread::msleep(10);
                     }
-					apply_RESET_ERRORS();
+                    apply_RESET_ERRORS();
                     if (newset.childKeys().contains("reg50") && TCM.act.COUNTERS_UPD_RATE != TCM.set.COUNTERS_UPD_RATE) apply_COUNTERS_UPD_RATE(TCM.set.COUNTERS_UPD_RATE);
                 }
             }
@@ -507,52 +524,54 @@ public slots:
                     }
                     if (doApply && TCM.act.PM_MASK_SPI & 1 <<i) {
                         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
-                        foreach(quint8 a, M.keys()) p.addWordToWrite(pm->baseAddress + a, M[a]);
+                        foreach(quint8 a, M.keys()) if (pm->act.registers[a] != pm->set.registers[a]) p.addWordToWrite(pm->baseAddress + a, M[a]);
                         if (!transceive(p)) return;
                     }
                 }
                 newset.endGroup();
             }
         }
-		log("Settings loaded" + QString(doApply ? " and applied" : "") + " from file " + fileName);
+        log("Settings loaded" + QString(doApply ? " and applied" : "") + " from file " + fileName);
     }
 
-    void clearFIFOs() {
-		quint32 load = readRegister(TypeTCM::Counters::addressFIFOload);
+    void emptyCountBuffers() {
+        quint32 load = readRegister(TypeTCM::Counters::addressFIFOload);
         if (load == 0xFFFFFFFF) return;
         while (load) {
             IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
             p.addTransaction(nonIncrementingRead, TypeTCM::Counters::addressFIFO, nullptr, load > 255 ? 255 : load);
             p.addTransaction(read, TypeTCM::Counters::addressFIFOload, &load);
             if (!transceive(p)) return;
-		}
+        }
         foreach (TypePM *pm, PM) {
-			load = readRegister(pm->baseAddress + TypePM::Counters::addressFIFOload);
+            load = readRegister(pm->baseAddress + TypePM::Counters::addressFIFOload);
             if (load == 0xFFFFFFFF) continue;
-			while (load) {
+            while (load) {
                 IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
                 p.addTransaction(nonIncrementingRead, pm->baseAddress + TypePM::Counters::addressFIFO, nullptr, load > 255 ? 255 : load);
                 p.addTransaction(read, pm->baseAddress + TypePM::Counters::addressFIFOload, &load);
-				if (!transceive(p)) return;
-			}
-		}
+                if (!transceive(p)) return;
+            }
+        }
     }
 
     void apply_COUNTERS_UPD_RATE(quint8 val) {
         countersTimer->stop();
         writeRegister(TCMparameters["COUNTERS_UPD_RATE"].address, 0, false);
-        clearFIFOs();
+        emptyCountBuffers();
+        readCountersDirectly();
         if (val <= 7) {
             TCM.set.COUNTERS_UPD_RATE = val;
             if (val > 0) {
-                writeParameter("COUNTERS_UPD_RATE", val, TCMid);
-//				countersTimer->start(countersUpdatePeriod_ms[val]/2);
-				countersTimer->start(50);
+                writeRegister(TCMparameters["COUNTERS_UPD_RATE"].address, val, false);
+//                writeParameter("COUNTERS_UPD_RATE", val, TCMid);
+//                countersTimer->start(countersUpdatePeriod_ms[val]/2);
+                countersTimer->start(50);
             }
         } else emit error("Wrong COUNTERS_UPD_RATE value: " + QString::number(val), logicError);
     }
 
-	void initGBT() {        
+    void initGBT() {
         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
         if (quint16(readRegister(GBTparameters["RDH_FEE_ID"].address)) != TCMid) {
             for (quint8 j=0; j<GBTunit::controlSize; ++j) if (j != GBTparameters["BCID_DELAY"].address - GBTunit::controlAddress) TCM.set.GBT.registers[j] = GBTunit::defaults[j];
@@ -586,12 +605,12 @@ public slots:
             if (!(TCM.act.PM_MASK_SPI >> i & 1)) setBit(i, TCMparameters["PM_MASK_SPI"].address, false);
             if (readRegister(allPMs[i].baseAddress + 0xFE) == 0xFFFFFFFF) { //SPI or IPbus error
                 clearBit(i, TCMparameters["PM_MASK_SPI"].address, false);
-				deletePMservices(allPMs + i);
+                deletePMservices(allPMs + i);
             } else {
                 TCM.act.PM_MASK_SPI |= 1 << i;
-				PM.insert(allPMs[i].FEEid, allPMs + i);
+                PM.insert(allPMs[i].FEEid, allPMs + i);
                 (i < 10 ? PMsA : PMsC).append(allPMs + i);
-				if (allPMs[i].services.isEmpty()) createPMservices(allPMs + i);
+                if (allPMs[i].services.isEmpty()) createPMservices(allPMs + i);
 //                if (i > 9) TCM.set.CH_MASK_C |= 1 << (i - 10);
 //                else       TCM.set.CH_MASK_A |= 1 << i;
             }
@@ -632,7 +651,7 @@ public slots:
             if (maxPacket - p.responseSize <= TypePM::Counters::number) if (!transceive(p)) return;
             p.addTransaction(nonIncrementingRead, pm->baseAddress + TypePM::Counters::addressFIFO, pm->counters.New, TypePM::Counters::number);
         }
-		if (p.requestSize > 1) if (!transceive(p)) return;
+        if (p.requestSize > 1) if (!transceive(p)) return;
         if (TCM.counters.FIFOload) {
             TCM.counters.oldTime = QDateTime::currentDateTime();
             for (quint8 i=0; i<TypeTCM::Counters::number; ++i) {
@@ -640,9 +659,13 @@ public slots:
                 TCM.counters.Old[i] = TCM.counters.New[i];
             }
             foreach (DimService *s, TCM.counters.services) s->updateService();
+            countsTriggers->updateService();
+            countRatesTriggers->updateService(false);
             emit countersReady(TCMid);
         }
+        quint32 sumLoad = 0;
         foreach (TypePM *pm, PM) if (pm->counters.FIFOload) {
+            sumLoad += pm->counters.FIFOload;
             pm->counters.oldTime = TCM.counters.oldTime;
             for (quint8 i=0; i<TypePM::Counters::number; ++i) {
                 pm->counters.rate[i] = (pm->counters.New[i] - pm->counters.Old[i]) * 1000. / time_ms;
@@ -650,22 +673,25 @@ public slots:
             }
             emit countersReady(pm->FEEid);
         }
-        foreach (CustomDIMservice *s, countServices) s->updateService();
+        if (sumLoad) {
+            countsChannels->updateService();
+            countRatesChannels->updateService(false);
+        }
     }
 
-    void readCountersDirectly() {
+    void readCountersDirectly(bool calculateRate = true) {
         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
         p.addTransaction(read, TypeTCM::Counters::addressDirect, TCM.counters.New, TypeTCM::Counters::number);
         if (transceive(p)) {
             TCM.counters.newTime = QDateTime::currentDateTime();
             quint32 time_ms = TCM.counters.oldTime.msecsTo(TCM.counters.newTime);
-            if (time_ms < 100) return;
+            if (time_ms < 10) return;
             for (quint8 i=0; i<TypeTCM::Counters::number; ++i) {
-				TCM.counters.rate[i] = (TCM.counters.New[i] - TCM.counters.Old[i]) * 1000. / time_ms;
+                if (calculateRate) TCM.counters.rate[i] = (TCM.counters.New[i] - TCM.counters.Old[i]) * 1000. / time_ms;
                 TCM.counters.Old[i] = TCM.counters.New[i];
             }
             TCM.counters.oldTime = TCM.counters.newTime;
-            foreach (DimService *s, TCM.counters.services) s->updateService();
+            if (calculateRate) foreach (DimService *s, TCM.counters.services) s->updateService();
             emit countersReady(TCMid);
         } else return;
         foreach (TypePM *pm, PM) {
@@ -674,64 +700,71 @@ public slots:
             pm->counters.newTime = QDateTime::currentDateTime();
             quint32 time_ms = pm->counters.oldTime.msecsTo(pm->counters.newTime);
             for (quint8 i=0; i<TypePM::Counters::number; ++i) {
-                pm->counters.rate[i] = (pm->counters.New[i] - pm->counters.Old[i]) * 1000. / time_ms;
+                if (calculateRate && time_ms < 10) pm->counters.rate[i] = (pm->counters.New[i] - pm->counters.Old[i]) * 1000. / time_ms;
                 pm->counters.Old[i] = pm->counters.New[i];
             }
-			pm->counters.oldTime = pm->counters.newTime;
+            pm->counters.oldTime = pm->counters.newTime;
             emit countersReady(pm->FEEid);
         }
-        foreach (CustomDIMservice *s, countServices) s->updateService();
+        countsChannels->updateService();
+        countsTriggers->updateService();
+        if (calculateRate) {
+            countRatesChannels->updateService(false);
+            countRatesTriggers->updateService(false);
+        }
     }
 
-	void resetCounts(qint32 FEEid) {
-		IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
-		if (TCM.act.COUNTERS_UPD_RATE) { //HW timer
-			readCountersFIFO();
-			if (FEEid == -1 || FEEid == TCMid) {
-				p.addTransaction(read, TypeTCM::Counters::addressDirect, TCM.counters.New, TypeTCM::Counters::number);
-				p.addTransaction(RMWbits, 0xF, p.masks(0xFFFFFFFF, 1 << 9)); //set counters reset bit
+    void resetCounts(qint32 FEEid) {
+        IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
+        if (TCM.act.COUNTERS_UPD_RATE) { //HW timer
+            readCountersFIFO();
+            if (FEEid == -1 || FEEid == TCMid) {
+                p.addTransaction(read, TypeTCM::Counters::addressDirect, TCM.counters.New, TypeTCM::Counters::number);
+                p.addTransaction(RMWbits, 0xF, p.masks(0xFFFFFFFF, 1 << 9)); //set counters reset bit
                 if (transceive(p)) for (quint8 i=0; i<TypeTCM::Counters::number; ++i) TCM.counters.Old[i] -= TCM.counters.New[i]; else return;
-			}
-			if (FEEid == -1 || FEEid == -2) {
-				foreach(TypePM *pm, PMsA) {
-					p.addTransaction(read, pm->baseAddress + TypePM::Counters::addressDirect, pm->counters.New, TypePM::Counters::number);
-					p.addTransaction(RMWbits, 0x7F + pm->baseAddress, p.masks(0xFFFFFFFF, 1 << 9));
-				}
-				if (transceive(p)) { foreach(TypePM *pm, PMsA) for (quint8 i=0; i<TypePM::Counters::number; ++i) pm->counters.Old[i] -= pm->counters.New[i]; }
-				foreach(TypePM *pm, PMsC) {
-					p.addTransaction(read, pm->baseAddress + TypePM::Counters::addressDirect, pm->counters.New, TypePM::Counters::number);
-					p.addTransaction(RMWbits, 0x7F + pm->baseAddress, p.masks(0xFFFFFFFF, 1 << 9));
-				}
-				if (transceive(p)) { foreach(TypePM *pm, PMsC) for (quint8 i=0; i<TypePM::Counters::number; ++i) pm->counters.Old[i] -= pm->counters.New[i]; }
-			} else if (PM.contains(FEEid)) {
-				p.addTransaction(read, PM[FEEid]->baseAddress + TypePM::Counters::addressDirect, PM[FEEid]->counters.New, TypePM::Counters::number);
-				p.addTransaction(RMWbits, 0x7F + PM[FEEid]->baseAddress, p.masks(0xFFFFFFFF, 1 << 9));
-				if (transceive(p)) for (quint8 i=0; i<TypePM::Counters::number; ++i) PM[FEEid]->counters.Old[i] -= PM[FEEid]->counters.New[i];
-			}
-		} else { //SW timer
-			readCountersDirectly();
-			if (FEEid == -1 || FEEid == TCMid) {
-				p.addTransaction(RMWbits, 0xF, p.masks(0xFFFFFFFF, 1 << 9));
-				for (quint8 i=0; i<TypeTCM::Counters::number; ++i) TCM.counters.Old[i] = 0;
-			}
-			if (FEEid == -1 || FEEid == -2) foreach (TypePM *pm, PM) {
-				for (quint8 i=0; i<TypePM::Counters::number; ++i) pm->counters.Old[i] = 0;
-				p.addTransaction(RMWbits, 0x7F + pm->baseAddress, p.masks(0xFFFFFFFF, 1 << 9));
-			} else if (PM.contains(FEEid)) {
-				for (quint8 i=0; i<TypePM::Counters::number; ++i) PM[FEEid]->counters.Old[i] = 0;
-				p.addTransaction(RMWbits, 0x7F + PM[FEEid]->baseAddress, p.masks(0xFFFFFFFF, 1 << 9));
-			}
-			if (transceive(p)) sync();
-		}
-	}
+            }
+            if (FEEid == -1 || FEEid == -2) {
+                foreach(TypePM *pm, PMsA) {
+                    p.addTransaction(read, pm->baseAddress + TypePM::Counters::addressDirect, pm->counters.New, TypePM::Counters::number);
+                    p.addTransaction(RMWbits, 0x7F + pm->baseAddress, p.masks(0xFFFFFFFF, 1 << 9));
+                }
+                if (!p.transactionsList.isEmpty() && transceive(p)) { foreach(TypePM *pm, PMsA) for (quint8 i=0; i<TypePM::Counters::number; ++i) pm->counters.Old[i] -= pm->counters.New[i]; }
+                foreach(TypePM *pm, PMsC) {
+                    p.addTransaction(read, pm->baseAddress + TypePM::Counters::addressDirect, pm->counters.New, TypePM::Counters::number);
+                    p.addTransaction(RMWbits, 0x7F + pm->baseAddress, p.masks(0xFFFFFFFF, 1 << 9));
+                }
+                if (!p.transactionsList.isEmpty() && transceive(p)) { foreach(TypePM *pm, PMsC) for (quint8 i=0; i<TypePM::Counters::number; ++i) pm->counters.Old[i] -= pm->counters.New[i]; }
+            } else if (PM.contains(FEEid)) {
+                p.addTransaction(read, PM[FEEid]->baseAddress + TypePM::Counters::addressDirect, PM[FEEid]->counters.New, TypePM::Counters::number);
+                p.addTransaction(RMWbits, 0x7F + PM[FEEid]->baseAddress, p.masks(0xFFFFFFFF, 1 << 9));
+                if (transceive(p)) for (quint8 i=0; i<TypePM::Counters::number; ++i) PM[FEEid]->counters.Old[i] -= PM[FEEid]->counters.New[i];
+            }
+        } else { //SW timer
+            readCountersDirectly();
+            if (FEEid == -1 || FEEid == TCMid) {
+                p.addTransaction(RMWbits, 0xF, p.masks(0xFFFFFFFF, 1 << 9));
+                for (quint8 i=0; i<TypeTCM::Counters::number; ++i) TCM.counters.Old[i] = 0;
+            }
+            if (FEEid == -1 || FEEid == -2) foreach (TypePM *pm, PM) {
+                for (quint8 i=0; i<TypePM::Counters::number; ++i) pm->counters.Old[i] = 0;
+                p.addTransaction(RMWbits, 0x7F + pm->baseAddress, p.masks(0xFFFFFFFF, 1 << 9));
+            } else if (PM.contains(FEEid)) {
+                for (quint8 i=0; i<TypePM::Counters::number; ++i) PM[FEEid]->counters.Old[i] = 0;
+                p.addTransaction(RMWbits, 0x7F + PM[FEEid]->baseAddress, p.masks(0xFFFFFFFF, 1 << 9));
+            }
+            if (transceive(p)) sync();
+        }
+    }
 
-	void setRatesUnknown() {
-		for (quint8 iPM=0; iPM<20; ++iPM) for(quint8 i=0; i<TypePM::Counters::number; ++i) allPMs[iPM].counters.rate[i] = 0;
-		for(quint8 i=0; i<TypeTCM::Counters::number; ++i) TCM.counters.rate[i] = 0;
-		foreach (CustomDIMservice *s, countServices) s->updateService();
-	}
+    void setRatesUnknown() {
+        for (quint8 iPM=0; iPM<20; ++iPM) for(quint8 i=0; i<TypePM::Counters::number; ++i) allPMs[iPM].counters.rate[i] = -1.;
+        for(quint8 i=0; i<TypeTCM::Counters::number; ++i) TCM.counters.rate[i] = -1.;
+        foreach (DimService *s, TCM.counters.services) s->updateService();
+        if (countRatesChannels) countRatesChannels->updateService();
+        if (countRatesTriggers) countRatesTriggers->updateService();
+    }
 
-	bool read1PM(TypePM *pm) {
+    bool read1PM(TypePM *pm) {
         pm->act.voltage1_8 = readRegister(pm->baseAddress + 0xFE);
         if (pm->act.voltage1_8 == 0xFFFFFFFF) { //SPI error
             clearBit(pm - allPMs, 0x1E, false);
@@ -782,20 +815,14 @@ public slots:
             if (!transceive(p)) return;
             log("TCM " + errorReport.print());
         }
-        if (PMsReady) {
-            foreach (TypePM *pm, PM) if (!read1PM(pm)) return;
-            calculateSystemValues();
-        }
-        foreach (CustomDIMservice *s, services) s->updateService();
+        if (PMsReady) { foreach (TypePM *pm, PM) if (!read1PM(pm)) return; }
+        calculateSystemValues();
+        foreach (AdvancedDIMservice *s, services) s->updateService();
         emit valuesReady();
-        if (TCM.act.COUNTERS_UPD_RATE == 0) readCountersDirectly();
+        if (PMsReady && TCM.act.COUNTERS_UPD_RATE == 0) readCountersDirectly();
     }
 
     void calculateSystemValues() {
-//        BOARDS_OK = 0;
-//        for(quint8 iPM= 0; iPM<10; ++iPM) BOARDS_OK |= (TCM.act.TRG_SYNC_A[iPM   ].linkOK && allPMs[iPM].act.GBT.isOK() && allPMs[iPM].isOK()) << iPM;
-//        for(quint8 iPM=10; iPM<20; ++iPM) BOARDS_OK |= (TCM.act.TRG_SYNC_C[iPM-10].linkOK && allPMs[iPM].act.GBT.isOK() && allPMs[iPM].isOK()) << iPM;
-//        BOARDS_OK |= (TCM.isOK() && TCM.act.GBT.isOK()) << 20;
         BOARDS_OK = (TCM.isOK() && TCM.act.GBT.isOK());
         for(qint8 iPM=19; iPM>=0; --iPM) { BOARDS_OK <<= 1; if (allPMs[iPM].isOK() && allPMs[iPM].act.GBT.isOK()) ++BOARDS_OK; }
     }
@@ -873,8 +900,8 @@ public slots:
     void apply_HB_RESPONSE (quint16 FEEid, bool on) { (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).HB_RESPONSE  = on; writeParameter("HB_RESPONSE" , on, FEEid); }
     void apply_READOUT_LOCK(quint16 FEEid, bool on) { (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).READOUT_LOCK = on; writeParameter("READOUT_LOCK", on, FEEid); }
     void apply_BYPASS_MODE (quint16 FEEid, bool on) { (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).BYPASS_MODE  = on; writeParameter("BYPASS_MODE" , on, FEEid); }
-	void apply_HB_REJECT   (quint16 FEEid, bool on) { (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).HB_REJECT    = on; writeParameter("HB_REJECT"   , on, FEEid); }
-	void apply_shiftRxPhase(quint16 FEEid, bool on) { (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).shiftRxPhase = on; writeParameter("shiftRxPhase", on, FEEid); }
+    void apply_HB_REJECT   (quint16 FEEid, bool on) { (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).HB_REJECT    = on; writeParameter("HB_REJECT"   , on, FEEid); }
+    void apply_shiftRxPhase(quint16 FEEid, bool on) { (FEEid == TCMid ? TCM.set.GBT : PM[FEEid]->set.GBT).shiftRxPhase = on; writeParameter("shiftRxPhase", on, FEEid); }
 
     void switchTRGsyncPM(quint8 iPM, bool on) {
         if (iPM >= 20) {
@@ -937,10 +964,10 @@ public slots:
 	}
     void apply_RESET_ERRORS(bool syncOnSuccess = true) {
         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
-		p.addTransaction(RMWbits, GBTunit::controlAddress, p.masks(0xFFFF00FF, 0x00000000)); //clear all reset bits
+        p.addTransaction(RMWbits, GBTunit::controlAddress, p.masks(0xFFFF00FF, 0x00000000)); //clear all reset bits
         p.addTransaction(RMWbits, GBTunit::controlAddress, p.masks(0xFFFFFFFF, 1 << GBTunit::RB_readoutFSM | 1 << GBTunit::RB_GBTRxError | 1 << GBTunit::RB_errorReport));
-		p.addTransaction(RMWbits, GBTunit::controlAddress, p.masks(0xFFBF00FF, 0x00000000)); //clear all reset bits and unlock
-		foreach (TypePM *pm, PM) {
+        p.addTransaction(RMWbits, GBTunit::controlAddress, p.masks(0xFFBF00FF, 0x00000000)); //clear all reset bits and unlock
+        foreach (TypePM *pm, PM) {
             quint32 address = pm->baseAddress + GBTunit::controlAddress;
             p.addTransaction(RMWbits, address, p.masks(0xFFFF00FF, 0x00000000)); //clear all reset bits
             p.addTransaction(RMWbits, address, p.masks(0xFFFFFFFF, 1 << GBTunit::RB_readoutFSM | 1 << GBTunit::RB_GBTRxError | 1 << GBTunit::RB_errorReport));
@@ -963,22 +990,22 @@ public slots:
     void apply_LASER_SOURCE(bool isGenerator) { TCM.set.LASER_SOURCE = isGenerator; writeParameter("LASER_SOURCE", isGenerator, TCMid); }
     void apply_LASER_PATTERN() {
         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
-		p.addTransaction(write, TCMparameters["LASER_PATTERN"].address, (quint32 *)&TCM.set.LASER_PATTERN, 2);
+        p.addTransaction(write, TCMparameters["LASER_PATTERN"].address, (quint32 *)&TCM.set.LASER_PATTERN, 2);
         if (transceive(p)) sync();
     }
-	void apply_SwLaserPatternBit(quint8 bit, bool on) {
-		if (bit >= 64) return;
-		quint32 address = TCMparameters["LASER_PATTERN"].address + bit/32;
-		on ? TCM.set.LASER_PATTERN |= 1ULL << bit : TCM.set.LASER_PATTERN &= ~(1ULL << bit);
-		on ? setBit(bit % 32, address) : clearBit(bit % 32, address);
+    void apply_SwLaserPatternBit(quint8 bit, bool on) {
+        if (bit >= 64) return;
+        quint32 address = TCMparameters["LASER_PATTERN"].address + bit/32;
+        on ? TCM.set.LASER_PATTERN |= 1ULL << bit : TCM.set.LASER_PATTERN &= ~(1ULL << bit);
+        on ? setBit(bit % 32, address) : clearBit(bit % 32, address);
     }
-	void apply_attenSteps() { writeParameter("attenSteps", TCM.set.attenSteps, TCMid); }
+    void apply_attenSteps() { writeParameter("attenSteps", TCM.set.attenSteps, TCMid); }
     void apply_LASER_ENABLED(bool on) { TCM.set.LASER_ENABLED = on; writeParameter("LASER_ENABLED", on, TCMid); }
     void apply_LASER_DELAY() { writeParameter("LASER_DELAY", TCM.set.LASER_DELAY, TCMid); }
     void apply_LSR_TRG_SUPPR_DUR  () { writeParameter("LASER_TRG_SUPPR_DUR", TCM.set.lsrTrgSupprDur, TCMid);}
     void apply_LSR_TRG_SUPPR_DELAY() { writeParameter("LASER_TRG_SUPPR_DELAY", TCM.set.lsrTrgSupprDelay, TCMid);}
-	void apply_DELAY_A() { qint32 delay_ms = qAbs(TCM.set.DELAY_A - TCM.act.DELAY_A); writeParameter("DELAY_A", TCM.set.DELAY_A, TCMid); if (delay_ms > 1) QThread::msleep(delay_ms); apply_RESET_ERRORS(); }
-	void apply_DELAY_C() { qint32 delay_ms = qAbs(TCM.set.DELAY_C - TCM.act.DELAY_C); writeParameter("DELAY_C", TCM.set.DELAY_C, TCMid); if (delay_ms > 1) QThread::msleep(delay_ms); apply_RESET_ERRORS(); }
+    void apply_DELAY_A() { qint32 delay_ms = qAbs(TCM.set.DELAY_A - TCM.act.DELAY_A); writeParameter("DELAY_A", TCM.set.DELAY_A, TCMid); if (delay_ms > 1) QThread::msleep(delay_ms); apply_RESET_ERRORS(); }
+    void apply_DELAY_C() { qint32 delay_ms = qAbs(TCM.set.DELAY_C - TCM.act.DELAY_C); writeParameter("DELAY_C", TCM.set.DELAY_C, TCMid); if (delay_ms > 1) QThread::msleep(delay_ms); apply_RESET_ERRORS(); }
     void apply_CH_MASK_A() { writeParameter("CH_MASK_A", TCM.set.CH_MASK_A, TCMid); }
     void apply_CH_MASK_C() { writeParameter("CH_MASK_C", TCM.set.CH_MASK_C, TCMid); }
 
@@ -989,15 +1016,10 @@ public slots:
     void apply_T5_ENABLED(bool on) { TCM.set.T5_ENABLED = on; writeParameter("T5_ENABLED", on, TCMid); }
     void apply_EXTENDED_READOUT(bool on) { TCM.set.EXTENDED_READOUT = on; writeParameter("EXTENDED_READOUT", on, TCMid); }
     void apply_ADD_C_DELAY(bool on) { TCM.set.ADD_C_DELAY = on; writeParameter("ADD_C_DELAY", on, TCMid); }
-    void apply_C_SC_TRG_MODE(quint8 mode) { TCM.set.C_SC_TRG_MODE = mode; writeParameter("C_SC_TRG_MODE", mode, TCMid); }
+    void apply_sidesCombMode(quint8 mode) { TCM.set.sidesCombMode = mode; writeParameter("sidesCombMode", mode, TCMid); }
     void apply_SW_EXT(quint8 sw, bool on) {
-        if (on) {
-            TCM.set.EXT_SW |= 1 << (sw - 1);
-            setBit(sw - 1, TCMparameters["EXT_SW"].address);
-        } else {
-            TCM.set.EXT_SW &= ~(1 << (sw - 1));
-            clearBit(sw - 1, TCMparameters["EXT_SW"].address);
-        }
+        TCM.set.EXT_SW = changeNbits(TCM.set.EXT_SW, 1, sw - 1, on);
+        on ? setBit(sw - 1, TCMparameters["EXT_SW"].address) : clearBit(sw - 1, TCMparameters["EXT_SW"].address);
     }
     void apply_T1_MODE(quint8 mode) { TCM.set.T1_MODE = mode; writeParameter("T1_MODE", mode, TCMid); }
     void apply_T2_MODE(quint8 mode) { TCM.set.T2_MODE = mode; writeParameter("T2_MODE", mode, TCMid); }
@@ -1016,51 +1038,30 @@ public slots:
     void apply_VTIME_LOW () { writeParameter("VTIME_LOW" , TCM.set.VTIME_LOW , TCMid); }
     void apply_VTIME_HIGH() { writeParameter("VTIME_HIGH", TCM.set.VTIME_HIGH, TCMid); }
 
-    void apply_OR_GATE_PM (quint16 FEEid) { writeParameter("OR_GATE" , PM[FEEid]->set.OR_GATE , FEEid); }
-    void apply_OR_GATE_sideA(quint16 val) {
-        IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
-        for (quint8 iPM =  0; iPM < 10; ++iPM) if (TCM.act.PM_MASK_SPI & 1 << iPM) p.addWordToWrite(allPMs[iPM].baseAddress + PMparameters["OR_GATE"].address, val);
-        if (transceive(p)) sync();
-    }
-    void apply_OR_GATE_sideC(quint16 val) {
-        IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
-        for (quint8 iPM = 10; iPM < 20; ++iPM) if (TCM.act.PM_MASK_SPI & 1 << iPM) p.addWordToWrite(allPMs[iPM].baseAddress + PMparameters["OR_GATE"].address, val);
-        if (transceive(p)) sync();
-    }
-    void apply_TRGchargeLevelHi(qint8 iBd, quint16 val) {
-        if (val > 4095) val = 4095;
-        QString parameterName = "TRGchargeLevelHi";
+    void apply_PMparameter(QString parameterName, qint8 iPM, qint32 val) {//OR_GATE, TRGchargeLevelHi/Lo, PairedChannelsMode, TRG_CNT_MODE
+        if (!PMparameters.contains(parameterName)) { emit error(parameterName + "is wrong PM parameter", logicError); return; }
         Parameter par = PMparameters[parameterName];
-        if (iBd == -1) {
+        if (par.interval) { emit error(parameterName + "is a channel parameter", logicError); return; }
+        val = qBound(0, val, (1 << par.bitwidth) - 1); // limit the value to apply
+        if (iPM >= 20 || iPM < -1) emit error(QString::asprintf("Incorrect PM index: %d", iPM), logicError);
+        else if (iPM == -1) {
             IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
             foreach (TypePM *pm, PM) {
                 pm->setParameter(parameterName, val);
                 p.addNBitsToChange(pm->baseAddress + par.address, val, par.bitwidth, par.bitshift);
             }
-            transceive(p);
-        } else if (iBd >= 0 && iBd < 20 && TCM.act.PM_MASK_SPI & 1 << iBd) {
-            allPMs[iBd].setParameter(parameterName, val);
-            writeParameter(parameterName, val, allPMs[iBd].FEEid);
+            if (transceive(p)) sync();
+        } else if (TCM.act.PM_MASK_SPI & 1 << iPM) {
+            allPMs[iPM].setParameter(parameterName, val);
+            writeParameter(parameterName, val, allPMs[iPM].FEEid);
         }
     }
-    void apply_TRGchargeLevelLo(qint8 iBd, quint16 val) {
-        if (val > 15) val = 15;
-        QString parameterName = "TRGchargeLevelLo";
-        Parameter par = PMparameters[parameterName];
-        if (iBd == -1) {
-            IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
-            foreach (TypePM *pm, PM) {
-                pm->setParameter(parameterName, val);
-                p.addNBitsToChange(pm->baseAddress + par.address, val, par.bitwidth, par.bitshift);
-            }
-            transceive(p);
-        } else if (iBd >= 0 && iBd < 20 && TCM.act.PM_MASK_SPI & 1 << iBd) {
-            allPMs[iBd].setParameter(parameterName, val);
-            writeParameter(parameterName, val, allPMs[iBd].FEEid);
-        }
-    }
-//    void apply_TRGchargeLevelHi(quint16 FEEid) { writeParameter("TRGchargeLevelHi", PM[FEEid]->set.TRGchargeLevelHi, FEEid); }
-	void apply_TRG_CNT_MODE(quint16 FEEid, bool CFDinGate) { writeParameter("TRG_CNT_MODE", CFDinGate, FEEid); }
+    void apply_OR_GATE           (qint8 iPM, quint8  val) { apply_PMparameter("OR_GATE"           , iPM, val); }
+    void apply_TRGchargeLevelHi  (qint8 iPM, quint16 val) { apply_PMparameter("TRGchargeLevelHi"  , iPM, val); }
+    void apply_TRGchargeLevelLo  (qint8 iPM, quint16 val) { apply_PMparameter("TRGchargeLevelLo"  , iPM, val); }
+    void apply_PairedChannelsMode(qint8 iPM, bool    val) { apply_PMparameter("PairedChannelsMode", iPM, val); }
+
+    void apply_TRG_CNT_MODE(quint16 FEEid, bool CFDinGate) { writeParameter("TRG_CNT_MODE", CFDinGate, FEEid); }
     void apply_CH_MASK_DATA (quint16 FEEid) { writeParameter("CH_MASK_DATA" , PM[FEEid]->set.CH_MASK_DATA , FEEid); }
     void apply_CH_MASK_TRG  (quint16 FEEid) {
         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
@@ -1099,9 +1100,9 @@ public slots:
         p.addWordToWrite(TCMparameters["CH_MASK_C"].address, TCM.set.CH_MASK_C);
         if (!transceive(p)) return;
         QThread::msleep(10); //to finish all PMs resync with TCM
-		apply_RESET_ERRORS();
+        apply_RESET_ERRORS();
         writeRegister(0xF, 0x4, false); //clear "Readiness changed" flags
-        apply_COUNTERS_UPD_RATE(TCM.set.COUNTERS_UPD_RATE);
+        if (TCM.act.COUNTERS_UPD_RATE != TCM.set.COUNTERS_UPD_RATE) apply_COUNTERS_UPD_RATE(TCM.set.COUNTERS_UPD_RATE);
     }
 
     void copyActualToSettingsAll() {
@@ -1128,7 +1129,7 @@ public slots:
         transceive(p);
     }
 
-    bool TRGsyncEnabledForPM(quint8 iPM) { return 1 << iPM & TCM.act.PM_MASK_TRG(); }
+	bool TRGsyncEnabledForPM(quint8 iPM) { return 1 << iPM & TCM.act.PM_MASK_TRG(); }
 };
 
 #endif // FITELECTRONICS_H

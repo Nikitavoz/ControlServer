@@ -44,7 +44,7 @@ struct TypeTCM {
                 T1_LEVEL_C      :16,  //┐
                                 :16,  //┘0D
                 ADD_C_DELAY     : 1,  //┐
-                C_SC_TRG_MODE   : 2,  //│
+                sidesCombMode   : 2,  //│
                 EXTENDED_READOUT: 1,  //│
                 corrCNTselect   : 4,  //│0E
                 SC_EVAL_MODE    : 1,  //│
@@ -133,9 +133,9 @@ struct TypeTCM {
                 T3_ENABLED      : 1,  //│
                                 :17,  //┘
                 _reservedSpace3[0xD8 - 0x6A - 1];
-        GBTunit GBT;				  //]D8-F1
+        GBTunit GBT;                  //]D8-F1
         quint32 _reservedSpace4[0xF7 - 0xF1 - 1];
-        Timestamp FW_TIME_MCU;		  //]F7
+        Timestamp FW_TIME_MCU;        //]F7
         quint32 _reservedSpace5[0xFC - 0xF7 - 1],
                 FPGAtemperature,      //]FC
                 voltage1,             //]FD
@@ -152,10 +152,10 @@ struct TypeTCM {
                                                          {0xF7, 0xF7}, //FW_TIME_MCU
                                                          {0xFC, 0xFF}};//block3     ,  4 registers
         float //calculable values
-			TEMP_BOARD = 20.0F,
-			TEMP_FPGA  = 20.0F,
-			VOLTAGE_1V   = 1.0F,
-			VOLTAGE_1_8V = 1.8F,
+            TEMP_BOARD = 20.0F,
+            TEMP_FPGA  = 20.0F,
+            VOLTAGE_1V   = 1.0F,
+            VOLTAGE_1_8V = 1.8F,
             delayLaser_ns,
             delayAside_ns,
             delayCside_ns,
@@ -173,11 +173,11 @@ struct TypeTCM {
             systemClock_MHz = externalClock ? LHCclock_MHz : 40.;
             TDCunit_ps = 1e6 / 30 / 64 / systemClock_MHz;
             halfBC_ns = 500. / systemClock_MHz;
-			phaseStepLaser_ns = halfBC_ns / 1024;
-			phaseStep_ns = halfBC_ns / (SERIAL_NUM ? 1024 : 1280); //TCM prototype has SERIAL_NUM == 0 and sides delay regvalue range of [-1280 .. 1280] instead of [-1024 .. 1024] in production TCMs
-			delayLaser_ns = LASER_DELAY * phaseStepLaser_ns;
-			delayAside_ns = DELAY_A     * phaseStep_ns;
-			delayCside_ns = DELAY_C     * phaseStep_ns;
+            phaseStepLaser_ns = halfBC_ns / 1024;
+            phaseStep_ns = halfBC_ns / (SERIAL_NUM ? 1024 : 1280); //TCM prototype has SERIAL_NUM == 0 and sides delay regvalue range of [-1280 .. 1280] instead of [-1024 .. 1024] in production TCMs
+            delayLaser_ns = LASER_DELAY * phaseStepLaser_ns;
+            delayAside_ns = DELAY_A     * phaseStep_ns;
+            delayCside_ns = DELAY_C     * phaseStep_ns;
             averageTimeA_ns = averageTimeA * TDCunit_ps / 1000;
             averageTimeC_ns = averageTimeC * TDCunit_ps / 1000;
             laserFrequency_Hz = systemClock_MHz * 1e6 / (LASER_DIVIDER == 0 ? 1 << 24 : LASER_DIVIDER);
@@ -186,7 +186,7 @@ struct TypeTCM {
                 TRG_SYNC_C[i].syncError = syncErrorInLinkC & 1 << i;
             }
         }
-        quint32 PM_MASK_TRG() { return CH_MASK_C << 10 | CH_MASK_A; }
+		quint32 PM_MASK_TRG() { return CH_MASK_C << 10 | CH_MASK_A; }
     } act;
 
     struct Settings {
@@ -214,7 +214,7 @@ struct TypeTCM {
                 T1_LEVEL_C      :16,  //┐
                                 :16,  //┘0D
                 ADD_C_DELAY     : 1,  //┐
-                C_SC_TRG_MODE   : 2,  //│
+                sidesCombMode   : 2,  //│
                 EXTENDED_READOUT: 1,  //│
                 corrCNTselect   : 4,  //│0E
                 SC_EVAL_MODE    : 1,  //│
@@ -226,9 +226,9 @@ struct TypeTCM {
                 LASER_DIVIDER   :24,  //┐
                                 : 6,  //│
                 LASER_ENABLED   : 1,  //│1B
-				LASER_SOURCE    : 1;  //┘
-		quint64 LASER_PATTERN	   ;  //]1C-1D
-		quint32 PM_MASK_SPI        ,  //]1E
+                LASER_SOURCE    : 1;  //┘
+        quint64 LASER_PATTERN      ;  //]1C-1D
+        quint32 PM_MASK_SPI        ,  //]1E
                 lsrTrgSupprDelay: 6,  //┐
                 lsrTrgSupprDur  : 2,  //│1F
                                 :24,  //┘
@@ -281,7 +281,7 @@ struct TypeTCM {
         static const inline QVector<regblock> regblocksToRead {{0x00, 0x04}, //block0     ,  5 registers
                                                                {0x08, 0x0E}, //block1     ,  7 registers
                                                                {0x1A, 0x1D}, //block2     ,  4 registers
-															   {0x1F, 0x1F}, //trigger suppression
+                                                               {0x1F, 0x1F}, //trigger suppression
                                                                {0x3A, 0x3A}, //CH_MASK_C
                                                                {0x50, 0x50}, //COUNTERS_UPD_RATE
                                                                {0x60, 0x6A}, //block3     , 11 registers
@@ -290,7 +290,7 @@ struct TypeTCM {
                                              regblocksToApply {{0x00, 0x04}, //block0     ,  5 registers
                                                                {0x08, 0x0E}, //block1     ,  7 registers
                                                                {0x1B, 0x1D}, //block2     ,  3 registers
-															   {0x1F, 0x1F}, //trigger suppression
+                                                               {0x1F, 0x1F}, //trigger suppression
                                                                {0x60, 0x6A}, //block3     , 11 registers
                                                                {0xD8, 0xE4}};//GBT control, 13 registers
         float //calculable values
@@ -331,7 +331,7 @@ struct TypeTCM {
             };
         };
         quint32 Old[number] = {0};
-		double rate[number] = {0.};
+        double rate[number] = {-1,-1,-1,-1,-1, -1,-1,-1,-1,-1, -1,-1,-1,-1,-1};
         GBTcounters GBT;
         QList<DimService *> services;
     } counters;
@@ -347,10 +347,10 @@ struct TypeTCM {
         !act.readinessChangeC ;
     }
 
-	bool GBTisOK() {return
-		act.GBT.isOK() &&
-		act.GBTRxReady;
-	}
+    bool GBTisOK() {return
+        act.GBT.isOK() &&
+        act.GBTRxReady;
+    }
 
     QList<DimService *> services, staticServices;
     QList<DimCommand *> commands;
@@ -365,7 +365,7 @@ const QHash<QString, Parameter> TCMparameters = {
     {"DELAY_A"              ,  0x00         },
     {"DELAY_C"              ,  0x01         },
     {"LASER_DELAY"          ,  0x02         },
-	{"attenSteps"           ,  0x03         },
+    {"attenSteps"           ,  0x03         },
     {"EXT_SW"               ,  0x04         },
     {"VTIME_LOW"            ,  0x08         },
     {"VTIME_HIGH"           ,  0x09         },
@@ -374,7 +374,7 @@ const QHash<QString, Parameter> TCMparameters = {
     {"T1_LEVEL_A"           ,  0x0C         },
     {"T1_LEVEL_C"           ,  0x0D         },
     {"ADD_C_DELAY"          , {0x0E,  1,  0}},
-    {"C_SC_TRG_MODE"        , {0x0E,  2,  1}},
+    {"sidesCombMode"        , {0x0E,  2,  1}},
     {"EXTENDED_READOUT"     , {0x0E,  1,  3}},
     {"SC_EVAL_MODE"         , {0x0E,  1,  8}},
     {"FV0_MODE"             , {0x0E,  1,  9}},
@@ -382,7 +382,7 @@ const QHash<QString, Parameter> TCMparameters = {
     {"LASER_DIVIDER"        , {0x1B, 24,  0}},
     {"LASER_ENABLED"        , {0x1B,  1, 30}},
     {"LASER_SOURCE"         , {0x1B,  1, 31}},
-	{"LASER_PATTERN"        , {0x1C, 64,  0}},
+    {"LASER_PATTERN"        , {0x1C, 64,  0}},
     {"PM_MASK_SPI"          ,  0x1E         },
     {"LASER_TRG_SUPPR_DELAY", {0x1F,  6,  0}},
     {"LASER_TRG_SUPPR_DUR"  , {0x1F,  2,  6}},

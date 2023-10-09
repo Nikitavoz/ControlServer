@@ -33,10 +33,10 @@ HEADERS += \
         FITelectronics.h \
         IPbusControlPacket.h \
         IPbusHeaders.h \
+		actualLabel.h \
         IPbusInterface.h \
         PM.h \
         TCM.h \
-        actualLabel.h \
         mainwindow.h    \
         switch.h
 

@@ -2698,7 +2698,7 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_A0">
+    <widget class="Switch" name="Switcher_A0" native="true">
      <property name="geometry">
       <rect>
        <x>52</x>
@@ -2733,14 +2733,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_A1">
+    <widget class="Switch" name="Switcher_A1" native="true">
      <property name="geometry">
       <rect>
        <x>88</x>
@@ -2775,14 +2775,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_A2">
+    <widget class="Switch" name="Switcher_A2" native="true">
      <property name="geometry">
       <rect>
        <x>124</x>
@@ -2817,14 +2817,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_A3">
+    <widget class="Switch" name="Switcher_A3" native="true">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -2859,14 +2859,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_A4">
+    <widget class="Switch" name="Switcher_A4" native="true">
      <property name="geometry">
       <rect>
        <x>196</x>
@@ -2901,14 +2901,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_A5">
+    <widget class="Switch" name="Switcher_A5" native="true">
      <property name="geometry">
       <rect>
        <x>232</x>
@@ -2943,14 +2943,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_A6">
+    <widget class="Switch" name="Switcher_A6" native="true">
      <property name="geometry">
       <rect>
        <x>268</x>
@@ -2985,14 +2985,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_A7">
+    <widget class="Switch" name="Switcher_A7" native="true">
      <property name="geometry">
       <rect>
        <x>304</x>
@@ -3027,14 +3027,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_A8">
+    <widget class="Switch" name="Switcher_A8" native="true">
      <property name="geometry">
       <rect>
        <x>340</x>
@@ -3069,11 +3069,11 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_A9">
+    <widget class="Switch" name="Switcher_A9" native="true">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -3111,11 +3111,11 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_C0">
+    <widget class="Switch" name="Switcher_C0" native="true">
      <property name="geometry">
       <rect>
        <x>412</x>
@@ -3150,14 +3150,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_C1">
+    <widget class="Switch" name="Switcher_C1" native="true">
      <property name="geometry">
       <rect>
        <x>448</x>
@@ -3192,14 +3192,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_C2">
+    <widget class="Switch" name="Switcher_C2" native="true">
      <property name="geometry">
       <rect>
        <x>484</x>
@@ -3234,14 +3234,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_C3">
+    <widget class="Switch" name="Switcher_C3" native="true">
      <property name="geometry">
       <rect>
        <x>520</x>
@@ -3276,14 +3276,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_C4">
+    <widget class="Switch" name="Switcher_C4" native="true">
      <property name="geometry">
       <rect>
        <x>556</x>
@@ -3318,14 +3318,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_C5">
+    <widget class="Switch" name="Switcher_C5" native="true">
      <property name="geometry">
       <rect>
        <x>592</x>
@@ -3360,14 +3360,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_C6">
+    <widget class="Switch" name="Switcher_C6" native="true">
      <property name="geometry">
       <rect>
        <x>628</x>
@@ -3402,14 +3402,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_C7">
+    <widget class="Switch" name="Switcher_C7" native="true">
      <property name="geometry">
       <rect>
        <x>664</x>
@@ -3444,14 +3444,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_C8">
+    <widget class="Switch" name="Switcher_C8" native="true">
      <property name="geometry">
       <rect>
        <x>700</x>
@@ -3486,14 +3486,14 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="Switch" name="Switcher_C9">
+    <widget class="Switch" name="Switcher_C9" native="true">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -3531,10 +3531,10 @@
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>true</bool>
      </property>
-     <property name="SwitchOnClick">
+     <property name="SwitchOnClick" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
@@ -3562,6 +3562,9 @@
     <property name="toolTip">
      <string notr="true"/>
     </property>
+    <property name="toolTipDuration">
+     <number>0</number>
+    </property>
     <property name="statusTip">
      <string notr="true"/>
     </property>
@@ -3573,6 +3576,19 @@
     </property>
     <property name="accessibleDescription">
      <string notr="true"/>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox#groupBoxPM {
+    background-color: palette(button);
+    border: 1px solid gray;
+	margin-top: 0.5em;
+}
+
+QGroupBox#groupBoxPM::title {
+	subcontrol-origin: margin;
+	subcontrol-position: top left;
+	left: 2ex;
+}</string>
     </property>
     <property name="title">
      <string>PMA0</string>
@@ -3625,7 +3641,7 @@
       <property name="geometry">
        <rect>
         <x>264</x>
-        <y>25</y>
+        <y>28</y>
         <width>95</width>
         <height>15</height>
        </rect>
@@ -3667,7 +3683,7 @@
       <property name="geometry">
        <rect>
         <x>173</x>
-        <y>25</y>
+        <y>28</y>
         <width>95</width>
         <height>15</height>
        </rect>
@@ -3853,7 +3869,7 @@
       <property name="geometry">
        <rect>
         <x>70</x>
-        <y>25</y>
+        <y>28</y>
         <width>95</width>
         <height>15</height>
        </rect>
@@ -3891,13 +3907,13 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="labelTextADCmeanAmplitude">
+     <widget class="QLabel" name="labelTextADCmean">
       <property name="geometry">
        <rect>
         <x>502</x>
-        <y>10</y>
+        <y>14</y>
         <width>37</width>
-        <height>30</height>
+        <height>10</height>
        </rect>
       </property>
       <property name="font">
@@ -3930,20 +3946,19 @@
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string>Mean
-charge</string>
+       <string>Mean</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="labelTextChCounter">
+     <widget class="QLabel" name="labelTextChCFDcount">
       <property name="geometry">
        <rect>
         <x>620</x>
         <y>10</y>
         <width>60</width>
-        <height>30</height>
+        <height>15</height>
        </rect>
       </property>
       <property name="font">
@@ -3976,8 +3991,7 @@ charge</string>
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string>CFD count
-TRG count</string>
+       <string>CFD count</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -3987,9 +4001,9 @@ TRG count</string>
       <property name="geometry">
        <rect>
         <x>466</x>
-        <y>10</y>
+        <y>14</y>
         <width>30</width>
-        <height>30</height>
+        <height>10</height>
        </rect>
       </property>
       <property name="font">
@@ -4022,8 +4036,7 @@ TRG count</string>
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string>Base
-line</string>
+       <string>Base</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -4033,7 +4046,7 @@ line</string>
       <property name="geometry">
        <rect>
         <x>592</x>
-        <y>8</y>
+        <y>9</y>
         <width>25</width>
         <height>10</height>
        </rect>
@@ -4078,7 +4091,7 @@ line</string>
       <property name="geometry">
        <rect>
         <x>592</x>
-        <y>18</y>
+        <y>19</y>
         <width>25</width>
         <height>10</height>
        </rect>
@@ -4123,7 +4136,7 @@ line</string>
       <property name="geometry">
        <rect>
         <x>592</x>
-        <y>28</y>
+        <y>29</y>
         <width>25</width>
         <height>13</height>
        </rect>
@@ -4167,10 +4180,10 @@ line</string>
      <widget class="QLabel" name="labelTextRangeCorrection">
       <property name="geometry">
        <rect>
-        <x>393</x>
-        <y>10</y>
+        <x>394</x>
+        <y>14</y>
         <width>56</width>
-        <height>30</height>
+        <height>13</height>
        </rect>
       </property>
       <property name="font">
@@ -4206,8 +4219,7 @@ line</string>
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="text">
-       <string>Range
-correction</string>
+       <string>Range</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -5015,7 +5027,7 @@ correction</string>
         <string notr="true"/>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);</string>
+        <string notr="true">background-color: rgb(255,211,128);</string>
        </property>
        <property name="locale">
         <locale language="English" country="World"/>
@@ -6126,10 +6138,10 @@ correction</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherCh_01">
+      <widget class="Switch" name="SwitcherCh_01" native="true">
        <property name="geometry">
         <rect>
-         <x>24</x>
+         <x>26</x>
          <y>7</y>
          <width>18</width>
          <height>30</height>
@@ -6173,13 +6185,10 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
-       </property>
-       <property name="checked">
+       <property name="checked" stdset="0">
         <bool>false</bool>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -6284,12 +6293,14 @@ correction</string>
         <rect>
          <x>50</x>
          <y>15</y>
-         <width>14</width>
-         <height>14</height>
+         <width>17</width>
+         <height>17</height>
         </rect>
        </property>
        <property name="font">
         <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
@@ -6310,12 +6321,54 @@ correction</string>
         <string notr="true"/>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);</string>
+        <string notr="true">QCheckBox {
+	background-color: transparent;
+	border: 2px solid orange;
+}</string>
        </property>
        <property name="text">
         <string notr="true"/>
        </property>
       </widget>
+      <zorder>buttonApplyADCzero_01</zorder>
+      <zorder>lineEditADCzero_01</zorder>
+      <zorder>labelValueADCzero_01</zorder>
+      <zorder>labelValueADCdelay_01</zorder>
+      <zorder>lineEditADCdelay_01</zorder>
+      <zorder>buttonApplyADCdelay_01</zorder>
+      <zorder>labelValueADC0range_01</zorder>
+      <zorder>lineEditADC0range_01</zorder>
+      <zorder>buttonApplyADC0range_01</zorder>
+      <zorder>labelValueADC1range_01</zorder>
+      <zorder>lineEditADC1range_01</zorder>
+      <zorder>buttonApplyADC1range_01</zorder>
+      <zorder>labelValueTimeAlignment_01</zorder>
+      <zorder>lineEditTimeAlignment_01</zorder>
+      <zorder>buttonApplyTimeAlignment_01</zorder>
+      <zorder>labelValueCFDthreshold_01</zorder>
+      <zorder>lineEditCFDthreshold_01</zorder>
+      <zorder>buttonApplyCFDthreshold_01</zorder>
+      <zorder>labelValueCFDzero_01</zorder>
+      <zorder>lineEditCFDzero_01</zorder>
+      <zorder>buttonApplyCFDzero_01</zorder>
+      <zorder>labelValueThresholdCalibr_01</zorder>
+      <zorder>lineEditThresholdCalibr_01</zorder>
+      <zorder>buttonApplyThresholdCalibr_01</zorder>
+      <zorder>labelValueADC0meanAmplitude_01</zorder>
+      <zorder>labelValueADC1meanAmplitude_01</zorder>
+      <zorder>labelValueADC0baseLine_01</zorder>
+      <zorder>labelValueADC1baseLine_01</zorder>
+      <zorder>labelValueRawTDCdata1_01</zorder>
+      <zorder>labelValueRawTDCdata2_01</zorder>
+      <zorder>labelValueTRGcounter_01</zorder>
+      <zorder>labelValueCFDcounter_01</zorder>
+      <zorder>labelValueCFDcounterRate_01</zorder>
+      <zorder>labelValueTRGcounterRate_01</zorder>
+      <zorder>SwitcherCh_01</zorder>
+      <zorder>labelValueADC1RMS_01</zorder>
+      <zorder>labelValueADC0RMS_01</zorder>
+      <zorder>checkBoxNoTRG_01</zorder>
+      <zorder>labelTextCh_01</zorder>
      </widget>
      <widget class="QFrame" name="frame_02">
       <property name="geometry">
@@ -6342,7 +6395,7 @@ correction</string>
        <string notr="true"/>
       </property>
       <property name="autoFillBackground">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -8230,10 +8283,10 @@ correction</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherCh_02">
+      <widget class="Switch" name="SwitcherCh_02" native="true">
        <property name="geometry">
         <rect>
-         <x>23</x>
+         <x>25</x>
          <y>7</y>
          <width>18</width>
          <height>30</height>
@@ -8280,10 +8333,10 @@ correction</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="checked">
+       <property name="checked" stdset="0">
         <bool>true</bool>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -8388,8 +8441,8 @@ correction</string>
         <rect>
          <x>49</x>
          <y>15</y>
-         <width>14</width>
-         <height>14</height>
+         <width>17</width>
+         <height>17</height>
         </rect>
        </property>
        <property name="font">
@@ -8414,6 +8467,12 @@ correction</string>
        </property>
        <property name="accessibleDescription">
         <string notr="true"/>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QCheckBox {
+	background-color: transparent;
+	border: 2px solid transparent;
+}</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -10333,10 +10392,10 @@ correction</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherCh_03">
+      <widget class="Switch" name="SwitcherCh_03" native="true">
        <property name="geometry">
         <rect>
-         <x>24</x>
+         <x>26</x>
          <y>7</y>
          <width>18</width>
          <height>30</height>
@@ -10383,7 +10442,7 @@ correction</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -10488,8 +10547,8 @@ correction</string>
         <rect>
          <x>50</x>
          <y>15</y>
-         <width>14</width>
-         <height>14</height>
+         <width>17</width>
+         <height>17</height>
         </rect>
        </property>
        <property name="font">
@@ -10516,7 +10575,10 @@ correction</string>
         <string notr="true"/>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);</string>
+        <string notr="true">QCheckBox {
+	background-color: transparent;
+	border: 2px solid transparent;
+}</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -10551,7 +10613,7 @@ correction</string>
        <string notr="true"/>
       </property>
       <property name="autoFillBackground">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -12439,10 +12501,10 @@ correction</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherCh_04">
+      <widget class="Switch" name="SwitcherCh_04" native="true">
        <property name="geometry">
         <rect>
-         <x>23</x>
+         <x>25</x>
          <y>7</y>
          <width>18</width>
          <height>30</height>
@@ -12489,10 +12551,10 @@ correction</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="checked">
+       <property name="checked" stdset="0">
         <bool>true</bool>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -12597,8 +12659,8 @@ correction</string>
         <rect>
          <x>49</x>
          <y>15</y>
-         <width>14</width>
-         <height>14</height>
+         <width>17</width>
+         <height>17</height>
         </rect>
        </property>
        <property name="font">
@@ -12623,6 +12685,12 @@ correction</string>
        </property>
        <property name="accessibleDescription">
         <string notr="true"/>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QCheckBox {
+	background-color: transparent;
+	border: 2px solid transparent;
+}</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -14545,10 +14613,10 @@ correction</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherCh_05">
+      <widget class="Switch" name="SwitcherCh_05" native="true">
        <property name="geometry">
         <rect>
-         <x>24</x>
+         <x>26</x>
          <y>7</y>
          <width>18</width>
          <height>30</height>
@@ -14595,10 +14663,10 @@ correction</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="checked">
+       <property name="checked" stdset="0">
         <bool>true</bool>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -14703,8 +14771,8 @@ correction</string>
         <rect>
          <x>50</x>
          <y>15</y>
-         <width>14</width>
-         <height>14</height>
+         <width>17</width>
+         <height>17</height>
         </rect>
        </property>
        <property name="font">
@@ -14731,7 +14799,10 @@ correction</string>
         <string notr="true"/>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);</string>
+        <string notr="true">QCheckBox {
+	background-color: transparent;
+	border: 2px solid transparent;
+}</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -14766,7 +14837,7 @@ correction</string>
        <string notr="true"/>
       </property>
       <property name="autoFillBackground">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -16654,10 +16725,10 @@ correction</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherCh_06">
+      <widget class="Switch" name="SwitcherCh_06" native="true">
        <property name="geometry">
         <rect>
-         <x>23</x>
+         <x>25</x>
          <y>7</y>
          <width>18</width>
          <height>30</height>
@@ -16704,10 +16775,10 @@ correction</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="checked">
+       <property name="checked" stdset="0">
         <bool>true</bool>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -16812,8 +16883,8 @@ correction</string>
         <rect>
          <x>49</x>
          <y>15</y>
-         <width>14</width>
-         <height>14</height>
+         <width>17</width>
+         <height>17</height>
         </rect>
        </property>
        <property name="font">
@@ -16838,6 +16909,12 @@ correction</string>
        </property>
        <property name="accessibleDescription">
         <string notr="true"/>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QCheckBox {
+	background-color: transparent;
+	border: 2px solid transparent;
+}</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -18760,10 +18837,10 @@ correction</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherCh_07">
+      <widget class="Switch" name="SwitcherCh_07" native="true">
        <property name="geometry">
         <rect>
-         <x>24</x>
+         <x>26</x>
          <y>7</y>
          <width>18</width>
          <height>30</height>
@@ -18810,7 +18887,7 @@ correction</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -18915,8 +18992,8 @@ correction</string>
         <rect>
          <x>50</x>
          <y>15</y>
-         <width>14</width>
-         <height>14</height>
+         <width>17</width>
+         <height>17</height>
         </rect>
        </property>
        <property name="font">
@@ -18943,7 +19020,10 @@ correction</string>
         <string notr="true"/>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);</string>
+        <string notr="true">QCheckBox {
+	background-color: transparent;
+	border: 2px solid transparent;
+}</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -18978,7 +19058,7 @@ correction</string>
        <string notr="true"/>
       </property>
       <property name="autoFillBackground">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -20866,10 +20946,10 @@ correction</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherCh_08">
+      <widget class="Switch" name="SwitcherCh_08" native="true">
        <property name="geometry">
         <rect>
-         <x>23</x>
+         <x>25</x>
          <y>7</y>
          <width>18</width>
          <height>30</height>
@@ -20916,10 +20996,10 @@ correction</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="checked">
+       <property name="checked" stdset="0">
         <bool>true</bool>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -21024,8 +21104,8 @@ correction</string>
         <rect>
          <x>49</x>
          <y>15</y>
-         <width>14</width>
-         <height>14</height>
+         <width>17</width>
+         <height>17</height>
         </rect>
        </property>
        <property name="font">
@@ -21050,6 +21130,12 @@ correction</string>
        </property>
        <property name="accessibleDescription">
         <string notr="true"/>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QCheckBox {
+	background-color: transparent;
+	border: 2px solid transparent;
+}</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -22972,10 +23058,10 @@ correction</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherCh_09">
+      <widget class="Switch" name="SwitcherCh_09" native="true">
        <property name="geometry">
         <rect>
-         <x>24</x>
+         <x>26</x>
          <y>7</y>
          <width>18</width>
          <height>30</height>
@@ -23022,7 +23108,7 @@ correction</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -23127,8 +23213,8 @@ correction</string>
         <rect>
          <x>50</x>
          <y>15</y>
-         <width>14</width>
-         <height>14</height>
+         <width>17</width>
+         <height>17</height>
         </rect>
        </property>
        <property name="font">
@@ -23155,7 +23241,10 @@ correction</string>
         <string notr="true"/>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);</string>
+        <string notr="true">QCheckBox {
+	background-color: transparent;
+	border: 2px solid transparent;
+}</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -23190,7 +23279,7 @@ correction</string>
        <string notr="true"/>
       </property>
       <property name="autoFillBackground">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -25078,10 +25167,10 @@ correction</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherCh_10">
+      <widget class="Switch" name="SwitcherCh_10" native="true">
        <property name="geometry">
         <rect>
-         <x>23</x>
+         <x>25</x>
          <y>7</y>
          <width>18</width>
          <height>30</height>
@@ -25128,7 +25217,7 @@ correction</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -25233,8 +25322,8 @@ correction</string>
         <rect>
          <x>49</x>
          <y>15</y>
-         <width>14</width>
-         <height>14</height>
+         <width>17</width>
+         <height>17</height>
         </rect>
        </property>
        <property name="font">
@@ -25259,6 +25348,12 @@ correction</string>
        </property>
        <property name="accessibleDescription">
         <string notr="true"/>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QCheckBox {
+	background-color: transparent;
+	border: 2px solid transparent;
+}</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -27181,10 +27276,10 @@ correction</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherCh_11">
+      <widget class="Switch" name="SwitcherCh_11" native="true">
        <property name="geometry">
         <rect>
-         <x>24</x>
+         <x>26</x>
          <y>7</y>
          <width>18</width>
          <height>30</height>
@@ -27231,10 +27326,10 @@ correction</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="checked">
+       <property name="checked" stdset="0">
         <bool>true</bool>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -27339,8 +27434,8 @@ correction</string>
         <rect>
          <x>50</x>
          <y>15</y>
-         <width>14</width>
-         <height>14</height>
+         <width>17</width>
+         <height>17</height>
         </rect>
        </property>
        <property name="font">
@@ -27367,7 +27462,10 @@ correction</string>
         <string notr="true"/>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);</string>
+        <string notr="true">QCheckBox {
+	background-color: transparent;
+	border: 2px solid transparent;
+}</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -27402,7 +27500,7 @@ correction</string>
        <string notr="true"/>
       </property>
       <property name="autoFillBackground">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -29290,10 +29388,10 @@ correction</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherCh_12">
+      <widget class="Switch" name="SwitcherCh_12" native="true">
        <property name="geometry">
         <rect>
-         <x>23</x>
+         <x>25</x>
          <y>7</y>
          <width>18</width>
          <height>30</height>
@@ -29340,10 +29438,10 @@ correction</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="checked">
+       <property name="checked" stdset="0">
         <bool>true</bool>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -29448,8 +29546,8 @@ correction</string>
         <rect>
          <x>49</x>
          <y>15</y>
-         <width>14</width>
-         <height>14</height>
+         <width>17</width>
+         <height>17</height>
         </rect>
        </property>
        <property name="font">
@@ -29475,6 +29573,12 @@ correction</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QCheckBox {
+	background-color: transparent;
+	border: 2px solid transparent;
+}</string>
+       </property>
        <property name="text">
         <string notr="true"/>
        </property>
@@ -29487,9 +29591,9 @@ correction</string>
       <property name="geometry">
        <rect>
         <x>547</x>
-        <y>10</y>
+        <y>14</y>
         <width>35</width>
-        <height>30</height>
+        <height>22</height>
        </rect>
       </property>
       <property name="font">
@@ -29615,148 +29719,13 @@ correction</string>
        <string>Reset counts</string>
       </property>
      </widget>
-     <widget class="Line" name="lineL">
+     <widget class="QLabel" name="labelTextChOn">
       <property name="geometry">
        <rect>
-        <x>367</x>
-        <y>10</y>
-        <width>3</width>
-        <height>559</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelTextADC0">
-      <property name="geometry">
-       <rect>
-        <x>357</x>
-        <y>9</y>
-        <width>32</width>
-        <height>12</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="autoFillBackground">
-       <bool>true</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string>ADC0</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelTextADC1">
-      <property name="geometry">
-       <rect>
-        <x>357</x>
-        <y>20</y>
-        <width>32</width>
-        <height>12</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="autoFillBackground">
-       <bool>true</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string>ADC1</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="Line" name="lineR">
-      <property name="geometry">
-       <rect>
-        <x>586</x>
-        <y>10</y>
-        <width>3</width>
-        <height>559</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-     <widget class="Line" name="lineT">
-      <property name="geometry">
-       <rect>
-        <x>368</x>
-        <y>10</y>
-        <width>217</width>
-        <height>3</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelTextChOnOff">
-      <property name="geometry">
-       <rect>
-        <x>24</x>
+        <x>26</x>
         <y>10</y>
         <width>18</width>
-        <height>30</height>
+        <height>15</height>
        </rect>
       </property>
       <property name="font">
@@ -29789,8 +29758,7 @@ correction</string>
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string>On
-Off</string>
+       <string>On</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -29800,9 +29768,9 @@ Off</string>
       <property name="geometry">
        <rect>
         <x>47</x>
-        <y>10</y>
+        <y>14</y>
         <width>22</width>
-        <height>30</height>
+        <height>10</height>
        </rect>
       </property>
       <property name="font">
@@ -29835,26 +29803,555 @@ Off</string>
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string>No
-TRG</string>
+       <string>No</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <zorder>labelTextCFDzero</zorder>
-     <zorder>labelTextCFDthreshold</zorder>
-     <zorder>labelTextADCzero</zorder>
-     <zorder>labelTextADCdelay</zorder>
-     <zorder>labelTextTimeAlignment</zorder>
-     <zorder>labelTextThresholdCalibr</zorder>
-     <zorder>labelTextADCmeanAmplitude</zorder>
-     <zorder>labelTextChCounter</zorder>
-     <zorder>labelTextADCbaseLine</zorder>
-     <zorder>labelTextTDCrawData</zorder>
-     <zorder>labelTextRaw</zorder>
-     <zorder>labelTextData</zorder>
-     <zorder>labelTextRangeCorrection</zorder>
+     <widget class="QGroupBox" name="groupBoxADC01big">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>9</y>
+        <width>229</width>
+        <height>559</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox {
+    border: 1px solid gray;
+}</string>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="title">
+       <string notr="true"/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <widget class="QGroupBox" name="groupBoxADC01small">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>35</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QGroupBox {
+    border: 1px solid gray;
+}</string>
+       </property>
+       <property name="locale">
+        <locale language="English" country="World"/>
+       </property>
+       <property name="title">
+        <string notr="true"/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+       <widget class="QLabel" name="labelTextADC1">
+        <property name="geometry">
+         <rect>
+          <x>1</x>
+          <y>17</y>
+          <width>33</width>
+          <height>18</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string notr="true"/>
+        </property>
+        <property name="statusTip">
+         <string notr="true"/>
+        </property>
+        <property name="whatsThis">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleName">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleDescription">
+         <string notr="true"/>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="locale">
+         <locale language="English" country="World"/>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="text">
+         <string>ADC1</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelTextADC0">
+        <property name="geometry">
+         <rect>
+          <x>1</x>
+          <y>1</y>
+          <width>33</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string notr="true"/>
+        </property>
+        <property name="statusTip">
+         <string notr="true"/>
+        </property>
+        <property name="whatsThis">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleName">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleDescription">
+         <string notr="true"/>
+        </property>
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
+        <property name="locale">
+         <locale language="English" country="World"/>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="text">
+         <string>ADC0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignHCenter|Qt::AlignTop</set>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="labelTextCorrection">
+      <property name="geometry">
+       <rect>
+        <x>396</x>
+        <y>25</y>
+        <width>56</width>
+        <height>10</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="text">
+       <string>correction</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextADCline">
+      <property name="geometry">
+       <rect>
+        <x>466</x>
+        <y>25</y>
+        <width>30</width>
+        <height>10</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="text">
+       <string>line</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextADCcharge">
+      <property name="geometry">
+       <rect>
+        <x>502</x>
+        <y>24</y>
+        <width>37</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="text">
+       <string>charge</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextTRG">
+      <property name="geometry">
+       <rect>
+        <x>47</x>
+        <y>25</y>
+        <width>22</width>
+        <height>10</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true">non-triggering channel</string>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="text">
+       <string>TRG</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextChOff">
+      <property name="geometry">
+       <rect>
+        <x>26</x>
+        <y>28</y>
+        <width>18</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="text">
+       <string>Off</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextChTRGcount">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>28</y>
+        <width>60</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="text">
+       <string>TRG count</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBoxPairChannels">
+      <property name="geometry">
+       <rect>
+        <x>6</x>
+        <y>29</y>
+        <width>14</width>
+        <height>14</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelTextPairChannels">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>16</y>
+        <width>25</width>
+        <height>15</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Enable/disable coincidence mode (telescope logic):&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;time triggers for each channel will be produced only together with another channel in a pair.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="toolTipDuration">
+       <number>2147483647</number>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="text">
+       <string>Pair</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <zorder>groupBoxADC01big</zorder>
      <zorder>frame_01</zorder>
      <zorder>frame_02</zorder>
      <zorder>frame_03</zorder>
@@ -29867,16 +30364,32 @@ TRG</string>
      <zorder>frame_10</zorder>
      <zorder>frame_11</zorder>
      <zorder>frame_12</zorder>
+     <zorder>labelTextCFDzero</zorder>
+     <zorder>labelTextCFDthreshold</zorder>
+     <zorder>labelTextADCzero</zorder>
+     <zorder>labelTextADCdelay</zorder>
+     <zorder>labelTextTimeAlignment</zorder>
+     <zorder>labelTextThresholdCalibr</zorder>
+     <zorder>labelTextADCmean</zorder>
+     <zorder>labelTextChCFDcount</zorder>
+     <zorder>labelTextADCbaseLine</zorder>
+     <zorder>labelTextTDCrawData</zorder>
+     <zorder>labelTextRaw</zorder>
+     <zorder>labelTextData</zorder>
+     <zorder>labelTextRangeCorrection</zorder>
      <zorder>labelTextADCRMS</zorder>
      <zorder>labelTextChRate</zorder>
      <zorder>buttonResetChCounters</zorder>
-     <zorder>lineL</zorder>
-     <zorder>lineT</zorder>
-     <zorder>labelTextADC0</zorder>
-     <zorder>labelTextADC1</zorder>
-     <zorder>lineR</zorder>
-     <zorder>labelTextChOnOff</zorder>
+     <zorder>labelTextChOn</zorder>
      <zorder>labelTextNoTRG</zorder>
+     <zorder>labelTextCorrection</zorder>
+     <zorder>labelTextADCline</zorder>
+     <zorder>labelTextADCcharge</zorder>
+     <zorder>labelTextTRG</zorder>
+     <zorder>labelTextChOff</zorder>
+     <zorder>labelTextChTRGcount</zorder>
+     <zorder>checkBoxPairChannels</zorder>
+     <zorder>labelTextPairChannels</zorder>
     </widget>
     <widget class="QGroupBox" name="groupBoxTDCStatus">
      <property name="geometry">
@@ -29912,6 +30425,9 @@ TRG</string>
      </property>
      <property name="title">
       <string>Clock sync</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
      <widget class="QLabel" name="labelTextMainPLLlocked">
       <property name="geometry">
@@ -32626,9 +33142,9 @@ TRG</string>
      <widget class="QLabel" name="labelTextLevels">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>4</x>
         <y>12</y>
-        <width>70</width>
+        <width>75</width>
         <height>12</height>
        </rect>
       </property>
@@ -32662,7 +33178,7 @@ TRG</string>
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>Levels</string>
+       <string>Limits per Ch:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -33455,9 +33971,6 @@ gate</string>
       <property name="autoExclusive">
        <bool>false</bool>
       </property>
-      <property name="flat">
-       <bool>false</bool>
-      </property>
      </widget>
      <widget class="QLabel" name="labelTextChargeHigh">
       <property name="geometry">
@@ -33724,6 +34237,120 @@ gate</string>
       </property>
      </widget>
     </widget>
+    <widget class="Line" name="line_0506">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>263</y>
+       <width>2</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_1112">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>527</y>
+       <width>2</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_0102">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>88</y>
+       <width>2</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_0304">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>176</y>
+       <width>2</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_0708">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>351</y>
+       <width>2</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_0910">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>439</y>
+       <width>2</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBoxTCM">
     <property name="geometry">
@@ -33756,6 +34383,19 @@ gate</string>
     </property>
     <property name="accessibleDescription">
      <string notr="true"/>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox#groupBoxTCM {
+    background-color: palette(button);
+    border: 1px solid gray;
+    margin-top: 0.5em;
+}
+
+QGroupBox#groupBoxTCM::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    left: 2ex;
+}</string>
     </property>
     <property name="title">
      <string>TCM</string>
@@ -34588,214 +35228,6 @@ gate</string>
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="QPushButton" name="buttonApplyORgate_A">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>338</x>
-        <y>72</y>
-        <width>20</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="toolTip">
-       <string>Write</string>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string notr="true"/>
-      </property>
-      <property name="icon">
-       <iconset resource="../!images/img.qrc">
-        <normaloff>:/write.png</normaloff>:/write.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>16</width>
-        <height>16</height>
-       </size>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelTextORgate_A">
-      <property name="geometry">
-       <rect>
-        <x>157</x>
-        <y>72</y>
-        <width>63</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>OR gate, ns:</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="spinBoxORgate_A">
-      <property name="geometry">
-       <rect>
-        <x>267</x>
-        <y>71</y>
-        <width>73</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::PlusMinus</enum>
-      </property>
-      <property name="accelerated">
-       <bool>true</bool>
-      </property>
-      <property name="decimals">
-       <number>3</number>
-      </property>
-      <property name="minimum">
-       <double>0.000000000000000</double>
-      </property>
-      <property name="maximum">
-       <double>3.310000000000000</double>
-      </property>
-      <property name="singleStep">
-       <double>0.013000000000000</double>
-      </property>
-      <property name="value">
-       <double>3.310000000000000</double>
-      </property>
-     </widget>
-     <widget class="ActualLabel" name="labelValueORgate_A">
-      <property name="geometry">
-       <rect>
-        <x>223</x>
-        <y>72</y>
-        <width>42</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>diff</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
      <widget class="QLabel" name="labelTextAverageTime_A">
       <property name="geometry">
        <rect>
@@ -35495,109 +35927,6 @@ gate</string>
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="ActualLabel" name="labelValueORgate_C">
-      <property name="geometry">
-       <rect>
-        <x>223</x>
-        <y>72</y>
-        <width>42</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>±3.315</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="buttonApplyORgate_C">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>338</x>
-        <y>72</y>
-        <width>20</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="toolTip">
-       <string>Write</string>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string notr="true"/>
-      </property>
-      <property name="icon">
-       <iconset resource="../!images/img.qrc">
-        <normaloff>:/write.png</normaloff>:/write.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>16</width>
-        <height>16</height>
-       </size>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
-     </widget>
      <widget class="QLabel" name="labelTextPhase_C">
       <property name="geometry">
        <rect>
@@ -35641,111 +35970,6 @@ gate</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="spinBoxORgate_C">
-      <property name="geometry">
-       <rect>
-        <x>267</x>
-        <y>71</y>
-        <width>73</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::PlusMinus</enum>
-      </property>
-      <property name="accelerated">
-       <bool>true</bool>
-      </property>
-      <property name="decimals">
-       <number>3</number>
-      </property>
-      <property name="minimum">
-       <double>0.000000000000000</double>
-      </property>
-      <property name="maximum">
-       <double>3.310000000000000</double>
-      </property>
-      <property name="singleStep">
-       <double>0.013000000000000</double>
-      </property>
-      <property name="value">
-       <double>3.310000000000000</double>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelTextORgate_C">
-      <property name="geometry">
-       <rect>
-        <x>157</x>
-        <y>72</y>
-        <width>63</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>OR gate, ns:</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QPushButton" name="buttonApplyPhase_C">
@@ -36074,9 +36298,9 @@ gate</string>
       <widget class="ActualLabel" name="labelValueTriggersRandomRate_1">
        <property name="geometry">
         <rect>
-         <x>230</x>
+         <x>229</x>
          <y>5</y>
-         <width>56</width>
+         <width>57</width>
          <height>20</height>
         </rect>
        </property>
@@ -36429,7 +36653,7 @@ gate</string>
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherTriggers_1">
+      <widget class="Switch" name="SwitcherTriggers_1" native="true">
        <property name="geometry">
         <rect>
          <x>81</x>
@@ -36464,10 +36688,10 @@ gate</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="checked">
+       <property name="checked" stdset="0">
         <bool>true</bool>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -36520,7 +36744,7 @@ gate</string>
      <widget class="QLabel" name="labelTextTriggersOffOn">
       <property name="geometry">
        <rect>
-        <x>76</x>
+        <x>71</x>
         <y>10</y>
         <width>40</width>
         <height>14</height>
@@ -36565,9 +36789,9 @@ gate</string>
      <widget class="QLabel" name="labelTextTriggersMode">
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>114</x>
         <y>10</y>
-        <width>65</width>
+        <width>70</width>
         <height>14</height>
        </rect>
       </property>
@@ -36601,7 +36825,7 @@ gate</string>
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string>Mode</string>
+       <string>Output mode</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -36868,9 +37092,9 @@ gate</string>
       <widget class="ActualLabel" name="labelValueTriggersRandomRate_2">
        <property name="geometry">
         <rect>
-         <x>230</x>
+         <x>229</x>
          <y>6</y>
-         <width>56</width>
+         <width>57</width>
          <height>20</height>
         </rect>
        </property>
@@ -37226,7 +37450,7 @@ gate</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherTriggers_2">
+      <widget class="Switch" name="SwitcherTriggers_2" native="true">
        <property name="geometry">
         <rect>
          <x>81</x>
@@ -37261,10 +37485,10 @@ gate</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="checked">
+       <property name="checked" stdset="0">
         <bool>true</bool>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -37308,9 +37532,9 @@ gate</string>
       <widget class="ActualLabel" name="labelValueTriggersRandomRate_5">
        <property name="geometry">
         <rect>
-         <x>230</x>
+         <x>229</x>
          <y>6</y>
-         <width>56</width>
+         <width>57</width>
          <height>20</height>
         </rect>
        </property>
@@ -37663,7 +37887,7 @@ gate</string>
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherTriggers_5">
+      <widget class="Switch" name="SwitcherTriggers_5" native="true">
        <property name="geometry">
         <rect>
          <x>81</x>
@@ -37698,10 +37922,10 @@ gate</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="checked">
+       <property name="checked" stdset="0">
         <bool>true</bool>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -37742,9 +37966,9 @@ gate</string>
       <widget class="ActualLabel" name="labelValueTriggersRandomRate_4">
        <property name="geometry">
         <rect>
-         <x>230</x>
+         <x>229</x>
          <y>5</y>
-         <width>56</width>
+         <width>57</width>
          <height>20</height>
         </rect>
        </property>
@@ -38097,7 +38321,7 @@ gate</string>
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherTriggers_4">
+      <widget class="Switch" name="SwitcherTriggers_4" native="true">
        <property name="geometry">
         <rect>
          <x>81</x>
@@ -38132,10 +38356,10 @@ gate</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="checked">
+       <property name="checked" stdset="0">
         <bool>true</bool>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -38179,9 +38403,9 @@ gate</string>
       <widget class="ActualLabel" name="labelValueTriggersRandomRate_3">
        <property name="geometry">
         <rect>
-         <x>230</x>
+         <x>229</x>
          <y>5</y>
-         <width>56</width>
+         <width>57</width>
          <height>20</height>
         </rect>
        </property>
@@ -38534,7 +38758,7 @@ gate</string>
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherTriggers_3">
+      <widget class="Switch" name="SwitcherTriggers_3" native="true">
        <property name="geometry">
         <rect>
          <x>81</x>
@@ -38569,12 +38793,497 @@ gate</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
        </property>
-       <property name="checked">
+       <property name="checked" stdset="0">
         <bool>true</bool>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
+      </widget>
+      <widget class="QGroupBox" name="groupBoxTimeThresholds">
+       <property name="geometry">
+        <rect>
+         <x>373</x>
+         <y>-3</y>
+         <width>244</width>
+         <height>33</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QGroupBox {
+    background-color: transparent;
+    border: 1px solid gray;
+	margin-top: 0.5em;
+}
+
+QGroupBox::title {
+	subcontrol-origin: margin;
+	subcontrol-position: top center;
+}</string>
+       </property>
+       <property name="locale">
+        <locale language="English" country="World"/>
+       </property>
+       <property name="title">
+        <string notr="true">Time thresholds</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+       <widget class="QPushButton" name="buttonApplyVertexTimeHigh">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>221</x>
+          <y>12</y>
+          <width>20</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>10</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="toolTip">
+         <string notr="true">Write</string>
+        </property>
+        <property name="statusTip">
+         <string notr="true"/>
+        </property>
+        <property name="whatsThis">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleName">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleDescription">
+         <string notr="true"/>
+        </property>
+        <property name="locale">
+         <locale language="English" country="World"/>
+        </property>
+        <property name="text">
+         <string notr="true"/>
+        </property>
+        <property name="icon">
+         <iconset resource="../!images/img.qrc">
+          <normaloff>:/write.png</normaloff>:/write.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditVertexTimeHigh">
+        <property name="geometry">
+         <rect>
+          <x>185</x>
+          <y>13</y>
+          <width>36</width>
+          <height>18</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>10</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string notr="true"/>
+        </property>
+        <property name="statusTip">
+         <string notr="true"/>
+        </property>
+        <property name="whatsThis">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleName">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleDescription">
+         <string notr="true"/>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="locale">
+         <locale language="English" country="World"/>
+        </property>
+        <property name="inputMask">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>511</string>
+        </property>
+        <property name="maxLength">
+         <number>4</number>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="placeholderText">
+         <string notr="true"/>
+        </property>
+        <property name="clearButtonEnabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelTextVertexTimeLow">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>12</y>
+          <width>30</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>10</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string notr="true"/>
+        </property>
+        <property name="statusTip">
+         <string notr="true"/>
+        </property>
+        <property name="whatsThis">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleName">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleDescription">
+         <string notr="true"/>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+        </property>
+        <property name="locale">
+         <locale language="English" country="World"/>
+        </property>
+        <property name="text">
+         <string>low:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="buttonApplyVertexTimeLow">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>95</x>
+          <y>12</y>
+          <width>20</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>10</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="toolTip">
+         <string notr="true">Write</string>
+        </property>
+        <property name="statusTip">
+         <string notr="true"/>
+        </property>
+        <property name="whatsThis">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleName">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleDescription">
+         <string notr="true"/>
+        </property>
+        <property name="locale">
+         <locale language="English" country="World"/>
+        </property>
+        <property name="text">
+         <string notr="true"/>
+        </property>
+        <property name="icon">
+         <iconset resource="../!images/img.qrc">
+          <normaloff>:/write.png</normaloff>:/write.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelTextVertexTimeHigh">
+        <property name="geometry">
+         <rect>
+          <x>125</x>
+          <y>12</y>
+          <width>30</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>10</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string notr="true"/>
+        </property>
+        <property name="statusTip">
+         <string notr="true"/>
+        </property>
+        <property name="whatsThis">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleName">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleDescription">
+         <string notr="true"/>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+        </property>
+        <property name="locale">
+         <locale language="English" country="World"/>
+        </property>
+        <property name="text">
+         <string>high:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="ActualLabel" name="labelValueVertexTimeHigh">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>12</y>
+          <width>34</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>10</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string notr="true"/>
+        </property>
+        <property name="statusTip">
+         <string notr="true"/>
+        </property>
+        <property name="whatsThis">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleName">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleDescription">
+         <string notr="true"/>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+        </property>
+        <property name="text">
+         <string>511</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+       <widget class="ActualLabel" name="labelValueVertexTimeLow">
+        <property name="geometry">
+         <rect>
+          <x>25</x>
+          <y>12</y>
+          <width>34</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>10</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string notr="true"/>
+        </property>
+        <property name="statusTip">
+         <string notr="true"/>
+        </property>
+        <property name="whatsThis">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleName">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleDescription">
+         <string notr="true"/>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+        </property>
+        <property name="text">
+         <string>-512</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditVertexTimeLow">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>13</y>
+          <width>36</width>
+          <height>18</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>10</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string notr="true"/>
+        </property>
+        <property name="statusTip">
+         <string notr="true"/>
+        </property>
+        <property name="whatsThis">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleName">
+         <string notr="true"/>
+        </property>
+        <property name="accessibleDescription">
+         <string notr="true"/>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="locale">
+         <locale language="English" country="World"/>
+        </property>
+        <property name="inputMask">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>-512</string>
+        </property>
+        <property name="maxLength">
+         <number>4</number>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="placeholderText">
+         <string notr="true"/>
+        </property>
+        <property name="clearButtonEnabled">
+         <bool>false</bool>
+        </property>
+       </widget>
       </widget>
      </widget>
      <widget class="QComboBox" name="comboBoxTriggersMode_1">
@@ -38721,9 +39430,9 @@ gate</string>
      <widget class="QGroupBox" name="groupBoxCentralityMode">
       <property name="geometry">
        <rect>
-        <x>469</x>
+        <x>470</x>
         <y>8</y>
-        <width>51</width>
+        <width>50</width>
         <height>75</height>
        </rect>
       </property>
@@ -38751,7 +39460,19 @@ gate</string>
        <string notr="true"/>
       </property>
       <property name="autoFillBackground">
-       <bool>true</bool>
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox {
+    background-color: palette(button);
+    border: 1px solid gray;
+	margin-top: 0.5em;
+}
+
+QGroupBox::title {
+	subcontrol-origin: margin;
+	subcontrol-position: top center;
+}</string>
       </property>
       <property name="locale">
        <locale language="English" country="World"/>
@@ -38759,15 +39480,18 @@ gate</string>
       <property name="title">
        <string notr="true">mode</string>
       </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
       <property name="flat">
        <bool>false</bool>
       </property>
       <widget class="QRadioButton" name="radioButtonAandC">
        <property name="geometry">
         <rect>
-         <x>5</x>
+         <x>3</x>
          <y>14</y>
-         <width>50</width>
+         <width>44</width>
          <height>15</height>
         </rect>
        </property>
@@ -38801,12 +39525,12 @@ gate</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButtonA">
+      <widget class="QRadioButton" name="radioButtonC">
        <property name="geometry">
         <rect>
-         <x>5</x>
+         <x>3</x>
          <y>29</y>
-         <width>50</width>
+         <width>44</width>
          <height>15</height>
         </rect>
        </property>
@@ -38834,15 +39558,15 @@ gate</string>
         <string notr="true"/>
        </property>
        <property name="text">
-        <string notr="true">A</string>
+        <string notr="true">C</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButtonC">
+      <widget class="QRadioButton" name="radioButtonA">
        <property name="geometry">
         <rect>
-         <x>5</x>
+         <x>3</x>
          <y>44</y>
-         <width>50</width>
+         <width>44</width>
          <height>15</height>
         </rect>
        </property>
@@ -38869,16 +39593,19 @@ gate</string>
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255,211,128);</string>
+       </property>
        <property name="text">
-        <string notr="true">C</string>
+        <string notr="true">A</string>
        </property>
       </widget>
       <widget class="QRadioButton" name="radioButtonSum">
        <property name="geometry">
         <rect>
-         <x>5</x>
+         <x>3</x>
          <y>59</y>
-         <width>50</width>
+         <width>44</width>
          <height>15</height>
         </rect>
        </property>
@@ -38956,479 +39683,6 @@ gate</string>
       </property>
       <property name="text">
        <string>Reset</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="buttonApplyVertexTimeHigh">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>594</x>
-        <y>96</y>
-        <width>20</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="toolTip">
-       <string notr="true">Write</string>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string notr="true"/>
-      </property>
-      <property name="icon">
-       <iconset resource="../!images/img.qrc">
-        <normaloff>:/write.png</normaloff>:/write.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>16</width>
-        <height>16</height>
-       </size>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="ActualLabel" name="labelValueVertexTimeHigh">
-      <property name="geometry">
-       <rect>
-        <x>523</x>
-        <y>96</y>
-        <width>34</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
-      </property>
-      <property name="text">
-       <string>511</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="buttonApplyVertexTimeLow">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>468</x>
-        <y>96</y>
-        <width>20</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="toolTip">
-       <string notr="true">Write</string>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string notr="true"/>
-      </property>
-      <property name="icon">
-       <iconset resource="../!images/img.qrc">
-        <normaloff>:/write.png</normaloff>:/write.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>16</width>
-        <height>16</height>
-       </size>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEditVertexTimeHigh">
-      <property name="geometry">
-       <rect>
-        <x>558</x>
-        <y>97</y>
-        <width>36</width>
-        <height>18</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="inputMask">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>511</string>
-      </property>
-      <property name="maxLength">
-       <number>4</number>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-      <property name="placeholderText">
-       <string notr="true"/>
-      </property>
-      <property name="clearButtonEnabled">
-       <bool>false</bool>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelTextVertexTimeLow">
-      <property name="geometry">
-       <rect>
-        <x>373</x>
-        <y>96</y>
-        <width>30</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string>low:</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="ActualLabel" name="labelValueVertexTimeLow">
-      <property name="geometry">
-       <rect>
-        <x>398</x>
-        <y>96</y>
-        <width>34</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
-      </property>
-      <property name="text">
-       <string>-512</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelTextVertexTimeThresholds">
-      <property name="geometry">
-       <rect>
-        <x>379</x>
-        <y>85</y>
-        <width>235</width>
-        <height>10</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string>┌----------------- Time thresholds ----------------┐</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelTextVertexTimeHigh">
-      <property name="geometry">
-       <rect>
-        <x>498</x>
-        <y>96</y>
-        <width>30</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="text">
-       <string>high:</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEditVertexTimeLow">
-      <property name="geometry">
-       <rect>
-        <x>433</x>
-        <y>97</y>
-        <width>36</width>
-        <height>18</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string notr="true"/>
-      </property>
-      <property name="statusTip">
-       <string notr="true"/>
-      </property>
-      <property name="whatsThis">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleName">
-       <string notr="true"/>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
-      </property>
-      <property name="locale">
-       <locale language="English" country="World"/>
-      </property>
-      <property name="inputMask">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>-512</string>
-      </property>
-      <property name="maxLength">
-       <number>4</number>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-      <property name="placeholderText">
-       <string notr="true"/>
-      </property>
-      <property name="clearButtonEnabled">
-       <bool>false</bool>
       </property>
      </widget>
      <widget class="QComboBox" name="comboBoxTriggersMode_2">
@@ -40251,6 +40505,9 @@ gate</string>
       <property name="checkable">
        <bool>true</bool>
       </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
       <property name="autoExclusive">
        <bool>false</bool>
       </property>
@@ -40296,6 +40553,13 @@ gate</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	background-color: rgb(255,211,128);
+	border: 1px solid gray;
+	margin: 1px;
+}</string>
+      </property>
       <property name="locale">
        <locale language="English" country="World"/>
       </property>
@@ -40306,14 +40570,708 @@ gate</string>
        <bool>true</bool>
       </property>
       <property name="checked">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="autoExclusive">
        <bool>false</bool>
       </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBoxChargeLimits">
+      <property name="geometry">
+       <rect>
+        <x>497</x>
+        <y>117</y>
+        <width>122</width>
+        <height>57</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox {
+    background-color: palette(button);
+    border: 1px solid gray;
+	margin-top: 0.5em;
+}
+
+QGroupBox::title {
+	subcontrol-origin: margin;
+	subcontrol-position: top center;
+}</string>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="title">
+       <string notr="true">Charge limits per Ch</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
       <property name="flat">
        <bool>false</bool>
       </property>
+      <widget class="QPushButton" name="buttonApplyChargeLowTCM">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>98</x>
+         <y>34</y>
+         <width>20</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string notr="true">Write</string>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="locale">
+        <locale language="English" country="World"/>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="icon">
+        <iconset resource="../!images/img.qrc">
+         <normaloff>:/write.png</normaloff>:/write.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelTextChargeHighTCM">
+       <property name="geometry">
+        <rect>
+         <x>3</x>
+         <y>15</y>
+         <width>29</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>high:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="buttonApplyChargeHighTCM">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>98</x>
+         <y>15</y>
+         <width>20</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string notr="true">Write</string>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="locale">
+        <locale language="English" country="World"/>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="icon">
+        <iconset resource="../!images/img.qrc">
+         <normaloff>:/write.png</normaloff>:/write.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEditChargeHighTCM">
+       <property name="geometry">
+        <rect>
+         <x>63</x>
+         <y>16</y>
+         <width>36</width>
+         <height>18</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="locale">
+        <locale language="English" country="World"/>
+       </property>
+       <property name="text">
+        <string>4095</string>
+       </property>
+       <property name="maxLength">
+        <number>4</number>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="placeholderText">
+        <string notr="true"/>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelTextChargeLowTCM">
+       <property name="geometry">
+        <rect>
+         <x>3</x>
+         <y>34</y>
+         <width>29</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>low:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="ActualLabel" name="labelValueChargeLowTCM">
+       <property name="geometry">
+        <rect>
+         <x>34</x>
+         <y>34</y>
+         <width>28</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>15</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEditChargeLowTCM">
+       <property name="geometry">
+        <rect>
+         <x>63</x>
+         <y>35</y>
+         <width>36</width>
+         <height>18</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="locale">
+        <locale language="English" country="World"/>
+       </property>
+       <property name="text">
+        <string>15</string>
+       </property>
+       <property name="maxLength">
+        <number>4</number>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="placeholderText">
+        <string notr="true"/>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="ActualLabel" name="labelValueChargeHighTCM">
+       <property name="geometry">
+        <rect>
+         <x>34</x>
+         <y>15</y>
+         <width>28</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>4095</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBoxOrGate">
+      <property name="geometry">
+       <rect>
+        <x>374</x>
+        <y>117</y>
+        <width>122</width>
+        <height>57</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox {
+    background-color: palette(button);
+    border: 1px solid gray;
+	margin-top: 0.5em;
+}
+
+QGroupBox::title {
+	subcontrol-origin: margin;
+	subcontrol-position: top left;
+	left: 2ex;
+}</string>
+      </property>
+      <property name="locale">
+       <locale language="English" country="World"/>
+      </property>
+      <property name="title">
+       <string notr="true">Or-gate, ns ±</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <widget class="QPushButton" name="buttonApplyORgateTCM">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>101</x>
+         <y>20</y>
+         <width>20</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string>Write</string>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="locale">
+        <locale language="English" country="World"/>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="icon">
+        <iconset resource="../!images/img.qrc">
+         <normaloff>:/write.png</normaloff>:/write.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="spinBoxORgateTCM">
+       <property name="geometry">
+        <rect>
+         <x>43</x>
+         <y>19</y>
+         <width>59</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::PlusMinus</enum>
+       </property>
+       <property name="accelerated">
+        <bool>true</bool>
+       </property>
+       <property name="decimals">
+        <number>3</number>
+       </property>
+       <property name="minimum">
+        <double>0.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>3.310000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.013000000000000</double>
+       </property>
+       <property name="value">
+        <double>3.310000000000000</double>
+       </property>
+      </widget>
+      <widget class="ActualLabel" name="labelValueORgateTCM">
+       <property name="geometry">
+        <rect>
+         <x>5</x>
+         <y>20</y>
+         <width>36</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string notr="true"/>
+       </property>
+       <property name="statusTip">
+        <string notr="true"/>
+       </property>
+       <property name="whatsThis">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="accessibleDescription">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>3.315</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QLabel" name="labelTextAddCdelay">
@@ -40361,7 +41319,7 @@ gate</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="Switch" name="SwitcherAddCdelay">
+    <widget class="Switch" name="SwitcherAddCdelay" native="true">
      <property name="geometry">
       <rect>
        <x>447</x>
@@ -40396,16 +41354,16 @@ gate</string>
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
     <widget class="QLabel" name="labelTextExtendedReadout">
      <property name="geometry">
       <rect>
-       <x>342</x>
+       <x>344</x>
        <y>103</y>
-       <width>95</width>
+       <width>97</width>
        <height>20</height>
       </rect>
      </property>
@@ -40445,7 +41403,7 @@ gate</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="Switch" name="SwitcherExtendedReadout">
+    <widget class="Switch" name="SwitcherExtendedReadout" native="true">
      <property name="geometry">
       <rect>
        <x>314</x>
@@ -40480,7 +41438,7 @@ gate</string>
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
@@ -40571,7 +41529,7 @@ gate</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="Switch" name="SwitcherExt1">
+    <widget class="Switch" name="SwitcherExt1" native="true">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -40606,7 +41564,7 @@ gate</string>
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
@@ -40655,7 +41613,7 @@ gate</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="Switch" name="SwitcherExt2">
+    <widget class="Switch" name="SwitcherExt2" native="true">
      <property name="geometry">
       <rect>
        <x>132</x>
@@ -40690,7 +41648,7 @@ gate</string>
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
@@ -40739,7 +41697,7 @@ gate</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="Switch" name="SwitcherExt3">
+    <widget class="Switch" name="SwitcherExt3" native="true">
      <property name="geometry">
       <rect>
        <x>227</x>
@@ -40774,7 +41732,7 @@ gate</string>
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
@@ -40823,7 +41781,7 @@ gate</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="Switch" name="SwitcherExt4">
+    <widget class="Switch" name="SwitcherExt4" native="true">
      <property name="geometry">
       <rect>
        <x>271</x>
@@ -40858,7 +41816,7 @@ gate</string>
      <property name="accessibleDescription">
       <string notr="true"/>
      </property>
-     <property name="checked">
+     <property name="checked" stdset="0">
       <bool>false</bool>
      </property>
     </widget>
@@ -41204,9 +42162,9 @@ gate</string>
      <widget class="QLabel" name="labelTextReadoutModeBoard">
       <property name="geometry">
        <rect>
-        <x>311</x>
+        <x>308</x>
         <y>235</y>
-        <width>115</width>
+        <width>118</width>
         <height>15</height>
        </rect>
       </property>
@@ -41564,7 +42522,7 @@ gate</string>
 GBT</string>
       </property>
      </widget>
-     <widget class="Switch" name="SwitcherLockReadout">
+     <widget class="Switch" name="SwitcherLockReadout" native="true">
       <property name="geometry">
        <rect>
         <x>102</x>
@@ -41599,10 +42557,10 @@ GBT</string>
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="checked">
+      <property name="checked" stdset="0">
        <bool>false</bool>
       </property>
-      <property name="SwitchOnClick">
+      <property name="SwitchOnClick" stdset="0">
        <bool>false</bool>
       </property>
      </widget>
@@ -41654,7 +42612,7 @@ GBT</string>
      <widget class="QLabel" name="labelTextDataSelectTriggerMask">
       <property name="geometry">
        <rect>
-        <x>8</x>
+        <x>7</x>
         <y>101</y>
         <width>120</width>
         <height>20</height>
@@ -41703,7 +42661,7 @@ GBT</string>
       <property name="geometry">
        <rect>
         <x>262</x>
-        <y>100</y>
+        <y>101</y>
         <width>20</width>
         <height>20</height>
        </rect>
@@ -41763,9 +42721,9 @@ GBT</string>
      <widget class="ActualLabel" name="labelValueDataSelectTriggerMask">
       <property name="geometry">
        <rect>
-        <x>125</x>
-        <y>100</y>
-        <width>70</width>
+        <x>124</x>
+        <y>101</y>
+        <width>71</width>
         <height>20</height>
        </rect>
       </property>
@@ -41785,7 +42743,7 @@ GBT</string>
       </property>
       <property name="toolTip">
        <string>&lt;html&gt;&lt;head&gt;&lt;style&gt;
-table { border: 1px solid grey; border-collapse: collapse;}
+table { border: 1px solid grey; border-collapse: collapse; font-size: 10}
 th    { border: 1px solid grey; padding: 2px; }
 td    { border: 1px solid grey; padding: 2px; }
 &lt;/style&gt;&lt;/head&gt;
@@ -41842,7 +42800,7 @@ td    { border: 1px solid grey; padding: 2px; }
       <property name="geometry">
        <rect>
         <x>197</x>
-        <y>101</y>
+        <y>102</y>
         <width>65</width>
         <height>18</height>
        </rect>
@@ -41940,7 +42898,7 @@ td    { border: 1px solid grey; padding: 2px; }
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="Switch" name="SwitcherHBresponse">
+     <widget class="Switch" name="SwitcherHBresponse" native="true">
       <property name="geometry">
        <rect>
         <x>182</x>
@@ -41975,11 +42933,11 @@ td    { border: 1px solid grey; padding: 2px; }
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="SwitchOnClick">
+      <property name="SwitchOnClick" stdset="0">
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="Switch" name="SwitcherBypassMode">
+     <widget class="Switch" name="SwitcherBypassMode" native="true">
       <property name="geometry">
        <rect>
         <x>102</x>
@@ -42014,7 +42972,7 @@ td    { border: 1px solid grey; padding: 2px; }
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="SwitchOnClick">
+      <property name="SwitchOnClick" stdset="0">
        <bool>false</bool>
       </property>
      </widget>
@@ -42111,9 +43069,9 @@ td    { border: 1px solid grey; padding: 2px; }
      <widget class="QLabel" name="labelTextReadoutModeCRU">
       <property name="geometry">
        <rect>
-        <x>321</x>
+        <x>308</x>
         <y>253</y>
-        <width>105</width>
+        <width>118</width>
         <height>15</height>
        </rect>
       </property>
@@ -42224,7 +43182,7 @@ td    { border: 1px solid grey; padding: 2px; }
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="Switch" name="SwitcherHBreject">
+     <widget class="Switch" name="SwitcherHBreject" native="true">
       <property name="geometry">
        <rect>
         <x>182</x>
@@ -42259,7 +43217,7 @@ td    { border: 1px solid grey; padding: 2px; }
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="brush">
+      <property name="brush" stdset="0">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
          <red>176</red>
@@ -42268,7 +43226,7 @@ td    { border: 1px solid grey; padding: 2px; }
         </color>
        </brush>
       </property>
-      <property name="SwitchOnClick">
+      <property name="SwitchOnClick" stdset="0">
        <bool>false</bool>
       </property>
      </widget>
@@ -45924,6 +46882,9 @@ td    { border: 1px solid grey; padding: 2px; }
        </property>
       </widget>
       <widget class="QPushButton" name="buttonTriggerGeneratorContinuous">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>152</x>
@@ -45965,7 +46926,8 @@ td    { border: 1px solid grey; padding: 2px; }
         <string notr="true"/>
        </property>
        <property name="styleSheet">
-        <string notr="true"/>
+        <string notr="true">background-color: #E1E1E1;
+border: 1px solid orange;</string>
        </property>
        <property name="locale">
         <locale language="English" country="World"/>
@@ -46171,9 +47133,9 @@ td    { border: 1px solid grey; padding: 2px; }
       <widget class="ActualLabel" name="labelValueTGcontinuousValue">
        <property name="geometry">
         <rect>
-         <x>120</x>
+         <x>119</x>
          <y>43</y>
-         <width>70</width>
+         <width>71</width>
          <height>20</height>
         </rect>
        </property>
@@ -46216,7 +47178,7 @@ td    { border: 1px solid grey; padding: 2px; }
       <widget class="QLabel" name="labelTextTGcontinuousValue">
        <property name="geometry">
         <rect>
-         <x>77</x>
+         <x>76</x>
          <y>43</y>
          <width>40</width>
          <height>20</height>
@@ -46794,9 +47756,9 @@ td    { border: 1px solid grey; padding: 2px; }
       <widget class="ActualLabel" name="labelValueTGcontinuousPattern">
        <property name="geometry">
         <rect>
-         <x>7</x>
+         <x>5</x>
          <y>23</y>
-         <width>126</width>
+         <width>128</width>
          <height>20</height>
         </rect>
        </property>
@@ -46837,6 +47799,9 @@ td    { border: 1px solid grey; padding: 2px; }
        </property>
       </widget>
       <widget class="QPushButton" name="buttonTriggerGeneratorTx">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>212</x>
@@ -47020,7 +47985,7 @@ td    { border: 1px solid grey; padding: 2px; }
         <bool>false</bool>
        </property>
       </widget>
-      <widget class="ActualLabel" name="labelValueHBrRate">
+      <widget class="ActualLabel" name="labelValueTGHBrRate">
        <property name="geometry">
         <rect>
          <x>217</x>
@@ -47230,7 +48195,7 @@ td    { border: 1px solid grey; padding: 2px; }
       <zorder>buttonTriggerGeneratorTx</zorder>
       <zorder>buttonApplyTGHBrRate</zorder>
       <zorder>lineEditTGHBrRate</zorder>
-      <zorder>labelValueHBrRate</zorder>
+      <zorder>labelValueTGHBrRate</zorder>
       <zorder>labelTextTGHBrRate</zorder>
       <zorder>comboBoxLTUemuReadoutMode</zorder>
       <zorder>labelTextLTUemuMode</zorder>
@@ -47381,7 +48346,13 @@ td    { border: 1px solid grey; padding: 2px; }
         <string notr="true"/>
        </property>
        <property name="styleSheet">
-        <string notr="true"/>
+        <string notr="true">QPushButton {
+	background-color: rgb(255,211,128);
+	border: 1px solid gray;
+	margin: 1px;
+}
+QPushButton:hover {
+}</string>
        </property>
        <property name="locale">
         <locale language="English" country="World"/>
@@ -48004,9 +48975,9 @@ td    { border: 1px solid grey; padding: 2px; }
       <widget class="ActualLabel" name="labelValueDGbunchPattern">
        <property name="geometry">
         <rect>
-         <x>120</x>
+         <x>119</x>
          <y>38</y>
-         <width>70</width>
+         <width>71</width>
          <height>20</height>
         </rect>
        </property>
@@ -48049,9 +49020,9 @@ td    { border: 1px solid grey; padding: 2px; }
       <widget class="ActualLabel" name="labelValueDGtriggerRespondMask">
        <property name="geometry">
         <rect>
-         <x>120</x>
+         <x>119</x>
          <y>18</y>
-         <width>70</width>
+         <width>71</width>
          <height>20</height>
         </rect>
        </property>
@@ -48094,7 +49065,7 @@ td    { border: 1px solid grey; padding: 2px; }
       <widget class="QLabel" name="labelTextDGbunchPattern">
        <property name="geometry">
         <rect>
-         <x>67</x>
+         <x>66</x>
          <y>38</y>
          <width>50</width>
          <height>20</height>
@@ -48139,7 +49110,7 @@ td    { border: 1px solid grey; padding: 2px; }
       <widget class="QLabel" name="labelTextDGtriggerRespondMask">
        <property name="geometry">
         <rect>
-         <x>7</x>
+         <x>6</x>
          <y>18</y>
          <width>110</width>
          <height>20</height>
@@ -49549,7 +50520,7 @@ td    { border: 1px solid grey; padding: 2px; }
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
-      <widget class="Switch" name="SwitcherShiftRxPhase">
+      <widget class="Switch" name="SwitcherShiftRxPhase" native="true">
        <property name="geometry">
         <rect>
          <x>3</x>
@@ -49584,7 +50555,10 @@ td    { border: 1px solid grey; padding: 2px; }
        <property name="accessibleDescription">
         <string notr="true"/>
        </property>
-       <property name="brush">
+       <property name="offset" stdset="0">
+        <number>3</number>
+       </property>
+       <property name="brush" stdset="0">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
           <red>176</red>
@@ -49593,7 +50567,7 @@ td    { border: 1px solid grey; padding: 2px; }
          </color>
         </brush>
        </property>
-       <property name="SwitchOnClick">
+       <property name="SwitchOnClick" stdset="0">
         <bool>false</bool>
        </property>
       </widget>
@@ -55317,6 +56291,9 @@ td    { border: 1px solid grey; padding: 2px; }
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255,211,128);</string>
+      </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
@@ -55779,6 +56756,9 @@ td    { border: 1px solid grey; padding: 2px; }
       </property>
       <property name="accessibleDescription">
        <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255,211,128);</string>
       </property>
       <property name="text">
        <string notr="true">on Cal trigger (0x40)</string>
@@ -56663,7 +57643,7 @@ td    { border: 1px solid grey; padding: 2px; }
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="Switch" name="SwitcherLaser">
+     <widget class="Switch" name="SwitcherLaser" native="true">
       <property name="geometry">
        <rect>
         <x>1</x>
@@ -56698,7 +57678,7 @@ td    { border: 1px solid grey; padding: 2px; }
       <property name="accessibleDescription">
        <string notr="true"/>
       </property>
-      <property name="checked">
+      <property name="checked" stdset="0">
        <bool>false</bool>
       </property>
      </widget>
@@ -57414,7 +58394,7 @@ td    { border: 1px solid grey; padding: 2px; }
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string>True OrC:</string>
+       <string>OrC in CB:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -58016,7 +58996,7 @@ td    { border: 1px solid grey; padding: 2px; }
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string>True Interaction:</string>
+       <string>Interaction in CB:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -58106,7 +59086,7 @@ td    { border: 1px solid grey; padding: 2px; }
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string>True Vertex:</string>
+       <string>Vertex in CB:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -58241,7 +59221,7 @@ td    { border: 1px solid grey; padding: 2px; }
        <locale language="English" country="World"/>
       </property>
       <property name="text">
-       <string>True OrA:</string>
+       <string>OrA in CB:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -58971,9 +59951,9 @@ td    { border: 1px solid grey; padding: 2px; }
     <widget class="QLabel" name="labelTextCountersUpdateEvery">
      <property name="geometry">
       <rect>
-       <x>588</x>
+       <x>586</x>
        <y>104</y>
-       <width>125</width>
+       <width>129</width>
        <height>20</height>
       </rect>
      </property>

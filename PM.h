@@ -4,13 +4,14 @@
 #include "FITboardsCommon.h"
 const QHash<QString, Parameter> PMparameters = {
     //name                  address width shift interval
-    {"OR_GATE"              ,  0x00               },
+    {"OR_GATE"              , {0x00,  8,  0}      },
+    {"PairedChannelsMode"   , {0x00,  1,  8}      },
     {"TIME_ALIGN"           , {0x01, 12,  0,    1}},
     {"noTriggerMode"        , {0x01,  1, 12,    1}},
     {"ADC0_RANGE"           , {0x25, 32,  0,    2}},
     {"ADC1_RANGE"           , {0x26, 32,  0,    2}},
-    {"TRGchargeLevelHi"     , {0x3D, 12,  0}	  }, //formerly known as CFD_SATR
-    {"TRGchargeLevelLo"     , {0x3D,  4, 12}	  },
+    {"TRGchargeLevelHi"     , {0x3D, 12,  0}    }, //formerly known as CFD_SATR
+    {"TRGchargeLevelLo"     , {0x3D,  4, 12}    },
     {"CH_MASK_DATA"         ,  0x7C               },
     {"TRG_CNT_MODE"         , {0x7F,  1, 10}      },
     {"CFD_THRESHOLD"        , {0x80, 32,  0,    4}},
@@ -22,21 +23,23 @@ const QHash<QString, Parameter> PMparameters = {
 
 struct TypePM {
     struct ActualValues{
-        quint32 OR_GATE               ; //]00
+        quint32 OR_GATE            : 8, //┐
+                PairedChannelsMode : 1, //│00
+                                   :23; //⌡
         struct TimeAlignment {          //┐
             qint32                      //│
                 value              :12, //│
                 blockTriggers      : 1, //│01-0C
                                    :19; //│
-        }      timeAlignment[12]      ; //┘
+        }      timeAlignment[12]      ; //⌡
         quint32 ADC_BASELINE[12][2]   , //]0D-24 //[Ch][0] for ADC0, [Ch][1] for ADC1
                 ADC_RANGE   [12][2]   , //]25-3C
                 TRGchargeLevelHi   :12, //┐
                 TRGchargeLevelLo   : 4, //│3D
-								   :16; //┘
+                                   :16; //⌡
         qint32  TDC1tuning         : 8, //┐
                 TDC2tuning         : 8, //│3E
-                                   :16, //┘
+                                   :16, //⌡
                 TDC3tuning         : 8, //┐
                                    :24; //┘3F
         quint8  RAW_TDC_DATA[12][4]   ; //]40-4B //[Ch][0] for val1, [Ch][1] for val2
@@ -49,8 +52,8 @@ struct TypePM {
                 TDC1PLLlocked      : 1, //│
                 TDC2PLLlocked      : 1, //│
                 TDC3PLLlocked      : 1, //│
-				GBTRxReady	       : 1, //│
-				GBTRxError		   : 1, //│
+                GBTRxReady         : 1, //│
+                GBTRxError         : 1, //│
                 TDC1syncError      : 1, //│
                 TDC2syncError      : 1, //│
                 TDC3syncError      : 1, //│7F
@@ -60,7 +63,7 @@ struct TypePM {
                 GBTRxPhaseError    : 1, //│
                 BCIDsyncLost       : 1, //│
                 droppingHits       : 1, //│
-                                   :17; //┘
+                                   :17; //⌡
         struct ChannelSettings {        //┐
             quint32 CFD_THRESHOLD  :16, //│
                                    :16; //│
@@ -70,20 +73,20 @@ struct TypePM {
                                    :16; //│
             quint32 ADC_DELAY      :16, //│
                                    :16; //│
-        } Ch[12];                       //┘
+        } Ch[12];                       //⌡
         quint32 THRESHOLD_CALIBR[12]  , //]B0-BB
                 boardTemperature   :16, //┐
                                    :16; //┘BC
         quint32 boardType          : 2, //┐
                                    : 6, //│
                 SERIAL_NUM         : 8, //│BD
-                                   :16, //┘
+                                   :16, //⌡
                 restartReasonCode  : 2, //┐
                                    :30, //┘BE
                 _reservedSpace1[0xD8 - 0xBE - 1];
         GBTunit GBT;                    //]D8-F1
         quint32 _reservedSpace2[0xF7 - 0xF1 - 1];
-        Timestamp FW_TIME_MCU;			//]F7
+        Timestamp FW_TIME_MCU;      //]F7
         quint32 _reservedSpace3[0xFC - 0xF7 - 1];
         quint32 FPGAtemperature,        //]FC
                 voltage1,               //]FD
@@ -97,15 +100,15 @@ struct TypePM {
                                                          {0xF7, 0xF7}, //FW_TIME_MCU
                                                          {0xFC, 0xFF}};//block2     ,   4 registers
         float //calculable values
-			TEMP_BOARD = 20.0F,
-			TEMP_FPGA  = 20.0F,
-			VOLTAGE_1V   = 1.0F,
-			VOLTAGE_1_8V = 1.8F,
+            TEMP_BOARD = 20.0F,
+            TEMP_FPGA  = 20.0F,
+            VOLTAGE_1V   = 1.0F,
+            VOLTAGE_1_8V = 1.8F,
             RMS_Ch[12][2]; //[Ch][0] for ADC0, [Ch][1] for ADC1
         qint16
             TIME_ALIGN[12]  ,
             TRG_CNT_MODE    ;
-		quint32 CH_MASK_TRG;
+        quint32 CH_MASK_TRG;
         char BOARD_TYPE[4] = {0};
         void calculateValues() {
             TEMP_BOARD   = boardTemperature / 10.;
@@ -125,18 +128,20 @@ struct TypePM {
     } act;
 
     struct Settings {
-        quint32 OR_GATE               ; //]00
+        quint32 OR_GATE            : 8, //┐
+                PairedChannelsMode : 1, //│00
+                                   :23; //⌡
         struct TimeAlignment {          //┐
             qint32                      //│
                 value              :12, //│
                 blockTriggers      : 1, //│01-0C
                                    :19; //│
-        } TIME_ALIGN           [12]   ;	//┘
+        } TIME_ALIGN           [12]   ;  //⌡
         quint32 _reservedSpace0[0x25 - 0x0C - 1],
                 ADC_RANGE      [12][2], //]25-3C
                 TRGchargeLevelHi   :12, //┐
                 TRGchargeLevelLo   : 4, //│3D
-                                   :16, //┘
+                                   :16, //⌡
                 _reservedSpace1[0x7C - 0x3D - 1],
                 CH_MASK_DATA          , //]7C
                 _reservedSpace2[0x80 - 0x7C - 1];
@@ -149,7 +154,7 @@ struct TypePM {
                                    :16; //│
             quint32 ADC_DELAY      :16, //│
                                    :16; //│
-        } Ch[12];                       //┘
+        } Ch[12];                       //⌡
         quint32  THRESHOLD_CALIBR[12] , //]B0-BB
                 _reservedSpace3[0xD8 - 0xBB - 1];
         GBTunit::ControlData GBT;       //]D8-E7
@@ -180,10 +185,10 @@ struct TypePM {
         };
         quint32 Old[number] = {0};
         union {
-			float rate[number];
-			struct {
-				float CFD,
-					  TRG;
+            float rate[number] = {-1,-1,-1,-1,-1,-1, -1,-1,-1,-1,-1,-1, -1,-1,-1,-1,-1,-1, -1,-1,-1,-1,-1,-1};
+            struct {
+                float CFD,
+                      TRG;
             } rateCh[12];
         };
         GBTcounters GBT;
@@ -195,7 +200,7 @@ struct TypePM {
     const quint16 baseAddress;
     const char *name;
     QString fullName() const { return "PM" + QString(name); }
-	TRGsyncStatus &TRGsync;
+    TRGsyncStatus &TRGsync;
     struct { quint32
         BCsyncLostInRun : 1 = 0,
         earlyHeader     : 1 = 0;
@@ -209,25 +214,25 @@ struct TypePM {
         !act.TDC1syncError &&
         !act.TDC2syncError &&
         !act.TDC3syncError &&
-		 TRGsync.linkOK	   &&
-		!TRGsync.syncError &&
+         TRGsync.linkOK    &&
+        !TRGsync.syncError &&
          act.restartReasonCode != 2 ; //not by PLL relock
     }
 
     bool GBTisOK() const { return
-		act.GBT.isOK() &&
-		act.GBTRxReady;
-	}
+        act.GBT.isOK() &&
+        act.GBTRxReady;
+    }
 
     bool setParameter(QString parameterName, quint32 value, quint8 iCh = 0) {
-		if (!PMparameters.contains(parameterName)) return false;
+        if (!PMparameters.contains(parameterName)) return false;
         Parameter par = PMparameters[parameterName];
         quint32 &reg = set.registers[par.address + iCh * par.interval];
         reg = changeNbits(reg, par.bitwidth, par.bitshift, value);
         return true;
     }
 
-	TypePM(quint16 addr, const char *PMname, TRGsyncStatus &TRGsyncRef) : baseAddress(addr), name(PMname), TRGsync(TRGsyncRef) {}
+    TypePM(quint16 addr, const char *PMname, TRGsyncStatus &TRGsyncRef) : baseAddress(addr), name(PMname), TRGsync(TRGsyncRef) {}
 };
 
 #endif // PM_H

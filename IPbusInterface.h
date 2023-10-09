@@ -12,7 +12,7 @@ class IPbusTarget: public QObject {
     const StatusPacket statusRequest;
     StatusPacket statusResponse;
     QMutex mutex;
-    bool isLocked = false;
+    const int timeout_ms = 99;
 
 public:
     QString IPaddress = "172.20.75.180";
@@ -26,6 +26,7 @@ public:
         updateTimer->setTimerType(Qt::PreciseTimer);
         connect(updateTimer, &QTimer::timeout, this, [=]() { if (isOnline) sync(); else checkStatus(); });
         connect(this, &IPbusTarget::error, updateTimer, &QTimer::stop);
+        qsocket->setProxy(QNetworkProxy::NoProxy);
         if (!qsocket->bind(QHostAddress::AnyIPv4, localport)) qsocket->bind(QHostAddress::AnyIPv4);
         updateTimer->start(updatePeriod_ms);
     }
@@ -33,8 +34,8 @@ public:
     quint32 readRegister(quint32 address) {
         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
         p.addTransaction(read, address, nullptr, 1);
-		TransactionHeader *th = p.transactionsList.last().responseHeader;
-		return transceive(p, false) && th->InfoCode == 0 ? quint32(*++th) : 0xFFFFFFFF;
+        TransactionHeader *th = p.transactionsList.last().responseHeader;
+        return transceive(p, false) && th->InfoCode == 0 ? quint32(*++th) : 0xFFFFFFFF;
     }
 
 signals:
@@ -46,25 +47,25 @@ protected:
     bool transceive(IPbusControlPacket &p, bool shouldResponseBeProcessed = true) { //send request, wait for response, receive it and check correctness
         if (!isOnline) return false;
         if (p.requestSize <= 1) {
-			qDebug()<<"Empty request"; //not a logicError anymore, just nothing to do
-			return true;
+            qDebug()<<"Empty request"; //not a logicError anymore, just nothing to do
+            return true;
         }
         QMutexLocker ml(&mutex);
         qint32 n = qint32(qsocket->write((char *)p.request, p.requestSize * wordSize));
-		if (n < 0) {
+        if (n < 0) {
             emit error("Socket write error: " + qsocket->errorString(), networkError);
-			return false;
+            return false;
         } else if (n != p.requestSize * wordSize) {
             emit error("Sending packet failed", networkError);
-			return false;
-        } else if (!qsocket->waitForReadyRead(100) && !qsocket->hasPendingDatagrams()) {
+            return false;
+        } else if (!qsocket->waitForReadyRead(timeout_ms) && !qsocket->hasPendingDatagrams()) {
             isOnline = false;
             emit noResponse();
-			return false;
+            return false;
         }
-		n = qsocket->readDatagram((char *)p.response, qsocket->pendingDatagramSize());
-        if (n == 64 && p.response[0] == statusRequest.header) {
-            if (!qsocket->hasPendingDatagrams() && !qsocket->waitForReadyRead(100) && !qsocket->hasPendingDatagrams()) {
+        n = qsocket->readDatagram((char *)p.response, qsocket->pendingDatagramSize());
+        if (n == 64 && p.response[0] == statusRequest.header) { //late status response received
+            if (!qsocket->hasPendingDatagrams() && !qsocket->waitForReadyRead(timeout_ms) && !qsocket->hasPendingDatagrams()) {
                 isOnline = false;
                 emit noResponse();
                 return false;
@@ -72,18 +73,18 @@ protected:
             n = qsocket->readDatagram((char *)p.response, qsocket->pendingDatagramSize());
         }
         if (n == 0) {
-            emit error("empty response, no IPbus on " + IPaddress, networkError);
+            emit error("empty response, no IPbus target on " + IPaddress, networkError);
             return false;
         } else if (n / wordSize > p.responseSize || p.response[0] != p.request[0] || n % wordSize > 0) {
             emit error(QString::asprintf("incorrect response (%d bytes)", n), networkError);
             return false;
         } else {
-			p.responseSize = quint16(n / wordSize); //response can be shorter then expected if a transaction wasn't successful
+            p.responseSize = quint16(n / wordSize); //response can be shorter then expected if a transaction wasn't successful
             bool result = shouldResponseBeProcessed ? p.processResponse() : true;
             p.reset();
             return result;
         }
-	}
+    }
 
 public slots:
     void reconnect() {
@@ -91,7 +92,7 @@ public slots:
             qsocket->disconnectFromHost();
         }
         qsocket->connectToHost(IPaddress, 50001, QIODevice::ReadWrite, QAbstractSocket::IPv4Protocol);
-        if (!qsocket->waitForConnected() && qsocket->state() != QAbstractSocket::ConnectedState) {
+        if (!qsocket->waitForConnected(500) && qsocket->state() != QAbstractSocket::ConnectedState) {
             isOnline = false;
             emit noResponse();
             return;
@@ -102,7 +103,7 @@ public slots:
 
     void checkStatus() {
         qsocket->write((char *)&statusRequest, sizeof(statusRequest));
-        if (!qsocket->waitForReadyRead(100) && !qsocket->hasPendingDatagrams()) {
+        if (!qsocket->waitForReadyRead(timeout_ms) && !qsocket->hasPendingDatagrams()) {
             isOnline = false;
             emit noResponse();
         } else {
@@ -125,17 +126,17 @@ public slots:
         if (transceive(p) && syncOnSuccess) sync();
     }
 
-	void setBit(quint8 n, quint32 address, bool syncOnSuccess = true) {
+    void setBit(quint8 n, quint32 address, bool syncOnSuccess = true) {
         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
         p.addTransaction(RMWbits, address, p.masks(0xFFFFFFFF, 1 << n));
         if (transceive(p) && syncOnSuccess) sync();
-	}
+    }
 
-	void clearBit(quint8 n, quint32 address, bool syncOnSuccess = true) {
+    void clearBit(quint8 n, quint32 address, bool syncOnSuccess = true) {
         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
         p.addTransaction(RMWbits, address, p.masks(~(1 << n), 0x00000000));
         if (transceive(p) && syncOnSuccess) sync();
-	}
+    }
 
     void writeNbits(quint32 address, quint32 data, quint8 nbits = 16, quint8 shift = 0, bool syncOnSuccess = true) {
         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);

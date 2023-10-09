@@ -3,15 +3,15 @@
 #include <QtWidgets>
 
 class ActualLabel: public QLabel {
-	Q_OBJECT
+    Q_OBJECT
 using QLabel::QLabel;
 public:
-	void mouseDoubleClickEvent(QMouseEvent *event) {
-		if(event->button() & Qt::LeftButton) emit doubleclicked(text());
-		event->accept();
-	}
+    void mouseDoubleClickEvent(QMouseEvent *event) {
+        if(event->button() & Qt::LeftButton) emit doubleclicked(text());
+        event->accept();
+    }
 signals:
-	void doubleclicked(QString);
+    void doubleclicked(QString);
 };
 
 #endif // ACTUALLABEL_H

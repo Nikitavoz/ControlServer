@@ -5,9 +5,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-	QCoreApplication::setOrganizationName("INR");
-	QCoreApplication::setApplicationName("ControlServer");
-    QCoreApplication::setApplicationVersion("1.j.4");
+    QCoreApplication::setOrganizationName("INR");
+    QCoreApplication::setApplicationName("ControlServer");
+    QCoreApplication::setApplicationVersion("1.k");
 
     qInstallMessageHandler([](QtMsgType, const QMessageLogContext &, const QString &msg) {
         QFile el(QCoreApplication::applicationName() + ".errorlog");
@@ -17,6 +17,6 @@ int main(int argc, char *argv[])
     });
 
     MainWindow w;
-	w.show();
-	return a.exec();
+    w.show();
+    return a.exec();
 }
