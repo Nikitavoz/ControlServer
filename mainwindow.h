@@ -570,10 +570,7 @@ public slots:
         }
         ui->labelIconSystemRestarted->setPixmap(FEE.TCM.act.systemRestarted ? Red1 : Green0);
         ui->labelIconSystemRestarting->setPixmap(FEE.TCM.act.resetSystem ? Red1 : Green0);
-//        ok = true;
-//        foreach (TypePM *pm, FEE.PM) if (!pm->isOK() || !pm->GBTisOK()) { ok = false; break; }
-//        ui->labelIconSystemErrors->setPixmap(ok && FEE.TCM.isOK() && FEE.TCM.act.GBT.isOK() ? Green0 : Red1);
-        ui->labelIconSystemErrors->setPixmap(FEE.BOARDS_OK >> 20 && (FEE.TCM.act.PM_MASK_TRG() & FEE.BOARDS_OK) == FEE.TCM.act.PM_MASK_TRG() ? Green0 : Red1);
+		ui->labelIconSystemErrors->setPixmap(!FEE.BOARDS_OK & (1<<20 | FEE.TCM.act.PM_MASK_TRG()) ? Red1 : Green0);
 		ui->TCM_selector->setStyleSheet(FEE.TCM.isOK() && FEE.TCM.GBTisOK() ? "" : notOKstyle);
         ui->labelValueClockSource->setText(FEE.TCM.act.externalClock ? "external" : (FEE.TCM.act.forceLocalClock ? "force local" : "local"));
         ui->labelValueClockSource->setStyleSheet(FEE.TCM.act.externalClock ? OKstyle : (FEE.TCM.act.forceLocalClock ? neutralStyle : notOKstyle));
