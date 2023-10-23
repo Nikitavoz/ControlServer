@@ -36625,6 +36625,9 @@ QGroupBox#groupBoxTCM::title {
          <bold>true</bold>
         </font>
        </property>
+       <property name="toolTipDuration">
+        <number>2147483647</number>
+       </property>
        <property name="statusTip">
         <string notr="true"/>
        </property>
@@ -37419,6 +37422,9 @@ QGroupBox#groupBoxTCM::title {
          <bold>true</bold>
         </font>
        </property>
+       <property name="toolTipDuration">
+        <number>2147483647</number>
+       </property>
        <property name="statusTip">
         <string notr="true"/>
        </property>
@@ -37859,6 +37865,9 @@ QGroupBox#groupBoxTCM::title {
          <bold>true</bold>
         </font>
        </property>
+       <property name="toolTipDuration">
+        <number>2147483647</number>
+       </property>
        <property name="statusTip">
         <string notr="true"/>
        </property>
@@ -38292,6 +38301,9 @@ QGroupBox#groupBoxTCM::title {
          <weight>75</weight>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="toolTipDuration">
+        <number>2147483647</number>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -38729,6 +38741,9 @@ QGroupBox#groupBoxTCM::title {
          <weight>75</weight>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="toolTipDuration">
+        <number>2147483647</number>
        </property>
        <property name="statusTip">
         <string notr="true"/>
@@ -58375,6 +58390,9 @@ QPushButton:hover {
       <property name="toolTip">
        <string notr="true">bunch in both beams AND OrC</string>
       </property>
+      <property name="toolTipDuration">
+       <number>2147483647</number>
+      </property>
       <property name="statusTip">
        <string notr="true"/>
       </property>
@@ -58825,7 +58843,7 @@ QPushButton:hover {
      <widget class="QLabel" name="labelTextTriggers_7A">
       <property name="geometry">
        <rect>
-        <x>515</x>
+        <x>516</x>
         <y>8</y>
         <width>100</width>
         <height>15</height>
@@ -58841,6 +58859,9 @@ QPushButton:hover {
       </property>
       <property name="toolTip">
        <string notr="true">both sides OR (OrA &amp; OrC)</string>
+      </property>
+      <property name="toolTipDuration">
+       <number>2147483647</number>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -58977,6 +58998,9 @@ QPushButton:hover {
       <property name="toolTip">
        <string notr="true">bunch in both beams AND OrA AND OrC</string>
       </property>
+      <property name="toolTipDuration">
+       <number>2147483647</number>
+      </property>
       <property name="statusTip">
        <string notr="true"/>
       </property>
@@ -59066,6 +59090,9 @@ QPushButton:hover {
       </property>
       <property name="toolTip">
        <string notr="true">bunch in both beams AND Vertex</string>
+      </property>
+      <property name="toolTipDuration">
+       <number>2147483647</number>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -59202,6 +59229,9 @@ QPushButton:hover {
       <property name="toolTip">
        <string notr="true">bunch in both beams AND OrA</string>
       </property>
+      <property name="toolTipDuration">
+       <number>2147483647</number>
+      </property>
       <property name="statusTip">
        <string notr="true"/>
       </property>
@@ -59336,6 +59366,9 @@ QPushButton:hover {
       </property>
       <property name="toolTip">
        <string notr="true">C-side out-of-gate hits AND NOT OrC</string>
+      </property>
+      <property name="toolTipDuration">
+       <number>2147483647</number>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -59517,6 +59550,9 @@ QPushButton:hover {
       <property name="toolTip">
        <string notr="true">NoiseA OR NoiseC</string>
       </property>
+      <property name="toolTipDuration">
+       <number>2147483647</number>
+      </property>
       <property name="statusTip">
        <string notr="true"/>
       </property>
@@ -59651,6 +59687,9 @@ QPushButton:hover {
       </property>
       <property name="toolTip">
        <string notr="true">A-side out-of-gate hits AND NOT OrA</string>
+      </property>
+      <property name="toolTipDuration">
+       <number>2147483647</number>
       </property>
       <property name="statusTip">
        <string notr="true"/>
@@ -59832,6 +59871,9 @@ QPushButton:hover {
       <property name="toolTip">
        <string notr="true">bunch ONLY in beam 1 AND OrC</string>
       </property>
+      <property name="toolTipDuration">
+       <number>2147483647</number>
+      </property>
       <property name="statusTip">
        <string notr="true"/>
       </property>
@@ -59921,6 +59963,9 @@ QPushButton:hover {
       </property>
       <property name="toolTip">
        <string notr="true">bunch ONLY in beam 2 AND OrA</string>
+      </property>
+      <property name="toolTipDuration">
+       <number>2147483647</number>
       </property>
       <property name="statusTip">
        <string notr="true"/>
