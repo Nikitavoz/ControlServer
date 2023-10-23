@@ -475,7 +475,12 @@ public slots:
                     }
                     M.remove(TCMparameters["COUNTERS_UPD_RATE"].address); //will be applied afterwards
                     if (!M.isEmpty()) {
-                        foreach(quint8 a, M.keys()) p.addWordToWrite(a, M[a]);
+						if (M.contains(0xE)) {//reg0E contains TCM histogram settings (bits 4..7 and 10), they should not change
+							quint32 mask = 0x0000030F; //only bits 0..3 and 8..9 will be written
+							p.addTransaction(RMWbits, 0xE, p.masks(~mask, M[0xE] & mask));
+							M.remove(0xE);
+						}
+						foreach(quint8 a, M.keys()) p.addWordToWrite(a, M[a]);
                         if (!transceive(p)) return;
                     }
                     if (M.contains(TCMparameters["CH_MASK_A"].address) || M.contains(TCMparameters["CH_MASK_C"].address)) {
