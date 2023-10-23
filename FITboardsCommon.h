@@ -22,22 +22,55 @@ const struct {char name[4]; quint16 TCMid, PMA0id, PMC0id; quint8 systemID; stru
                                                                                      {    "Trigger4",              78},
                                                                                      {    "Trigger5",              79} }             },
              {       "FT0",        0xFA00, 0xFAA0, 0xFAF0,              34,        { {     "Central",              70},
-                                                                                     {"Semi Central",              71},
+																					 {"Semi Central",              71},
                                                                                      {      "Vertex",              72},
                                                                                      {         "OrC",              73},
                                                                                      {         "OrA",              74} }             },
              {       "FV0",        0x55F0, 0x55A0, 0x55AA,              35,        { {      "Charge",              40},
                                                                                      {   "Nchannels",              41},
                                                                                      {  "InnerRings",              42},
-                                                                                     {  "OuterRings",              43},
-                                                                                     {         "OrA",              44} }             },
+																					 {  "OuterRings",              43},
+																					 {          "Or",              44} }             },
              {       "FDD",        0x0FA0, 0x0FAA, 0x0FFF,              33,        { {     "Central",             110},
-                                                                                     {"Semi Central",             111},
+																					 {"Semi Central",             111},
                                                                                      {      "Vertex",             112},
                                                                                      {         "OrC",             113},
                                                                                      {         "OrA",             114} }             }
 };
-
+const struct {const char *name,										   *description;} COUNTERS[2][15] = {
+{//FT0, FDD
+			 {           "OrA",                               "TRG-events on A-side"},//5
+			 {           "OrC",                               "TRG-events on C-side"},//4
+			 {   "SemiCentral","sum charge is between Semicental and Central levels"},//2
+			 {       "Central",                         "sum charge > Central level"},//1
+			 {        "Vertex",              "(timeC - timeA) is within time limits"},//3
+			 {        "NoiseA",                "A-side out-of-gate hits AND NOT OrA"},
+			 {        "NoiseC",                "C-side out-of-gate hits AND NOT OrC"},
+			 {   "Total noise",                                   "NoiseA OR NoiseC"},
+			 {        "CB-OrA",                               "collision-BC AND OrA"},
+			 {        "CB-OrC",                               "collision-BC AND OrC"},
+			 {   "Interaction",                        "both sides Or (OrA AND OrC)"},
+			 {"CB-Interaction",                       "collision-BC AND Interaction"},
+			 {     "CB-Vertex",                            "collision-BC AND Vertex"},
+			 {   "BackgroundA",                                   "beam1-BC AND OrC"},
+			 {   "BackgroundC",                                   "beam2-BC AND OrA"}
+}, {//FV0
+			 {            "Or",                          "TRG-events in any channel"},//5
+			 {    "OuterRings",               "PMA5-9 sum charge > OuterRings level"},//4
+			 {     "Nchannels",    "number of channels having TRG-event > Nch level"},//2
+			 {        "Charge",                     "sum charge > TotalCharge level"},//1
+			 {    "InnerRings",               "PMA0-4 sum charge > InnerRings level"},//3
+			 {         "Noise",                        "out-of-gate hits AND NOT Or"},
+			 {              "",                                                   ""},
+			 {         "Noise",                        "out-of-gate hits AND NOT Or"},
+			 {         "CB-Or",                                "collision-BC AND Or"},
+			 {              "",                                                   ""},
+			 {              "",                                                   ""},
+			 {              "",                                                   ""},
+			 { "CB-InnerRings",                        "collision-BC AND InnerRings"},
+			 {              "",                                                   ""},
+			 {   "BackgroundC",                                    "beam2-BC AND Or"}
+}};
 struct GBTunit { // (13 + 3 + 10) registers * 4 bytes = 104 bytes
     union ControlData {
         quint32 registers[16] = {0};
@@ -80,7 +113,7 @@ struct GBTunit { // (13 + 3 + 10) registers * 4 bytes = 104 bytes
         struct {
             quint32
                 phaseAlignerCPLLlock         :  1, //┐
-                RxWorkClockReady             :  1, //│
+				RxWordClockReady             :  1, //│
                 RxFrameClockReady            :  1, //│
                 MGTlinkReady                 :  1, //│
                 TxResetDone                  :  1, //│

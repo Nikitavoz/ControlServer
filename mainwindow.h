@@ -95,6 +95,8 @@ class MainWindow : public QMainWindow
                       labelsCFDcounterCh        ,
                       labelsTRGcounterRateCh    ,
                       labelsCFDcounterRateCh    ;
+	struct TypeLabelsTCMcounters { QLabel *name, *count, *rate; };
+	QVector<TypeLabelsTCMcounters> labelsTCMcounters;
     QVector<Switch *> switchesPMA, switchesPMC, switchesCh;
     QVector<QCheckBox *> noTRGCh;
     QVector<ActualLabel *>  labelsTimeAlignmentCh  ,
@@ -162,7 +164,24 @@ public:
         switchesPMC = ui->groupBoxBoardSelection->findChildren<Switch *>(QRegularExpression("Switcher_C[0-9]")).toVector();
         switchesCh = ui->groupBoxChannels->findChildren<Switch *>(QRegularExpression("SwitcherCh_(0[1-9]|1[0-2])")).toVector();
         noTRGCh = ui->groupBoxChannels->findChildren<QCheckBox *>(QRegularExpression("checkBoxNoTRG_(0[1-9]|1[0-2])")).toVector();
-        labelsTriggersCount = {
+		labelsTCMcounters = {
+			{ui->labelTextTriggers_5 , ui->labelValueTriggersCount_5 , ui->labelValueTriggersRate_5 },
+			{ui->labelTextTriggers_4 , ui->labelValueTriggersCount_4 , ui->labelValueTriggersRate_4 },
+			{ui->labelTextTriggers_2 , ui->labelValueTriggersCount_2 , ui->labelValueTriggersRate_2 },
+			{ui->labelTextTriggers_1 , ui->labelValueTriggersCount_1 , ui->labelValueTriggersRate_1 },
+			{ui->labelTextTriggers_3 , ui->labelValueTriggersCount_3 , ui->labelValueTriggersRate_3 },
+			{ui->labelTextTriggers_75, ui->labelValueTriggersCount_75, ui->labelValueTriggersRate_75},
+			{ui->labelTextTriggers_76, ui->labelValueTriggersCount_76, ui->labelValueTriggersRate_76},
+			{ui->labelTextTriggers_77, ui->labelValueTriggersCount_77, ui->labelValueTriggersRate_77},
+			{ui->labelTextTriggers_78, ui->labelValueTriggersCount_78, ui->labelValueTriggersRate_78},
+			{ui->labelTextTriggers_79, ui->labelValueTriggersCount_79, ui->labelValueTriggersRate_79},
+			{ui->labelTextTriggers_7A, ui->labelValueTriggersCount_7A, ui->labelValueTriggersRate_7A},
+			{ui->labelTextTriggers_7B, ui->labelValueTriggersCount_7B, ui->labelValueTriggersRate_7B},
+			{ui->labelTextTriggers_7C, ui->labelValueTriggersCount_7C, ui->labelValueTriggersRate_7C},
+			{ui->labelTextTriggers_7D, ui->labelValueTriggersCount_7D, ui->labelValueTriggersRate_7D},
+			{ui->labelTextTriggers_7E, ui->labelValueTriggersCount_7E, ui->labelValueTriggersRate_7E}
+		};
+		labelsTriggersCount = {
             ui->labelValueTriggersCount_5 ,
             ui->labelValueTriggersCount_4 ,
             ui->labelValueTriggersCount_2 ,
@@ -262,11 +281,15 @@ public:
         ui->groupBoxPM->hide();
         ui->labelTextEarlyHeader->hide();
         ui->labelIconEarlyHeader->hide();
-        ui->labelTextTriggers_1->setText(QString("1: ") + FIT[FEE.subdetector].triggers[0].name);
-        ui->labelTextTriggers_2->setText(QString("2: ") + FIT[FEE.subdetector].triggers[1].name);
-        ui->labelTextTriggers_3->setText(QString("3: ") + FIT[FEE.subdetector].triggers[2].name);
-        ui->labelTextTriggers_4->setText(QString("4: ") + FIT[FEE.subdetector].triggers[3].name);
-        ui->labelTextTriggers_5->setText(QString("5: ") + FIT[FEE.subdetector].triggers[4].name);
+		ui->labelTextTriggers_1->setText(QString("1: ") + FIT[FEE.subdetector].triggers[0].name); ui->labelTextTriggers_1->setToolTip(COUNTERS[FEE.subdetector == FV0][3].description);
+		ui->labelTextTriggers_2->setText(QString("2: ") + FIT[FEE.subdetector].triggers[1].name); ui->labelTextTriggers_2->setToolTip(COUNTERS[FEE.subdetector == FV0][2].description);
+		ui->labelTextTriggers_3->setText(QString("3: ") + FIT[FEE.subdetector].triggers[2].name); ui->labelTextTriggers_3->setToolTip(COUNTERS[FEE.subdetector == FV0][4].description);
+		ui->labelTextTriggers_4->setText(QString("4: ") + FIT[FEE.subdetector].triggers[3].name); ui->labelTextTriggers_4->setToolTip(COUNTERS[FEE.subdetector == FV0][1].description);
+		ui->labelTextTriggers_5->setText(QString("5: ") + FIT[FEE.subdetector].triggers[4].name); ui->labelTextTriggers_5->setToolTip(COUNTERS[FEE.subdetector == FV0][0].description);
+		for (quint8 i=5; i<15; ++i) {
+			labelsTCMcounters[i].name->setText	 (COUNTERS[FEE.subdetector == FV0][i].name);
+			labelsTCMcounters[i].name->setToolTip(COUNTERS[FEE.subdetector == FV0][i].description);
+		}
         if (FEE.subdetector == FV0) {
             ui-> labelValueTriggersLevelC_2->move(ui-> labelValueTriggersLevelA_1 ->x(), 30 * 3 + 1);
             ui-> labelValueTriggersLevelC_1->move(ui-> labelValueTriggersLevelA_1 ->x(), 30 * 4 + 1);
@@ -289,7 +312,7 @@ public:
                 ui->buttonSCcharge               ,
                 ui->buttonSCNchan                ,
             })) w->hide();
-            foreach(QWidget *w, ui->groupBoxSecondaryCounters->findChildren<QWidget *>(QRegularExpression("label.*_7[679A-E]")) + QList<QWidget *>({
+			foreach(QWidget *w, ui->groupBoxSecondaryCounters->findChildren<QWidget *>(QRegularExpression("label.*_7[679ABD]")) + QList<QWidget *>({
                 ui->groupBoxSide_C              ,
                 ui->labelTextTriggersCount_1    ,
                 ui->labelTextTriggersRate_1     ,
@@ -699,7 +722,7 @@ public slots:
         ui->labelValueBCdataModality->setEnabled(isDataBCindicatorActual);
 
         ui->labelIconPhaseAlignerCPLLlock->setPixmap(curGBTact->Status.phaseAlignerCPLLlock ? Green1 : Red0);
-        ui->labelIconRxWorldclkReady     ->setPixmap(curGBTact->Status.RxWorkClockReady ? Green1 : Red0);
+        ui->labelIconRxWorldclkReady     ->setPixmap(curGBTact->Status.RxWordClockReady ? Green1 : Red0);
         ui->labelIconRxFrameclkReady     ->setPixmap(curGBTact->Status.RxFrameClockReady ? Green1 : Red0);
         ui->labelIconMGTlinkReady        ->setPixmap(curGBTact->Status.MGTlinkReady ? Green1 : Red0);
         ui->labelIconTxResetDone         ->setPixmap(curGBTact->Status.TxResetDone ? Green1 : Red0);
