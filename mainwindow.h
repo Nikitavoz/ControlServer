@@ -164,58 +164,22 @@ public:
         switchesPMC      = ui->groupBoxBoardSelection->findChildren<Switch *     >(QRegularExpression("Switcher"            "_C[0-9]")).toVector();
         switchesCh       = ui->groupBoxChannels      ->findChildren<Switch *     >(QRegularExpression("SwitcherCh" "_(0[1-9]|1[0-2])")).toVector();
         noTRGCh          = ui->groupBoxChannels      ->findChildren<QCheckBox *  >(QRegularExpression("checkBoxNoTRG_(0[1-9]|1[0-2])")).toVector();
-<<<<<<< Updated upstream
-		labelsTCMcounters = {
-			{ui->labelTextTriggers_5 , ui->labelValueTriggersCount_5 , ui->labelValueTriggersRate_5 },
-			{ui->labelTextTriggers_4 , ui->labelValueTriggersCount_4 , ui->labelValueTriggersRate_4 },
-			{ui->labelTextTriggers_2 , ui->labelValueTriggersCount_2 , ui->labelValueTriggersRate_2 },
-			{ui->labelTextTriggers_1 , ui->labelValueTriggersCount_1 , ui->labelValueTriggersRate_1 },
-			{ui->labelTextTriggers_3 , ui->labelValueTriggersCount_3 , ui->labelValueTriggersRate_3 },
-			{ui->labelTextTriggers_75, ui->labelValueTriggersCount_75, ui->labelValueTriggersRate_75},
-			{ui->labelTextTriggers_76, ui->labelValueTriggersCount_76, ui->labelValueTriggersRate_76},
-			{ui->labelTextTriggers_77, ui->labelValueTriggersCount_77, ui->labelValueTriggersRate_77},
-			{ui->labelTextTriggers_78, ui->labelValueTriggersCount_78, ui->labelValueTriggersRate_78},
-			{ui->labelTextTriggers_79, ui->labelValueTriggersCount_79, ui->labelValueTriggersRate_79},
-			{ui->labelTextTriggers_7A, ui->labelValueTriggersCount_7A, ui->labelValueTriggersRate_7A},
-			{ui->labelTextTriggers_7B, ui->labelValueTriggersCount_7B, ui->labelValueTriggersRate_7B},
-			{ui->labelTextTriggers_7C, ui->labelValueTriggersCount_7C, ui->labelValueTriggersRate_7C},
-			{ui->labelTextTriggers_7D, ui->labelValueTriggersCount_7D, ui->labelValueTriggersRate_7D},
-			{ui->labelTextTriggers_7E, ui->labelValueTriggersCount_7E, ui->labelValueTriggersRate_7E}
-		};
-=======
-        labelsTriggersCount = {
-            ui->labelValueTriggersCount_5 ,
-            ui->labelValueTriggersCount_4 ,
-            ui->labelValueTriggersCount_2 ,
-            ui->labelValueTriggersCount_1 ,
-            ui->labelValueTriggersCount_3 ,
-            ui->labelValueTriggersCount_75,
-            ui->labelValueTriggersCount_76,
-            ui->labelValueTriggersCount_77,
-            ui->labelValueTriggersCount_78,
-            ui->labelValueTriggersCount_79,
-            ui->labelValueTriggersCount_7A,
-            ui->labelValueTriggersCount_7B,
-            ui->labelValueTriggersCount_7C,
-            ui->labelValueTriggersCount_7D,
-            ui->labelValueTriggersCount_7E,
-        };
-        labelsTriggersRate = {
-            ui->labelValueTriggersRate_5  ,
-            ui->labelValueTriggersRate_4  ,
-            ui->labelValueTriggersRate_2  ,
-            ui->labelValueTriggersRate_1  ,
-            ui->labelValueTriggersRate_3  ,
-            ui->labelValueTriggersRate_75 ,
-            ui->labelValueTriggersRate_76 ,
-            ui->labelValueTriggersRate_77 ,
-            ui->labelValueTriggersRate_78 ,
-            ui->labelValueTriggersRate_79 ,
-            ui->labelValueTriggersRate_7A ,
-            ui->labelValueTriggersRate_7B ,
-            ui->labelValueTriggersRate_7C ,
-            ui->labelValueTriggersRate_7D ,
-            ui->labelValueTriggersRate_7E ,
+        labelsTCMcounters = {
+            {ui->labelTextTriggers_5 , ui->labelValueTriggersCount_5 , ui->labelValueTriggersRate_5 },
+            {ui->labelTextTriggers_4 , ui->labelValueTriggersCount_4 , ui->labelValueTriggersRate_4 },
+            {ui->labelTextTriggers_2 , ui->labelValueTriggersCount_2 , ui->labelValueTriggersRate_2 },
+            {ui->labelTextTriggers_1 , ui->labelValueTriggersCount_1 , ui->labelValueTriggersRate_1 },
+            {ui->labelTextTriggers_3 , ui->labelValueTriggersCount_3 , ui->labelValueTriggersRate_3 },
+            {ui->labelTextTriggers_75, ui->labelValueTriggersCount_75, ui->labelValueTriggersRate_75},
+            {ui->labelTextTriggers_76, ui->labelValueTriggersCount_76, ui->labelValueTriggersRate_76},
+            {ui->labelTextTriggers_77, ui->labelValueTriggersCount_77, ui->labelValueTriggersRate_77},
+            {ui->labelTextTriggers_78, ui->labelValueTriggersCount_78, ui->labelValueTriggersRate_78},
+            {ui->labelTextTriggers_79, ui->labelValueTriggersCount_79, ui->labelValueTriggersRate_79},
+            {ui->labelTextTriggers_7A, ui->labelValueTriggersCount_7A, ui->labelValueTriggersRate_7A},
+            {ui->labelTextTriggers_7B, ui->labelValueTriggersCount_7B, ui->labelValueTriggersRate_7B},
+            {ui->labelTextTriggers_7C, ui->labelValueTriggersCount_7C, ui->labelValueTriggersRate_7C},
+            {ui->labelTextTriggers_7D, ui->labelValueTriggersCount_7D, ui->labelValueTriggersRate_7D},
+            {ui->labelTextTriggers_7E, ui->labelValueTriggersCount_7E, ui->labelValueTriggersRate_7E}
         };
         labelsTimeAlignmentCh      = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueTimeAlignment"    "_(0[1-9]|1[0-2])")).toVector();
         labelsThresholdCalibrCh    = ui->groupBoxChannels->findChildren<ActualLabel *>(QRegularExpression("labelValueThresholdCalibr"  "_(0[1-9]|1[0-2])")).toVector();
@@ -263,19 +227,11 @@ public:
         allWidgets     = ui->centralWidget->findChildren<QWidget *>();
         foreach(QPushButton *b, applyButtons) b->setToolTip("Apply");
         foreach(QWidget *w, QList<QWidget *>({
-<<<<<<< Updated upstream
-			ui-> lineEditDataSelectTriggerMask,
-			ui->labelValueDGtriggerRespondMask,
-			ui->  lineEditDGtriggerRespondMask,
-			ui->   labelValueTGcontinuousValue,
-			ui->     lineEditTGcontinuousValue,
-=======
-            ui->  lineEditDataSelectTriggerMask,
-            ui->labelValueDGtriggerRespondMask ,
-            ui->  lineEditDGtriggerRespondMask ,
-            ui->   labelValueTGcontinuousValue ,
-            ui->     lineEditTGcontinuousValue ,
->>>>>>> Stashed changes
+            ui-> lineEditDataSelectTriggerMask,
+            ui->labelValueDGtriggerRespondMask,
+            ui->  lineEditDGtriggerRespondMask,
+            ui->   labelValueTGcontinuousValue,
+            ui->     lineEditTGcontinuousValue,
         })) {
             w->setToolTip(ui->labelValueDataSelectTriggerMask->toolTip());
             w->setToolTipDuration(INT_MAX);
@@ -284,66 +240,46 @@ public:
         ui->groupBoxPM->hide();
         ui->labelTextEarlyHeader->hide();
         ui->labelIconEarlyHeader->hide();
-		ui->labelTextTriggers_1->setText(QString("1: ") + FIT[FEE.subdetector].triggers[0].name); ui->labelTextTriggers_1->setToolTip(COUNTERS[FEE.subdetector == FV0][3].description);
-		ui->labelTextTriggers_2->setText(QString("2: ") + FIT[FEE.subdetector].triggers[1].name); ui->labelTextTriggers_2->setToolTip(COUNTERS[FEE.subdetector == FV0][2].description);
-		ui->labelTextTriggers_3->setText(QString("3: ") + FIT[FEE.subdetector].triggers[2].name); ui->labelTextTriggers_3->setToolTip(COUNTERS[FEE.subdetector == FV0][4].description);
-		ui->labelTextTriggers_4->setText(QString("4: ") + FIT[FEE.subdetector].triggers[3].name); ui->labelTextTriggers_4->setToolTip(COUNTERS[FEE.subdetector == FV0][1].description);
-		ui->labelTextTriggers_5->setText(QString("5: ") + FIT[FEE.subdetector].triggers[4].name); ui->labelTextTriggers_5->setToolTip(COUNTERS[FEE.subdetector == FV0][0].description);
+        ui->labelTextTriggers_1->setText(QString("1: ") + FIT[FEE.subdetector].triggers[0].name); ui->labelTextTriggers_1->setToolTip(COUNTERS[FEE.subdetector == FV0][3].description);
+        ui->labelTextTriggers_2->setText(QString("2: ") + FIT[FEE.subdetector].triggers[1].name); ui->labelTextTriggers_2->setToolTip(COUNTERS[FEE.subdetector == FV0][2].description);
+        ui->labelTextTriggers_3->setText(QString("3: ") + FIT[FEE.subdetector].triggers[2].name); ui->labelTextTriggers_3->setToolTip(COUNTERS[FEE.subdetector == FV0][4].description);
+        ui->labelTextTriggers_4->setText(QString("4: ") + FIT[FEE.subdetector].triggers[3].name); ui->labelTextTriggers_4->setToolTip(COUNTERS[FEE.subdetector == FV0][1].description);
+        ui->labelTextTriggers_5->setText(QString("5: ") + FIT[FEE.subdetector].triggers[4].name); ui->labelTextTriggers_5->setToolTip(COUNTERS[FEE.subdetector == FV0][0].description);
         if (FEE.subdetector == FV0) {
-			ui-> labelValueTriggersLevelC_2->move(ui-> labelValueTriggersLevelA_1 ->x(), 30 * 3 + 1); //SClevelC -> InnerRings level
-			ui-> labelValueTriggersLevelC_1->move(ui-> labelValueTriggersLevelA_1 ->x(), 30 * 4 + 1); //CElevelC -> OuterRings level
-            ui->buttonApplyTriggersLevelC_2->move(ui->buttonApplyTriggersLevelA_1 ->x(), 30 * 3 + 1);
-            ui->buttonApplyTriggersLevelC_1->move(ui->buttonApplyTriggersLevelA_1 ->x(), 30 * 4 + 1);
-            ui->   lineEditTriggersLevelC_2->move(ui->   lineEditTriggersLevelA_1 ->x(), 30 * 3 + 2);
-            ui->   lineEditTriggersLevelC_1->move(ui->   lineEditTriggersLevelA_1 ->x(), 30 * 4 + 2);
-<<<<<<< Updated upstream
-			std::swap(labelsTCMcounters[0xA], labelsTCMcounters[0x8]); // Interaction -> CB-Or
-			std::swap(labelsTCMcounters[0xE], labelsTCMcounters[0xB]); // CB-Interaction -> BackgroundC
-			foreach (QWidget *w, QList<QWidget *>({
-=======
+            ui-> labelValueTriggersLevelC_2->move(ui-> labelValueTriggersLevelA_1->x(), 30 * 3 + 1); //SClevelC -> InnerRings level
+            ui-> labelValueTriggersLevelC_1->move(ui-> labelValueTriggersLevelA_1->x(), 30 * 4 + 1); //CElevelC -> OuterRings level
+            ui->buttonApplyTriggersLevelC_2->move(ui->buttonApplyTriggersLevelA_1->x(), 30 * 3 + 1);
+            ui->buttonApplyTriggersLevelC_1->move(ui->buttonApplyTriggersLevelA_1->x(), 30 * 4 + 1);
+            ui->   lineEditTriggersLevelC_2->move(ui->   lineEditTriggersLevelA_1->x(), 30 * 3 + 2);
+            ui->   lineEditTriggersLevelC_1->move(ui->   lineEditTriggersLevelA_1->x(), 30 * 4 + 2);
+            ui->        labelValueORgateTCM->move(ui->        labelValueORgateTCM->x(), 14);
+            ui->           spinBoxORgateTCM->move(ui->           spinBoxORgateTCM->x(), 13);
+            ui->       buttonApplyORgateTCM->move(ui->       buttonApplyORgateTCM->x(), 14);
+            ui->groupBoxOrGate->move(ui->groupBoxOrGate->x(), 140);
+            ui->groupBoxOrGate->resize(ui->groupBoxOrGate->width(), 36);
+            std::swap(labelsTCMcounters[0xA], labelsTCMcounters[0x8]); // Interaction -> CB-Or
+            std::swap(labelsTCMcounters[0xE], labelsTCMcounters[0xB]); // CB-Interaction -> BackgroundC
             foreach (QWidget *w, QList<QWidget *>({
->>>>>>> Stashed changes
                 ui->groupBoxCentralityMode       ,
-                ui->labelTextVertexTimeThresholds,
-                ui->labelTextVertexTimeLow       ,
-                ui->labelTextVertexTimeHigh      ,
-                ui->labelValueVertexTimeLow      ,
-                ui->labelValueVertexTimeHigh     ,
-                ui->lineEditVertexTimeLow        ,
-                ui->lineEditVertexTimeHigh       ,
-                ui->buttonApplyVertexTimeLow     ,
-                ui->buttonApplyVertexTimeHigh    ,
+                ui->groupBoxTimeThresholds       ,
                 ui->labelTextTriggersLevelC      ,
                 ui->buttonSCcharge               ,
-<<<<<<< Updated upstream
-				ui->buttonSCNchan
+                ui->buttonSCNchan
             })) w->hide();
-			foreach(QWidget *w, ui->groupBoxSecondaryCounters->findChildren<QWidget *>(QRegularExpression("label.*_7[5689DE]")) + QList<QWidget *>({
-				ui->groupBoxSide_C               ,
-				ui->labelTextAverageTime_A       ,
-				ui->SwitcherAddCdelay            ,
-				ui->labelTextAddCdelay			 ,
-				ui->labelTextTriggersCount_0     ,
-				ui->labelTextTriggersRate_0		 ,
-				ui->labelTextTriggersCount_1     ,
-				ui->labelTextTriggersRate_1
+            foreach(QWidget *w, ui->groupBoxSecondaryCounters->findChildren<QWidget *>(QRegularExpression("label.*_7[5689DE]")) + QList<QWidget *>({
+                ui->groupBoxSide_C               ,
+                ui->labelTextAverageTime_A       ,
+                ui->SwitcherAddCdelay            ,
+                ui->labelTextAddCdelay           ,
+                ui->labelTextTriggersCount_0     ,
+                ui->labelTextTriggersRate_0      ,
+                ui->labelTextTriggersCount_1     ,
+                ui->labelTextTriggersRate_1
             })) w->setEnabled(false);
         }
-		for (quint8 i=5; i<15; ++i) {
-			labelsTCMcounters[i].name->setText	 (COUNTERS[FEE.subdetector == FV0][i].name);
-			labelsTCMcounters[i].name->setToolTip(COUNTERS[FEE.subdetector == FV0][i].description);
-		}
-=======
-                ui->buttonSCNchan                ,
-            })) w->hide();
-            foreach(QWidget *w, ui->groupBoxSecondaryCounters->findChildren<QWidget *>(QRegularExpression("label.*_7[679A-E]")) + QList<QWidget *>({
-                ui->groupBoxSide_C              ,
-                ui->labelTextTriggersCount_1    ,
-                ui->labelTextTriggersRate_1     ,
-                ui->labelTextAverageTime_A      ,
-                ui->SwitcherAddCdelay           ,
-                ui->labelTextAddCdelay
-            })) w->setEnabled(false);
+        for (quint8 i=5; i<15; ++i) {
+            labelsTCMcounters[i].name->setText	 (COUNTERS[FEE.subdetector == FV0][i].name);
+            labelsTCMcounters[i].name->setToolTip(COUNTERS[FEE.subdetector == FV0][i].description);
         }
         if (FEE.subdetector != FDD) {
             foreach(QFrame *l, channelPairsLines) l->hide();
@@ -358,7 +294,7 @@ public:
             double f = fontSize_px / 13.;
             resize(size()*f); //mainWindow
             foreach (QWidget *w, allWidgets) { w->resize(w->size()*f); w->move(w->pos()*f); }
-            foreach (QPushButton *b,     applyButtons) b->setIconSize(b->iconSize()*f);
+            foreach (QPushButton *b, applyButtons) b->setIconSize(b->iconSize()*f);
             nonEqual = nonEqual.scaledToHeight(nonEqual.height() * f);
             QLabel *t = ui->labelTextLaserPatternBits;
             foreach (QPushButton *b, switchBitButtons) {
@@ -667,7 +603,7 @@ public slots:
         ui->labelIconSystemRestarted->setPixmap(FEE.TCM.act.systemRestarted ? Red1 : Green0);
         ui->labelIconSystemRestarting->setPixmap(FEE.TCM.act.resetSystem ? Red1 : Green0);
         ui->TCM_selector->setStyleSheet(FEE.TCM.isOK() && FEE.TCM.GBTisOK() ? "" : notOKstyle);
-		ui->labelIconSystemErrors->setPixmap(~FEE.BOARDS_OK & (1<<20 | FEE.TCM.act.PM_MASK_TRG()) ? Red1 : Green0);
+        ui->labelIconSystemErrors->setPixmap(~FEE.BOARDS_OK & (1<<20 | FEE.TCM.act.PM_MASK_TRG()) ? Red1 : Green0);
         ui->labelValueClockSource->setText(FEE.TCM.act.externalClock ? "external" : (FEE.TCM.act.forceLocalClock ? "force local" : "local"));
         ui->labelValueClockSource->setStyleSheet(FEE.TCM.act.externalClock ? OKstyle : (FEE.TCM.act.forceLocalClock ? neutralStyle : notOKstyle));
         double
@@ -1050,8 +986,8 @@ public slots:
         if (FEEid != curFEEid) return;
         if (isTCM()) {
             for (quint8 i=0; i<TypeTCM::Counters::number; ++i) {
-                labelsTriggersCount[i]->setText(QString::number(FEE.TCM.counters.New[i]));
-                labelsTriggersRate[i]->setText(rateFormat(FEE.TCM.counters.rate[i]));
+                labelsTCMcounters[i].count->setText(QString::number(FEE.TCM.counters.New[i]));
+                labelsTCMcounters[i].rate ->setText(rateFormat(FEE.TCM.counters.rate[i]));
             }
         } else { //PM
             for (quint8 i=0; i<12; ++i) {
@@ -1073,7 +1009,7 @@ public slots:
     }
     void on_buttonResetOffset_clicked                () { FEE.reset(curFEEid, GBTunit::RB_generatorsBunchOffset); }
     void on_buttonResetOrbitSync_clicked             () { FEE.reset(curFEEid, GBTunit::RB_orbitSync            ); }
-    void on_buttonResetGBTRxErrors_clicked             () { FEE.reset(curFEEid, GBTunit::RB_GBTRxError           ); }
+	void on_buttonResetGBTRxErrors_clicked           () { FEE.reset(curFEEid, GBTunit::RB_GBTRxError           ); }
     void on_buttonResetGBT_clicked                   () { FEE.reset(curFEEid, GBTunit::RB_GBT                  ); }
     void on_buttonResetRxPhaseError_clicked          () { FEE.reset(curFEEid, GBTunit::RB_RXphaseError         ); }
     void on_buttonDataGeneratorOff_clicked           () { FEE.apply_DG_MODE(curFEEid, GBTunit::DG_noData); }

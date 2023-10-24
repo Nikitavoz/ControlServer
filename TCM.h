@@ -75,10 +75,10 @@ struct TypeTCM {
                 LASER_DIVIDER   :24,  //┐
                                 : 6,  //│
                 LASER_ENABLED   : 1,  //│1B
-				LASER_SOURCE    : 1;  //┘
-		quint64 LASER_PATTERN	   ;  //]1C-1D
+                LASER_SOURCE    : 1;  //┘
+        quint64 LASER_PATTERN      ;  //]1C-1D
         quint32 PM_MASK_SPI =0x1FFFFF,//]1E
-				lsrTrgSupprDelay: 6,  //┐
+                lsrTrgSupprDelay: 6,  //┐
                 lsrTrgSupprDur  : 2,  //│1F
                                 :24;  //┘
         qint16  averageTimeA       ,  //┐
@@ -186,7 +186,7 @@ struct TypeTCM {
                 TRG_SYNC_C[i].syncError = syncErrorInLinkC & 1 << i;
             }
         }
-		quint32 PM_MASK_TRG() { return CH_MASK_C << 10 | CH_MASK_A; }
+        quint32 PM_MASK_TRG() { return CH_MASK_C << 10 | CH_MASK_A; }
     } act;
 
     struct Settings {

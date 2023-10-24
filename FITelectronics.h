@@ -160,7 +160,7 @@ public:
         logFile.close();
     }
 
-	void log(QString st) { logStream << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz ") + st << Qt::endl; logStream.flush(); }
+    void log(QString st) { logStream << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz ") + st << Qt::endl; logStream.flush(); }
 
     void addCommand(QList<DimCommand *> &list, QString name, const char* format, std::function<void(void *)> function) {
         DimCommand *command = new DimCommand(qPrintable(name), format, this);
@@ -411,7 +411,7 @@ public:
             if (id > 20 || id < -2) return;
             resetCounts(id >= 0 ? (id == 20 ? TCMid : allPMs[id].FEEid) : id);
         });
-		addCommand(commands, pfx+"GBT/SUPPRESS_ERROR_REPORTS", "I", [=](void *d) { switchGBTerrorReports(!*(qint32 *)d); });
+        addCommand(commands, pfx+"GBT/SUPPRESS_ERROR_REPORTS", "I", [=](void *d) { switchGBTerrorReports(!*(qint32 *)d); });
     }
 
     void deletePMservices(TypePM *pm) {
@@ -492,12 +492,12 @@ public slots:
                     }
                     M.remove(TCMparameters["COUNTERS_UPD_RATE"].address); //will be applied afterwards
                     if (!M.isEmpty()) {
-						if (M.contains(0xE)) {//reg0E contains TCM histogram settings (bits 4..7 and 10), they should not change
-							quint32 mask = 0x0000030F; //only bits 0..3 and 8..9 will be written
-							p.addTransaction(RMWbits, 0xE, p.masks(~mask, M[0xE] & mask));
-							M.remove(0xE);
-						}
-						foreach(quint8 a, M.keys()) p.addWordToWrite(a, M[a]);
+                        if (M.contains(0xE)) {//reg0E contains TCM histogram settings (bits 4..7 and 10), they should not change
+                            quint32 mask = 0x0000030F; //only bits 0..3 and 8..9 will be written
+                            p.addTransaction(RMWbits, 0xE, p.masks(~mask, M[0xE] & mask));
+                            M.remove(0xE);
+                        }
+                        foreach(quint8 a, M.keys()) p.addWordToWrite(a, M[a]);
                         if (!transceive(p)) return;
                     }
                     if (M.contains(TCMparameters["CH_MASK_A"].address) || M.contains(TCMparameters["CH_MASK_C"].address)) {
