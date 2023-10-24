@@ -961,12 +961,12 @@ public slots:
         } else emit error("invalid channel: " + QString::number(Ch + 1), logicError);
     }
 
-	void apply_RESET_SYSTEM(bool forceLocalClock = false) {
-		PMsReady = false;
+    void apply_RESET_SYSTEM(bool forceLocalClock = false) {
+        PMsReady = false;
         switchGBTerrorReports(false);
-		writeRegister(0xF, forceLocalClock ? 0xC00 : 0x800);
+        writeRegister(0xF, forceLocalClock ? 0xC00 : 0x800);
         QTimer::singleShot(2000, this, [=](){ writeRegister(0xF, 0x4, false); switchGBTerrorReports(true); }); //clearing 'system restarted' and 'readiness changed' flags after restart
-	}
+    }
     void apply_RESET_ERRORS(bool syncOnSuccess = true) {
         IPbusControlPacket p; connect(&p, &IPbusControlPacket::error, this, &IPbusTarget::error);
         p.addTransaction(RMWbits, GBTunit::controlAddress, p.masks(0xFFFF00FF, 0x00000000)); //clear all reset bits

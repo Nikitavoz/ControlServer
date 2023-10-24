@@ -30,7 +30,7 @@ const struct {char name[4]; quint16 TCMid, PMA0id, PMC0id; quint8 systemID; stru
                                                                                      {   "Nchannels",              41},
                                                                                      {  "InnerRings",              42},
                                                                                      {  "OuterRings",              43},
-																					 {          "Or",              44} }             },
+                                                                                     {          "Or",              44} }             },
              {       "FDD",        0x0FA0, 0x0FAA, 0x0FFF,              33,        { {     "Central",             110},
                                                                                      {"Semi Central",             111},
                                                                                      {      "Vertex",             112},

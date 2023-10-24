@@ -94,8 +94,8 @@ class MainWindow : public QMainWindow
                       labelsCFDcounterCh        ,
                       labelsTRGcounterRateCh    ,
                       labelsCFDcounterRateCh    ;
-	struct TypeLabelsTCMcounters { QLabel *name, *count, *rate; };
-	QVector<TypeLabelsTCMcounters> labelsTCMcounters;
+    struct TypeLabelsTCMcounters { QLabel *name, *count, *rate; };
+    QVector<TypeLabelsTCMcounters> labelsTCMcounters;
     QVector<Switch *> switchesPMA, switchesPMC, switchesCh;
     QVector<QCheckBox *> noTRGCh;
     QVector<ActualLabel *>  labelsTimeAlignmentCh  ,
@@ -278,7 +278,7 @@ public:
             })) w->setEnabled(false);
         }
         for (quint8 i=5; i<15; ++i) {
-            labelsTCMcounters[i].name->setText	 (COUNTERS[FEE.subdetector == FV0][i].name);
+            labelsTCMcounters[i].name->setText   (COUNTERS[FEE.subdetector == FV0][i].name);
             labelsTCMcounters[i].name->setToolTip(COUNTERS[FEE.subdetector == FV0][i].description);
         }
         if (FEE.subdetector != FDD) {
@@ -1009,7 +1009,7 @@ public slots:
     }
     void on_buttonResetOffset_clicked                () { FEE.reset(curFEEid, GBTunit::RB_generatorsBunchOffset); }
     void on_buttonResetOrbitSync_clicked             () { FEE.reset(curFEEid, GBTunit::RB_orbitSync            ); }
-	void on_buttonResetGBTRxErrors_clicked           () { FEE.reset(curFEEid, GBTunit::RB_GBTRxError           ); }
+    void on_buttonResetGBTRxErrors_clicked           () { FEE.reset(curFEEid, GBTunit::RB_GBTRxError           ); }
     void on_buttonResetGBT_clicked                   () { FEE.reset(curFEEid, GBTunit::RB_GBT                  ); }
     void on_buttonResetRxPhaseError_clicked          () { FEE.reset(curFEEid, GBTunit::RB_RXphaseError         ); }
     void on_buttonDataGeneratorOff_clicked           () { FEE.apply_DG_MODE(curFEEid, GBTunit::DG_noData); }
