@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 	QCoreApplication::setOrganizationName("INR");
 	QCoreApplication::setApplicationName("ControlServer");
-	QCoreApplication::setApplicationVersion("1.j.5");
+    QCoreApplication::setApplicationVersion("1.j.7");
 
     qInstallMessageHandler([](QtMsgType, const QMessageLogContext &, const QString &msg) {
         QFile el(QCoreApplication::applicationName() + ".errorlog");

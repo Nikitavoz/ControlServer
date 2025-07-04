@@ -254,10 +254,16 @@ public:
             TCM.counters.services.append(new DimService(qPrintable(prefix+"Bkgrnd"+QString::number(i-5)+"/CNT"), "I", TCM.counters.New + i, 4));
             TCM.counters.services.append(new DimService(qPrintable(prefix+"Bkgrnd"+QString::number(i-5)+"/CNT_RATE"), "D", TCM.counters.rate + i, 8));
         }
-        //TCM.services.append(new DimService(qPrintable(prefix+"Trigger1/OUTPUT_ENABLED"), "S", TCM.counters.rate    , 8));
-
+        //TCM.services.append(new DimService(qPrintable(prefix+"Trigger1/OUTPUT_ENABLED"), "S", TCM.counters.rate    , 8))
 		addCommand(TCM.commands, prefix+"control/ORBIT_FILL_MASK/set"  , "I:223", [=](void *d) { memcpy(TCM.ORBIT_FILL_MASK, d, 223*wordSize); apply_ORBIT_FILL_MASK(); }); //223 = ceil( 0xDEC * 2 / 32 )
 		addCommand(TCM.commands, prefix+"control/ORBIT_FILL_MASK/apply", "I:223", [=](void *d) { memcpy(TCM.ORBIT_FILL_MASK, d, 223*wordSize); apply_ORBIT_FILL_MASK(); });
+
+        addCommand(commands, prefix+"SIDE_PHASE_ns/apply", "F:2", [=](void *d) {
+            TCM.set.DELAY_A = lround(((float *)d)[0] / phaseStep_ns); apply_DELAY_A();
+            TCM.set.DELAY_C = lround(((float *)d)[1] / phaseStep_ns); apply_DELAY_C();
+        });
+        services.append(new CustomDIMservice(qPrintable(prefix+"SIDE_AVG_TIME_ns"    ), "F:2", 4*2, {}, &TCM.act.averageTimeA_ns));
+        services.append(new CustomDIMservice(qPrintable(prefix+"SIDE_PHASE_ns/actual"), "F:2", 4*2, {}, &TCM.act.delayAside_ns  ));
 
         prefix = QString(FIT[subdetector].name) + "/"; //for system services
         services.append(new CustomDIMservice(qPrintable(prefix+"BOARDS_OK"), "I", 4, {}, &BOARDS_OK));
@@ -326,6 +332,7 @@ public:
             for(TypePM *pm=allPMs, *e=pm+20; pm<e; ++pm) ((quint32 *)d)[pm-allPMs] = (PM.contains(pm->FEEid) ? pm->act.GBT.Status.RX_PHASE : -1);
                                                          ((quint32 *)d)[20]        =                           TCM.act.GBT.Status.RX_PHASE;
         }));
+
 
         addArrayCommand("THRESHOLD_CALIBR");
         addArrayCommand("ADC_ZERO"        );
