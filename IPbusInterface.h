@@ -26,6 +26,7 @@ public:
         updateTimer->setTimerType(Qt::PreciseTimer);
         connect(updateTimer, &QTimer::timeout, this, [=]() { if (isOnline) sync(); else checkStatus(); });
         connect(this, &IPbusTarget::error, updateTimer, &QTimer::stop);
+        qsocket->setSocketOption(QAbstractSocket::ReceiveBufferSizeSocketOption, 0x100000);
         if (!qsocket->bind(QHostAddress::AnyIPv4, localport)) qsocket->bind(QHostAddress::AnyIPv4);
         updateTimer->start(updatePeriod_ms);
     }

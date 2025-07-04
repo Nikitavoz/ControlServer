@@ -19,6 +19,7 @@ object_script.*.Debug
 *.pro.user.*
 *.qbs.user
 *.qbs.user.*
+*.TMP
 *.moc
 moc_*.cpp
 moc_*.h

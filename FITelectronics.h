@@ -445,8 +445,16 @@ public slots:
 
     void fileRead(QString fileName, bool doApply = false) {
         if (!QFileInfo::exists(fileName)) {
-            fileName.prepend("./configuration/");
-            if (!QFileInfo::exists(fileName)) fileName = "./configuration/default.cfg";
+            if (QFileInfo::exists("./configuration/" + fileName)) fileName.prepend("./configuration/");
+            else {
+                log("File not found: " + fileName);
+                if (QFileInfo::exists("./configuration/default.cfg")) fileName = "./configuration/default.cfg";
+                else {
+                    log("default.cfg not found, configuration unchanged");
+                    serverStatus.update("Error: cfg not found");
+                    return;
+                }
+            }
         }
         QSettings newset(fileName, QSettings::IniFormat);
         if (newset.contains("TCM")) { //old settings format
@@ -520,6 +528,7 @@ public slots:
             }
         }
 		log("Settings loaded" + QString(doApply ? " and applied" : "") + " from file " + fileName);
+        if (serverStatus.string == QString("Error: cfg not found") && doApply) serverStatus.update("OK");
     }
 
     void clearFIFOs() {
